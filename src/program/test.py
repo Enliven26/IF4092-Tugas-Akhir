@@ -32,7 +32,10 @@ def main():
 
     code_parser = CodeParser()
 
-    code_parser.get_methods(content, [])
+    implementations = code_parser.get_methods(content, [range(21, 21), range(38, 39)])
+
+    for implementation in implementations:
+        print(implementation)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from textwrap import indent
 
 from kopyt import Parser, node
+
+from core.enums import ImplementationType
 
 
 class DiffLineModel:
@@ -12,13 +14,52 @@ class DiffLineModel:
 
 class ImplementationModel:
     def __init__(self):
-        self.parent_class_declaration: Optional[str] = None
-        self.source: str = ""
+        self.modifiers: list[str] = []
+        self.name: str = ""
+        self.generics: str = ""
+        self.constructor: str = ""
+        self.supertypes: list[str] = []
+        self.constraints: str = ""
+        self.body: str = ""
+        self.type: ImplementationType = ImplementationType.CLASS
+
+    def __str__(self):
+        modifiers = ""
+        declaration = ""
+        generics = self.generics
+        constructor = self.constructor
+        supertypes = ""
+        constraints = self.constraints
+        body = self.body
+
+        if self.modifiers:
+            modifiers = f"{' '.join(self.modifiers)} "
+
+        if self.type == ImplementationType.INTERFACE:
+            declaration = "interface"
+        elif self.type == ImplementationType.CLASS:
+            declaration = "class"
+        else:
+            declaration = "fun interface"
+
+        if self.constructor is not None:
+            constructor = str(self.constructor)
+
+        if self.supertypes:
+            supertypes = f" : {', '.join(self.supertypes)}"
+
+        if self.constraints:
+            constraints = f" {self.constraints!s}"
+
+        return (
+            f"{modifiers}{declaration} {self.name}{generics}{constructor}"
+            f"{supertypes}{constraints}{body}"
+        )
 
 
 class IDiffParser(ABC):
     @abstractmethod
-    def get_diff_lines(self, commit: Optional[str] = None) -> list[DiffLineModel]:
+    def get_diff_lines(self, commit: str) -> list[DiffLineModel]:
         pass
 
 
@@ -31,8 +72,65 @@ class ICodeParser(ABC):
 
 
 class CodeParser(ICodeParser):
+    class __ClassBodyModel:
+        __DEFAULT_INDENTATION_PREFIX = "    "
+
+        def __init__(self):
+            self.members: list[str] = []
+
+        def __str__(self):
+            class_body_string = "\n\n".join(
+                indent(
+                    str(member),
+                    self.__class__.__DEFAULT_INDENTATION_PREFIX,
+                )
+                for member in self.members
+            )
+            return f"{{\n{class_body_string}\n}}"
+
     def __init__(self):
         super().__init__()
+
+    def __calculate_end_line(self, start_line: int, source_code: str):
+        line_count = len(source_code.splitlines())
+        return start_line + line_count - 1
+
+    def __is_implementation_included(
+        self,
+        line_ranges: list[range],
+        implementation_start_line: str,
+        implementation_end_line: str,
+    ):
+
+        for line_range in line_ranges:
+            if not (
+                implementation_start_line > line_range.stop
+                or implementation_end_line < line_range.start
+            ):
+                return True
+
+        return False
+
+    def __set_parent_data(
+        self, model: ImplementationModel, declaration: node.ClassDeclaration
+    ):
+        model.modifiers = map(str, declaration.modifiers)
+        model.name = declaration.name
+        model.generics = str(declaration.generics) if declaration.generics else ""
+        model.constructor = (
+            "" if declaration.constructor is None else str(declaration.constructor)
+        )
+        model.supertypes = map(str, declaration.supertypes)
+        model.constraints = (
+            str(declaration.constraints) if declaration.constraints else ""
+        )
+
+        if isinstance(declaration, node.InterfaceDeclaration):
+            model.type = ImplementationType.INTERFACE
+        elif isinstance(declaration, node.FunctionalInterfaceDeclaration):
+            declaration = ImplementationType.FUNCTIONAL_INTERFACE
+        else:
+            declaration = ImplementationType.CLASS
 
     def get_methods(
         self, source_code: str, line_ranges: list[range]
@@ -44,11 +142,44 @@ class CodeParser(ICodeParser):
 
         for declaration in parser_result.declarations:
             if isinstance(declaration, node.ClassDeclaration):
-                for member in declaration.body.members:
-                    start_line = member.position.line
-                    end_line = start_line + len(str(member)) - 1
-                    # TODO check if we should include
+                parent_string = str(declaration)
 
-            else:
-                # TODO: treat this as method inside class
-                pass
+                parent_start_line = declaration.position.line
+                parent_end_line = self.__calculate_end_line(
+                    parent_start_line, parent_string
+                )
+
+                is_parent_included = self.__is_implementation_included(
+                    line_ranges, parent_start_line, parent_end_line
+                )
+
+                if not is_parent_included:
+                    continue
+
+                model = ImplementationModel()
+                self.__set_parent_data(model, declaration)
+
+                if isinstance(declaration.body, node.EnumClassBody):
+                    model.body = str(declaration.body)
+
+                else:
+                    body = self.__class__.__ClassBodyModel()
+
+                    for member in declaration.body.members:
+                        member_string = str(member)
+
+                        start_line = member.position.line
+                        end_line = self.__calculate_end_line(start_line, member_string)
+
+                        is_member_included = self.__is_implementation_included(
+                            line_ranges, start_line, end_line
+                        )
+
+                        if is_member_included:
+                            body.members.append(member_string)
+
+                    model.body = str(body)
+
+                result.append(model)
+
+        return result
