@@ -151,10 +151,6 @@ class CodeParser(ICodeParser):
     def __init__(self):
         super().__init__()
 
-    def __calculate_end_line(self, start_line: int, source_code: str):
-        line_count = len(source_code.splitlines())
-        return start_line + line_count - 1
-
     def __is_implementation_included(
         self,
         line_ranges: list[range],
@@ -202,14 +198,8 @@ class CodeParser(ICodeParser):
 
         for declaration in parser_result.declarations:
             if isinstance(declaration, node.ClassDeclaration):
-                parent_string = str(declaration)  # TODO: fix this since this is not the real implementation, ignoring comments and empty lines
-
-                print(parent_string)
-
-                parent_start_line = declaration.position.line
-                parent_end_line = self.__calculate_end_line(
-                    parent_start_line, parent_string
-                )
+                parent_start_line = declaration.start_position.line
+                parent_end_line = declaration.end_position.line
 
                 is_parent_included = self.__is_implementation_included(
                     line_ranges, parent_start_line, parent_end_line
@@ -228,17 +218,15 @@ class CodeParser(ICodeParser):
                     body = self.__class__.__ClassBodyModel()
 
                     for member in declaration.body.members:
-                        member_string = str(member)  # TODO: fix this since this is not the real implementation, ignoring comments and empty lines
-
-                        start_line = member.position.line
-                        end_line = self.__calculate_end_line(start_line, member_string)
+                        start_line = member.start_position.line
+                        end_line = member.end_position.line
 
                         is_member_included = self.__is_implementation_included(
                             line_ranges, start_line, end_line
                         )
 
                         if is_member_included:
-                            body.members.append(member_string)
+                            body.members.append(str(member))
 
                     model.body = str(body)
 
