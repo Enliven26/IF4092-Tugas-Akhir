@@ -88,8 +88,8 @@ class DiffParser(IDiffParser):
         file_paths = set(included_file_paths)
 
         for block in parsed_diff:
-            block.old_filepath = block.old_filepath.lstrip('/')
-            block.new_filepath = block.new_filepath.lstrip('/')
+            block.old_filepath = block.old_filepath.lstrip("/")
+            block.new_filepath = block.new_filepath.lstrip("/")
 
         for block in parsed_diff:
             if block.type != "new" and block.old_filepath in file_paths:
@@ -202,7 +202,9 @@ class CodeParser(ICodeParser):
 
         for declaration in parser_result.declarations:
             if isinstance(declaration, node.ClassDeclaration):
-                parent_string = str(declaration)
+                parent_string = str(declaration)  # TODO: fix this since this is not the real implementation, ignoring comments and empty lines
+
+                print(parent_string)
 
                 parent_start_line = declaration.position.line
                 parent_end_line = self.__calculate_end_line(
@@ -226,7 +228,7 @@ class CodeParser(ICodeParser):
                     body = self.__class__.__ClassBodyModel()
 
                     for member in declaration.body.members:
-                        member_string = str(member)
+                        member_string = str(member)  # TODO: fix this since this is not the real implementation, ignoring comments and empty lines
 
                         start_line = member.position.line
                         end_line = self.__calculate_end_line(start_line, member_string)
