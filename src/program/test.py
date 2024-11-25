@@ -1,41 +1,42 @@
+import logging
 import os
 
 from dotenv import load_dotenv
 
 from core.enums import EnvironmentKey
-from core.parser import CodeParser
+from core.git import Git
+from core.parser import CodeParser, DiffParser
 
 
 def main():
+    logging.basicConfig(level=logging.DEBUG)
     load_dotenv()
-    source_path = os.getenv(EnvironmentKey.SOURCE_PATH.value)
 
-    test_file_path = os.path.join(
-        source_path,
-        "app",
-        "src",
-        "main",
-        "java",
-        "com",
-        "example",
-        "bondoman",
-        "data",
-        "viewmodels",
-        "transaction",
-        "TransactionViewModel.kt",
-    )
+    git = Git()
+    diff_parser = DiffParser()
 
-    content = ""
+    source_repo_path = os.getenv(EnvironmentKey.SOURCE_REPO_PATH.value)
 
-    with open(test_file_path, "r", encoding="utf-8") as file:
-        content = "".join(file.readlines())
+    included_file_paths = [
+        "app/src/main/java/com/example/bondoman/views/fragments/SettingsFragment.kt",
+        "app/src/main/java/com/example/bondoman/services/services/ExpiryService.kt",
+    ]
 
-    code_parser = CodeParser()
+    commit_hash = "5b7bb837085ae8c9949024dcda4a19f21fba84bd"
 
-    implementations = code_parser.get_methods(content, [range(21, 21), range(38, 39)])
+    diff = git.get_diff(source_repo_path, commit_hash, included_file_paths)
 
-    for implementation in implementations:
-        print(implementation)
+    file_diffs = diff_parser.get_diff_lines(diff, included_file_paths)
+
+    pass
+
+    # content = ""
+    # code_parser = CodeParser()
+
+    # implementations = code_parser.get_methods(content, [range(6,9)])
+
+    # for implementation in implementations:
+    #     print(implementation)
 
 
 if __name__ == "__main__":
