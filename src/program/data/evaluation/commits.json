@@ -1,0 +1,10 @@
+[
+    {
+        "id": "TC001",
+        "currentCommitHash": "5b7bb837085ae8c9949024dcda4a19f21fba84bd",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/views/fragments/SettingsFragment.kt",
+            "app/src/main/java/com/example/bondoman/services/services/ExpiryService.kt"
+        ]
+    }
+]
