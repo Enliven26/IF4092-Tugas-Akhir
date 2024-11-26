@@ -10,12 +10,16 @@ from evaluation.models import (
     GenerationResultModel,
 )
 from generation.chains import IChain
+from generation.models import PromptInput
 
 
 class ICommitMessageGenerator(ABC):
     @abstractmethod
-    def generate_commit_message(self, diff: str) -> GenerationResultModel:
+    def generate_commit_message(
+        self, prompt_input: PromptInput
+    ) -> GenerationResultModel:
         pass
+
 
 class CommitMessageGenerator(ICommitMessageGenerator):
     def __init__(self, id: str, chain: IChain):
@@ -23,13 +27,16 @@ class CommitMessageGenerator(ICommitMessageGenerator):
         self.id = id
         self.__chain = chain
 
-    def generate_commit_message(self, diff: str) -> GenerationResultModel:
-        commit_message = self.__chain.generate_commit_message(diff)
+    def generate_commit_message(
+        self, prompt_input: PromptInput
+    ) -> GenerationResultModel:
+        commit_message = self.__chain.generate_commit_message(prompt_input)
         result = GenerationResultModel()
         result.generator_id = self.id
         result.commit_message = commit_message
 
         return result
+
 
 class IEvaluator(ABC):
     @abstractmethod
@@ -39,6 +46,7 @@ class IEvaluator(ABC):
         evaluation_data: list[EvaluationModel],
     ) -> list[EvaluationResultModel]:
         pass
+
 
 class Evaluator(IEvaluator):
     def __init__(
@@ -93,7 +101,6 @@ class Evaluator(IEvaluator):
             result = EvaluationResultModel()
             result.evaluation_id = evaluation.id
 
-            # TODO: remove below logic to chain that use implementation context
             current_commit_hash = evaluation.current_commit_hash
             previous_commit_hash = (
                 evaluation.previous_commit_hash or f"{current_commit_hash}~1"
@@ -114,6 +121,14 @@ class Evaluator(IEvaluator):
                 diff,
             )
 
-            # TODO
+            relevant_source_code = "\n".join(map(str, implementations))
 
-        return result
+            prompt_input = PromptInput()
+            prompt_input.diff = diff
+            prompt_input.source_code = relevant_source_code
+
+            for generator in generators:
+                generation_result = generator.generate_commit_message(prompt_input)
+                result.generation_results.append(generation_result)
+
+        return results

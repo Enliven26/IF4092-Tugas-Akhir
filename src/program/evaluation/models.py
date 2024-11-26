@@ -56,4 +56,4 @@ class GenerationResultModel:
 class EvaluationResultModel:
     def __init__(self):
         self.evaluation_id: str = ""
-        self.commit_messages: list[GenerationResultModel] = []
+        self.generation_results: list[GenerationResultModel] = []

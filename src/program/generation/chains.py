@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 
+from models import PromptInput
+
+
 class IChain(ABC):
     @abstractmethod
-    def generate_commit_message(self, diff: str) -> str:
-        # TODO: design the interface so that it can also accept additional data (commit hash, etc)
+    def generate_commit_message(self, prompt_input: PromptInput) -> str:
         pass
