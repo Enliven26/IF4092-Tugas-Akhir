@@ -9,6 +9,7 @@ from evaluation.models import (
     EvaluationResultModel,
     GenerationResultModel,
 )
+from generation.chains import IChain
 
 
 class ICommitMessageGenerator(ABC):
@@ -16,6 +17,19 @@ class ICommitMessageGenerator(ABC):
     def generate_commit_message(self, diff: str) -> GenerationResultModel:
         pass
 
+class CommitMessageGenerator(ICommitMessageGenerator):
+    def __init__(self, id: str, chain: IChain):
+        super().__init__()
+        self.id = id
+        self.__chain = chain
+
+    def generate_commit_message(self, diff: str) -> GenerationResultModel:
+        commit_message = self.__chain.generate_commit_message(diff)
+        result = GenerationResultModel()
+        result.generator_id = self.id
+        result.commit_message = commit_message
+
+        return result
 
 class IEvaluator(ABC):
     @abstractmethod
@@ -25,7 +39,6 @@ class IEvaluator(ABC):
         evaluation_data: list[EvaluationModel],
     ) -> list[EvaluationResultModel]:
         pass
-
 
 class Evaluator(IEvaluator):
     def __init__(
