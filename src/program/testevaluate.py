@@ -10,7 +10,7 @@ from evaluation.evaluators import CommitMessageGenerator
 from evaluation.models import EvaluationModel
 
 EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "commits.json")
-DEFAULT_EVALUATION_OUTPUT_PATH = os.path.join("out", "evaluation.json")
+EVALUATION_OUTPUT_PATH = os.path.join("out", "test", "evaluation")
 
 
 def read_evaluation_json():
@@ -39,9 +39,7 @@ def main():
         logging.warning("SOURCE_REPO_PATH is not set.")
         return
 
-    output_path = os.getenv(
-        EnvironmentKey.EVALUATION_OUTPUT_PATH.value, DEFAULT_EVALUATION_OUTPUT_PATH
-    )
+    output_path = EVALUATION_OUTPUT_PATH
 
     evaluation_json_string = read_evaluation_json()
     evaluation_data = EvaluationModel.from_json(evaluation_json_string)

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from core.enums import EnvironmentKey
 
 DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "diffs.json")
-DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "datageneration.json")
+DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "test", "datageneration")
 
 
 def read_data_generation_json() -> str:
@@ -37,10 +37,7 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
     load_dotenv()
 
-    output_path = os.getenv(
-        EnvironmentKey.DATA_GENERATION_OUTPUT_PATH.value,
-        DEFAULT_DATA_GENERATION_OUTPUT_PATH,
-    )
+    output_path = DATA_GENERATION_OUTPUT_PATH
 
     diffs = get_diffs()
 
