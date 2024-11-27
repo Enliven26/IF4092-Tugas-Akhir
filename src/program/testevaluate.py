@@ -18,10 +18,15 @@ def read_evaluation_json():
         return file.read()
 
 
-def evaluate(
+def test_evaluate(
     evaluation_data: list[EvaluationModel], source_repo_path: str, output_path: str
 ):
-    pass
+    generator = CommitMessageGenerator(
+        "TestGenerator", mock_commit_message_generation_chain
+    )
+    generators = [generator]
+
+    evaluator.evaluate(source_repo_path, generators, evaluation_data, output_path)
 
 
 def main():
@@ -41,7 +46,7 @@ def main():
     evaluation_json_string = read_evaluation_json()
     evaluation_data = EvaluationModel.from_json(evaluation_json_string)
 
-    evaluate(evaluation_data, source_repo_path, output_path)
+    test_evaluate(evaluation_data, source_repo_path, output_path)
 
 
 if __name__ == "__main__":

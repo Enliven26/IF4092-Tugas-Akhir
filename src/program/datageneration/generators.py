@@ -35,10 +35,13 @@ class DataGenerator(IDataGenerator):
         self.__create_folder_if_not_exist(output_path)
 
         with open(output_path, "w") as file:
-            file.write("[\n")
+            file.write("[")
 
-            for diff in diffs:
+            for index, diff in enumerate(diffs):
                 high_level_context = self.__chain.generate_high_level_context(diff)
-                file.write(f'"{high_level_context}"\n')
+                file.write(f'\n"{high_level_context}"')
+
+                if index < len(diffs) - 1:
+                    file.write(",")
 
             file.write("\n]")

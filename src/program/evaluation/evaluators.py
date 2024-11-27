@@ -1,4 +1,6 @@
+import os
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 from core.chains import ICommitMessageGenerationChain
 from core.enums import DiffVersion
@@ -11,8 +13,6 @@ from evaluation.models import (
     GenerationResultModel,
 )
 
-import os
-from datetime import datetime
 
 class ICommitMessageGenerator(ABC):
     @abstractmethod
@@ -45,7 +45,7 @@ class IEvaluator(ABC):
         self,
         generators: list[ICommitMessageGenerator],
         evaluation_data: list[EvaluationModel],
-        parent_output_path: str
+        parent_output_path: str,
     ):
         pass
 
@@ -98,26 +98,26 @@ class Evaluator(IEvaluator):
         timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
 
         return os.path.join(parent_path, timestamp, self.__class__.OUTPUT_FILE_NAME)
-    
+
     def __create_folder_if_not_exist(self, path: str):
         directory = os.path.dirname(path)
         if not os.path.exists(directory):
             os.makedirs(directory)
-    
+
     def evaluate(
         self,
         source_repo_path: str,
         generators: list[ICommitMessageGenerator],
         evaluation_data: list[EvaluationModel],
-        parent_output_path: str
+        parent_output_path: str,
     ):
         output_path = self.__get_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
-        
-        with open(output_path, "w") as file:
-            file.write("[\n")
 
-            for evaluation in evaluation_data:
+        with open(output_path, "w") as file:
+            file.write("[")
+
+            for index, evaluation in enumerate(evaluation_data):
                 result = EvaluationResultModel()
                 result.evaluation_id = evaluation.id
 
@@ -151,7 +151,8 @@ class Evaluator(IEvaluator):
                     generation_result = generator.generate_commit_message(prompt_input)
                     result.generation_results.append(generation_result)
 
-                file.write(f"{result.json()},\n")
+                file.write(f"\n{result.json()}")
+                if index < len(evaluation_data) - 1:
+                    file.write(",")
 
             file.write("\n]")
-

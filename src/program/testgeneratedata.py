@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 
 from core.enums import EnvironmentKey
+from datageneration import mock_data_generator
 
 DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "diffs.json")
 DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "datageneration.json")
@@ -29,8 +30,8 @@ def get_diffs() -> list[str]:
         raise ValueError(f"Invalid JSON string for data generation: {e}")
 
 
-def generate(diffs: list[str], output_path: str):
-    pass
+def test_generate(diffs: list[str], output_path: str):
+    mock_data_generator.generate_data(diffs, output_path)
 
 
 def main():
@@ -43,8 +44,7 @@ def main():
     )
 
     diffs = get_diffs()
-
-    generate(diffs, output_path)
+    test_generate(diffs, output_path)
 
 
 if __name__ == "__main__":
