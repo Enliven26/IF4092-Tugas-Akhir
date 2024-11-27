@@ -5,7 +5,7 @@ from datetime import datetime
 from core.chains import ICommitMessageGenerationChain
 from core.enums import DiffVersion
 from core.git import IGit
-from core.models import CommitMessageGenerationPromptInput, ImplementationModel
+from core.models import CommitMessageGenerationPromptInputModel, ImplementationModel
 from core.parsers import ICodeParser, IDiffParser
 from evaluation.models import (
     EvaluationModel,
@@ -17,7 +17,7 @@ from evaluation.models import (
 class ICommitMessageGenerator(ABC):
     @abstractmethod
     def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInput
+        self, prompt_input: CommitMessageGenerationPromptInputModel
     ) -> GenerationResultModel:
         pass
 
@@ -29,7 +29,7 @@ class CommitMessageGenerator(ICommitMessageGenerator):
         self.__chain = chain
 
     def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInput
+        self, prompt_input: CommitMessageGenerationPromptInputModel
     ) -> GenerationResultModel:
         commit_message = self.__chain.generate_commit_message(prompt_input)
         result = GenerationResultModel()
@@ -143,7 +143,7 @@ class Evaluator(IEvaluator):
 
                 relevant_source_code = "\n".join(map(str, implementations))
 
-                prompt_input = CommitMessageGenerationPromptInput()
+                prompt_input = CommitMessageGenerationPromptInputModel()
                 prompt_input.diff = diff
                 prompt_input.source_code = relevant_source_code
 

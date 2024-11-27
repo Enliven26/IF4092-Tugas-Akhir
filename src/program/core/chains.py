@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
-from core.models import CommitMessageGenerationPromptInput
+from core.models import CommitMessageGenerationPromptInputModel
 
 
 class ICommitMessageGenerationChain(ABC):
     @abstractmethod
     def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInput
+        self, prompt_input: CommitMessageGenerationPromptInputModel
     ) -> str:
         pass
 

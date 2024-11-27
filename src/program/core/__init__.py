@@ -1,6 +1,6 @@
 from core.chains import ICommitMessageGenerationChain, IDataGenerationChain
 from core.git import Git
-from core.models import CommitMessageGenerationPromptInput
+from core.models import CommitMessageGenerationPromptInputModel
 from core.parsers import CodeParser, DiffParser
 
 git = Git()
@@ -10,7 +10,7 @@ code_parser = CodeParser()
 
 class MockCommitMessageGenerationChain(ICommitMessageGenerationChain):
     def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInput
+        self, prompt_input: CommitMessageGenerationPromptInputModel
     ) -> str:
         return "Mock commit message"
 

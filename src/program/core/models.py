@@ -55,7 +55,7 @@ class ImplementationModel:
         )
 
 
-class CommitMessageGenerationPromptInput:
+class CommitMessageGenerationPromptInputModel:
     def __init__(self):
         self.diff: str = ""
         self.source_code: Optional[str] = None
