@@ -5,7 +5,7 @@ from datetime import datetime
 from core.chains import ICommitMessageGenerationChain
 from core.enums import DiffVersion
 from core.git import IGit
-from core.models import CommitMessageGenerationPromptInputModel, ImplementationModel
+from core.models import CommitMessageGenerationPromptInputModel
 from core.parsers import ICodeParser, IDiffParser
 from evaluation.models import (
     EvaluationModel,
@@ -71,7 +71,7 @@ class Evaluator(IEvaluator):
         current_commit_hash: str,
         included_file_paths: list[str],
         diff: str,
-    ) -> list[ImplementationModel]:
+    ) -> list[str]:
         commit_map = {
             DiffVersion.OLD: previous_commit_hash,
             DiffVersion.NEW: current_commit_hash,
@@ -79,7 +79,7 @@ class Evaluator(IEvaluator):
 
         file_diffs = self.__diff_parser.get_diff_lines(diff, included_file_paths)
 
-        implementations: list[ImplementationModel] = []
+        implementations: list[str] = []
 
         for file_diff in file_diffs:
             file_content = self.__git.get_file_content(
@@ -141,7 +141,7 @@ class Evaluator(IEvaluator):
                     diff,
                 )
 
-                relevant_source_code = "\n".join(map(str, implementations))
+                relevant_source_code = "\n".join(implementations)
 
                 prompt_input = CommitMessageGenerationPromptInputModel()
                 prompt_input.diff = diff

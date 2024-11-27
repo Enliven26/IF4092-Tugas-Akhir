@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from textwrap import indent
 
 from core.enums import DiffVersion, ImplementationType
-from core.models import FileDiffModel, ImplementationModel
+from core.models import FileDiffModel
 from diff_parser import Diff, DiffBlock
 from kopyt import Parser, node
 
@@ -75,11 +75,55 @@ class ICodeParser(ABC):
     @abstractmethod
     def get_methods(
         self, source_code: str, line_ranges: list[range]
-    ) -> list[ImplementationModel]:
+    ) -> list[str]:
         pass
 
 
 class CodeParser(ICodeParser):
+    class __ImplementationModel:
+        def __init__(self):
+            self.modifiers: list[str] = []
+            self.name: str = ""
+            self.generics: str = ""
+            self.constructor: str = ""
+            self.supertypes: list[str] = []
+            self.constraints: str = ""
+            self.body: str = ""
+            self.type: ImplementationType = ImplementationType.CLASS
+
+        def __str__(self):
+            modifiers = ""
+            declaration = ""
+            generics = self.generics
+            constructor = self.constructor
+            supertypes = ""
+            constraints = self.constraints
+            body = self.body
+
+            if self.modifiers:
+                modifiers = f"{' '.join(self.modifiers)} "
+
+            if self.type == ImplementationType.INTERFACE:
+                declaration = "interface"
+            elif self.type == ImplementationType.CLASS:
+                declaration = "class"
+            else:
+                declaration = "fun interface"
+
+            if self.constructor is not None:
+                constructor = str(self.constructor)
+
+            if self.supertypes:
+                supertypes = f" : {', '.join(self.supertypes)}"
+
+            if self.constraints:
+                constraints = f" {self.constraints!s}"
+
+            return (
+                f"{modifiers}{declaration} {self.name}{generics}{constructor}"
+                f"{supertypes}{constraints}{body}"
+            )
+    
     class __ClassBodyModel:
         __DEFAULT_INDENTATION_PREFIX = "    "
 
@@ -116,7 +160,7 @@ class CodeParser(ICodeParser):
         return False
 
     def __set_parent_data(
-        self, model: ImplementationModel, declaration: node.ClassDeclaration
+        self, model: __ImplementationModel, declaration: node.ClassDeclaration
     ):
         model.modifiers = map(str, declaration.modifiers)
         model.name = declaration.name
@@ -138,11 +182,11 @@ class CodeParser(ICodeParser):
 
     def get_methods(
         self, source_code: str, line_ranges: list[range]
-    ) -> list[ImplementationModel]:
+    ) -> list[str]:
         parser = Parser(source_code)
         parser_result = parser.parse()
 
-        result: list[ImplementationModel] = []
+        result: list[CodeParser.__ImplementationModel] = []
 
         for declaration in parser_result.declarations:
             if isinstance(declaration, node.ClassDeclaration):
@@ -156,7 +200,7 @@ class CodeParser(ICodeParser):
                 if not is_parent_included:
                     continue
 
-                model = ImplementationModel()
+                model = self.__class__.__ImplementationModel()
                 self.__set_parent_data(model, declaration)
 
                 if isinstance(declaration.body, node.EnumClassBody):
@@ -180,4 +224,4 @@ class CodeParser(ICodeParser):
 
                 result.append(model)
 
-        return result
+        return map(str, result)
