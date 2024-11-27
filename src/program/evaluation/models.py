@@ -51,9 +51,12 @@ class GenerationResultModel:
     def __init__(self):
         self.generator_id: str = ""
         self.commit_message: str = ""
-
+    
 
 class EvaluationResultModel:
     def __init__(self):
         self.evaluation_id: str = ""
         self.generation_results: list[GenerationResultModel] = []
+
+    def json(self) -> str:
+        return json.dumps(self.__dict__)

@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from core.chains import IChain
+from core.chains import ICommitMessageGenerationChain
 from core.enums import DiffVersion
 from core.git import IGit
-from core.models import ImplementationModel, PromptInput
+from core.models import CommitMessageGenerationPromptInput, ImplementationModel
 from core.parsers import ICodeParser, IDiffParser
 from evaluation.models import (
     EvaluationModel,
@@ -11,23 +11,25 @@ from evaluation.models import (
     GenerationResultModel,
 )
 
+import os
+from datetime import datetime
 
 class ICommitMessageGenerator(ABC):
     @abstractmethod
     def generate_commit_message(
-        self, prompt_input: PromptInput
+        self, prompt_input: CommitMessageGenerationPromptInput
     ) -> GenerationResultModel:
         pass
 
 
 class CommitMessageGenerator(ICommitMessageGenerator):
-    def __init__(self, id: str, chain: IChain):
+    def __init__(self, id: str, chain: ICommitMessageGenerationChain):
         super().__init__()
         self.id = id
         self.__chain = chain
 
     def generate_commit_message(
-        self, prompt_input: PromptInput
+        self, prompt_input: CommitMessageGenerationPromptInput
     ) -> GenerationResultModel:
         commit_message = self.__chain.generate_commit_message(prompt_input)
         result = GenerationResultModel()
@@ -43,11 +45,14 @@ class IEvaluator(ABC):
         self,
         generators: list[ICommitMessageGenerator],
         evaluation_data: list[EvaluationModel],
-    ) -> list[EvaluationResultModel]:
+        parent_output_path: str
+    ):
         pass
 
 
 class Evaluator(IEvaluator):
+    OUTPUT_FILE_NAME = "evaluation.json"
+
     def __init__(
         self,
         git: IGit,
@@ -88,46 +93,65 @@ class Evaluator(IEvaluator):
 
         return implementations
 
+    def __get_output_path(self, parent_path: str) -> str:
+        now = datetime.now()
+        timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
+
+        return os.path.join(parent_path, timestamp, self.__class__.OUTPUT_FILE_NAME)
+    
+    def __create_folder_if_not_exist(self, path: str):
+        directory = os.path.dirname(path)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    
     def evaluate(
         self,
         source_repo_path: str,
         generators: list[ICommitMessageGenerator],
         evaluation_data: list[EvaluationModel],
-    ) -> list[EvaluationResultModel]:
-        results: list[EvaluationResultModel] = []
+        parent_output_path: str
+    ):
+        output_path = self.__get_output_path(parent_output_path)
+        self.__create_folder_if_not_exist(output_path)
+        
+        with open(output_path, "w") as file:
+            file.write("[\n")
 
-        for evaluation in evaluation_data:
-            result = EvaluationResultModel()
-            result.evaluation_id = evaluation.id
+            for evaluation in evaluation_data:
+                result = EvaluationResultModel()
+                result.evaluation_id = evaluation.id
 
-            current_commit_hash = evaluation.current_commit_hash
-            previous_commit_hash = (
-                evaluation.previous_commit_hash or f"{current_commit_hash}~1"
-            )
+                current_commit_hash = evaluation.current_commit_hash
+                previous_commit_hash = (
+                    evaluation.previous_commit_hash or f"{current_commit_hash}~1"
+                )
 
-            diff = self.__git.get_diff(
-                source_repo_path,
-                previous_commit_hash,
-                current_commit_hash,
-                evaluation.included_file_paths,
-            )
+                diff = self.__git.get_diff(
+                    source_repo_path,
+                    previous_commit_hash,
+                    current_commit_hash,
+                    evaluation.included_file_paths,
+                )
 
-            implementations = self.__get_implementations(
-                source_repo_path,
-                previous_commit_hash,
-                current_commit_hash,
-                evaluation.included_file_paths,
-                diff,
-            )
+                implementations = self.__get_implementations(
+                    source_repo_path,
+                    previous_commit_hash,
+                    current_commit_hash,
+                    evaluation.included_file_paths,
+                    diff,
+                )
 
-            relevant_source_code = "\n".join(map(str, implementations))
+                relevant_source_code = "\n".join(map(str, implementations))
 
-            prompt_input = PromptInput()
-            prompt_input.diff = diff
-            prompt_input.source_code = relevant_source_code
+                prompt_input = CommitMessageGenerationPromptInput()
+                prompt_input.diff = diff
+                prompt_input.source_code = relevant_source_code
 
-            for generator in generators:
-                generation_result = generator.generate_commit_message(prompt_input)
-                result.generation_results.append(generation_result)
+                for generator in generators:
+                    generation_result = generator.generate_commit_message(prompt_input)
+                    result.generation_results.append(generation_result)
 
-        return results
+                file.write(f"{result.json()},\n")
+
+            file.write("\n]")
+

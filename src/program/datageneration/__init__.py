@@ -1,0 +1,4 @@
+from core import mock_data_generation_chain
+from datageneration.generators import DataGenerator
+
+mock_data_generator = DataGenerator(mock_data_generation_chain)

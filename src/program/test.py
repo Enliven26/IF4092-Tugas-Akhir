@@ -19,6 +19,13 @@ def main():
     load_dotenv()
 
     source_repo_path = os.getenv(EnvironmentKey.SOURCE_REPO_PATH.value)
+
+    if (source_repo_path is None):
+        logging.warning("SOURCE_REPO_PATH is not set.")
+        return
+    
+    
+
     evaluation_json_string = read_evaluation_json()
     evaluation_data = EvaluationModel.from_json(evaluation_json_string)
     pass
