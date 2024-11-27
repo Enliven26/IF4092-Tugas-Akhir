@@ -14,5 +14,5 @@ class ImplementationType(Enum):
 
 
 class DiffVersion(Enum):
-    OLD = (0,)
+    OLD = 0
     NEW = 1
