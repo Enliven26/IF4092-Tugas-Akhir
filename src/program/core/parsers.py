@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 from textwrap import indent
 
-from core.enums import DiffVersion, ImplementationType
+from core.enums import DiffVersion
 from core.models import FileDiffModel
 from diff_parser import Diff, DiffBlock
 from kopyt import Parser, node
@@ -73,13 +74,16 @@ class DiffParser(IDiffParser):
 
 class ICodeParser(ABC):
     @abstractmethod
-    def get_methods(
-        self, source_code: str, line_ranges: list[range]
-    ) -> list[str]:
+    def get_methods(self, source_code: str, line_ranges: list[range]) -> list[str]:
         pass
 
 
 class CodeParser(ICodeParser):
+    class ImplementationType(Enum):
+        INTERFACE = 0
+        CLASS = 1
+        FUNCTIONAL_INTERFACE = 2
+
     class __ImplementationModel:
         def __init__(self):
             self.modifiers: list[str] = []
@@ -89,7 +93,9 @@ class CodeParser(ICodeParser):
             self.supertypes: list[str] = []
             self.constraints: str = ""
             self.body: str = ""
-            self.type: ImplementationType = ImplementationType.CLASS
+            self.type: CodeParser.ImplementationType = (
+                CodeParser.ImplementationType.CLASS
+            )
 
         def __str__(self):
             modifiers = ""
@@ -103,9 +109,9 @@ class CodeParser(ICodeParser):
             if self.modifiers:
                 modifiers = f"{' '.join(self.modifiers)} "
 
-            if self.type == ImplementationType.INTERFACE:
+            if self.type == CodeParser.ImplementationType.INTERFACE:
                 declaration = "interface"
-            elif self.type == ImplementationType.CLASS:
+            elif self.type == CodeParser.ImplementationType.CLASS:
                 declaration = "class"
             else:
                 declaration = "fun interface"
@@ -123,7 +129,7 @@ class CodeParser(ICodeParser):
                 f"{modifiers}{declaration} {self.name}{generics}{constructor}"
                 f"{supertypes}{constraints}{body}"
             )
-    
+
     class __ClassBodyModel:
         __DEFAULT_INDENTATION_PREFIX = "    "
 
@@ -174,15 +180,13 @@ class CodeParser(ICodeParser):
         )
 
         if isinstance(declaration, node.InterfaceDeclaration):
-            model.type = ImplementationType.INTERFACE
+            model.type = self.__class__.ImplementationType.INTERFACE
         elif isinstance(declaration, node.FunctionalInterfaceDeclaration):
-            declaration = ImplementationType.FUNCTIONAL_INTERFACE
+            declaration = self.__class__.ImplementationType.FUNCTIONAL_INTERFACE
         else:
-            declaration = ImplementationType.CLASS
+            declaration = self.__class__.ImplementationType.CLASS
 
-    def get_methods(
-        self, source_code: str, line_ranges: list[range]
-    ) -> list[str]:
+    def get_methods(self, source_code: str, line_ranges: list[range]) -> list[str]:
         parser = Parser(source_code)
         parser_result = parser.parse()
 
