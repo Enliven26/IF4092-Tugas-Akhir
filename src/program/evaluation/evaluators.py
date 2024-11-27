@@ -1,16 +1,15 @@
 from abc import ABC, abstractmethod
 
+from core.chains import IChain
 from core.enums import DiffVersion
 from core.git import IGit
-from core.models import ImplementationModel
+from core.models import ImplementationModel, PromptInput
 from core.parsers import ICodeParser, IDiffParser
 from evaluation.models import (
     EvaluationModel,
     EvaluationResultModel,
     GenerationResultModel,
 )
-from generation.chains import IChain
-from generation.models import PromptInput
 
 
 class ICommitMessageGenerator(ABC):

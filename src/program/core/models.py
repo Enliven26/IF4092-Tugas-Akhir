@@ -1,3 +1,5 @@
+from typing import Optional
+
 from core.enums import DiffVersion, ImplementationType
 
 
@@ -51,3 +53,9 @@ class ImplementationModel:
             f"{modifiers}{declaration} {self.name}{generics}{constructor}"
             f"{supertypes}{constraints}{body}"
         )
+
+
+class PromptInput:
+    def __init__(self):
+        self.diff: str = ""
+        self.source_code: Optional[str] = None
