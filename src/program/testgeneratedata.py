@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from core.enums import EnvironmentKey
 from datageneration import mock_data_generator
 
-DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "diffs.json")
+DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "testdiffs.json")
 DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "datageneration.json")
 
 

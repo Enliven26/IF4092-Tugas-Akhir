@@ -1,0 +1,16 @@
+[
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "fe5e2c2643e672e7dbb4b05725caa209cc15b621",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/data/dataaccess/TransactionDao.kt",
+            "app/src/main/java/com/example/bondoman/data/models/Transaction.kt",
+            "app/src/main/java/com/example/bondoman/data/utils/TransactionParser.kt",
+            "app/src/main/java/com/example/bondoman/data/viewmodels/transaction/TransactionViewModel.kt",
+            "app/src/main/java/com/example/bondoman/views/fragments/GraphFragment.kt"
+        ],
+        "remarks": "Integer overflow",
+        "mergeRequestNumber": 39
+    }
+]

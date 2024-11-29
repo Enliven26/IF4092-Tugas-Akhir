@@ -9,7 +9,7 @@ from evaluation import evaluator
 from evaluation.evaluators import CommitMessageGenerator
 from evaluation.models import EvaluationModel
 
-EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "commits.json")
+EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "testcommits.json")
 EVALUATION_OUTPUT_PATH = os.path.join("out", "test", "evaluation")
 
 
