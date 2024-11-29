@@ -211,21 +211,21 @@ class CodeParser(ICodeParser):
                     model.body = str(declaration.body)
 
                 else:
-                    body = self.__class__.__ClassBodyModel()
+                    if (declaration.body is not None):
+                        body = self.__class__.__ClassBodyModel()
+                        for member in declaration.body.members:
+                            start_line = member.start_position.line
+                            end_line = member.end_position.line
 
-                    for member in declaration.body.members:
-                        start_line = member.start_position.line
-                        end_line = member.end_position.line
+                            is_member_included = self.__is_implementation_included(
+                                line_ranges, start_line, end_line
+                            )
 
-                        is_member_included = self.__is_implementation_included(
-                            line_ranges, start_line, end_line
-                        )
+                            if is_member_included:
+                                body.members.append(str(member))
 
-                        if is_member_included:
-                            body.members.append(str(member))
-
-                    model.body = str(body)
+                        model.body = str(body)
 
                 result.append(model)
 
-        return map(str, result)
+        return list(map(str, result))
