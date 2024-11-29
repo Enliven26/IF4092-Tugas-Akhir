@@ -1,10 +1,256 @@
 [
     {
         "id": "TC001",
-        "currentCommitHash": "5b7bb837085ae8c9949024dcda4a19f21fba84bd",
+        "previousCommitHash": null,
+        "currentCommitHash": "476235df18b497cd2b24fc2cca3e1b888a18b84a",
         "includedFilePaths": [
-            "app/src/main/java/com/example/bondoman/views/fragments/SettingsFragment.kt",
-            "app/src/main/java/com/example/bondoman/services/services/ExpiryService.kt"
-        ]
+            "app/src/main/java/com/example/bondoman/activities/MainActivity.kt",
+            "app/src/main/java/com/example/bondoman/fragments/CameraFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/ChartsFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/ScanFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/SettingsFragment.kt"
+        ],
+        "remarks": "Initialize the pages",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC003",
+        "previousCommitHash": "c28a8b991331745d0273f581d2878a4a0cc801da",
+        "currentCommitHash": "a58e4199d69fc01e5e2ab59cf348dc42350169ac",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/activities/MainActivity.kt",
+            "app/src/main/java/com/example/bondoman/adapters/TransactionListAdapter.kt",
+            "app/src/main/java/com/example/bondoman/decorators/DividerItemDecorator.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionListFragment.kt"
+        ],
+        "remarks": "implement list of transaction page",
+        "mergeRequestNumber": 2
+    },
+    {
+        "id": "TC004",
+        "previousCommitHash": "eb57ef7113f2c10c1f939fe4e9c1e6b0c1f839f6",
+        "currentCommitHash": "b7c0ac1ac77d96ef6a8f6908c988d4623d322dec",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/ScanReceiptFragment.kt"
+        ],
+        "remarks": "implement logic for camera in scanning receipt page",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC005",
+        "previousCommitHash": null,
+        "currentCommitHash": "316ed9607733c7140ce7f53fd9c33cca77cfbc74",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/TransactionListFragment.kt"
+        ],
+        "remarks": "skip collapse state for transaction detail bottomsheet",
+        "mergeRequestNumber": 6
+    },
+    {
+        "id": "TC005",
+        "previousCommitHash": "c28a8b991331745d0273f581d2878a4a0cc801da",
+        "currentCommitHash": "ecbf2ff2cbaeba639c011a81b511bee4b65caba9",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/activities/MainActivity.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionListFragment.kt",
+            "app/src/main/java/com/example/bondoman/utils/interfaces/LayoutAppender.kt",
+            "app/src/main/java/com/example/bondoman/adapters/TransactionListAdapter.kt",
+            "app/src/main/java/com/example/bondoman/utils/interfaces/TransactionClickListener.kt"
+        ],
+        "remarks": "add transaction details bottom sheet",
+        "mergeRequestNumber": 10
+    },
+    {
+        "id": "TC006",
+        "previousCommitHash": null,
+        "currentCommitHash": "8dc6438f8d1c04d5cc23e51ab53d6db823c8e0c2",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/TransactionListFragment.kt"
+        ],
+        "remarks": "Hide bottomsheet details by default and implicitly prevent background scroll when bottomsheet is opened",
+        "mergeRequestNumber": 12
+    },
+    {
+        "id": "TC007",
+        "previousCommitHash": null,
+        "currentCommitHash": "d80a2790bc38452e049d74d2cb6aea9bdf7625e2",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/TransactionListFragment.kt"
+        ],
+        "remarks": "Remove detail bottomsheet if user move page",
+        "mergeRequestNumber": 12
+    },
+    {
+        "id": "TC008",
+        "previousCommitHash": null,
+        "currentCommitHash": "b582a7d750db13b4aae71f2031edabdd213cfed4",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/TransactionListFragment.kt"
+        ],
+        "remarks": "Hide bottomsheet details and implicitly prevent background scroll when bottomsheet is opened",
+        "mergeRequestNumber": 12
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": "b582a7d750db13b4aae71f2031edabdd213cfed4",
+        "currentCommitHash": "ad21deb54810f0326bef48309e8cbc11ba077d5b",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/TransactionFormFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/UpdateTransactionFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionUpdateFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionAddFragment.kt"
+        ],
+        "remarks": "add new transaction form",
+        "mergeRequestNumber": 12
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "24c16c791dc188b24c92c0e43400983c197314e1",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/activities/MainActivity.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionListFragment.kt",
+            "app/src/main/java/com/example/bondoman/utils/interfaces/ParentActivityService.kt"
+        ],
+        "remarks": "Refactor interface name from parent activity",
+        "mergeRequestNumber": 14
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "9611fa619c59fb27eb5bd1a46877c1d3dbc756d7",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/TransactionAddFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionFormFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionUpdateFragment.kt",
+            "app/src/main/java/com/example/bondoman/utils/interfaces/SecondaryFragment.kt"
+        ],
+        "remarks": "Add header text logic for fragment",
+        "mergeRequestNumber": 14
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "e1745a389f44c5678c4f554864813ca2e4fa4655",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/TransactionAddFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionFormFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TransactionUpdateFragment.kt"
+        ],
+        "remarks": "Formatter: auto add empty line",
+        "mergeRequestNumber": 15
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "4824cd217db329860bca7791051022dd5a44647b",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/fragments/TwibbonFragment.kt",
+            "app/src/main/java/com/example/bondoman/fragments/TwibbonPreviewFragment.kt",
+            "app/src/main/java/com/example/bondoman/models/ParcelableBitmap.kt"
+        ],
+        "remarks": "add functionality to view captured image",
+        "mergeRequestNumber": null
+    }, 
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "",
+        "includedFilePaths": [
+            ""
+        ],
+        "remarks": "",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC009",
+        "previousCommitHash": null,
+        "currentCommitHash": "1016fd3ce67df3cec16236f449f4ebef5ed569b9",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/data/viewmodels/transaction/TransactionViewModel.kt",
+            "app/src/main/java/com/example/bondoman/views/fragments/ScanReceiptResultFragment.kt"
+        ],
+        "remarks": "handle negative amount on transaction",
+        "mergeRequestNumber": null
     }
 ]
