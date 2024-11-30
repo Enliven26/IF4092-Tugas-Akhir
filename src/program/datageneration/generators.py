@@ -26,9 +26,7 @@ class DataGenerator(IDataGenerator):
 
     def __create_folder_if_not_exist(self, path: str):
         directory = os.path.dirname(path)
-
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        os.makedirs(directory, exist_ok=True)
 
     def generate_data(self, diffs: list[str], parent_output_path: str):
         output_path = self.__get_output_path(parent_output_path)

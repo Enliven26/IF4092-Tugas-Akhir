@@ -101,8 +101,7 @@ class Evaluator(IEvaluator):
 
     def __create_folder_if_not_exist(self, path: str):
         directory = os.path.dirname(path)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        os.makedirs(directory, exist_ok=True)
 
     def evaluate(
         self,

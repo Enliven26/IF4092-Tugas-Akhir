@@ -1,2 +1,4 @@
 .env
 venv
+src/program/out/test
+src/program/data/datageneration/datasets/dataset.parquet
