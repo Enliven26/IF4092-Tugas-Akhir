@@ -1,11 +1,16 @@
-from core.chains import ICommitMessageGenerationChain, IDataGenerationChain
+from core.chains import ICommitMessageGenerationChain, IDataGenerationChain, DataGenerationChain
 from core.git import Git
 from core.models import CommitMessageGenerationPromptInputModel
 from core.parsers import CodeParser, DiffParser
+import os
+from core.enums import EnvironmentKey
 
 git = Git()
 diff_parser = DiffParser()
 code_parser = CodeParser()
+
+__model = os.getenv(EnvironmentKey.OPENAI_MODEL.value, "gpt-4o-mini")
+data_generation_chain = DataGenerationChain(__model)
 
 
 class MockCommitMessageGenerationChain(ICommitMessageGenerationChain):
