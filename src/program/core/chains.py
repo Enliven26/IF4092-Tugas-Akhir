@@ -21,7 +21,7 @@ from core.models import CommitMessageGenerationPromptInputModel
 
 class IHighLevelContextDocumentRetriever(ABC):
     @abstractmethod
-    def invoke(self, folder_path: str) -> str:
+    def search(self, folder_path: str) -> str:
         pass
 
 
@@ -34,7 +34,7 @@ class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
         self.__db = db
         self.__retriever = self.__db.as_retriever()
 
-    def invoke(self, query: str) -> str:
+    def search(self, query: str) -> str:
         return self.__retriever.invoke(query)
 
     def save(self, folder_path: str):
@@ -143,7 +143,7 @@ class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain
             {"source_code": source_code}
         )
 
-        return self.__document_retriever.invoke(query_text)
+        return self.__document_retriever.search(query_text)
 
     def generate_commit_message(
         self, prompt_input: CommitMessageGenerationPromptInputModel

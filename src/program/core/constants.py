@@ -19,10 +19,14 @@ Simulated Relevant Functional Requirement Document Content:
 """
 
 LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
+{diff}
 """
 
 HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
+{diff}
+{context}
 """
 
 DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """
+{source_code}
 """
