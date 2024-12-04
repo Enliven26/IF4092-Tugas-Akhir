@@ -51,7 +51,9 @@ class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
         return cls(db, index_name)
 
     @classmethod
-    def from_document_file(cls, file_path: str, index_name: str = DEFAULT_INDEX_NAME):
+    def from_document_file(
+        cls, file_path: str, index_name: str = DEFAULT_INDEX_NAME
+    ) -> "HighLevelContextDocumentRetriever":
         documents = cls.__load_documents(file_path)
         embeddings = OpenAIEmbeddings()
 

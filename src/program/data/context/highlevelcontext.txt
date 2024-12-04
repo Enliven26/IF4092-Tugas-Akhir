@@ -1,0 +1,133 @@
+### Background
+
+A global disaster relief organization specializing in providing aid during emergencies has identified a critical gap in its financial operations. During relief missions, such as distributing essential supplies and services to affected areas, the organization handles a high volume of financial transactions, including vendor payments, material procurement, and operational costs.
+
+Currently, these transactions are managed through outdated methods like paper records and spreadsheets. This approach has led to several operational challenges, including:
+
+- **Inefficient Tracking**: Difficulty in maintaining accurate and up-to-date records of expenses.
+- **Errors in Budgeting**: Manual calculations have resulted in budget overruns and unapproved spending.
+- **Slow Approvals**: Delays in obtaining financial approvals have disrupted critical aid delivery timelines.
+To address these issues, the organization requires a Financial Transaction Management Application with the following key features:
+
+- **Real-time Logging**: Field teams can record transactions instantly, including attaching digital receipts and categorizing expenses.
+- **Approval Workflow**: Supervisors can review and approve transactions directly within the application to ensure compliance with financial protocols.
+- **Budget Monitoring**: Automatically tracks expenditures against allocated budgets for each mission, providing alerts for potential overruns.
+- **Offline Functionality**: Ensures uninterrupted operation in areas with limited connectivity, with data synchronization when back online.
+- **Comprehensive Reporting**: Generates detailed financial reports for audits and transparency with stakeholders.
+The application must be designed for Android devices to align with the organization’s standard equipment for field operations. It is expected to enhance accountability, reduce errors, and streamline financial processes during missions.
+
+A functional prototype is expected within three months, with plans for full deployment shortly thereafter to support upcoming large-scale operations.
+
+### Application Specifications
+The following specifications must be implemented:
+
+**1. Header and Navbar**
+- **Navigation Menus**: The application must have four navigation menus: Transaction Menu, Scan Menu, Graph Menu, and Settings Menu.
+- **Active Menu Indicator**: When the user is in a particular menu, the corresponding icon should be highlighted, and the header should update to reflect the active menu.
+
+**2. Login - Login Page**
+- **Login Requirement**: Users must log in before accessing any features of the application.
+
+- **Token Generation**: Upon successful login, the system will provide a token to signify successful authentication. This token will be used to access other endpoints.
+
+- **Token Storage**: The method of storing the token is flexible, but it is essential to implement best practices for token storage on Android.
+
+- **Login Endpoint**: Login can be performed by making a request to the endpoint {{baseUrl}}/api/auth/login.
+
+- **Request Body Format**: The JSON request body for login should follow the format:
+
+{
+  "email": "user_email", 
+  "password": "user_password"
+}
+
+**3. Logout - Settings Page**
+**Logout Functionality**: Users must be able to log out of the application.
+**Logout Location**: The logout option should be available on the Settings page.
+**Redirection After Logout**: After logging out, users will be redirected to the Login page.
+
+**4. Add, Modify, and Delete Transactions**
+**Transaction Data Manipulation**: Users must be able to perform data manipulation on transactions, including adding, modifying, and deleting transactions.
+**Adding Transactions**: When adding a transaction, users must provide at least the following attributes: transaction title, category (Income, Expense), transaction amount, and transaction location. The system should automatically record the transaction date (the date it is entered) and the location as the current location of the user if location access is granted.
+**Modifying Transactions**: When modifying a transaction, the system should automatically pre-fill the attributes based on the existing transaction (including hidden attributes such as date). Users can modify these attributes, except for specific ones. At a minimum, the editable attributes should be title, amount, and location, while the uneditable attributes should be category and date.
+**Deleting Transactions**: Once a transaction is deleted, it should be immediately removed from the displayed transaction list.
+
+**5. View List of Transactions**
+**Data Storage**: The transaction list should be stored in Room using the Repository Pattern to allow offline access.
+**Transaction Display**: This page will display the entire list of completed transactions.
+**Transaction Details**: Each transaction should display the category, amount, name, location, and date of the transaction.
+**View Location**: Users should be able to tap a transaction to open Google Maps showing the transaction location.
+**Add New Transaction**: Users should be able to add a new transaction by clicking the “+” button.
+
+**6. Scan Receipt - Receipt Scan Page**
+Scan Receipt Page: Users should be able to access a page for scanning receipts.
+Receipt Scanning Process: The scanning process involves sending an image from the client to the server.
+Server Processing: The server will process dummy data for reading the receipt.
+Image Upload: Users can send images either by taking a picture directly through the camera or by uploading a photo from the gallery.
+Post Scan Actions: After scanning the receipt, the result should be displayed on the screen, and users should be asked if they want to repeat the scanning process. If not, the transaction should be saved in the transaction list.
+Image Upload Endpoint: The image can be uploaded by accessing the endpoint {{baseUrl}}/api/bill/upload with the body in form-data format using the key "file."
+
+**7. View Transaction Summary Graph - Graph Page**
+Transaction Summary Graph: Users should be able to view a graph summarizing the transactions that have been completed.
+Graph Design: The graph display style is flexible.
+Portrait and Landscape Layouts: The page must support both portrait and landscape layouts.
+Graphing Tools: The tools used to create the graph are flexible, provided they are implemented in Kotlin.
+
+**8. Save Transaction List in .xlsx, .xls Format - Settings Page**
+Export Transactions: Users should be able to export the entire list of transactions to a spreadsheet file (.xlsx or .xls) that can be downloaded and opened outside the application.
+Export Button: There should be a button to prepare the transaction list file. Users can choose between two supported file formats, .xlsx or .xls, before the export process begins.
+Exported File Content: The exported file should contain the following columns: Date, Transaction Category (Income or Expense), Transaction Amount, Transaction Name, and Location. The file should be saved in the device's internal storage.
+
+**9. Send Transaction List via Gmail - Settings Page**
+**Email Transaction List**: Users should be able to send the transaction list via Gmail to the email address used for login.
+**Attachment**: The transaction list should be sent as an attachment in the form of a spreadsheet (.xlsx or .xls).
+**Email Subject and Text**: The subject and body of the email should also be included as part of the intent. The content of the subject and body is flexible.
+
+**10. Background Service - Check JWT Expiry**
+**Background Service**: The application should have a background service that checks whether the JWT has expired.
+**Behavior Upon Expiry**: When the JWT expires, the application should define behavior (e.g., automatically log out or trigger re-login).
+**JWT Expiry Time**: The JWT should expire after 5 minutes.
+**JWT Expiry Check Endpoint**: The JWT expiry check can be performed by accessing the endpoint {{baseURL}}/api/auth/token with the header “Authorization: Bearer {token}.”
+
+**11. Network Sensing - Signal Detection**
+**Internet Connectivity Check**: The application must be able to check if the device is currently connected to the internet, either via mobile data or Wi-Fi.
+**No Internet Connection Alert**: If the device is disconnected from the internet, a simple pop-up should appear indicating that the device is not connected to the internet.
+**Offline Access**: The application should remain accessible even without an internet connection; however, it should not be able to make requests or pull data from the server while offline.
+**Server Data Request Handling**: If a page requires data from the server and the internet connection is unavailable, a simple page should be displayed indicating that there is no internet connection, rather than showing a blank page.
+
+**12. Broadcast Receiver - Randomize Transaction from Settings**
+**Transaction Addition Fragment**: The transaction addition fragment must include a broadcast receiver to receive an intent sent by the "Randomize Transaction" button on the Settings page.
+**Field Population on Intent**: At least one field in the fragment must be pre-filled when the fragment receives the intent.
+
+### Bonus Specifications
+The following bonus specifications are optional but may be implemented for additional compensation. These features are not part of the core functionality required for the Financial Transaction Management Application but will enhance the system’s overall capabilities, improving both security and user engagement. Implementing these features will be rewarded with an additional payment.
+
+**1. Twibbon**
+The Twibbon feature allows users to overlay an image onto their photos. While this may seem unrelated to financial transaction management, it is a request from the stakeholders. The Twibbon feature will be implemented on a separate page of the application, where users can open the camera to capture a photo with the Twibbon overlay. At least one Twibbon image should be provided, and if multiple images are available, users should be given the option to switch between them. Once the user captures a photo, it will be displayed but not saved on the device. Users can capture additional photos as needed. The specific images used for the Twibbon can be selected as per the development team's discretion.
+
+**2. OWASP Security Standards**
+In response to potential security concerns, especially regarding financial data integrity, the stakeholder has requested that the application meet the security standards outlined in the OWASP 2024 Top 10 Mobile Risks. The focus should be on the following vulnerabilities:
+
+M4: Insufficient Input/Output Validation
+M8: Security Misconfiguration
+M9: Insecure Data Storage
+These security measures are essential to ensure that the application meets the highest standards of data protection and is resistant to common attacks. The development team should conduct a thorough analysis of the application’s security and take appropriate actions to mitigate identified risks. This may include fixing vulnerabilities in client-side validation, adjusting security configurations, and ensuring that sensitive data is securely stored. Detailed documentation of the analysis and any corrective actions taken must be included in the README, with the assumption that the server is not secure and client-side validation is paramount.
+
+### Clarification
+The following clarifications address key points regarding the implementation of the Financial Transaction Management Application, ensuring alignment with the project specifications and expectations.
+
+**1. minSdk and SDK Versions**
+The maximum allowed API Level for this project is 32 (Android 12), while the minimum API Level is 29. If minSdk is set to 29, higher API levels, including API 32, can be targeted. However, caution should be taken as features tied to higher API levels may not be backward compatible with older devices. The targetSdk and compileSdk can exceed API 32 (up to the latest SDK version, which is API Level 34). The compileSdkVersion should use the latest available version (currently API Level 34) to ensure compatibility with the latest Android features.
+
+**2. Handling JWT Expiration and App Relaunch**
+If the application is closed without logging out and then reopened while the JWT is still valid, the user will be directed to the main page without being forced to log in again. This behavior assumes that the token remains valid when the app is reopened.
+
+**3. Transaction Location and User Permission**
+If the user does not grant permission for location access, they can still create transactions. In this case, a default location (latitude and longitude) will be used, and the system will proceed with the transaction. This default location can be customized as needed.
+
+For transactions that involve location access, the app will automatically retrieve the user's current location if permission is granted. Additionally, users have the option to manually change the location for a transaction if needed.
+
+**4. JWT Expiry and Network Connectivity**
+If the application cannot communicate with the server (e.g., due to no internet access), the JWT is assumed to have expired. This assumption allows for handling the expiration scenario in the absence of connectivity, ensuring that the app responds appropriately when network access is unavailable.
+
+These clarifications are intended to ensure proper implementation and consistency throughout the development process. Following these guidelines will help align the development efforts with the project’s goals and requirements.
