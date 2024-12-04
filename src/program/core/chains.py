@@ -21,7 +21,7 @@ from core.models import CommitMessageGenerationPromptInputModel
 
 class IHighLevelContextDocumentRetriever(ABC):
     @abstractmethod
-    def search(self, folder_path: str) -> str:
+    def search(self, query: str) -> str:
         pass
 
 
