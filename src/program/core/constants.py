@@ -17,3 +17,12 @@ Git Diff:
 
 Simulated Relevant Functional Requirement Document Content:
 """
+
+LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
+"""
+
+HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
+"""
+
+DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """
+"""
