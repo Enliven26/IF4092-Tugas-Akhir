@@ -1,6 +1,8 @@
 [
     {
         "id": "TC009",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "fe5e2c2643e672e7dbb4b05725caa209cc15b621",
         "includedFilePaths": [

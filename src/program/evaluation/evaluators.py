@@ -105,7 +105,6 @@ class Evaluator(IEvaluator):
 
     def evaluate(
         self,
-        source_repo_path: str,
         generators: list[ICommitMessageGenerator],
         evaluation_data: list[EvaluationModel],
         parent_output_path: str,
@@ -126,14 +125,14 @@ class Evaluator(IEvaluator):
                 )
 
                 diff = self.__git.get_diff(
-                    source_repo_path,
+                    evaluation.repository_path,
                     previous_commit_hash,
                     current_commit_hash,
                     evaluation.included_file_paths,
                 )
 
                 implementations = self.__get_implementations(
-                    source_repo_path,
+                    evaluation.repository_path,
                     previous_commit_hash,
                     current_commit_hash,
                     evaluation.included_file_paths,

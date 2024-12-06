@@ -1,6 +1,8 @@
 [
     {
         "id": "TC001",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "476235df18b497cd2b24fc2cca3e1b888a18b84a",
         "includedFilePaths": [
@@ -15,6 +17,8 @@
     },
     {
         "id": "TC002",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": "c28a8b991331745d0273f581d2878a4a0cc801da",
         "currentCommitHash": "a58e4199d69fc01e5e2ab59cf348dc42350169ac",
         "includedFilePaths": [
@@ -28,6 +32,8 @@
     },
     {
         "id": "TC003",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": "eb57ef7113f2c10c1f939fe4e9c1e6b0c1f839f6",
         "currentCommitHash": "b7c0ac1ac77d96ef6a8f6908c988d4623d322dec",
         "includedFilePaths": [
@@ -38,6 +44,8 @@
     },
     {
         "id": "TC004",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "316ed9607733c7140ce7f53fd9c33cca77cfbc74",
         "includedFilePaths": [
@@ -48,6 +56,8 @@
     },
     {
         "id": "TC005",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": "c28a8b991331745d0273f581d2878a4a0cc801da",
         "currentCommitHash": "ecbf2ff2cbaeba639c011a81b511bee4b65caba9",
         "includedFilePaths": [
@@ -62,6 +72,8 @@
     },
     {
         "id": "TC006",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "8dc6438f8d1c04d5cc23e51ab53d6db823c8e0c2",
         "includedFilePaths": [
@@ -72,6 +84,8 @@
     },
     {
         "id": "TC007",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "d80a2790bc38452e049d74d2cb6aea9bdf7625e2",
         "includedFilePaths": [
@@ -82,6 +96,8 @@
     },
     {
         "id": "TC008",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "b582a7d750db13b4aae71f2031edabdd213cfed4",
         "includedFilePaths": [
@@ -92,6 +108,8 @@
     },
     {
         "id": "TC009",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": "b582a7d750db13b4aae71f2031edabdd213cfed4",
         "currentCommitHash": "ad21deb54810f0326bef48309e8cbc11ba077d5b",
         "includedFilePaths": [
@@ -105,6 +123,8 @@
     },
     {
         "id": "TC010",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "24c16c791dc188b24c92c0e43400983c197314e1",
         "includedFilePaths": [
@@ -117,6 +137,8 @@
     },
     {
         "id": "TC011",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "9611fa619c59fb27eb5bd1a46877c1d3dbc756d7",
         "includedFilePaths": [
@@ -130,6 +152,8 @@
     },
     {
         "id": "TC012",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": "fb29c42a0144ef59261b5da69c405daaa0f1b5c3",
         "currentCommitHash": "07228efa2b601b935097303c78bdbdc387cbb1c9",
         "includedFilePaths": [
@@ -141,6 +165,8 @@
     },
     {
         "id": "TC013",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "78c55ffa841b7c48df081206a4312548a52f341f",
         "includedFilePaths": [
@@ -152,6 +178,8 @@
     },
     {
         "id": "TC014",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "8feccf518c66b8ea6e5dd033aa86cb5b6c3e9212",
         "includedFilePaths": [
@@ -162,6 +190,8 @@
     },
     {
         "id": "TC015",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "b69c969a47cb882d9c733053729f37ca5bb63fac",
         "includedFilePaths": [
@@ -172,6 +202,8 @@
     },
     {
         "id": "TC016",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "3990a07e11ccb54a4de0e142a12b6c9e866dc902",
         "includedFilePaths": [
@@ -183,6 +215,8 @@
     },
     {
         "id": "TC017",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "4824cd217db329860bca7791051022dd5a44647b",
         "includedFilePaths": [
@@ -195,6 +229,8 @@
     }, 
     {
         "id": "TC018",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "d7f4336cf6677cabf6d42464d9c5916bdcd566ee",
         "includedFilePaths": [
@@ -205,6 +241,8 @@
     },
     {
         "id": "TC019",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "edc6bfd4f514c5d35c3ed0cf8fe906a7df273c7e",
         "includedFilePaths": [
@@ -215,6 +253,8 @@
     },
     {
         "id": "TC020",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "2116298d8bde50e9e21767c560513ad539e2f021",
         "includedFilePaths": [
@@ -227,6 +267,8 @@
     },
     {
         "id": "TC021",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "1477a883f84cf284c037d070dcca103f844d5cbd",
         "includedFilePaths": [
@@ -237,6 +279,8 @@
     },
     {
         "id": "TC022",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "e236a89be1c9324114fdc601161732ab71dd6e02",
         "includedFilePaths": [
@@ -248,6 +292,8 @@
     },
     {
         "id": "TC023",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "fc9fe7fc088a115eb49b7abbd6ffd353530e6ff6",
         "includedFilePaths": [
@@ -265,6 +311,8 @@
     },
     {
         "id": "TC024",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "a7986e172e733331bb66ccdf78a2c71efdbe7992",
         "includedFilePaths": [
@@ -275,6 +323,8 @@
     },
     {
         "id": "TC025",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "fb5cc4f50099fc1e2124ba39a93572f04373a622",
         "includedFilePaths": [
@@ -287,6 +337,8 @@
     },
     {
         "id": "TC026",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "8e1f214494f7b30ce114feccec2a7f6123734756",
         "includedFilePaths": [
@@ -298,6 +350,8 @@
     },
     {
         "id": "TC027",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "5fc661837b0d15b5207d58c2727085f0c4215d17",
         "includedFilePaths": [
@@ -310,6 +364,8 @@
     },
     {
         "id": "TC028",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "a9904d3e2de3a995297295335d9ae2f3b4f99da4",
         "includedFilePaths": [
@@ -321,6 +377,8 @@
     },
     {
         "id": "TC029",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "46b7e906d3e8dbec3d8efa64766557675d43a9f2",
         "includedFilePaths": [
@@ -331,6 +389,8 @@
     },
     {
         "id": "TC030",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "9e096e5884c99df3d9840e6e1b10fef64bad9be3",
         "includedFilePaths": [
@@ -343,6 +403,8 @@
     },
     {
         "id": "TC031",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": "e1e951603a797541d77815c68835a6936cb64976",
         "currentCommitHash": "",
         "includedFilePaths": [
@@ -353,6 +415,8 @@
     },
     {
         "id": "TC032",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "a41f6329de2c99d21d90eda7e1bcb8febf774141",
         "includedFilePaths": [
@@ -364,6 +428,8 @@
     },
     {
         "id": "TC033",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "678549338bb3d2408408d767bbfb51c080c49947",
         "includedFilePaths": [
@@ -374,6 +440,8 @@
     },
     {
         "id": "TC034",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "513027b51345e05596fd05944fb8544a7eca1ede",
         "includedFilePaths": [
@@ -385,6 +453,8 @@
     },
     {
         "id": "TC035",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "bdb4f68b1e2bd17fa82e64a1f57ee112eb0fe333",
         "includedFilePaths": [
@@ -401,6 +471,8 @@
     },
     {
         "id": "TC036",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "6946bdcecdbbd9bf041c0e14dab14b8cba4a6142",
         "includedFilePaths": [
@@ -414,6 +486,8 @@
     },
     {
         "id": "TC037",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "3ffe959c9a864794063d2fc071c230dd35db909b",
         "includedFilePaths": [
@@ -424,6 +498,8 @@
     },
     {
         "id": "TC038",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "e018c560fb322465cd935f8fa2e711e0b9d560fd",
         "includedFilePaths": [
@@ -435,6 +511,8 @@
     },
     {
         "id": "TC039",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "528344b419c8074ae56c192b0c52585f1275b365",
         "includedFilePaths": [
@@ -445,6 +523,8 @@
     },
     {
         "id": "TC040",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": "528344b419c8074ae56c192b0c52585f1275b365",
         "currentCommitHash": "62406dbb40a98e768fbd95933d3c8f1ea231d05c",
         "includedFilePaths": [
@@ -463,6 +543,8 @@
     },
     {
         "id": "TC041",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "14d83f6367158fcc873879424288a67ad5022717",
         "includedFilePaths": [
@@ -473,6 +555,8 @@
     },
     {
         "id": "TC042",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "1eb3575c0b5406e973b89fce5d079dbdfb2b3e95",
         "includedFilePaths": [
@@ -485,6 +569,8 @@
     },
     {
         "id": "TC043",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "5b7bb837085ae8c9949024dcda4a19f21fba84bd",
         "includedFilePaths": [
@@ -499,6 +585,8 @@
     },
     {
         "id": "TC044",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "931e90b684fb7b094e6677d4ef5ec5b7a3cf72f0",
         "includedFilePaths": [
@@ -511,6 +599,8 @@
     },
     {
         "id": "TC045",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "d87264c769118a0e87d64d08efd0781af770afed",
         "includedFilePaths": [
@@ -522,6 +612,8 @@
     },
     {
         "id": "TC046",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "176cba5085280880b5a7e0a975f42eb7c732c977",
         "includedFilePaths": [
@@ -532,6 +624,8 @@
     },
     {
         "id": "TC047",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "73c517d956acfd544e6d2f36daff66a1a2876181",
         "includedFilePaths": [
@@ -542,6 +636,8 @@
     },
     {
         "id": "TC048",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "dfb1de021826d2ec29f0a9332bf1b93f43dd5a9e",
         "includedFilePaths": [
@@ -556,6 +652,8 @@
     },
     {
         "id": "TC049",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "ba4e4bd546ed31dcfceeeca5c5f382ba6ba349eb",
         "includedFilePaths": [
@@ -566,6 +664,8 @@
     },
     {
         "id": "TC050",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "fe5e2c2643e672e7dbb4b05725caa209cc15b621",
         "includedFilePaths": [
@@ -580,6 +680,8 @@
     },
     {
         "id": "TC051",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "5e18fc25c07a4115750315dddb0c8bab26664ecb",
         "includedFilePaths": [
@@ -590,6 +692,8 @@
     },
     {
         "id": "TC052",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "1ec3b51950ad860b8dcec2855e36ee3c0076b9a1",
         "includedFilePaths": [
@@ -601,6 +705,8 @@
     },
     {
         "id": "TC053",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "1016fd3ce67df3cec16236f449f4ebef5ed569b9",
         "includedFilePaths": [
@@ -612,6 +718,8 @@
     },
     {
         "id": "TC054",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "97297d2f1ace678fea8780a45acf0a5bfa9560c3",
         "includedFilePaths": [
@@ -622,6 +730,8 @@
     },
     {
         "id": "TC055",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "8a94e33453510d0de4b6b67a26edaa663b980bfd",
         "includedFilePaths": [
@@ -632,6 +742,8 @@
     },
     {
         "id": "TC056",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "001716e15f8381f3480833631b8f87a12e5a53e9",
         "includedFilePaths": [
@@ -642,6 +754,8 @@
     },
     {
         "id": "TC057",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "dac3a61a2ea4e6c266c9bb3c2b5438f8fb38bbaa",
         "includedFilePaths": [
@@ -653,6 +767,8 @@
     },
     {
         "id": "TC058",
+        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
+        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
         "previousCommitHash": null,
         "currentCommitHash": "1f48461d45aec97ef4f2a07e712e47fff09323b8",
         "includedFilePaths": [

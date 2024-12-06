@@ -11,12 +11,14 @@ class EvaluationModel:
         PREVIOUS_COMMIT_HASH = "previousCommitHash"
         CURRENT_COMMIT_HASH = "currentCommitHash"
         INCLUDED_FILE_PATHS = "includedFilePaths"
+        REPOSITORY_PATH = "repositoryPath"
 
     def __init__(self):
         self.id: str = ""
         self.previous_commit_hash: Optional[str] = None
         self.current_commit_hash: str = ""
         self.included_file_paths: list[str] = []
+        self.repository_path: str = ""
 
     @classmethod
     def from_json(cls, json_string: str) -> list["EvaluationModel"]:
@@ -39,6 +41,10 @@ class EvaluationModel:
                 )
                 instance.included_file_paths = data.get(
                     cls.__JsonKey.INCLUDED_FILE_PATHS.value, []
+                )
+
+                instance.repository_path = data.get(
+                    cls.__JsonKey.REPOSITORY_PATH.value, ""
                 )
 
                 instances.append(instance)
