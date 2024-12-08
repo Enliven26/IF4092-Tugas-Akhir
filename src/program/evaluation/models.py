@@ -8,10 +8,10 @@ import jsonpickle
 class EvaluationModel:
     class __JsonKey(Enum):
         ID = "id"
-        PREVIOUS_COMMIT_HASH = "previousCommitHash"
-        CURRENT_COMMIT_HASH = "currentCommitHash"
-        INCLUDED_FILE_PATHS = "includedFilePaths"
-        REPOSITORY_PATH = "repositoryPath"
+        PREVIOUS_COMMIT_HASH = "previos_commit_hash"
+        CURRENT_COMMIT_HASH = "current_commit_hash"
+        INCLUDED_FILE_PATHS = "included_file_paths"
+        REPOSITORY_PATH = "repository_path"
 
     def __init__(self):
         self.id: str = ""

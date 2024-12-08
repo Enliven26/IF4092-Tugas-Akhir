@@ -1,143 +1,143 @@
 [
     {
         "id": "TC001",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "4824cd217db329860bca7791051022dd5a44647b",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "4824cd217db329860bca7791051022dd5a44647b",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/fragments/TwibbonFragment.kt",
             "app/src/main/java/com/example/bondoman/fragments/TwibbonPreviewFragment.kt",
             "app/src/main/java/com/example/bondoman/models/ParcelableBitmap.kt"
         ],
         "remarks": "add preview for twibbon image capture",
-        "mergeRequestNumber": 21
+        "merge_request_number": 21
     }, 
     {
         "id": "TC002",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "a9904d3e2de3a995297295335d9ae2f3b4f99da4",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "a9904d3e2de3a995297295335d9ae2f3b4f99da4",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionUpdateFragment.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionFormFragment.kt"
         ],
         "remarks": "Update page functionality",
-        "mergeRequestNumber": 26
+        "merge_request_number": 26
     },
     {
         "id": "TC003",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "46b7e906d3e8dbec3d8efa64766557675d43a9f2",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "46b7e906d3e8dbec3d8efa64766557675d43a9f2",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionFormFragment.kt"
         ],
         "remarks": "Add location logic",
-        "mergeRequestNumber": 27
+        "merge_request_number": 27
     },
     {
         "id": "TC004",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": "e1e951603a797541d77815c68835a6936cb64976",
-        "currentCommitHash": "",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": "e1e951603a797541d77815c68835a6936cb64976",
+        "current_commit_hash": "",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionFormFragment.kt"
         ],
         "remarks": "Fetch location when transaction form page opened",
-        "mergeRequestNumber": 28
+        "merge_request_number": 28
     },
     {
         "id": "TC005",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "6946bdcecdbbd9bf041c0e14dab14b8cba4a6142",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "6946bdcecdbbd9bf041c0e14dab14b8cba4a6142",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/data/viewmodels/transaction/TransactionViewModel.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionAddFragment.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionListFragment.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionUpdateFragment.kt"
         ],
         "remarks": "Update and delete transaction logic",
-        "mergeRequestNumber": 29
+        "merge_request_number": 29
     },
     {
         "id": "TC006",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "3ffe959c9a864794063d2fc071c230dd35db909b",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "3ffe959c9a864794063d2fc071c230dd35db909b",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionFormFragment.kt"
         ],
         "remarks": "Enable save button after location is fetched",
-        "mergeRequestNumber": 29
+        "merge_request_number": 29
     },
     {
         "id": "TC007",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "e018c560fb322465cd935f8fa2e711e0b9d560fd",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "e018c560fb322465cd935f8fa2e711e0b9d560fd",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/components/PageInfoComponent.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionListFragment.kt"
         ],
         "remarks": "Add page information for event: list empty",
-        "mergeRequestNumber": 29
+        "merge_request_number": 29
     },
     {
         "id": "TC008",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": "528344b419c8074ae56c192b0c52585f1275b365",
-        "currentCommitHash": "62406dbb40a98e768fbd95933d3c8f1ea231d05c",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": "528344b419c8074ae56c192b0c52585f1275b365",
+        "current_commit_hash": "62406dbb40a98e768fbd95933d3c8f1ea231d05c",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/data/utils/PreferencesManager.kt",
             "app/src/main/java/com/example/bondoman/views/activities/LoginActivity.kt",
             "app/src/main/java/com/example/bondoman/data/viewmodels/login/LoginViewModel.kt"
 
         ],
         "remarks": "Implement login feature with secured preference using cryptography",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC009",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "14d83f6367158fcc873879424288a67ad5022717",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "14d83f6367158fcc873879424288a67ad5022717",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/fragments/SettingsFragment.kt"
         ],
         "remarks": "Add base functionality for settings page",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC010",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "1eb3575c0b5406e973b89fce5d079dbdfb2b3e95",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "1eb3575c0b5406e973b89fce5d079dbdfb2b3e95",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/data/viewmodels/settings/ExportTransactionResponseContainer.kt",
             "app/src/main/java/com/example/bondoman/data/viewmodels/settings/SettingViewModel.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/SettingsFragment.kt"
         ],
         "remarks": "Implement export report",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC011",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "5b7bb837085ae8c9949024dcda4a19f21fba84bd",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "5b7bb837085ae8c9949024dcda4a19f21fba84bd",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/services/receivers/ExpiryBroadcastReceiver.kt",
             "app/src/main/java/com/example/bondoman/services/services/ExpiryService.kt",
             "app/src/main/java/com/example/bondoman/views/activities/LoginActivity.kt",
@@ -145,91 +145,91 @@
             "app/src/main/java/com/example/bondoman/views/fragments/SettingsFragment.kt"
         ],
         "remarks": "Expiry background check for login session",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC012",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "931e90b684fb7b094e6677d4ef5ec5b7a3cf72f0",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "931e90b684fb7b094e6677d4ef5ec5b7a3cf72f0",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/activities/MainActivity.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/SettingsFragment.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/TransactionFormFragment.kt"
         ],
         "remarks": "Add randomize transaction feature",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC013",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "1ec3b51950ad860b8dcec2855e36ee3c0076b9a1",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "1ec3b51950ad860b8dcec2855e36ee3c0076b9a1",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/activities/MainActivity.kt",
             "app/src/main/java/com/example/bondoman/views/fragments/ConnectionLostFragment.kt"
         ],
         "remarks": "Lost connection behavior",
-        "mergeRequestNumber": 39
+        "merge_request_number": 39
     },
     {
         "id": "TC014",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "8a94e33453510d0de4b6b67a26edaa663b980bfd",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "8a94e33453510d0de4b6b67a26edaa663b980bfd",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/views/activities/MainActivity.kt"
         ],
         "remarks": "Configure scan receipt page as the page that need network connection",
-        "mergeRequestNumber": 42
+        "merge_request_number": 42
     },
     {
         "id": "TC015",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-pbd",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-pbd/if3210-2024-android-pbd",
-        "previousCommitHash": null,
-        "currentCommitHash": "7bcae1dcb3a0375cae2029509bb2229a13feaaa7",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-pbd",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-pbd/if3210-2024-android-pbd",
+        "previous_commit_hash": null,
+        "current_commit_hash": "7bcae1dcb3a0375cae2029509bb2229a13feaaa7",
+        "included_file_paths": [
             "app/src/main/java/com/pbd/bondoman/LoginActivity.kt",
             "app/src/main/java/com/pbd/bondoman/views/login/LoginFragment.kt"
         ],
         "remarks": "Disable login when connection is lost",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC016",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-pbd",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-pbd/if3210-2024-android-pbd",
-        "previousCommitHash": null,
-        "currentCommitHash": "7fa819323a546765ebe1101f5fff512351900060",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-pbd",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-pbd/if3210-2024-android-pbd",
+        "previous_commit_hash": null,
+        "current_commit_hash": "7fa819323a546765ebe1101f5fff512351900060",
+        "included_file_paths": [
             "app/src/main/java/com/pbd/bondoman/views/scanner/PreviewFragment.kt"
         ],
         "remarks": "Redirect to login page if 401 when uploading file scan",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC017",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-pbd",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-pbd/if3210-2024-android-pbd",
-        "previousCommitHash": null,
-        "currentCommitHash": "daf9ea7d0761e036a2b9c9e030dd33ce94c27047",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-pbd",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-pbd/if3210-2024-android-pbd",
+        "previous_commit_hash": null,
+        "current_commit_hash": "daf9ea7d0761e036a2b9c9e030dd33ce94c27047",
+        "included_file_paths": [
             "app/src/main/java/com/pbd/bondoman/utilities/ExportTxn.kt"
         ],
         "remarks": "Enable 2 different file format for export report",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC018",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\IF3210-2024-Android-SSK",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-ssk/IF3210-2024-Android-SSK",
-        "previousCommitHash": null,
-        "currentCommitHash": "7c9f9310afaa0b322d723eccc752070ffc8d532a",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\IF3210-2024-Android-SSK",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-ssk/IF3210-2024-Android-SSK",
+        "previous_commit_hash": null,
+        "current_commit_hash": "7c9f9310afaa0b322d723eccc752070ffc8d532a",
+        "included_file_paths": [
             "app/src/main/java/com/ssk/bondoman/MainActivity.kt",
             "app/src/main/java/com/ssk/bondoman/data/Auth.kt",
             "app/src/main/java/com/ssk/bondoman/repository/AuthRepository.kt",
@@ -237,15 +237,15 @@
             "app/src/main/java/com/ssk/bondoman/ui/login/LoginActivity.kt"
         ],
         "remarks": "Create service to check auth token expiry",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC019",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-mog",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-mog/if3210-2024-android-mog",
-        "previousCommitHash": null,
-        "currentCommitHash": "7c9f9310afaa0b322d723eccc752070ffc8d532a",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-mog",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-mog/if3210-2024-android-mog",
+        "previous_commit_hash": null,
+        "current_commit_hash": "7c9f9310afaa0b322d723eccc752070ffc8d532a",
+        "included_file_paths": [
             "app/src/main/java/com/ssk/bondoman/MainActivity.kt",
             "app/src/main/java/com/ssk/bondoman/data/Auth.kt",
             "app/src/main/java/com/ssk/bondoman/repository/AuthRepository.kt",
@@ -253,395 +253,395 @@
             "app/src/main/java/com/ssk/bondoman/ui/login/LoginActivity.kt"
         ],
         "remarks": "Create service to check auth token expiry",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC020",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-mog",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-mog/if3210-2024-android-mog",
-        "previousCommitHash": null,
-        "currentCommitHash": "4711b06e38d2dba6c1ab60224be2993c3bc4339d",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-mog",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-mog/if3210-2024-android-mog",
+        "previous_commit_hash": null,
+        "current_commit_hash": "4711b06e38d2dba6c1ab60224be2993c3bc4339d",
+        "included_file_paths": [
             "app/src/main/java/com/mog/bondoman/ui/transaction/modify/TransactionInputViewModel.kt"
         ],
         "remarks": "Fix transaction amount validation",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC021",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-mog",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-mog/if3210-2024-android-mog",
-        "previousCommitHash": null,
-        "currentCommitHash": "86e8ee96d2b4a5e88ebd3f99c7efd8eb5d06a362",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-mog",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-mog/if3210-2024-android-mog",
+        "previous_commit_hash": null,
+        "current_commit_hash": "86e8ee96d2b4a5e88ebd3f99c7efd8eb5d06a362",
+        "included_file_paths": [
             "app/src/main/java/com/mog/bondoman/ui/settings/SettingsFragment.kt"
         ],
         "remarks": "Logic for saving report file",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC022",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-mog",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-mog/if3210-2024-android-mog",
-        "previousCommitHash": null,
-        "currentCommitHash": "954e57505f28ccf2c04b2a049f34f10ce850dfbd",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-mog",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-mog/if3210-2024-android-mog",
+        "previous_commit_hash": null,
+        "current_commit_hash": "954e57505f28ccf2c04b2a049f34f10ce850dfbd",
+        "included_file_paths": [
             "app/src/main/java/com/mog/bondoman/ui/graf/GrafFragment.kt"
         ],
         "remarks": "Display data summary in graph page",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC023",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
-        "previousCommitHash": "52300fe129fe4f1d8461a183f8374df26e02fd0d",
-        "currentCommitHash": "9fcb40e11525f4bf8d610812f16ac5b96b662031",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
+        "repository_url": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
+        "previous_commit_hash": "52300fe129fe4f1d8461a183f8374df26e02fd0d",
+        "current_commit_hash": "9fcb40e11525f4bf8d610812f16ac5b96b662031",
+        "included_file_paths": [
             "app/src/main/java/com/example/bandung_bondowoso/view/setting/SettingFragment.kt"
         ],
         "remarks": "Saving and sending report file in setting page",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC024",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
-        "previousCommitHash": null,
-        "currentCommitHash": "5d5410f5a6efe9041cc030759ab838eb613be22f",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
+        "repository_url": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
+        "previous_commit_hash": null,
+        "current_commit_hash": "5d5410f5a6efe9041cc030759ab838eb613be22f",
+        "included_file_paths": [
             "app/src/main/java/com/example/bandung_bondowoso/view/transaction/TransactionFragment.kt"
         ],
         "remarks": "Open google map button functionality",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC025",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
-        "previousCommitHash": null,
-        "currentCommitHash": "334f8a8896c8a0f80c9cf94ee0f4be77beb6cd43",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
+        "repository_url": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
+        "previous_commit_hash": null,
+        "current_commit_hash": "334f8a8896c8a0f80c9cf94ee0f4be77beb6cd43",
+        "included_file_paths": [
             "app/src/main/java/com/example/bandung_bondowoso/view/setting/SettingFragment.kt"
         ],
         "remarks": "Refactor file name for excel export",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC026",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
-        "previousCommitHash": null,
-        "currentCommitHash": "f3bbcdd8d99641dd3fbf541111fbd135da456b75",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
+        "repository_url": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
+        "previous_commit_hash": null,
+        "current_commit_hash": "f3bbcdd8d99641dd3fbf541111fbd135da456b75",
+        "included_file_paths": [
             "app/src/main/java/com/example/bandung_bondowoso/view/transaction/CreateTransactionFragment.kt"
         ],
         "remarks": "Ask permission for location when creating transaction",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC027",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
-        "previousCommitHash": null,
-        "currentCommitHash": "61f0fa29d1656d6407503ba6c211742aa0077f5d",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
+        "repository_url": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
+        "previous_commit_hash": null,
+        "current_commit_hash": "61f0fa29d1656d6407503ba6c211742aa0077f5d",
+        "included_file_paths": [
             "app/src/main/java/com/example/bandung_bondowoso/view/scan/ScanFragment.kt"
         ],
         "remarks": "Base implementation for scan receipt page: open camera",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC028",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
-        "previousCommitHash": null,
-        "currentCommitHash": "61f0fa29d1656d6407503ba6c211742aa0077f5d",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yba",
+        "repository_url": "https://gitlab.informatika.org/if3210-yba/if3210-2024-android-yba",
+        "previous_commit_hash": null,
+        "current_commit_hash": "61f0fa29d1656d6407503ba6c211742aa0077f5d",
+        "included_file_paths": [
             "app/src/main/java/com/example/bandung_bondowoso/view/scan/ScanFragment.kt"
         ],
         "remarks": "Base implementation for scan receipt page: open camera",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC029",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": "c196a77cf9128c9596b3e2cfd2b7352c48133e41",
-        "currentCommitHash": "acfdd1e1401b54d01a3c69c59d6a78bdd37686b2",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": "c196a77cf9128c9596b3e2cfd2b7352c48133e41",
+        "current_commit_hash": "acfdd1e1401b54d01a3c69c59d6a78bdd37686b2",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/MainActivity.kt"
         ],
         "remarks": "Base implementation for mainactivity and navigation",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC030",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "64e57236f6810e012d5cf3344a73495c9ccf3e77",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "64e57236f6810e012d5cf3344a73495c9ccf3e77",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/ViewTransaction.kt",
             "app/src/main/java/com/example/bondoman/ui/adapters/TransactionAdapter.kt"
         ],
         "remarks": "See transaction detail on click on the list item",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC031",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "472d7da8b1f698b0570cfb30cd0c59b9560736bb",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "472d7da8b1f698b0570cfb30cd0c59b9560736bb",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/ui/transaction/TransactionFragment.kt",
             "app/src/main/java/com/example/bondoman/AddTransaction.kt"
         ],
         "remarks": "Move to add transaction page on add button click",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC032",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "5edd39c862975743c2b242c46dbd1c839f67a1cf",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "5edd39c862975743c2b242c46dbd1c839f67a1cf",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/AddTransaction.kt"
         ],
         "remarks": "Fetch initial location value when adding transaction",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC033",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "5fd45732b56e3b06a97692c784999f14592eb57e",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "5fd45732b56e3b06a97692c784999f14592eb57e",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/ViewTransaction.kt"
         ],
         "remarks": "Open google map to see existing transaction location",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC034",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "84127dc7452a7fa6e4d5ede00bb0491aa82fdb59",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "84127dc7452a7fa6e4d5ede00bb0491aa82fdb59",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/AddTransaction.kt"
         ],
         "remarks": "Use current location instead of latest location",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC035",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "2ddf8bdce172506115ea55fbdf58960da6f34c1e",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "2ddf8bdce172506115ea55fbdf58960da6f34c1e",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/EditTransaction.kt",
             "app/src/main/java/com/example/bondoman/ViewTransaction.kt",
             "app/src/main/java/com/example/bondoman/ui/adapters/TransactionAdapter.kt"
         ],
         "remarks": "Format amount of transaction for Indonesian currency",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC036",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "94c0de8931b2e2f76fc9c9f6290b4e9a6b898721",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "94c0de8931b2e2f76fc9c9f6290b4e9a6b898721",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/ui/adapters/TransactionAdapter.kt"
         ],
         "remarks": "Format the title display of transaction for maximum limit",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC037",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "cc8985125a07a3324a79f186708fa1024d253f4f",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "cc8985125a07a3324a79f186708fa1024d253f4f",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/EditTransaction.kt"
         ],
         "remarks": "Amount field should not be prefilled with Indonesian currently format",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC038",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "72f04e98da245470716ba94d3ceedc60b8e95ab0",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "72f04e98da245470716ba94d3ceedc60b8e95ab0",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/AddTransaction.kt",
             "app/src/main/java/com/example/bondoman/EditTransaction.kt"
         ],
         "remarks": "Add validation on creating and update transaction",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC039",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "2e6b02c3269ecd821b1fdaf318e3cb901a7f3c2f",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "2e6b02c3269ecd821b1fdaf318e3cb901a7f3c2f",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/data/ScanDataSource.kt",
             "app/src/main/java/com/example/bondoman/models/ScanResponse.kt",
             "app/src/main/java/com/example/bondoman/repository/ScanRepository.kt",
             "app/src/main/java/com/example/bondoman/service/FileService.kt"
         ],
         "remarks": "Implement logic for receipt scan",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC040",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "8f9e45ddbf8a2d81576155ea91f267e2f33e7ecf",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "8f9e45ddbf8a2d81576155ea91f267e2f33e7ecf",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/ui/settings/SettingsFragment.kt"
         ],
         "remarks": "Change column name on exported excel file",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC041",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "3de6e948610714741fcefe7df92c875feba6ee4b",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "3de6e948610714741fcefe7df92c875feba6ee4b",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/room/TransactionDAO.kt",
             "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartFragment.kt",
             "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartViewModel.kt",
             "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartViewModelFactory.kt"
         ],
         "remarks": "Show monthly growth on graph page",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC042",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "f47ff88cb53389cdc327085171ed2fd3e0f16bf8",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "f47ff88cb53389cdc327085171ed2fd3e0f16bf8",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/room/TransactionDAO.kt",
             "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartFragment.kt",
             "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartViewModel.kt"
         ],
         "remarks": "Make income or expense text gone when there are no last months transaction",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC043",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "d61ccdfc01f6821945b76ddb7a4113da38b79209",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "d61ccdfc01f6821945b76ddb7a4113da38b79209",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/ScanActivity.kt"
         ],
         "remarks": "Multiply by 1000 for scan amount",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC044",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "a3ce7e68753242c21f6041e5666001ecc1af481a",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "a3ce7e68753242c21f6041e5666001ecc1af481a",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/TwibbonActivity.kt"
         ],
         "remarks": "Make sure twibbon camera is always square",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC045",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
-        "previousCommitHash": null,
-        "currentCommitHash": "5691662dfb951f721b83b198a80647731becbc54",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-kkk",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previous_commit_hash": null,
+        "current_commit_hash": "5691662dfb951f721b83b198a80647731becbc54",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/ScanActivity.kt"
         ],
         "remarks": "Enable choice for scanning: camera and local image",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC046",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
-        "previousCommitHash": null,
-        "currentCommitHash": "19d584320ea6c3ce9b5469fd3750ebe670a81dce",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previous_commit_hash": null,
+        "current_commit_hash": "19d584320ea6c3ce9b5469fd3750ebe670a81dce",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/AddTransactionFragment.kt"
         ],
         "remarks": "Change location permission type",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC047",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
-        "previousCommitHash": null,
-        "currentCommitHash": "0e2d536a3b8ec87fe53b79b0ed0c2d367477e041",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previous_commit_hash": null,
+        "current_commit_hash": "0e2d536a3b8ec87fe53b79b0ed0c2d367477e041",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/NetworkSensingUtility.kt",
             "app/src/main/java/com/example/bondoman/ScannerFragment.kt",
             "app/src/main/java/com/example/bondoman/UploadBillActivity.kt"
         ],
         "remarks": "Connection check for scanner and upload bill page",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC048",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
-        "previousCommitHash": null,
-        "currentCommitHash": "3af4bff8d074af35af1dc63adcaa31ea609bb2f3",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previous_commit_hash": null,
+        "current_commit_hash": "3af4bff8d074af35af1dc63adcaa31ea609bb2f3",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/MainActivity.kt",
             "app/src/main/java/com/example/bondoman/SettingFragment.kt"
         ],
         "remarks": " Change to local broadcast for randomize transaction feature",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC049",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
-        "previousCommitHash": null,
-        "currentCommitHash": "ea9c23f1bdf6a4bd06eef6c7520ad24767a9d52d",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previous_commit_hash": null,
+        "current_commit_hash": "ea9c23f1bdf6a4bd06eef6c7520ad24767a9d52d",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/ListTransactionAdapter.kt"
         ],
         "remarks": "Currency format in list",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     },
     {
         "id": "TC050",
-        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
-        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
-        "previousCommitHash": null,
-        "currentCommitHash": "006ff55ade3bf02c604c566714b59fde0284458f",
-        "includedFilePaths": [
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previous_commit_hash": null,
+        "current_commit_hash": "006ff55ade3bf02c604c566714b59fde0284458f",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/AddTransactionFragment.kt"
         ],
         "remarks": "Add transaction on upload bill",
-        "mergeRequestNumber": null
+        "merge_request_number": null
     }
 
 ]

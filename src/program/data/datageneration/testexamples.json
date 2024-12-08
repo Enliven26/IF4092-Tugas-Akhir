@@ -1,0 +1,13 @@
+[
+    {
+        "hash": "2ec8e2fbeddb468a8a3af039069fc39fbb784a94",
+        "commit_message": "init 0.4.0-SNAPSHOT, remove deprecated",
+        "included_file_paths": [
+            "template/app-injector/src/main/java/ru/surfstudio/standard/app_injector/AppComponent.kt",
+            "template/app-injector/src/main/java/ru/surfstudio/standard/app_injector/ui/notification/FirebaseServiceComponent.kt",
+            "template/app-injector/src/main/java/ru/surfstudio/standard/app_injector/ui/notification/NotificationModule.kt"
+        ],
+        "repository_url": "https://github.com/surfstudio/surfandroidstandard",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\examples\\\\surfandroidstandard"
+    }
+]
