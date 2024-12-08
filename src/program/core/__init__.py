@@ -1,9 +1,14 @@
-from core.chains import ICommitMessageGenerationChain, IDataGenerationChain, DataGenerationChain
+import os
+
+from core.chains import (
+    DataGenerationChain,
+    ICommitMessageGenerationChain,
+    IDataGenerationChain,
+)
+from core.enums import EnvironmentKey
 from core.git import Git
 from core.models import CommitMessageGenerationPromptInputModel
 from core.parsers import CodeParser, DiffParser
-import os
-from core.enums import EnvironmentKey
 
 git = Git()
 diff_parser = DiffParser()

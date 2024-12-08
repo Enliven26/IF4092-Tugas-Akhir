@@ -15,6 +15,9 @@ requirement document and describe them in high-level detail.
 Git Diff:
 {diff}
 
+Source Code:
+{source_code}
+
 Simulated Relevant Functional Requirement Document Content:
 """
 

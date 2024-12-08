@@ -1,6 +1,9 @@
-from core import data_generation_chain
-from dotenv import load_dotenv
 import os
+
+from dotenv import load_dotenv
+
+from core import data_generation_chain
+
 
 def main():
     load_dotenv()

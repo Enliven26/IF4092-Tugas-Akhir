@@ -38,6 +38,7 @@ class Git(IGit):
         ]
 
         if included_file_paths:
+            command.append("--")
             command.extend(included_file_paths)
 
         try:

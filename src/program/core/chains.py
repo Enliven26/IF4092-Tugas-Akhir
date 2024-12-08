@@ -7,7 +7,6 @@ from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_core.retrievers import BaseRetriever
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 from core.constants import (
@@ -16,7 +15,10 @@ from core.constants import (
     HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
 )
-from core.models import CommitMessageGenerationPromptInputModel
+from core.models import (
+    CommitMessageGenerationPromptInputModel,
+    DataGenerationPromptInputModel,
+)
 
 
 class IHighLevelContextDocumentRetriever(ABC):
@@ -158,7 +160,9 @@ class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain
 
 class IDataGenerationChain(ABC):
     @abstractmethod
-    def generate_high_level_context(self, diff: str) -> str:
+    def generate_high_level_context(
+        self, prompt_input: DataGenerationPromptInputModel
+    ) -> str:
         pass
 
 
@@ -172,5 +176,9 @@ class DataGenerationChain(IDataGenerationChain):
 
         self.__chain = prompt | llm | output_parser
 
-    def generate_high_level_context(self, diff: str) -> str:
-        return self.__chain.invoke({"diff": diff})
+    def generate_high_level_context(
+        self, prompt_input: DataGenerationPromptInputModel
+    ) -> str:
+        return self.__chain.invoke(
+            {"diff": prompt_input.diff, "source_code": prompt_input.source_code}
+        )

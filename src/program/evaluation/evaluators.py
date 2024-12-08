@@ -8,9 +8,9 @@ from core.git import IGit
 from core.models import CommitMessageGenerationPromptInputModel
 from core.parsers import ICodeParser, IDiffParser
 from evaluation.models import (
+    CommitMessageGenerationResultModel,
     EvaluationModel,
     EvaluationResultModel,
-    GenerationResultModel,
 )
 
 
@@ -18,7 +18,7 @@ class ICommitMessageGenerator(ABC):
     @abstractmethod
     def generate_commit_message(
         self, prompt_input: CommitMessageGenerationPromptInputModel
-    ) -> GenerationResultModel:
+    ) -> CommitMessageGenerationResultModel:
         pass
 
 
@@ -30,9 +30,9 @@ class CommitMessageGenerator(ICommitMessageGenerator):
 
     def generate_commit_message(
         self, prompt_input: CommitMessageGenerationPromptInputModel
-    ) -> GenerationResultModel:
+    ) -> CommitMessageGenerationResultModel:
         commit_message = self.__chain.generate_commit_message(prompt_input)
-        result = GenerationResultModel()
+        result = CommitMessageGenerationResultModel()
         result.generator_id = self.id
         result.commit_message = commit_message
 
@@ -71,7 +71,7 @@ class Evaluator(IEvaluator):
         current_commit_hash: str,
         included_file_paths: list[str],
         diff: str,
-    ) -> list[str]:
+    ) -> str:
         commit_map = {
             DiffVersion.OLD: previous_commit_hash,
             DiffVersion.NEW: current_commit_hash,
@@ -91,7 +91,7 @@ class Evaluator(IEvaluator):
             )
             implementations.extend(new_implementations)
 
-        return implementations
+        return "\n".join(implementations)
 
     def __get_output_path(self, parent_path: str) -> str:
         now = datetime.now()
@@ -131,15 +131,13 @@ class Evaluator(IEvaluator):
                     evaluation.included_file_paths,
                 )
 
-                implementations = self.__get_implementations(
+                relevant_source_code = self.__get_implementations(
                     evaluation.repository_path,
                     previous_commit_hash,
                     current_commit_hash,
                     evaluation.included_file_paths,
                     diff,
                 )
-
-                relevant_source_code = "\n".join(implementations)
 
                 prompt_input = CommitMessageGenerationPromptInputModel()
                 prompt_input.diff = diff

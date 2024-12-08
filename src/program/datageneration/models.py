@@ -5,23 +5,21 @@ from typing import Any, Optional
 import jsonpickle
 
 
-class EvaluationModel:
+class ExampleModel:
     class __JsonKey(Enum):
-        ID = "id"
-        PREVIOUS_COMMIT_HASH = "previos_commit_hash"
-        CURRENT_COMMIT_HASH = "current_commit_hash"
+        COMMIT_HASH = "commit_hash"
+        COMMIT_MESSAGE = "commit_message"
         INCLUDED_FILE_PATHS = "included_file_paths"
         REPOSITORY_PATH = "repository_path"
 
     def __init__(self):
-        self.id: str = ""
-        self.previous_commit_hash: Optional[str] = None
-        self.current_commit_hash: str = ""
+        self.commit_hash: Optional[str] = None
+        self.commit_message: str = ""
         self.included_file_paths: list[str] = []
         self.repository_path: str = ""
 
     @classmethod
-    def from_json(cls, json_string: str) -> list["EvaluationModel"]:
+    def from_json(cls, json_string: str) -> list["ExampleModel"]:
         try:
             data_list = json.loads(json_string)
             if not isinstance(data_list, list):
@@ -32,12 +30,9 @@ class EvaluationModel:
             instances = []
             for data in data_list:
                 instance = cls()
-                instance.id = data.get(cls.__JsonKey.ID.value, "")
-                instance.previous_commit_hash = data.get(
-                    cls.__JsonKey.PREVIOUS_COMMIT_HASH.value, ""
-                )
-                instance.current_commit_hash = data.get(
-                    cls.__JsonKey.CURRENT_COMMIT_HASH.value, ""
+                instance.commit_hash = data.get(cls.__JsonKey.COMMIT_HASH.value, "")
+                instance.commit_message = data.get(
+                    cls.__JsonKey.COMMIT_MESSAGE.value, ""
                 )
                 instance.included_file_paths = data.get(
                     cls.__JsonKey.INCLUDED_FILE_PATHS.value, []
@@ -55,16 +50,12 @@ class EvaluationModel:
             raise ValueError(f"Invalid JSON string for EvaluationModel list: {e}")
 
 
-class CommitMessageGenerationResultModel:
+class DataGenerationResultModel:
     def __init__(self):
-        self.generator_id: str = ""
-        self.commit_message: str = ""
-
-
-class EvaluationResultModel:
-    def __init__(self):
-        self.evaluation_id: str = ""
-        self.generation_results: list[CommitMessageGenerationResultModel] = []
+        self.diff = ""
+        self.source_code = ""
+        self.high_level_context = ""
+        self.commit_message = ""
 
     def json(self) -> str:
         return jsonpickle.encode(self, unpicklable=False)

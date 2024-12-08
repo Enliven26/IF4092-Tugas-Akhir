@@ -1,14 +1,13 @@
-import json
 import logging
 import os
 
 from dotenv import load_dotenv
 
-from core.enums import EnvironmentKey
 from datageneration import mock_data_generator
+from datageneration.models import ExampleModel
 
-DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "testdiffs.json")
-DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "datageneration.json")
+DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "testexamples.json")
+DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "test", "datageneration")
 
 
 def read_data_generation_json() -> str:
@@ -16,35 +15,23 @@ def read_data_generation_json() -> str:
         return file.read()
 
 
-def get_diffs() -> list[str]:
+def get_examples() -> list[str]:
     json_string = read_data_generation_json()
-
-    try:
-        diffs = json.loads(json_string)
-        if not isinstance(diffs, list):
-            raise ValueError("JSON data must be a list of strings.")
-
-        return diffs
-
-    except (json.JSONDecodeError, ValueError) as e:
-        raise ValueError(f"Invalid JSON string for data generation: {e}")
+    return ExampleModel.from_json(json_string)
 
 
-def test_generate(diffs: list[str], output_path: str):
-    mock_data_generator.generate_data(diffs, output_path)
+def test_generate(examples: list[ExampleModel], output_path: str):
+    mock_data_generator.generate_data(examples, output_path)
 
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
     load_dotenv()
 
-    output_path = os.getenv(
-        EnvironmentKey.DATA_GENERATION_OUTPUT_PATH.value,
-        DEFAULT_DATA_GENERATION_OUTPUT_PATH,
-    )
+    output_path = DATA_GENERATION_OUTPUT_PATH
 
-    diffs = get_diffs()
-    test_generate(diffs, output_path)
+    examples = get_examples()
+    test_generate(examples, output_path)
 
 
 if __name__ == "__main__":
