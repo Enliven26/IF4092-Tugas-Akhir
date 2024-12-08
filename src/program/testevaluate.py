@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv
 
 from core import mock_commit_message_generation_chain
-from core.enums import EnvironmentKey
 from evaluation import evaluator
 from evaluation.evaluators import CommitMessageGenerator
 from evaluation.models import EvaluationModel
@@ -18,9 +17,7 @@ def read_evaluation_json():
         return file.read()
 
 
-def test_evaluate(
-    evaluation_data: list[EvaluationModel], output_path: str
-):
+def test_evaluate(evaluation_data: list[EvaluationModel], output_path: str):
     generator = CommitMessageGenerator(
         "TestGenerator", mock_commit_message_generation_chain
     )

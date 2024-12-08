@@ -1,11 +1,11 @@
 [
     {
-        "id": "TC009",
-        "repositoryPath": "..\\\\..\\\\..\\\\if3210-2024-android-soz",
-        "repositoryUrl": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
-        "previousCommitHash": null,
-        "currentCommitHash": "fe5e2c2643e672e7dbb4b05725caa209cc15b621",
-        "includedFilePaths": [
+        "id": "TC000",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
+        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "previous_commit_hash": null,
+        "current_commit_hash": "fe5e2c2643e672e7dbb4b05725caa209cc15b621",
+        "included_file_paths": [
             "app/src/main/java/com/example/bondoman/data/dataaccess/TransactionDao.kt",
             "app/src/main/java/com/example/bondoman/data/models/Transaction.kt",
             "app/src/main/java/com/example/bondoman/data/utils/TransactionParser.kt",
@@ -13,6 +13,6 @@
             "app/src/main/java/com/example/bondoman/views/fragments/GraphFragment.kt"
         ],
         "remarks": "Integer overflow",
-        "mergeRequestNumber": 39
+        "merge_request_number": 39
     }
 ]
