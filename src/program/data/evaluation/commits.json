@@ -514,5 +514,134 @@
         ],
         "remarks": "Change column name on exported excel file",
         "mergeRequestNumber": null
+    },
+    {
+        "id": "TC041",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-kkk",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previousCommitHash": null,
+        "currentCommitHash": "3de6e948610714741fcefe7df92c875feba6ee4b",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/room/TransactionDAO.kt",
+            "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartFragment.kt",
+            "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartViewModel.kt",
+            "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartViewModelFactory.kt"
+        ],
+        "remarks": "Show monthly growth on graph page",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC042",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-kkk",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previousCommitHash": null,
+        "currentCommitHash": "f47ff88cb53389cdc327085171ed2fd3e0f16bf8",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/room/TransactionDAO.kt",
+            "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartFragment.kt",
+            "app/src/main/java/com/example/bondoman/ui/pie_chart/PieChartViewModel.kt"
+        ],
+        "remarks": "Make income or expense text gone when there are no last months transaction",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC043",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-kkk",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previousCommitHash": null,
+        "currentCommitHash": "d61ccdfc01f6821945b76ddb7a4113da38b79209",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/ScanActivity.kt"
+        ],
+        "remarks": "Multiply by 1000 for scan amount",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC044",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-kkk",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previousCommitHash": null,
+        "currentCommitHash": "a3ce7e68753242c21f6041e5666001ecc1af481a",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/TwibbonActivity.kt"
+        ],
+        "remarks": "Make sure twibbon camera is always square",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC045",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-kkk",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-kkk/if3210-2024-android-kkk",
+        "previousCommitHash": null,
+        "currentCommitHash": "5691662dfb951f721b83b198a80647731becbc54",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/ScanActivity.kt"
+        ],
+        "remarks": "Enable choice for scanning: camera and local image",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC046",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-cms",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previousCommitHash": null,
+        "currentCommitHash": "19d584320ea6c3ce9b5469fd3750ebe670a81dce",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/AddTransactionFragment.kt"
+        ],
+        "remarks": "Change location permission type",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC047",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-cms",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previousCommitHash": null,
+        "currentCommitHash": "0e2d536a3b8ec87fe53b79b0ed0c2d367477e041",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/NetworkSensingUtility.kt",
+            "app/src/main/java/com/example/bondoman/ScannerFragment.kt",
+            "app/src/main/java/com/example/bondoman/UploadBillActivity.kt"
+        ],
+        "remarks": "Connection check for scanner and upload bill page",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC048",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-cms",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previousCommitHash": null,
+        "currentCommitHash": "3af4bff8d074af35af1dc63adcaa31ea609bb2f3",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/MainActivity.kt",
+            "app/src/main/java/com/example/bondoman/SettingFragment.kt"
+        ],
+        "remarks": " Change to local broadcast for randomize transaction feature",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC049",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-cms",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previousCommitHash": null,
+        "currentCommitHash": "ea9c23f1bdf6a4bd06eef6c7520ad24767a9d52d",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/ListTransactionAdapter.kt"
+        ],
+        "remarks": "Currency format in list",
+        "mergeRequestNumber": null
+    },
+    {
+        "id": "TC049",
+        "repositoryPath": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\if3210-2024-android-cms",
+        "repositoryUrl": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
+        "previousCommitHash": null,
+        "currentCommitHash": "006ff55ade3bf02c604c566714b59fde0284458f",
+        "includedFilePaths": [
+            "app/src/main/java/com/example/bondoman/AddTransactionFragment.kt"
+        ],
+        "remarks": "Add transaction on upload bill",
+        "mergeRequestNumber": null
     }
+
 ]
