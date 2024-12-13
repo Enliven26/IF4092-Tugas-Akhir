@@ -37,6 +37,7 @@ class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
         self.__retriever = self.__db.as_retriever()
 
     def search(self, query: str) -> str:
+        # TODO: return string instead of list of documents
         return self.__retriever.invoke(query)
 
     def save(self, folder_path: str):
@@ -46,10 +47,12 @@ class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
     def from_local(
         cls,
         folder_path: str,
-        embeddings: OpenAIEmbeddings,
         index_name: str = DEFAULT_INDEX_NAME,
     ):
-        db = FAISS.load_local(folder_path, embeddings, index_name)
+        embeddings = OpenAIEmbeddings()
+        db = FAISS.load_local(
+            folder_path, embeddings, index_name, allow_dangerous_deserialization=True
+        )
         return cls(db, index_name)
 
     @classmethod
@@ -148,6 +151,10 @@ class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain
         )
 
         return self.__document_retriever.search(query_text)
+
+    def get_high_level_context(self, source_code: str) -> str:
+        # Testing purpose
+        return self.__get_high_level_context(source_code)
 
     def generate_commit_message(
         self, prompt_input: CommitMessageGenerationPromptInputModel

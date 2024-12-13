@@ -10,14 +10,11 @@ DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "testexamples
 DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "test", "datageneration")
 
 
-def read_data_generation_json() -> str:
-    with open(DATA_GENERATION_JSON_PATH, "r", encoding="utf-8") as file:
-        return file.read()
-
-
 def get_examples() -> list[str]:
-    json_string = read_data_generation_json()
-    return ExampleModel.from_json(json_string)
+    with open(DATA_GENERATION_JSON_PATH, "r", encoding="utf-8") as file:
+        json_string = file.read()
+
+        return ExampleModel.from_json(json_string)
 
 
 def test_generate(examples: list[ExampleModel], output_path: str):

@@ -12,9 +12,11 @@ EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "testcommits.json")
 EVALUATION_OUTPUT_PATH = os.path.join("out", "test", "evaluation")
 
 
-def read_evaluation_json():
+def get_evaluation_data() -> list[EvaluationModel]:
     with open(EVALUATION_JSON_PATH, "r", encoding="utf-8") as file:
-        return file.read()
+        json_string = file.read()
+
+        return EvaluationModel.from_json(json_string)
 
 
 def test_evaluate(evaluation_data: list[EvaluationModel], output_path: str):
@@ -32,8 +34,7 @@ def main():
 
     output_path = EVALUATION_OUTPUT_PATH
 
-    evaluation_json_string = read_evaluation_json()
-    evaluation_data = EvaluationModel.from_json(evaluation_json_string)
+    evaluation_data = get_evaluation_data()
 
     test_evaluate(evaluation_data, output_path)
 

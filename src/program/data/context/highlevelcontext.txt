@@ -57,7 +57,7 @@ The following specifications must be implemented:
 **Transaction Display**: This page will display the entire list of completed transactions.
 **Transaction Details**: Each transaction should display the category, amount, name, location, and date of the transaction.
 **View Location**: Users should be able to tap a transaction to open Google Maps showing the transaction location.
-**Add New Transaction**: Users should be able to add a new transaction by clicking the “+” button.
+**Add New Transaction**: Users should be able to add a new transaction by clicking the "+" button.
 
 **6. Scan Receipt - Receipt Scan Page**
 Scan Receipt Page: Users should be able to access a page for scanning receipts.
@@ -87,7 +87,7 @@ Exported File Content: The exported file should contain the following columns: D
 **Background Service**: The application should have a background service that checks whether the JWT has expired.
 **Behavior Upon Expiry**: When the JWT expires, the application should define behavior (e.g., automatically log out or trigger re-login).
 **JWT Expiry Time**: The JWT should expire after 5 minutes.
-**JWT Expiry Check Endpoint**: The JWT expiry check can be performed by accessing the endpoint {{baseURL}}/api/auth/token with the header “Authorization: Bearer {token}.”
+**JWT Expiry Check Endpoint**: The JWT expiry check can be performed by accessing the endpoint {{baseURL}}/api/auth/token with the header "Authorization: Bearer {token}."
 
 **11. Network Sensing - Signal Detection**
 **Internet Connectivity Check**: The application must be able to check if the device is currently connected to the internet, either via mobile data or Wi-Fi.

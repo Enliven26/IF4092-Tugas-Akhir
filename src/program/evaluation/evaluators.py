@@ -2,7 +2,10 @@ import os
 from abc import ABC, abstractmethod
 from datetime import datetime
 
-from core.chains import ICommitMessageGenerationChain
+from core.chains import (
+    HighLevelContextCommitMessageGenerationChain,
+    ICommitMessageGenerationChain,
+)
 from core.enums import DiffVersion
 from core.git import IGit
 from core.models import CommitMessageGenerationPromptInputModel
@@ -102,6 +105,48 @@ class Evaluator(IEvaluator):
     def __create_folder_if_not_exist(self, path: str):
         directory = os.path.dirname(path)
         os.makedirs(directory, exist_ok=True)
+
+    def get_high_level_context(
+        self,
+        chain: HighLevelContextCommitMessageGenerationChain,
+        evaluation_data: list[EvaluationModel],
+        parent_output_path: str,
+    ):
+        # This is for testing purpose
+        output_path = self.__get_output_path(parent_output_path)
+        self.__create_folder_if_not_exist(output_path)
+
+        with open(output_path, "w") as file:
+            file.write("[")
+
+            for index, evaluation in enumerate(evaluation_data):
+                current_commit_hash = evaluation.current_commit_hash
+                previous_commit_hash = (
+                    evaluation.previous_commit_hash or f"{current_commit_hash}~1"
+                )
+
+                diff = self.__git.get_diff(
+                    evaluation.repository_path,
+                    previous_commit_hash,
+                    current_commit_hash,
+                    evaluation.included_file_paths,
+                )
+
+                relevant_source_code = self.__get_implementations(
+                    evaluation.repository_path,
+                    previous_commit_hash,
+                    current_commit_hash,
+                    evaluation.included_file_paths,
+                    diff,
+                )
+
+                result = chain.get_high_level_context(relevant_source_code)
+
+                file.write(f"\n{result}")
+                if index < len(evaluation_data) - 1:
+                    file.write(",")
+
+            file.write("\n]")
 
     def evaluate(
         self,

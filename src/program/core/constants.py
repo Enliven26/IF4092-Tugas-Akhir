@@ -1,21 +1,19 @@
 DATA_GENERATION_PROMPT_TEMPLATE = """
-You are an expert technical analyst and software architect. Below is a raw git diff string that contains changes 
-in the codebase. Your task is to simulate searching for relevant content in the functional requirement document 
-that directly corresponds to these changes.
+You are an expert technical analyst and software architect. Below is a raw git diff string that contains changes in the codebase, along with the corresponding source code provided for additional context. Your task is to simulate searching for relevant content in the functional requirement document that directly corresponds to these changes.
 
-Given the diff, identify what parts of a functional requirement document would describe or relate to these changes. 
-Focus on:
-1. The functionality or feature described by the diff.
-2. The purpose of the changes in terms of functional requirements.
-3. Any specific sections, clauses, or requirements in the functional requirement document that the diff might map to.
+Given the diff and the source code, identify what parts of a functional requirement document would describe or relate to these changes. Focus on:
 
-You should refrain from summarizing the diff itself. Instead, simulate the process of retrieving relevant parts of the functional 
-requirement document and describe them in high-level detail.
+The functionality or feature described by the diff and source code.
+The purpose of the changes in terms of functional requirements.
+Any specific sections, clauses, or requirements in the functional requirement document that the diff and source code might map to.
+Avoid summarizing the diff or the source code themselves. Instead, simulate the process of retrieving and describing relevant sections of the functional requirement document in high-level detail.
 
-Git Diff:
+Input Data:
+
+Git Diff: 
 {diff}
 
-Source Code:
+Source Code: 
 {source_code}
 
 Simulated Relevant Functional Requirement Document Content:
@@ -31,5 +29,15 @@ HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
 """
 
 DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """
+Analyze the following source code and generate a concise query text that summarizes its functionality, purpose, and potential use cases. The query text should be suitable for retrieval tasks in the context of software development documentation, such as functional requirement documents or technical specifications.
+
+Source Code:
 {source_code}
+
+Query Text Requirements:
+1. Summarize the main functionality of the code in one or two sentences.
+2. Focus on the high-level purpose of the code in the context of its application.
+3. Avoid technical jargon unless necessary for clarity.
+
+Query Text:
 """
