@@ -3,11 +3,12 @@ import os
 from dotenv import load_dotenv
 
 from core import high_level_cmg_chain
+from core.enums import EnvironmentKey
 from evaluation import evaluator
 from evaluation.models import EvaluationModel
 
 EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "commits.json")
-EVALUATION_OUTPUT_PATH = os.path.join("out", "highlevelcontext")
+DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join("out", "test", "highlevelcontext")
 SAMPLE_EVALUATION_ID = "TC001"
 
 
@@ -31,9 +32,15 @@ def test_get_high_level_context(
 
 
 def main():
-    load_dotenv()
+    load_dotenv(dotenv_path=".env.test", verbose=True, override=True)
+
     evaluation_sample = get_evaluation_sample()
-    test_get_high_level_context([evaluation_sample], EVALUATION_OUTPUT_PATH)
+    output_path = os.getenv(
+        EnvironmentKey.HIGH_LEVEL_CONTEXT_OUTPUT_PATH.value,
+        DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH,
+    )
+
+    test_get_high_level_context([evaluation_sample], output_path)
 
 
 if __name__ == "__main__":

@@ -3,14 +3,15 @@ import os
 
 from dotenv import load_dotenv
 
+from core.enums import EnvironmentKey
 from datageneration import mock_data_generator
 from datageneration.models import ExampleModel
 
 DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "testexamples.json")
-DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "test", "datageneration")
+DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "test", "datageneration")
 
 
-def get_examples() -> list[str]:
+def get_examples() -> list[ExampleModel]:
     with open(DATA_GENERATION_JSON_PATH, "r", encoding="utf-8") as file:
         json_string = file.read()
 
@@ -23,9 +24,12 @@ def test_generate(examples: list[ExampleModel], output_path: str):
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
-    load_dotenv()
+    load_dotenv(dotenv_path=".env.test", verbose=True, override=True)
 
-    output_path = DATA_GENERATION_OUTPUT_PATH
+    output_path = os.getenv(
+        EnvironmentKey.DATA_GENERATION_OUTPUT_PATH.value,
+        DEFAULT_DATA_GENERATION_OUTPUT_PATH,
+    )
 
     examples = get_examples()
     test_generate(examples, output_path)

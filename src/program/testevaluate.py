@@ -4,12 +4,13 @@ import os
 from dotenv import load_dotenv
 
 from core import mock_commit_message_generation_chain
+from core.enums import EnvironmentKey
 from evaluation import evaluator
 from evaluation.evaluators import CommitMessageGenerator
 from evaluation.models import EvaluationModel
 
 EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "testcommits.json")
-EVALUATION_OUTPUT_PATH = os.path.join("out", "test", "evaluation")
+DEFAULT_EVALUATION_OUTPUT_PATH = os.path.join("out", "test", "evaluation")
 
 
 def get_evaluation_data() -> list[EvaluationModel]:
@@ -30,9 +31,9 @@ def test_evaluate(evaluation_data: list[EvaluationModel], output_path: str):
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
-    load_dotenv()
+    load_dotenv(dotenv_path=".env.test", verbose=True, override=True)
 
-    output_path = EVALUATION_OUTPUT_PATH
+    output_path = os.getenv(EnvironmentKey.EVALUATION_OUTPUT_PATH.value)
 
     evaluation_data = get_evaluation_data()
 
