@@ -21,6 +21,7 @@ Simulated Relevant Functional Requirement Document Content:
 
 LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
 {diff}
+{source_code}
 """
 
 HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """

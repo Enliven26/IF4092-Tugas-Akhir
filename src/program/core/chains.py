@@ -7,7 +7,9 @@ from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnablePassthrough, RunnableSerializable
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langsmith import traceable
 
 from core.constants import (
     DATA_GENERATION_PROMPT_TEMPLATE,
@@ -26,6 +28,9 @@ class IHighLevelContextDocumentRetriever(ABC):
     def search(self, query: str) -> str:
         pass
 
+    def __call__(self, query: str) -> str:
+        return self.search(query)
+
 
 class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
     DEFAULT_INDEX_NAME = "high_level_context_index"
@@ -34,11 +39,17 @@ class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
         super().__init__()
         self.__index_name = index_name
         self.__db = db
-        self.__retriever = self.__db.as_retriever()
 
+        retriever = self.__db.as_retriever()
+
+        self.__retriever_chain = retriever | self.__format_docs
+
+    def __format_docs(self, docs: list[Document]) -> str:
+        return "\n\n".join([d.page_content for d in docs])
+
+    @traceable
     def search(self, query: str) -> str:
-        # TODO: return string instead of list of documents
-        return self.__retriever.invoke(query)
+        return self.__retriever_chain.invoke(query)
 
     def save(self, folder_path: str):
         self.__db.save_local(folder_path, self.__index_name)
@@ -92,6 +103,9 @@ class ICommitMessageGenerationChain(ABC):
     ) -> str:
         pass
 
+    def __call__(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
+        return self.generate_commit_message(prompt_input)
+
 
 class LowLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain):
     def __init__(self, model: str, temperature: float = 0.7):
@@ -103,10 +117,13 @@ class LowLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain)
 
         self.__chain = prompt | llm | output_parser
 
+    @traceable(run_type="llm")
     def generate_commit_message(
         self, prompt_input: CommitMessageGenerationPromptInputModel
     ) -> str:
-        return self.__chain.invoke({"diff": prompt_input.diff})
+        return self.__chain.invoke(
+            {"diff": prompt_input.diff, "source_code": prompt_input.source_code}
+        )
 
 
 class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain):
@@ -120,8 +137,6 @@ class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain
     ):
         super().__init__()
 
-        self.__document_retriever = document_retriever
-
         document_query_text_prompt = PromptTemplate.from_template(
             DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE
         )
@@ -131,10 +146,12 @@ class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain
         )
         document_query_text_output_parser = StrOutputParser()
 
-        self.__document_query_text_chain = (
-            document_query_text_prompt
+        self.__high_level_context_chain: RunnableSerializable[str, str] = (
+            {"source_code": RunnablePassthrough()}
+            | document_query_text_prompt
             | document_query_text_llm
             | document_query_text_output_parser
+            | document_retriever
         )
 
         cmg_prompt = PromptTemplate.from_template(
@@ -146,16 +163,14 @@ class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain
         self.__cmg_chain = cmg_prompt | cmg_llm | cmg_output_parser
 
     def __get_high_level_context(self, source_code: str) -> str:
-        query_text = self.__document_query_text_chain.invoke(
-            {"source_code": source_code}
-        )
+        return self.__high_level_context_chain.invoke(source_code)
 
-        return self.__document_retriever.search(query_text)
-
+    @traceable(run_type="llm")
     def get_high_level_context(self, source_code: str) -> str:
         # Testing purpose
         return self.__get_high_level_context(source_code)
 
+    @traceable(run_type="llm")
     def generate_commit_message(
         self, prompt_input: CommitMessageGenerationPromptInputModel
     ) -> str:
@@ -172,6 +187,9 @@ class IDataGenerationChain(ABC):
     ) -> str:
         pass
 
+    def __call__(self, prompt_input: DataGenerationPromptInputModel) -> str:
+        return self.generate_high_level_context(prompt_input)
+
 
 class DataGenerationChain(IDataGenerationChain):
     def __init__(self, model: str, temperature: float = 0.7):
@@ -183,6 +201,7 @@ class DataGenerationChain(IDataGenerationChain):
 
         self.__chain = prompt | llm | output_parser
 
+    @traceable(run_type="llm")
     def generate_high_level_context(
         self, prompt_input: DataGenerationPromptInputModel
     ) -> str:

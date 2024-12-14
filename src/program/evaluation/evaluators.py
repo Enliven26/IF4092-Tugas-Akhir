@@ -1,3 +1,4 @@
+import json
 import os
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -54,7 +55,8 @@ class IEvaluator(ABC):
 
 
 class Evaluator(IEvaluator):
-    OUTPUT_FILE_NAME = "evaluation.json"
+    EVALUATION_OUTPUT_FILE_NAME = "evaluation.json"
+    HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME = "highlevelcontext.json"
 
     def __init__(
         self,
@@ -96,11 +98,21 @@ class Evaluator(IEvaluator):
 
         return "\n".join(implementations)
 
-    def __get_output_path(self, parent_path: str) -> str:
+    def __get__evaluation_output_path(self, parent_path: str) -> str:
         now = datetime.now()
         timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
 
-        return os.path.join(parent_path, timestamp, self.__class__.OUTPUT_FILE_NAME)
+        return os.path.join(
+            parent_path, timestamp, self.__class__.EVALUATION_OUTPUT_FILE_NAME
+        )
+
+    def __get__evaluation_output_path(self, parent_path: str) -> str:
+        now = datetime.now()
+        timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
+
+        return os.path.join(
+            parent_path, timestamp, self.__class__.HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME
+        )
 
     def __create_folder_if_not_exist(self, path: str):
         directory = os.path.dirname(path)
@@ -113,7 +125,7 @@ class Evaluator(IEvaluator):
         parent_output_path: str,
     ):
         # This is for testing purpose
-        output_path = self.__get_output_path(parent_output_path)
+        output_path = self.__get__evaluation_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
         with open(output_path, "w") as file:
@@ -142,7 +154,7 @@ class Evaluator(IEvaluator):
 
                 result = chain.get_high_level_context(relevant_source_code)
 
-                file.write(f"\n{result}")
+                file.write(f"\n{json.dumps(result)}")
                 if index < len(evaluation_data) - 1:
                     file.write(",")
 
@@ -154,7 +166,7 @@ class Evaluator(IEvaluator):
         evaluation_data: list[EvaluationModel],
         parent_output_path: str,
     ):
-        output_path = self.__get_output_path(parent_output_path)
+        output_path = self.__get__evaluation_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
         with open(output_path, "w") as file:

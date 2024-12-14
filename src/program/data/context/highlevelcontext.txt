@@ -4,14 +4,11 @@ A global disaster relief organization specializing in providing aid during emerg
 
 Currently, these transactions are managed through outdated methods like paper records and spreadsheets. This approach has led to several operational challenges, including:
 
-- **Inefficient Tracking**: Difficulty in maintaining accurate and up-to-date records of expenses.
-- **Errors in Budgeting**: Manual calculations have resulted in budget overruns and unapproved spending.
-- **Slow Approvals**: Delays in obtaining financial approvals have disrupted critical aid delivery timelines.
+- **Inaccurate Records**: Manual data entry is time-consuming and prone to errors, making it difficult to maintain reliable records.
+- **Limited Reporting and Analysis**: Creating and sharing financial reports requires excessive manual effort and lacks real-time insights.
 To address these issues, the organization requires a Financial Transaction Management Application with the following key features:
 
-- **Real-time Logging**: Field teams can record transactions instantly, including attaching digital receipts and categorizing expenses.
-- **Approval Workflow**: Supervisors can review and approve transactions directly within the application to ensure compliance with financial protocols.
-- **Budget Monitoring**: Automatically tracks expenditures against allocated budgets for each mission, providing alerts for potential overruns.
+- **Automated Receipt Scanning**: Converts scanned receipts into structured data, reducing manual data entry and minimizing errors.
 - **Offline Functionality**: Ensures uninterrupted operation in areas with limited connectivity, with data synchronization when back online.
 - **Comprehensive Reporting**: Generates detailed financial reports for audits and transparency with stakeholders.
 The application must be designed for Android devices to align with the organization’s standard equipment for field operations. It is expected to enhance accountability, reduce errors, and streamline financial processes during missions.
