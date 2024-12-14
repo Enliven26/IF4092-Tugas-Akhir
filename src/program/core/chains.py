@@ -40,7 +40,7 @@ class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
         self.__index_name = index_name
         self.__db = db
 
-        retriever = self.__db.as_retriever()
+        retriever = self.__db.as_retriever(search_kwargs={"k": 3})
 
         self.__retriever_chain = retriever | self.__format_docs
 

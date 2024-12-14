@@ -30,15 +30,12 @@ HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
 """
 
 DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """
-Analyze the following source code and generate a concise query text that summarizes its functionality, purpose, and potential use cases. The query text should be suitable for retrieval tasks in the context of software development documentation, such as functional requirement documents or technical specifications.
+You are a senior AI engineer tasked with analyzing source code and generating a concise query text that summarizes its functionality and purpose. The query text should be suitable for retrieval tasks in the context of software development documentation, such as functional requirement documents or technical specifications.
+
+The query text should summarize the main functionality of the code in one or two sentences, focusing on its high-level purpose in the context of its application. Avoid assuming specific use cases or applications unless explicitly stated in the code, and refrain from using technical jargon unless it is necessary for clarity. 
 
 Source Code:
 {source_code}
-
-Query Text Requirements:
-1. Summarize the main functionality of the code in one or two sentences.
-2. Focus on the high-level purpose of the code in the context of its application.
-3. Avoid technical jargon unless necessary for clarity.
 
 Query Text:
 """
