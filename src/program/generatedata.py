@@ -4,9 +4,10 @@ import os
 from dotenv import load_dotenv
 
 from core.enums import EnvironmentKey
+from datageneration import data_generator
 from datageneration.models import ExampleModel
 
-DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "diffs.json")
+DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "examples.json")
 DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "datageneration")
 
 
@@ -18,7 +19,7 @@ def get_examples() -> list[ExampleModel]:
 
 
 def generate(examples: list[ExampleModel], output_path: str):
-    pass
+    data_generator.generate_data(examples, output_path)
 
 
 def main():

@@ -13,10 +13,9 @@ class FileDiffModel:
 class CommitMessageGenerationPromptInputModel:
     def __init__(self):
         self.diff: str = ""
-        self.source_code: Optional[str] = None
+        self.source_code: str = ""
 
 
 class DataGenerationPromptInputModel:
     def __init__(self):
-        self.diff: str = ""
-        self.source_code: Optional[str] = None
+        self.source_code: str = ""

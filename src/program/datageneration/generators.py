@@ -98,10 +98,11 @@ class DataGenerator(IDataGenerator):
                 )
 
                 prompt_input = DataGenerationPromptInputModel()
-                prompt_input.diff = example.commit_message
                 prompt_input.source_code = relevant_source_code
 
-                high_level_context = self.__chain.generate_high_level_context(example)
+                high_level_context = self.__chain.generate_high_level_context(
+                    prompt_input
+                )
 
                 result = DataGenerationResultModel()
                 result.diff = diff

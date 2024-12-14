@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 from core.enums import EnvironmentKey
-from datageneration import mock_data_generator
+from datageneration import data_generator
 from datageneration.models import ExampleModel
 
 DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "testexamples.json")
@@ -19,7 +19,7 @@ def get_examples() -> list[ExampleModel]:
 
 
 def test_generate(examples: list[ExampleModel], output_path: str):
-    mock_data_generator.generate_data(examples, output_path)
+    data_generator.generate_data(examples, output_path)
 
 
 def main():

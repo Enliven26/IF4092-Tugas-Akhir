@@ -206,5 +206,7 @@ class DataGenerationChain(IDataGenerationChain):
         self, prompt_input: DataGenerationPromptInputModel
     ) -> str:
         return self.__chain.invoke(
-            {"diff": prompt_input.diff, "source_code": prompt_input.source_code}
+            {
+                "source_code": prompt_input.source_code
+            }
         )

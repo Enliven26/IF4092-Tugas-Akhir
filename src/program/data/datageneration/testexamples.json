@@ -1,13 +1,14 @@
 [
     {
-        "commit_hash": "2ec8e2fbeddb468a8a3af039069fc39fbb784a94",
-        "commit_message": "init 0.4.0-SNAPSHOT, remove deprecated",
+        "commit_hash": "d942e5ff89309d07371377bf89f8c2d14ebc1c5b",
+        "commit_message": "DROID-815: Use handler to fetch wallet synchronization updates from core.",
         "included_file_paths": [
-            "template/app-injector/src/main/java/ru/surfstudio/standard/app_injector/AppComponent.kt",
-            "template/app-injector/src/main/java/ru/surfstudio/standard/app_injector/ui/notification/FirebaseServiceComponent.kt",
-            "template/app-injector/src/main/java/ru/surfstudio/standard/app_injector/ui/notification/NotificationModule.kt"
+            "app/src/main/java/com/breadwallet/repository/WalletRepository.kt",
+            "app/src/main/java/com/breadwallet/ui/wallet/WalletViewModel.kt",
+            "app/src/main/java/com/breadwallet/tools/services/SyncService.kt",
+            "app/src/main/java/com/breadwallet/wallet/util/SyncUpdateHandler.kt"
         ],
-        "repository_url": "https://github.com/surfstudio/surfandroidstandard",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\examples\\\\surfandroidstandard"
+        "repository_url": "https://github.com/breadwallet/breadwallet-android",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\examples\\\\breadwallet-android"
     }
 ]
