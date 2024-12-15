@@ -3,9 +3,11 @@ import os
 from abc import ABC, abstractmethod
 from datetime import datetime
 
+import jsonpickle
+
 from core.chains import (
+    BaseCommitMessageGenerationChain,
     HighLevelContextCommitMessageGenerationChain,
-    ICommitMessageGenerationChain,
 )
 from core.enums import DiffVersion
 from core.git import IGit
@@ -20,27 +22,33 @@ from evaluation.models import (
 
 class ICommitMessageGenerator(ABC):
     @abstractmethod
-    def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInputModel
-    ) -> CommitMessageGenerationResultModel:
+    def generate_commit_messages(
+        self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
+    ) -> list[CommitMessageGenerationResultModel]:
         pass
 
 
 class CommitMessageGenerator(ICommitMessageGenerator):
-    def __init__(self, id: str, chain: ICommitMessageGenerationChain):
+    def __init__(self, id: str, chain: BaseCommitMessageGenerationChain):
         super().__init__()
         self.id = id
         self.__chain = chain
 
-    def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInputModel
-    ) -> CommitMessageGenerationResultModel:
-        commit_message = self.__chain.generate_commit_message(prompt_input)
-        result = CommitMessageGenerationResultModel()
-        result.generator_id = self.id
-        result.commit_message = commit_message
+    def generate_commit_messages(
+        self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
+    ) -> list[CommitMessageGenerationResultModel]:
+        commit_messages = self.__chain.batch(prompt_inputs)
 
-        return result
+        results: list[CommitMessageGenerationResultModel] = []
+
+        for commit_message in commit_messages:
+            result = CommitMessageGenerationResultModel()
+            result.generator_id = self.id
+            result.commit_message = commit_message
+
+            results.append(result)
+
+        return results
 
 
 class IEvaluator(ABC):
@@ -121,44 +129,38 @@ class Evaluator(IEvaluator):
     def get_high_level_context(
         self,
         chain: HighLevelContextCommitMessageGenerationChain,
-        evaluation_data: list[EvaluationModel],
+        evaluation: EvaluationModel,
         parent_output_path: str,
     ):
         # This is for testing purpose
         output_path = self.__get__evaluation_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
+        current_commit_hash = evaluation.current_commit_hash
+        previous_commit_hash = (
+            evaluation.previous_commit_hash or f"{current_commit_hash}~1"
+        )
+
+        diff = self.__git.get_diff(
+            evaluation.repository_path,
+            previous_commit_hash,
+            current_commit_hash,
+            evaluation.included_file_paths,
+        )
+
+        relevant_source_code = self.__get_implementations(
+            evaluation.repository_path,
+            previous_commit_hash,
+            current_commit_hash,
+            evaluation.included_file_paths,
+            diff,
+        )
+
+        result = chain.get_high_level_context(relevant_source_code)
+        json_string = jsonpickle.encode([result], unpicklable=False)
+
         with open(output_path, "w") as file:
-            file.write("[")
-
-            for index, evaluation in enumerate(evaluation_data):
-                current_commit_hash = evaluation.current_commit_hash
-                previous_commit_hash = (
-                    evaluation.previous_commit_hash or f"{current_commit_hash}~1"
-                )
-
-                diff = self.__git.get_diff(
-                    evaluation.repository_path,
-                    previous_commit_hash,
-                    current_commit_hash,
-                    evaluation.included_file_paths,
-                )
-
-                relevant_source_code = self.__get_implementations(
-                    evaluation.repository_path,
-                    previous_commit_hash,
-                    current_commit_hash,
-                    evaluation.included_file_paths,
-                    diff,
-                )
-
-                result = chain.get_high_level_context(relevant_source_code)
-
-                file.write(f"\n{json.dumps(result)}")
-                if index < len(evaluation_data) - 1:
-                    file.write(",")
-
-            file.write("\n]")
+            file.write(json_string)
 
     def evaluate(
         self,
@@ -169,43 +171,45 @@ class Evaluator(IEvaluator):
         output_path = self.__get__evaluation_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
+        prompt_inputs: list[CommitMessageGenerationPromptInputModel] = []
+        results: list[EvaluationResultModel] = []
+
+        for evaluation in evaluation_data:
+            current_commit_hash = evaluation.current_commit_hash
+            previous_commit_hash = f"{current_commit_hash}~1"
+
+            diff = self.__git.get_diff(
+                evaluation.repository_path,
+                previous_commit_hash,
+                current_commit_hash,
+                evaluation.included_file_paths,
+            )
+
+            relevant_source_code = self.__get_implementations(
+                evaluation.repository_path,
+                previous_commit_hash,
+                current_commit_hash,
+                evaluation.included_file_paths,
+                diff,
+            )
+
+            prompt_input = CommitMessageGenerationPromptInputModel()
+            prompt_input.diff = diff
+            prompt_input.source_code = relevant_source_code
+
+            prompt_inputs.append(prompt_input)
+
+            result = EvaluationResultModel()
+            result.evaluation_id = evaluation.id
+            results.append(result)
+
+        for generator in generators:
+            generation_results = generator.generate_commit_messages(prompt_inputs)
+
+            for result, generation_result in zip(results, generation_results):
+                result.generation_results.append(generation_result)
+
+        json_string = jsonpickle.encode(results, unpicklable=False)
+
         with open(output_path, "w") as file:
-            file.write("[")
-
-            for index, evaluation in enumerate(evaluation_data):
-                result = EvaluationResultModel()
-                result.evaluation_id = evaluation.id
-
-                current_commit_hash = evaluation.current_commit_hash
-                previous_commit_hash = (
-                    evaluation.previous_commit_hash or f"{current_commit_hash}~1"
-                )
-
-                diff = self.__git.get_diff(
-                    evaluation.repository_path,
-                    previous_commit_hash,
-                    current_commit_hash,
-                    evaluation.included_file_paths,
-                )
-
-                relevant_source_code = self.__get_implementations(
-                    evaluation.repository_path,
-                    previous_commit_hash,
-                    current_commit_hash,
-                    evaluation.included_file_paths,
-                    diff,
-                )
-
-                prompt_input = CommitMessageGenerationPromptInputModel()
-                prompt_input.diff = diff
-                prompt_input.source_code = relevant_source_code
-
-                for generator in generators:
-                    generation_result = generator.generate_commit_message(prompt_input)
-                    result.generation_results.append(generation_result)
-
-                file.write(f"\n{result.json()}")
-                if index < len(evaluation_data) - 1:
-                    file.write(",")
-
-            file.write("\n]")
+            file.write(json_string)

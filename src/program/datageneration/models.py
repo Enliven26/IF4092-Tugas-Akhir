@@ -2,8 +2,6 @@ import json
 from enum import Enum
 from typing import Any, Optional
 
-import jsonpickle
-
 
 class ExampleModel:
     class __JsonKey(Enum):
@@ -62,6 +60,3 @@ class DataGenerationResultModel:
         self.source_code = ""
         self.high_level_context = ""
         self.commit_message = ""
-
-    def json(self) -> str:
-        return jsonpickle.encode(self, unpicklable=False)

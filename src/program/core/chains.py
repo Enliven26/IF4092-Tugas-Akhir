@@ -1,5 +1,6 @@
 import os
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
 
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -22,17 +23,31 @@ from core.models import (
     DataGenerationPromptInputModel,
 )
 
+TRunnableInput = TypeVar("TRunnableInput")
+TRunnableOutput = TypeVar("TRunnableOutput")
 
-class IHighLevelContextDocumentRetriever(ABC):
+
+class BaseRunnable(Generic[TRunnableInput, TRunnableOutput], ABC):
+    @traceable
     @abstractmethod
-    def search(self, query: str) -> str:
+    def invoke(self, input: TRunnableInput) -> TRunnableOutput:
         pass
 
-    def __call__(self, query: str) -> str:
-        return self.search(query)
+    @traceable
+    @abstractmethod
+    def batch(self, input: list[TRunnableInput]) -> list[TRunnableOutput]:
+        pass
+
+    @traceable
+    def __call__(self, input: TRunnableInput) -> TRunnableOutput:
+        return self.invoke(input)
 
 
-class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
+class BaseHighLevelContextDocumentRetriever(BaseRunnable[str, str]):
+    pass
+
+
+class HighLevelContextDocumentRetriever(BaseHighLevelContextDocumentRetriever):
     DEFAULT_INDEX_NAME = "high_level_context_index"
 
     def __init__(self, db: FAISS, index_name: str = DEFAULT_INDEX_NAME):
@@ -48,8 +63,12 @@ class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
         return "\n\n".join([d.page_content for d in docs])
 
     @traceable
-    def search(self, query: str) -> str:
+    def invoke(self, query: str) -> str:
         return self.__retriever_chain.invoke(query)
+
+    @traceable
+    def batch(self, queries: list[str]) -> list[str]:
+        return self.__retriever_chain.batch(queries)
 
     def save(self, folder_path: str):
         self.__db.save_local(folder_path, self.__index_name)
@@ -96,18 +115,13 @@ class HighLevelContextDocumentRetriever(IHighLevelContextDocumentRetriever):
         return split_documents
 
 
-class ICommitMessageGenerationChain(ABC):
-    @abstractmethod
-    def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInputModel
-    ) -> str:
-        pass
-
-    def __call__(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
-        return self.generate_commit_message(prompt_input)
+class BaseCommitMessageGenerationChain(
+    BaseRunnable[CommitMessageGenerationPromptInputModel, str]
+):
+    pass
 
 
-class LowLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain):
+class LowLevelContextCommitMessageGenerationChain(BaseCommitMessageGenerationChain):
     def __init__(self, model: str, temperature: float = 0.7):
         super().__init__()
 
@@ -118,20 +132,26 @@ class LowLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain)
         self.__chain = prompt | llm | output_parser
 
     @traceable(run_type="llm")
-    def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInputModel
-    ) -> str:
+    def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
         return self.__chain.invoke(
             {"diff": prompt_input.diff, "source_code": prompt_input.source_code}
         )
 
+    @traceable(run_type="llm")
+    def batch(
+        self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
+    ) -> list[str]:
+        return self.__chain.batch(
+            [{"diff": pi.diff, "source_code": pi.source_code} for pi in prompt_inputs]
+        )
 
-class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain):
+
+class HighLevelContextCommitMessageGenerationChain(BaseCommitMessageGenerationChain):
     def __init__(
         self,
         cmg_model: str,
         document_query_text_model: str,
-        document_retriever: IHighLevelContextDocumentRetriever,
+        document_retriever: BaseHighLevelContextDocumentRetriever,
         cmg_temperature: float = 0.7,
         document_query_text_temperature: float = 0.7,
     ):
@@ -171,27 +191,33 @@ class HighLevelContextCommitMessageGenerationChain(ICommitMessageGenerationChain
         return self.__get_high_level_context(source_code)
 
     @traceable(run_type="llm")
-    def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInputModel
-    ) -> str:
+    def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
 
         context = self.__get_high_level_context(prompt_input.source_code)
 
         return self.__cmg_chain.invoke({"diff": prompt_input.diff, "context": context})
 
+    @traceable(run_type="llm")
+    def batch(
+        self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
+    ) -> list[str]:
+        contexts = self.__high_level_context_chain.batch(
+            [pi.source_code for pi in prompt_inputs]
+        )
 
-class IDataGenerationChain(ABC):
-    @abstractmethod
-    def generate_high_level_context(
-        self, prompt_input: DataGenerationPromptInputModel
-    ) -> str:
-        pass
-
-    def __call__(self, prompt_input: DataGenerationPromptInputModel) -> str:
-        return self.generate_high_level_context(prompt_input)
+        return self.__cmg_chain.batch(
+            [
+                {"diff": pi.diff, "context": context}
+                for pi, context in zip(prompt_inputs, contexts)
+            ]
+        )
 
 
-class DataGenerationChain(IDataGenerationChain):
+class BaseDataGenerationChain(BaseRunnable[DataGenerationPromptInputModel, str]):
+    pass
+
+
+class DataGenerationChain(BaseDataGenerationChain):
     def __init__(self, model: str, temperature: float = 0.7):
         super().__init__()
 
@@ -202,12 +228,19 @@ class DataGenerationChain(IDataGenerationChain):
         self.__chain = prompt | llm | output_parser
 
     @traceable(run_type="llm")
-    def generate_high_level_context(
-        self, prompt_input: DataGenerationPromptInputModel
-    ) -> str:
+    def invoke(self, prompt_input: DataGenerationPromptInputModel) -> str:
         return self.__chain.invoke(
             {
                 "github_url": prompt_input.github_url,
-                "source_code": prompt_input.source_code
+                "source_code": prompt_input.source_code,
             }
+        )
+
+    @traceable(run_type="llm")
+    def batch(self, prompt_inputs: list[DataGenerationPromptInputModel]) -> list[str]:
+        return self.__chain.batch(
+            [
+                {"github_url": pi.github_url, "source_code": pi.source_code}
+                for pi in prompt_inputs
+            ]
         )

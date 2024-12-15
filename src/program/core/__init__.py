@@ -1,11 +1,11 @@
 import os
 
 from core.chains import (
+    BaseCommitMessageGenerationChain,
+    BaseDataGenerationChain,
     DataGenerationChain,
     HighLevelContextCommitMessageGenerationChain,
     HighLevelContextDocumentRetriever,
-    ICommitMessageGenerationChain,
-    IDataGenerationChain,
     LowLevelContextCommitMessageGenerationChain,
 )
 from core.enums import EnvironmentKey
@@ -55,19 +55,25 @@ high_level_cmg_chain = HighLevelContextCommitMessageGenerationChain(
 data_generation_chain = DataGenerationChain(__model, temperature=0.7)
 
 
-class MockCommitMessageGenerationChain(ICommitMessageGenerationChain):
-    def generate_commit_message(
-        self, prompt_input: CommitMessageGenerationPromptInputModel
-    ) -> str:
+class MockCommitMessageGenerationChain(BaseCommitMessageGenerationChain):
+    def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
         return "Mock commit message"
+
+    def batch(
+        self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
+    ) -> list[str]:
+        return ["Mock commit message"] * len(prompt_inputs)
 
 
 mock_commit_message_generation_chain = MockCommitMessageGenerationChain()
 
 
-class MockDataGenerationChain(IDataGenerationChain):
-    def generate_high_level_context(self, diff: str) -> str:
+class MockDataGenerationChain(BaseDataGenerationChain):
+    def invoke(self, diff: str) -> str:
         return "Mock high level context"
+
+    def batch(self, diffs: list[str]) -> list[str]:
+        return ["Mock high level context"] * len(diffs)
 
 
 mock_data_generation_chain = MockDataGenerationChain()

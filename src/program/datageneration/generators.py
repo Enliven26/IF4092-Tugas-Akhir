@@ -2,7 +2,9 @@ import os
 from abc import ABC, abstractmethod
 from datetime import datetime
 
-from core.chains import IDataGenerationChain
+import jsonpickle
+
+from core.chains import BaseDataGenerationChain
 from core.enums import DiffVersion
 from core.git import IGit
 from core.models import DataGenerationPromptInputModel
@@ -21,7 +23,7 @@ class DataGenerator(IDataGenerator):
 
     def __init__(
         self,
-        chain: IDataGenerationChain,
+        chain: BaseDataGenerationChain,
         git: IGit,
         diff_parser: IDiffParser,
         code_parser: ICodeParser,
@@ -75,45 +77,46 @@ class DataGenerator(IDataGenerator):
         output_path = self.__get_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
+        prompt_inputs: list[DataGenerationPromptInputModel] = []
+
+        for example in examples:
+            current_commit_hash = example.commit_hash
+            previous_commit_hash = f"{current_commit_hash}~1"
+
+            diff = self.__git.get_diff(
+                example.repository_path,
+                previous_commit_hash,
+                current_commit_hash,
+                example.included_file_paths,
+            )
+
+            relevant_source_code = self.__get_implementations(
+                example.repository_path,
+                previous_commit_hash,
+                current_commit_hash,
+                example.included_file_paths,
+                diff,
+            )
+
+            prompt_input = DataGenerationPromptInputModel()
+            prompt_input.source_code = relevant_source_code
+            prompt_input.github_url = example.repository_url
+
+            prompt_inputs.append(prompt_input)
+
+        high_level_contexts = self.__chain.batch(prompt_inputs)
+
+        results: list[DataGenerationResultModel] = []
+
+        for high_level_context, example in zip(high_level_contexts, examples):
+            result = DataGenerationResultModel()
+            result.diff = diff
+            result.source_code = relevant_source_code
+            result.high_level_context = high_level_context
+            result.commit_message = example.commit_message
+
+            results.append(result)
+
+        json_string = jsonpickle.encode(results, unpicklable=False)
         with open(output_path, "w") as file:
-            file.write("[")
-
-            for index, example in enumerate(examples):
-                current_commit_hash = example.commit_hash
-                previous_commit_hash = f"{current_commit_hash}~1"
-
-                diff = self.__git.get_diff(
-                    example.repository_path,
-                    previous_commit_hash,
-                    current_commit_hash,
-                    example.included_file_paths,
-                )
-
-                relevant_source_code = self.__get_implementations(
-                    example.repository_path,
-                    previous_commit_hash,
-                    current_commit_hash,
-                    example.included_file_paths,
-                    diff,
-                )
-
-                prompt_input = DataGenerationPromptInputModel()
-                prompt_input.source_code = relevant_source_code
-                prompt_input.github_url = example.repository_url
-
-                high_level_context = self.__chain.generate_high_level_context(
-                    prompt_input
-                )
-
-                result = DataGenerationResultModel()
-                result.diff = diff
-                result.source_code = relevant_source_code
-                result.high_level_context = high_level_context
-                result.commit_message = example.commit_message
-
-                file.write(f"\n{result.json()}")
-
-                if index < len(examples) - 1:
-                    file.write(",")
-
-            file.write("\n]")
+            file.write(json_string)
