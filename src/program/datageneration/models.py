@@ -11,12 +11,14 @@ class ExampleModel:
         COMMIT_MESSAGE = "commit_message"
         INCLUDED_FILE_PATHS = "included_file_paths"
         REPOSITORY_PATH = "repository_path"
+        REPOSITORY_URL = "repository_url"
 
     def __init__(self):
         self.commit_hash: Optional[str] = None
         self.commit_message: str = ""
         self.included_file_paths: list[str] = []
         self.repository_path: str = ""
+        self.repository_url: str = ""
 
     @classmethod
     def from_json(cls, json_string: str) -> list["ExampleModel"]:
@@ -40,6 +42,10 @@ class ExampleModel:
 
                 instance.repository_path = data.get(
                     cls.__JsonKey.REPOSITORY_PATH.value, ""
+                )
+
+                instance.repository_url = data.get(
+                    cls.__JsonKey.REPOSITORY_URL.value, ""
                 )
 
                 instances.append(instance)

@@ -23,7 +23,7 @@ def generate(examples: list[ExampleModel], output_path: str):
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     load_dotenv(verbose=True, override=True)
 
     output_path = os.getenv(

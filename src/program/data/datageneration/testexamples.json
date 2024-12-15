@@ -1,12 +1,10 @@
 [
     {
-        "commit_hash": "d942e5ff89309d07371377bf89f8c2d14ebc1c5b",
-        "commit_message": "DROID-815: Use handler to fetch wallet synchronization updates from core.",
+        "commit_hash": "c7031b759722e387736938b7908a13b00283c546",
+        "commit_message": "DROID-1355: Add analytics for in-app messages.",
         "included_file_paths": [
-            "app/src/main/java/com/breadwallet/repository/WalletRepository.kt",
-            "app/src/main/java/com/breadwallet/ui/wallet/WalletViewModel.kt",
-            "app/src/main/java/com/breadwallet/tools/services/SyncService.kt",
-            "app/src/main/java/com/breadwallet/wallet/util/SyncUpdateHandler.kt"
+            "app/src/main/java/com/breadwallet/ui/notification/InAppNotificationActivity.kt",
+            "app/src/main/java/com/breadwallet/repository/MessagesRepository.kt"
         ],
         "repository_url": "https://github.com/breadwallet/breadwallet-android",
         "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\examples\\\\breadwallet-android"

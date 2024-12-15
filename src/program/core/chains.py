@@ -207,6 +207,7 @@ class DataGenerationChain(IDataGenerationChain):
     ) -> str:
         return self.__chain.invoke(
             {
+                "github_url": prompt_input.github_url,
                 "source_code": prompt_input.source_code
             }
         )

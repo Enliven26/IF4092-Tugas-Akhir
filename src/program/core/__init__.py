@@ -52,7 +52,7 @@ high_level_cmg_chain = HighLevelContextCommitMessageGenerationChain(
     document_query_text_temperature=0.7,
 )
 
-data_generation_chain = DataGenerationChain(__model, temperature=0.4)
+data_generation_chain = DataGenerationChain(__model, temperature=0.7)
 
 
 class MockCommitMessageGenerationChain(ICommitMessageGenerationChain):

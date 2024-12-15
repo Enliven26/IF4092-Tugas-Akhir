@@ -99,6 +99,7 @@ class DataGenerator(IDataGenerator):
 
                 prompt_input = DataGenerationPromptInputModel()
                 prompt_input.source_code = relevant_source_code
+                prompt_input.github_url = example.repository_url
 
                 high_level_context = self.__chain.generate_high_level_context(
                     prompt_input

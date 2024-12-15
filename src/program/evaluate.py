@@ -24,7 +24,7 @@ def evaluate(evaluation_data: list[EvaluationModel], output_path: str):
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     load_dotenv(verbose=True, override=True)
 
     output_path = os.getenv(

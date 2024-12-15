@@ -18,4 +18,5 @@ class CommitMessageGenerationPromptInputModel:
 
 class DataGenerationPromptInputModel:
     def __init__(self):
+        self.github_url: str = ""
         self.source_code: str = ""

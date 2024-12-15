@@ -1,11 +1,16 @@
 DATA_GENERATION_PROMPT_TEMPLATE = """
-You are an Information Retrieval Engineer tasked with simulating the retrieval of relevant content from a functional requirement document. The document system may return content that is scattered across multiple sections or splits.
+You are an Information Retrieval Engineer tasked with simulating the retrieval of relevant content from a functional requirement document of a popular application. The document is written by a business analyst without any technical knowledge.
 
-Simulate retrieving 3 distinct splits from the document system. Each section should include high-level explanations of the requirements. Refrain from delving into specific implementation details such as class names, methods, or variables. Refrain from adding additional comments or annotations to the retrieved content.
+Simulate retrieving distinct sections from the document system based on the provided GitHub URL and the source code. The GitHub URL points to a popular project, and the generated content should align with the known purpose and functionality of that project.
 
-The retrieved content must include section and subsections titles for each split. The splits should appear unordered to avoid a structured or sequential appearance. Avoid using --- to separate the splits.
+Refrain from mentioning any specific implementation details such as class names, methods, or variables. Refrain from adding additional comments or annotations to the retrieved content.
 
-Source Code: {source_code}
+The retrieved content must naturally include section and subsection titles for each split, with a total of 3 sections. These sections should not have numbering, and they must appear unordered to avoid suggesting a sequence. However, the subsections can be numbered.
+
+Github URL: {github_url}
+
+Source Code:
+{source_code}
 
 Retrieved Content:
 """
