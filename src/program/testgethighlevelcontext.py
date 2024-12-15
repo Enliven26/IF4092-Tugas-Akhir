@@ -26,9 +26,9 @@ def get_evaluation_sample() -> EvaluationModel:
 
 
 def test_get_high_level_context(
-    evaluation_data: list[EvaluationModel], output_path: str
+    evaluation: EvaluationModel, output_path: str
 ):
-    evaluator.get_high_level_context(high_level_cmg_chain, evaluation_data, output_path)
+    evaluator.get_high_level_context(high_level_cmg_chain, evaluation, output_path)
 
 
 def main():
@@ -40,7 +40,7 @@ def main():
         DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH,
     )
 
-    test_get_high_level_context([evaluation_sample], output_path)
+    test_get_high_level_context(evaluation_sample, output_path)
 
 
 if __name__ == "__main__":
