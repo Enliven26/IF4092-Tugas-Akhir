@@ -1,8 +1,8 @@
 import os
 
 from core.chains import (
-    BaseCommitMessageGenerationChain,
     BaseDataGenerationChain,
+    CommitMessageGenerationChain,
     DataGenerationChain,
     HighLevelContextCommitMessageGenerationChain,
     HighLevelContextDocumentRetriever,
@@ -55,7 +55,7 @@ high_level_cmg_chain = HighLevelContextCommitMessageGenerationChain(
 data_generation_chain = DataGenerationChain(__model, temperature=0.7)
 
 
-class MockCommitMessageGenerationChain(BaseCommitMessageGenerationChain):
+class MockCommitMessageGenerationChain(CommitMessageGenerationChain):
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
         return "Mock commit message"
 

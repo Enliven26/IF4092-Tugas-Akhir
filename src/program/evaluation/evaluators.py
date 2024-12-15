@@ -6,7 +6,7 @@ from datetime import datetime
 import jsonpickle
 
 from core.chains import (
-    BaseCommitMessageGenerationChain,
+    CommitMessageGenerationChain,
     HighLevelContextCommitMessageGenerationChain,
 )
 from core.enums import DiffVersion
@@ -29,7 +29,7 @@ class ICommitMessageGenerator(ABC):
 
 
 class CommitMessageGenerator(ICommitMessageGenerator):
-    def __init__(self, id: str, chain: BaseCommitMessageGenerationChain):
+    def __init__(self, id: str, chain: CommitMessageGenerationChain):
         super().__init__()
         self.id = id
         self.__chain = chain

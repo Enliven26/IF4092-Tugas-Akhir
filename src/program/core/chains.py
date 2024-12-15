@@ -35,7 +35,7 @@ class BaseRunnable(Generic[TRunnableInput, TRunnableOutput], ABC):
 
     @traceable
     @abstractmethod
-    def batch(self, input: list[TRunnableInput]) -> list[TRunnableOutput]:
+    def batch(self, inputs: list[TRunnableInput]) -> list[TRunnableOutput]:
         pass
 
     @traceable
@@ -43,11 +43,11 @@ class BaseRunnable(Generic[TRunnableInput, TRunnableOutput], ABC):
         return self.invoke(input)
 
 
-class BaseHighLevelContextDocumentRetriever(BaseRunnable[str, str]):
+class DocumentRetriever(BaseRunnable[str, str]):
     pass
 
 
-class HighLevelContextDocumentRetriever(BaseHighLevelContextDocumentRetriever):
+class HighLevelContextDocumentRetriever(DocumentRetriever):
     DEFAULT_INDEX_NAME = "high_level_context_index"
 
     def __init__(self, db: FAISS, index_name: str = DEFAULT_INDEX_NAME):
@@ -115,13 +115,13 @@ class HighLevelContextDocumentRetriever(BaseHighLevelContextDocumentRetriever):
         return split_documents
 
 
-class BaseCommitMessageGenerationChain(
+class CommitMessageGenerationChain(
     BaseRunnable[CommitMessageGenerationPromptInputModel, str]
 ):
     pass
 
 
-class LowLevelContextCommitMessageGenerationChain(BaseCommitMessageGenerationChain):
+class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
     def __init__(self, model: str, temperature: float = 0.7):
         super().__init__()
 
@@ -146,12 +146,12 @@ class LowLevelContextCommitMessageGenerationChain(BaseCommitMessageGenerationCha
         )
 
 
-class HighLevelContextCommitMessageGenerationChain(BaseCommitMessageGenerationChain):
+class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
     def __init__(
         self,
         cmg_model: str,
         document_query_text_model: str,
-        document_retriever: BaseHighLevelContextDocumentRetriever,
+        document_retriever: DocumentRetriever,
         cmg_temperature: float = 0.7,
         document_query_text_temperature: float = 0.7,
     ):
