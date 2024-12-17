@@ -78,74 +78,99 @@ class ICodeParser(ABC):
         pass
 
 
+class _ImplementationType(Enum):
+    INTERFACE = 0
+    CLASS = 1
+    FUNCTIONAL_INTERFACE = 2
+    FUNCTION = 3
+    OBJECT = 4
+
+
+class _ClassImplementationModel:
+    def __init__(self):
+        self.modifiers: list[str] = []
+        self.name: str = ""
+        self.generics: str = ""
+        self.constructor: str = ""
+        self.supertypes: list[str] = []
+        self.constraints: str = ""
+        self.body: str = ""
+        self.type: _ImplementationType = _ImplementationType.CLASS
+
+    def __str__(self):
+        modifiers = ""
+        declaration = ""
+        generics = self.generics
+        constructor = self.constructor
+        supertypes = ""
+        constraints = self.constraints
+        body = self.body
+
+        if self.modifiers:
+            modifiers = f"{' '.join(self.modifiers)} "
+
+        if self.type == _ImplementationType.INTERFACE:
+            declaration = "interface"
+        elif self.type == _ImplementationType.CLASS:
+            declaration = "class"
+        else:
+            declaration = "fun interface"
+
+        if self.constructor is not None:
+            constructor = str(self.constructor)
+
+        if self.supertypes:
+            supertypes = f" : {', '.join(self.supertypes)}"
+
+        if self.constraints:
+            constraints = f" {self.constraints!s}"
+
+        return (
+            f"{modifiers}{declaration} {self.name}{generics}{constructor}"
+            f"{supertypes}{constraints}{body}"
+        )
+
+
+class _ClassBodyModel:
+    __DEFAULT_INDENTATION_PREFIX = "    "
+
+    def __init__(self):
+        self.members: list[str] = []
+
+    def __str__(self):
+        class_body_string = "\n\n".join(
+            indent(
+                str(member),
+                self.__class__.__DEFAULT_INDENTATION_PREFIX,
+            )
+            for member in self.members
+        )
+        return f"{{\n{class_body_string}\n}}"
+
+
+class _ObjectImplementationModel:
+    def __init__(self):
+        self.modifiers: list[str] = []
+        self.name: str = ""
+        self.supertypes: list[str] = []
+        self.body: str = ""
+
+    def __str__(self):
+        modifiers = ""
+        name = self.name
+        supertypes = ""
+        body = self.body
+
+        if self.modifiers:
+            modifiers = f"{' '.join(self.modifiers)} "
+
+        if self.supertypes:
+            supertypes = f" : {', '.join(self.supertypes)}"
+
+        return f"{modifiers}object {name}{supertypes}{body}"
+
+
 class CodeParser(ICodeParser):
-    class ImplementationType(Enum):
-        INTERFACE = 0
-        CLASS = 1
-        FUNCTIONAL_INTERFACE = 2
-
-    class __ImplementationModel:
-        def __init__(self):
-            self.modifiers: list[str] = []
-            self.name: str = ""
-            self.generics: str = ""
-            self.constructor: str = ""
-            self.supertypes: list[str] = []
-            self.constraints: str = ""
-            self.body: str = ""
-            self.type: CodeParser.ImplementationType = (
-                CodeParser.ImplementationType.CLASS
-            )
-
-        def __str__(self):
-            modifiers = ""
-            declaration = ""
-            generics = self.generics
-            constructor = self.constructor
-            supertypes = ""
-            constraints = self.constraints
-            body = self.body
-
-            if self.modifiers:
-                modifiers = f"{' '.join(self.modifiers)} "
-
-            if self.type == CodeParser.ImplementationType.INTERFACE:
-                declaration = "interface"
-            elif self.type == CodeParser.ImplementationType.CLASS:
-                declaration = "class"
-            else:
-                declaration = "fun interface"
-
-            if self.constructor is not None:
-                constructor = str(self.constructor)
-
-            if self.supertypes:
-                supertypes = f" : {', '.join(self.supertypes)}"
-
-            if self.constraints:
-                constraints = f" {self.constraints!s}"
-
-            return (
-                f"{modifiers}{declaration} {self.name}{generics}{constructor}"
-                f"{supertypes}{constraints}{body}"
-            )
-
-    class __ClassBodyModel:
-        __DEFAULT_INDENTATION_PREFIX = "    "
-
-        def __init__(self):
-            self.members: list[str] = []
-
-        def __str__(self):
-            class_body_string = "\n\n".join(
-                indent(
-                    str(member),
-                    self.__class__.__DEFAULT_INDENTATION_PREFIX,
-                )
-                for member in self.members
-            )
-            return f"{{\n{class_body_string}\n}}"
-
     def __init__(self):
         super().__init__()
 
@@ -165,8 +190,8 @@ class CodeParser(ICodeParser):
 
         return False
 
-    def __set_parent_data(
-        self, model: __ImplementationModel, declaration: node.ClassDeclaration
+    def __set_class_implementation_data(
+        self, model: _ClassImplementationModel, declaration: node.ClassDeclaration
     ):
         model.modifiers = map(str, declaration.modifiers)
         model.name = declaration.name
@@ -180,52 +205,79 @@ class CodeParser(ICodeParser):
         )
 
         if isinstance(declaration, node.InterfaceDeclaration):
-            model.type = self.__class__.ImplementationType.INTERFACE
+            model.type = _ImplementationType.INTERFACE
         elif isinstance(declaration, node.FunctionalInterfaceDeclaration):
-            declaration = self.__class__.ImplementationType.FUNCTIONAL_INTERFACE
+            declaration = _ImplementationType.FUNCTIONAL_INTERFACE
         else:
-            declaration = self.__class__.ImplementationType.CLASS
+            declaration = _ImplementationType.CLASS
+
+    def __set_object_implementation_data(
+        self, model: _ObjectImplementationModel, declaration: node.ObjectDeclaration
+    ):
+        model.modifiers = map(str, declaration.modifiers)
+        model.name = declaration.name
+        model.supertypes = map(str, declaration.supertypes)
+
+    def __get_class_body(
+        self, original_body: node.ClassBody, line_ranges: list[range]
+    ) -> str:
+        new_body = _ClassBodyModel()
+        for member in original_body.members:
+            start_line = member.start_position.line
+            end_line = member.end_position.line
+
+            is_member_included = self.__is_implementation_included(
+                line_ranges, start_line, end_line
+            )
+
+            if is_member_included:
+                new_body.members.append(str(member))
+
+        return str(new_body)
 
     def get_methods(self, source_code: str, line_ranges: list[range]) -> list[str]:
         parser = Parser(source_code)
         parser_result = parser.parse()
 
-        result: list[CodeParser.__ImplementationModel] = []
+        result: list[str] = []
 
         for declaration in parser_result.declarations:
+            parent_start_line = declaration.start_position.line
+            parent_end_line = declaration.end_position.line
+
+            is_parent_included = self.__is_implementation_included(
+                line_ranges, parent_start_line, parent_end_line
+            )
+
+            if not is_parent_included:
+                continue
+
             if isinstance(declaration, node.ClassDeclaration):
-                parent_start_line = declaration.start_position.line
-                parent_end_line = declaration.end_position.line
-
-                is_parent_included = self.__is_implementation_included(
-                    line_ranges, parent_start_line, parent_end_line
-                )
-
-                if not is_parent_included:
-                    continue
-
-                model = self.__class__.__ImplementationModel()
-                self.__set_parent_data(model, declaration)
+                model = _ClassImplementationModel()
+                self.__set_class_implementation_data(model, declaration)
 
                 if isinstance(declaration.body, node.EnumClassBody):
                     model.body = str(declaration.body)
 
                 else:
-                    if (declaration.body is not None):
-                        body = self.__class__.__ClassBodyModel()
-                        for member in declaration.body.members:
-                            start_line = member.start_position.line
-                            end_line = member.end_position.line
+                    if declaration.body is not None:
+                        model.body = self.__get_class_body(
+                            declaration.body, line_ranges
+                        )
 
-                            is_member_included = self.__is_implementation_included(
-                                line_ranges, start_line, end_line
-                            )
+                result.append(str(model))
 
-                            if is_member_included:
-                                body.members.append(str(member))
+            elif isinstance(declaration, node.ObjectDeclaration):
+                model = _ObjectImplementationModel()
 
-                        model.body = str(body)
+                self.__set_object_implementation_data(model, declaration)
 
-                result.append(model)
+                if declaration.body is not None:
+                    model.body = self.__get_class_body(declaration.body, line_ranges)
 
-        return list(map(str, result))
+                result.append(str(model))
+
+            elif isinstance(declaration, node.FunctionDeclaration):
+                result.append(str(declaration))
+
+        return result

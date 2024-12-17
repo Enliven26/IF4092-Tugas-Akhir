@@ -36,22 +36,23 @@ from typing import Optional
 @dataclass
 class DiffBlock:
     """
-        Represents a single block of change in diff.
+    Represents a single block of change in diff.
 
-        Parameters:
-        - filename (str): The name of the file being modified.
-        - filepath (str): The path of the file being modified.
-        - type (str): The type of modification: 'new', 'deleted', or 'modified'.
-        - file_mode (int): The file mode represent the type and permissions of a file in a Unix-like system.
-        - source_hash (str): The source hash of the file.
-        - target_hash (str): The target hash of the file.
-        - content (str): The content of the diff block.
-        - original_line_start (int): The starting line number in the old file where the diff block starts.
-        - original_line_count (int): The number of lines in the old file that the diff block spans.
-        - modified_line_start (int): The starting line number in the new file where the diff block starts.
-        - modified_line_count (int): The number of lines in the new file that the diff block spans.
+    Parameters:
+    - filename (str): The name of the file being modified.
+    - filepath (str): The path of the file being modified.
+    - type (str): The type of modification: 'new', 'deleted', or 'modified'.
+    - file_mode (int): The file mode represent the type and permissions of a file in a Unix-like system.
+    - source_hash (str): The source hash of the file.
+    - target_hash (str): The target hash of the file.
+    - content (str): The content of the diff block.
+    - original_line_start (int): The starting line number in the old file where the diff block starts.
+    - original_line_count (int): The number of lines in the old file that the diff block spans.
+    - modified_line_start (int): The starting line number in the new file where the diff block starts.
+    - modified_line_count (int): The number of lines in the new file that the diff block spans.
 
     """
+
     new_filename: Optional[str] = None
     new_filepath: Optional[str] = None
     old_filename: Optional[str] = None
@@ -69,16 +70,34 @@ class DiffBlock:
     def __repr__(self) -> str:
         return f"{self.source_hash} -> {self.old_filename} ({self.type}) -> {self.new_filename} {self.target_hash}"
 
+    def copy(self) -> "DiffBlock":
+        new_block = DiffBlock()
+        new_block.new_filename = self.new_filename
+        new_block.new_filepath = self.new_filepath
+        new_block.old_filename = self.old_filename
+        new_block.old_filepath = self.old_filepath
+        new_block.type = self.type
+        new_block.file_mode = self.file_mode
+        new_block.source_hash = self.source_hash
+        new_block.target_hash = self.target_hash
+        new_block.content = self.content
+        new_block.original_line_start = self.original_line_start
+        new_block.original_line_count = self.original_line_count
+        new_block.modified_line_start = self.modified_line_start
+        new_block.modified_line_count = self.modified_line_count
+        
+        return new_block
+
 
 class Diff:
     """
-        Represents a diff file containing multiple blocks of changes.
+    Represents a diff file containing multiple blocks of changes.
 
-        Parameters:
-        - diff (str): The content of the diff file or the path to the diff file.
+    Parameters:
+    - diff (str): The content of the diff file or the path to the diff file.
 
-        Raises:
-        - FileNotFoundError: If the specified file does not exist.
+    Raises:
+    - FileNotFoundError: If the specified file does not exist.
 
     """
 
@@ -101,7 +120,9 @@ class Diff:
             if line.startswith("diff --git"):
                 if block:
                     blocks.append(block)
-                block = [line, ]
+                block = [
+                    line,
+                ]
             else:
                 block.append(line)
         blocks.append(block)
@@ -130,7 +151,7 @@ class Diff:
                     filediff.type = line.split()[0]
 
                 # getting source and target hash
-                if line.startswith('index'):
+                if line.startswith("index"):
                     source, target = line.split()[1].split("..")
                     filediff.source_hash = source
                     filediff.target_hash = target
@@ -140,20 +161,26 @@ class Diff:
                         filediff.file_mode = int(line.split()[-1])
 
                 # getting file mode
-                if filediff.type in ['new', 'deleted'] and filediff.file_mode is None:
+                if filediff.type in ["new", "deleted"] and filediff.file_mode is None:
                     filediff.file_mode = int(line.split()[-1])
 
                 # getting change line info
-                if line.startswith('@@ '):
+                if line.startswith("@@ "):
                     match = re.match(self.change_line_pattern, line)
 
                     if match:
-                        filediff.original_line_start = int(match.group(1))
-                        filediff.original_line_count = int(match.group(2)) if match.group(2) else 1
-                        filediff.modified_line_start = int(match.group(3))
-                        filediff.modified_line_count = int(match.group(4)) if match.group(4) else 1
+                        new_filediff = filediff.copy()
 
-            filediffs.append(filediff)
+                        new_filediff.original_line_start = int(match.group(1))
+                        new_filediff.original_line_count = (
+                            int(match.group(2)) if match.group(2) else 1
+                        )
+                        new_filediff.modified_line_start = int(match.group(3))
+                        new_filediff.modified_line_count = (
+                            int(match.group(4)) if match.group(4) else 1
+                        )
+
+                        filediffs.append(new_filediff)
 
         self.diffs: tuple[DiffBlock] = tuple(filediffs)
 

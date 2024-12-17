@@ -69,7 +69,11 @@ class DataGenerator(IDataGenerator):
             new_implementations = self.__code_parser.get_methods(
                 file_content, file_diff.line_ranges
             )
-            implementations.extend(new_implementations)
+
+            file_info = f"{file_diff.file_path} ({file_diff.version})"
+            implementation = file_info + "\n" + "\n".join(new_implementations)
+
+            implementations.append(implementation)
 
         return "\n".join(implementations)
 
@@ -97,6 +101,8 @@ class DataGenerator(IDataGenerator):
                 example.included_file_paths,
                 diff,
             )
+
+            print(relevant_source_code)
 
             prompt_input = DataGenerationPromptInputModel()
             prompt_input.source_code = relevant_source_code
