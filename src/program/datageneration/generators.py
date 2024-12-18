@@ -83,6 +83,9 @@ class DataGenerator(IDataGenerator):
 
         prompt_inputs: list[DataGenerationPromptInputModel] = []
 
+        diffs: list[str] = []
+        source_codes: list[str] = []
+
         for example in examples:
             current_commit_hash = example.commit_hash
             previous_commit_hash = f"{current_commit_hash}~1"
@@ -102,19 +105,22 @@ class DataGenerator(IDataGenerator):
                 diff,
             )
 
-            print(relevant_source_code)
-
             prompt_input = DataGenerationPromptInputModel()
             prompt_input.source_code = relevant_source_code
             prompt_input.github_url = example.repository_url
 
             prompt_inputs.append(prompt_input)
 
+            diffs.append(diff)
+            source_codes.append(relevant_source_code)
+
         high_level_contexts = self.__chain.batch(prompt_inputs)
 
         results: list[DataGenerationResultModel] = []
 
-        for high_level_context, example in zip(high_level_contexts, examples):
+        for example, diff, relevant_source_code, high_level_context in zip(
+            examples, diffs, source_codes, high_level_contexts
+        ):
             result = DataGenerationResultModel()
             result.diff = diff
             result.source_code = relevant_source_code
