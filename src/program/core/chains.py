@@ -247,7 +247,7 @@ class DataGenerationChain(BaseDataGenerationChain):
             self.__original_random_state = None
 
     def __get_random_section_order(self) -> str:
-        return ", ".join(str(i) for i in random.sample(range(1, 21), 3))
+        return ", ".join(str(i) for i in random.sample(range(5, 31), 3))
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: DataGenerationPromptInputModel) -> str:
