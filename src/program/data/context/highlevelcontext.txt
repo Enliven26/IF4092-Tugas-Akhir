@@ -11,7 +11,7 @@ To address these issues, the organization requires a Financial Transaction Manag
 - **Automated Receipt Scanning**: Converts scanned receipts into structured data, reducing manual data entry and minimizing errors.
 - **Offline Functionality**: Ensures uninterrupted operation in areas with limited connectivity, with data synchronization when back online.
 - **Comprehensive Reporting**: Generates detailed financial reports for audits and transparency with stakeholders.
-The application must be designed for Android devices to align with the organization’s standard equipment for field operations. It is expected to enhance accountability, reduce errors, and streamline financial processes during missions.
+The application must be designed for Android devices to align with the organization's standard equipment for field operations. It is expected to enhance accountability, reduce errors, and streamline financial processes during missions.
 
 A functional prototype is expected within three months, with plans for full deployment shortly thereafter to support upcoming large-scale operations.
 
@@ -97,7 +97,7 @@ Exported File Content: The exported file should contain the following columns: D
 **Field Population on Intent**: At least one field in the fragment must be pre-filled when the fragment receives the intent.
 
 ### Bonus Specifications
-The following bonus specifications are optional but may be implemented for additional compensation. These features are not part of the core functionality required for the Financial Transaction Management Application but will enhance the system’s overall capabilities, improving both security and user engagement. Implementing these features will be rewarded with an additional payment.
+The following bonus specifications are optional but may be implemented for additional compensation. These features are not part of the core functionality required for the Financial Transaction Management Application but will enhance the system's overall capabilities, improving both security and user engagement. Implementing these features will be rewarded with an additional payment.
 
 **1. Twibbon**
 The Twibbon feature allows users to overlay an image onto their photos. While this may seem unrelated to financial transaction management, it is a request from the stakeholders. The Twibbon feature will be implemented on a separate page of the application, where users can open the camera to capture a photo with the Twibbon overlay. At least one Twibbon image should be provided, and if multiple images are available, users should be given the option to switch between them. Once the user captures a photo, it will be displayed but not saved on the device. Users can capture additional photos as needed. The specific images used for the Twibbon can be selected as per the development team's discretion.
@@ -108,7 +108,7 @@ In response to potential security concerns, especially regarding financial data 
 M4: Insufficient Input/Output Validation
 M8: Security Misconfiguration
 M9: Insecure Data Storage
-These security measures are essential to ensure that the application meets the highest standards of data protection and is resistant to common attacks. The development team should conduct a thorough analysis of the application’s security and take appropriate actions to mitigate identified risks. This may include fixing vulnerabilities in client-side validation, adjusting security configurations, and ensuring that sensitive data is securely stored. Detailed documentation of the analysis and any corrective actions taken must be included in the README, with the assumption that the server is not secure and client-side validation is paramount.
+These security measures are essential to ensure that the application meets the highest standards of data protection and is resistant to common attacks. The development team should conduct a thorough analysis of the application's security and take appropriate actions to mitigate identified risks. This may include fixing vulnerabilities in client-side validation, adjusting security configurations, and ensuring that sensitive data is securely stored. Detailed documentation of the analysis and any corrective actions taken must be included in the README, with the assumption that the server is not secure and client-side validation is paramount.
 
 ### Clarification
 The following clarifications address key points regarding the implementation of the Financial Transaction Management Application, ensuring alignment with the project specifications and expectations.
@@ -127,4 +127,4 @@ For transactions that involve location access, the app will automatically retrie
 **4. JWT Expiry and Network Connectivity**
 If the application cannot communicate with the server (e.g., due to no internet access), the JWT is assumed to have expired. This assumption allows for handling the expiration scenario in the absence of connectivity, ensuring that the app responds appropriately when network access is unavailable.
 
-These clarifications are intended to ensure proper implementation and consistency throughout the development process. Following these guidelines will help align the development efforts with the project’s goals and requirements.
+These clarifications are intended to ensure proper implementation and consistency throughout the development process. Following these guidelines will help align the development efforts with the project's goals and requirements.

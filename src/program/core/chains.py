@@ -1,4 +1,6 @@
 import os
+import random
+import time
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
@@ -17,6 +19,8 @@ from core.constants import (
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
+    RANDOM_REQUIREMENT_ID_FORMATS,
+    END_DOCUMENT_SPLIT_SEPARATOR
 )
 from core.models import (
     CommitMessageGenerationPromptInputModel,
@@ -60,13 +64,15 @@ class HighLevelContextDocumentRetriever(DocumentRetriever):
         self.__retriever_chain = retriever | self.__format_docs
 
     def __format_docs(self, docs: list[Document]) -> str:
-        return "\n\n".join([d.page_content for d in docs])
+        return ''.join(
+            [d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs]
+        )
 
-    @traceable
+    @traceable(run_type="retriever")
     def invoke(self, query: str) -> str:
         return self.__retriever_chain.invoke(query)
 
-    @traceable
+    @traceable(run_type="retriever")
     def batch(self, queries: list[str]) -> list[str]:
         return self.__retriever_chain.batch(queries)
 
@@ -227,20 +233,59 @@ class DataGenerationChain(BaseDataGenerationChain):
 
         self.__chain = prompt | llm | output_parser
 
+        self.__original_random_state = None
+
+    def __seed_random(self):
+        # generate random seed based on current time and current machine entropy
+        self.__original_random_state = random.getstate()
+        seed_value = int(time.time() * 1000) + int.from_bytes(os.urandom(8), "little")
+        random.seed(seed_value)
+
+    def __reset_random(self):
+        if self.__original_random_state is not None:
+            random.setstate(self.__original_random_state)
+            self.__original_random_state = None
+
+    def __get_random_section_order(self) -> str:
+        return ", ".join(str(i) for i in random.sample(range(1, 21), 3))
+
     @traceable(run_type="llm")
     def invoke(self, prompt_input: DataGenerationPromptInputModel) -> str:
-        return self.__chain.invoke(
+        self.__seed_random()
+
+        section_order_string = self.__get_random_section_order()
+
+        result = self.__chain.invoke(
             {
                 "github_url": prompt_input.github_url,
                 "source_code": prompt_input.source_code,
+                "section_order_string": section_order_string,
+                "requirement_id_format": random.choice(RANDOM_REQUIREMENT_ID_FORMATS),
             }
         )
 
+        self.__reset_random()
+
+        return result
+
     @traceable(run_type="llm")
     def batch(self, prompt_inputs: list[DataGenerationPromptInputModel]) -> list[str]:
-        return self.__chain.batch(
+        self.__seed_random()
+
+        results = self.__chain.batch(
             [
-                {"github_url": pi.github_url, "source_code": pi.source_code}
+                {
+                    "github_url": pi.github_url,
+                    "source_code": pi.source_code,
+                    "section_order_string": self.__get_random_section_order(),
+                    "requirement_id_format": random.choice(
+                        RANDOM_REQUIREMENT_ID_FORMATS
+                    ),
+                }
                 for pi in prompt_inputs
             ]
         )
+
+        self.__reset_random()
+
+        return results

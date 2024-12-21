@@ -1,3 +1,4 @@
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -25,13 +26,12 @@ def get_evaluation_sample() -> EvaluationModel:
         raise ValueError(f"Evaluation with ID {SAMPLE_EVALUATION_ID} not found.")
 
 
-def test_get_high_level_context(
-    evaluation: EvaluationModel, output_path: str
-):
+def test_get_high_level_context(evaluation: EvaluationModel, output_path: str):
     evaluator.get_high_level_context(high_level_cmg_chain, evaluation, output_path)
 
 
 def main():
+    logging.basicConfig(level=logging.DEBUG)
     load_dotenv(dotenv_path=".env.test", verbose=True, override=True)
 
     evaluation_sample = get_evaluation_sample()
