@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-from core import mock_commit_message_generation_chain
+from core import high_level_cmg_chain
 from core.enums import EnvironmentKey
 from evaluation import evaluator
 from evaluation.evaluators import CommitMessageGenerator
@@ -21,9 +21,7 @@ def get_evaluation_data() -> list[EvaluationModel]:
 
 
 def test_evaluate(evaluation_data: list[EvaluationModel], output_path: str):
-    generator = CommitMessageGenerator(
-        "TestGenerator", mock_commit_message_generation_chain
-    )
+    generator = CommitMessageGenerator("TestGenerator", high_level_cmg_chain)
     generators = [generator]
 
     evaluator.evaluate(generators, evaluation_data, output_path)

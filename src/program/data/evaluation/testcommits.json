@@ -1,18 +1,14 @@
 [
     {
-        "id": "TC000",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-soz",
-        "repository_url": "https://gitlab.informatika.org/sozy-enjoyer/if3210-2024-android-soz",
+        "id": "TC046",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
         "previous_commit_hash": null,
-        "current_commit_hash": "fe5e2c2643e672e7dbb4b05725caa209cc15b621",
+        "current_commit_hash": "19d584320ea6c3ce9b5469fd3750ebe670a81dce",
         "included_file_paths": [
-            "app/src/main/java/com/example/bondoman/data/dataaccess/TransactionDao.kt",
-            "app/src/main/java/com/example/bondoman/data/models/Transaction.kt",
-            "app/src/main/java/com/example/bondoman/data/utils/TransactionParser.kt",
-            "app/src/main/java/com/example/bondoman/data/viewmodels/transaction/TransactionViewModel.kt",
-            "app/src/main/java/com/example/bondoman/views/fragments/GraphFragment.kt"
+            "app/src/main/java/com/example/bondoman/AddTransactionFragment.kt"
         ],
-        "remarks": "Integer overflow",
-        "merge_request_number": 39
+        "remarks": "Change location permission type",
+        "merge_request_number": null
     }
 ]

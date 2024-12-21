@@ -58,15 +58,39 @@ LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
 """
 
 HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
+You are a senior software engineer working on a team project. Your commit message must be clear, concise, and provide enough context for your team to understand the purpose of the changes.
+
+Follow this format for the commit message:
+
+{{type}}: {{subject}}
+
+{{body}}
+
+Commit types:
+- Feat: A new feature
+- Fix: A bug fix
+- Test: Testing-related changes
+- Refactor: Code improvements without functional changes
+- Chore: for other changes (e.g., routine tasks, updates to the build process, tooling, or non-functional changes)
+
+Given the git diff and additional context below, write the best commit message for the changes.
+
+Git diff:
 {diff}
+
+Additional context:
 {context}
+
+Commit message:
 """
 
 
 DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """
-You are a senior software engineer tasked with analyzing source code and generating a concise query text that summarizes its functionality and purpose. The query text should be suitable for retrieval tasks in the context of software development documentation, such as functional requirement documents or technical specifications.
+You are a senior software engineer tasked with analyzing source code and generating a concise query text that summarizes its functionality and purpose. The query text should be suitable for information retrieval from a software development documentation, such as functional requirement documents or specifications.
 
-The query text should summarize the main functionality of the code in one or two sentences, focusing on its high-level purpose in the context of its application. Avoid assuming specific use cases or applications unless explicitly stated in the code, and refrain from using technical jargon unless it is necessary for clarity. 
+The query text should summarize the main functionality of the code in two or three sentences, focusing on its primary high-level purpose in the context of its application. Avoid assuming specific use cases or applications unless explicitly stated in the code. Avoid mentioning any specific implementation details such as class names, methods, or variables. Avoid using jargon or technical terms.
+
+Given the following source code, write a query text to be used for retrieving relevant documentation.
 
 Source Code:
 {source_code}
