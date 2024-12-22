@@ -35,8 +35,7 @@ RANDOM_REQUIREMENT_ID_FORMATS = [
 
 END_DOCUMENT_SPLIT_SEPARATOR = "\n\n--- RETRIEVED DOCUMENT SPLIT END ---\n\n"
 
-DATA_GENERATION_PROMPT_TEMPLATE = f"""
-You are an Information Retrieval Engineer tasked with simulating the retrieval of relevant content from a functional requirement document of a popular application. The document is written by a business analyst without any technical knowledge.
+DATA_GENERATION_PROMPT_TEMPLATE = f"""You are an Information Retrieval Engineer tasked with simulating the retrieval of relevant content from a functional requirement document of a popular application. The document is written by a business analyst without any technical knowledge.
 
 The retrieved content should contain three sections, each representing a distinct user requirement. Each section must include a unique identifier for the requirement, following the format: {{requirement_id_format}}, with the placeholder replaced by the actual values relevant to the requirement. Use section numbering in the specific order: {{section_order_string}}. Each section should have three subsections that provide detailed explanations of the requirement. At the end of each section, include the separator: {END_DOCUMENT_SPLIT_SEPARATOR}.
 
@@ -52,13 +51,11 @@ Source Code:
 Retrieved Content:
 """
 
-LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
-{diff}
+LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """{diff}
 {source_code}
 """
 
-HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
-You are a senior software engineer working on a team project having to commit your changes. Your commit message must be clear, concise, and provide enough context for your team to understand the purpose of the changes.
+HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """You are a senior software engineer working on a team project having to commit your changes. Your commit message must be clear, concise, and provide enough context for your team to understand the purpose of the changes.
 
 Follow this format for the commit message:
 
@@ -98,8 +95,7 @@ Commit message:
 """
 
 
-DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """
-You are a senior software engineer tasked with analyzing git diff and generating a concise query text that summarizes its purpose. The query text should be suitable for information retrieval from a software development documentation, such as functional requirement documents or specifications.
+DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """You are a senior software engineer tasked with analyzing git diff and generating a concise query text that summarizes its purpose. The query text should be suitable for information retrieval from a software development documentation, such as functional requirement documents or specifications.
 
 The query text should summarize the code changes in one or two brief sentences, focusing on its primary high-level purpose in the context of its application. Avoid assuming specific use cases or applications unless explicitly stated in the code. Avoid mentioning any specific implementation details such as class names, methods, or variables. Avoid using jargon or technical terms.
 
@@ -113,3 +109,12 @@ Source Code:
 
 Query Text:
 """
+
+HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Given the following question and context, return YES if the context is relevant to the question and NO if it isn't.
+
+> Question: {question}
+> Context:
+>>>
+{context}
+>>>
+> Relevant (YES / NO):"""

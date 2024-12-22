@@ -4,6 +4,7 @@ import time
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
+from langchain.output_parsers.boolean import BooleanOutputParser
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import LLMChainFilter
 from langchain.schema import Document
@@ -12,7 +13,11 @@ from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnableSerializable
+from langchain_core.runnables import (
+    RunnableLambda,
+    RunnablePassthrough,
+    RunnableSerializable,
+)
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langsmith import traceable
 
@@ -21,12 +26,14 @@ from core.constants import (
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     END_DOCUMENT_SPLIT_SEPARATOR,
     HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
+    HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE,
     LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     RANDOM_REQUIREMENT_ID_FORMATS,
 )
 from core.models import (
     CommitMessageGenerationPromptInputModel,
     DataGenerationPromptInputModel,
+    HighLevelContextDocumentRetrieverInputModel,
 )
 
 TRunnableInput = TypeVar("TRunnableInput")
@@ -49,40 +56,68 @@ class BaseRunnable(Generic[TRunnableInput, TRunnableOutput], ABC):
         return self.invoke(input)
 
 
-class DocumentRetriever(BaseRunnable[str, str]):
+TDocumentRetrieverInput = TypeVar("TDocumentRetrieverInput")
+
+
+class DocumentRetriever(BaseRunnable[TDocumentRetrieverInput, str]):
     pass
 
 
-class HighLevelContextDocumentRetriever(DocumentRetriever):
+class HighLevelContextDocumentRetriever(
+    DocumentRetriever[HighLevelContextDocumentRetrieverInputModel]
+):
     DEFAULT_INDEX_NAME = "high_level_context_index"
+    DEFAULT_LLM_FILTER_TEMPERATURE = 0.4
 
     def __init__(
-        self, db: FAISS, compressor_model: str, index_name: str = DEFAULT_INDEX_NAME
+        self,
+        db: FAISS,
+        llm_filter_model: str,
+        llm_filter_temperature: int = DEFAULT_LLM_FILTER_TEMPERATURE,
+        index_name: str = DEFAULT_INDEX_NAME,
     ):
         super().__init__()
         self.__index_name = index_name
         self.__db = db
 
-        retriever = self.__db.as_retriever(search_kwargs={"k": 6})
-
-        llm = ChatOpenAI(model=compressor_model, temperature=0)
-        compressor = LLMChainFilter.from_llm(llm)
-        compression_retriever = ContextualCompressionRetriever(
-            base_compressor=compressor, base_retriever=retriever
+        llm = ChatOpenAI(model=llm_filter_model, temperature=llm_filter_temperature)
+        filter_prompt = PromptTemplate(
+            template=HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE,
+            input_variables=["question", "context", "diff"],
+            output_parser=BooleanOutputParser(),
         )
 
-        self.__retriever_chain = compression_retriever | self.__format_docs
+        self.__retriever = self.__db.as_retriever(search_kwargs={"k": 6})
+        self.__compresor = LLMChainFilter.from_llm(llm, filter_prompt)
+        self.__retriever_chain = (
+            self.__get_context | RunnablePassthrough() | self.__format_docs
+        )
+
+    def __get_context(
+        self, input: HighLevelContextDocumentRetrieverInputModel
+    ) -> list[Document]:
+        docs = self.__retriever.invoke(input.query)
+        self.__set_filter_input_getter(input.diff)
+        return self.__compresor.compress_documents(docs, input.query)
+
+    def __set_filter_input_getter(self, diff: str):
+        def getter(query: str, doc: Document):
+            return {"question": query, "context": doc.page_content, "diff": diff}
+
+        self.__compresor.get_input = getter
 
     def __format_docs(self, docs: list[Document]) -> str:
         return "".join([d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs])
 
     @traceable(run_type="retriever")
-    def invoke(self, query: str) -> str:
-        return self.__retriever_chain.invoke(query)
+    def invoke(self, input: HighLevelContextDocumentRetrieverInputModel) -> str:
+        return self.__retriever_chain.invoke(input)
 
     @traceable(run_type="retriever")
-    def batch(self, queries: list[str]) -> list[str]:
-        return self.__retriever_chain.batch(queries)
+    def batch(
+        self, inputs: list[HighLevelContextDocumentRetrieverInputModel]
+    ) -> list[str]:
+        return self.__retriever_chain.batch(inputs)
 
     def save(self, folder_path: str):
         self.__db.save_local(folder_path, self.__index_name)
@@ -92,29 +127,34 @@ class HighLevelContextDocumentRetriever(DocumentRetriever):
         cls,
         folder_path: str,
         embedding_model: str,
-        compressor_model: str,
+        llm_filter_model: str,
+        llm_filter_temperature: int = DEFAULT_LLM_FILTER_TEMPERATURE,
         index_name: str = DEFAULT_INDEX_NAME,
     ):
         embeddings = OpenAIEmbeddings(model=embedding_model)
         db = FAISS.load_local(
-            folder_path, embeddings, index_name, allow_dangerous_deserialization=True
+            folder_path,
+            embeddings,
+            index_name,
+            allow_dangerous_deserialization=True,
         )
-        return cls(db, compressor_model, index_name)
+        return cls(db, llm_filter_model, llm_filter_temperature, index_name)
 
     @classmethod
     def from_document_file(
         cls,
         file_path: str,
         embeding_model: str,
-        compressor_model: str,
+        llm_filter_model: str,
+        llm_filter_temperature: int = DEFAULT_LLM_FILTER_TEMPERATURE,
         index_name: str = DEFAULT_INDEX_NAME,
     ) -> "HighLevelContextDocumentRetriever":
         documents = cls.__load_documents(file_path)
         embeddings = OpenAIEmbeddings(model=embeding_model)
 
-        db = FAISS.from_documents(documents, compressor_model, embeddings)
+        db = FAISS.from_documents(documents, embeddings)
 
-        return cls(db, index_name)
+        return cls(db, llm_filter_model, llm_filter_temperature, index_name)
 
     @classmethod
     def __load_documents(cls, file_path: str) -> list[Document]:
@@ -142,7 +182,7 @@ class CommitMessageGenerationChain(
 
 
 class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
-    def __init__(self, model: str, temperature: float = 0.7):
+    def __init__(self, model: str, temperature: float = 0.55):
         super().__init__()
 
         prompt = PromptTemplate.from_template(LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE)
@@ -171,7 +211,9 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         self,
         cmg_model: str,
         document_query_text_model: str,
-        document_retriever: DocumentRetriever,
+        document_retriever: DocumentRetriever[
+            HighLevelContextDocumentRetrieverInputModel
+        ],
         cmg_temperature: float = 0.7,
         document_query_text_temperature: float = 0.7,
     ):
@@ -186,11 +228,19 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         )
         document_query_text_output_parser = StrOutputParser()
 
+        self.__document_retriever = document_retriever
         self.__high_level_context_chain: RunnableSerializable[dict, str] = (
-            document_query_text_prompt
-            | document_query_text_llm
-            | document_query_text_output_parser
-            | document_retriever
+            RunnablePassthrough()
+            | {
+                "query": (
+                    RunnablePassthrough()
+                    | document_query_text_prompt
+                    | document_query_text_llm
+                    | document_query_text_output_parser
+                ),
+                "diff": RunnableLambda(lambda x: {"diff": x["diff"]}),
+            }
+            | self.__retrieve_context
         )
 
         cmg_prompt = PromptTemplate.from_template(
@@ -200,6 +250,13 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         cmg_output_parser = StrOutputParser()
 
         self.__cmg_chain = cmg_prompt | cmg_llm | cmg_output_parser
+
+    def __retrieve_context(self, input: dict) -> str:
+        retriever_input = HighLevelContextDocumentRetrieverInputModel()
+        retriever_input.query = input["query"]
+        retriever_input.diff = input["diff"]
+
+        return self.__document_retriever.invoke(retriever_input)
 
     def __get_high_level_context(self, source_code: str, diff: str) -> str:
         return self.__high_level_context_chain.invoke(

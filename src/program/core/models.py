@@ -20,3 +20,8 @@ class DataGenerationPromptInputModel:
     def __init__(self):
         self.github_url: str = ""
         self.source_code: str = ""
+
+class HighLevelContextDocumentRetrieverInputModel:
+    def __init__(self):
+        self.query: str = ""
+        self.diff: str = ""
