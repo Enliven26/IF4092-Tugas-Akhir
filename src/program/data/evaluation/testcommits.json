@@ -1,14 +1,14 @@
 [
     {
-        "id": "TC046",
+        "id": "TC050",
         "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
         "repository_url": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
         "previous_commit_hash": null,
-        "current_commit_hash": "19d584320ea6c3ce9b5469fd3750ebe670a81dce",
+        "current_commit_hash": "006ff55ade3bf02c604c566714b59fde0284458f",
         "included_file_paths": [
             "app/src/main/java/com/example/bondoman/AddTransactionFragment.kt"
         ],
-        "remarks": "Change location permission type",
+        "remarks": "Add transaction on upload bill",
         "merge_request_number": null
     }
 ]

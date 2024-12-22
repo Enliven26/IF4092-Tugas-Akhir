@@ -58,7 +58,7 @@ LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
 """
 
 HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """
-You are a senior software engineer working on a team project. Your commit message must be clear, concise, and provide enough context for your team to understand the purpose of the changes.
+You are a senior software engineer working on a team project having to commit your changes. Your commit message must be clear, concise, and provide enough context for your team to understand the purpose of the changes.
 
 Follow this format for the commit message:
 
@@ -69,9 +69,22 @@ Follow this format for the commit message:
 Commit types:
 - Feat: A new feature
 - Fix: A bug fix
-- Test: Testing-related changes
-- Refactor: Code improvements without functional changes
-- Chore: for other changes (e.g., routine tasks, updates to the build process, tooling, or non-functional changes)
+- Perf: A code change that improves performance or
+- Test: Adding missing tests or correcting existing tests
+- Refactor: Code improvements without functional changes (including styling)
+- Chore: for other changes (e.g., routine tasks, updates to the build process, or tooling)
+
+The subject should summarize the changes in one line. The body should still be concise but provide more context about the changes. The body should be wrapped at 2-3 sentences.
+
+A good commit message explains what changes were made and why they were necessary. For what, describe the changes from the perspective of the impacted code objects (e.g., attributes, methods, classes, packages) to highlight the key components involved. For why, follow below rules:
+
+- Corrective changes: describe where and how the error occurrs
+- Additive and adaptive changes: points to the requirements, user stories, or design documents that motivated the changes if provided. Otherwise, explain the the improvement and benefit that the changes bring.
+- Refactor changes: omit the why part since the what part should be self-explanatory
+
+The why part should be concise. If any context is referenced, use the most efficient way to refer to it (e.g., by ID, name, or title). Avoid repeating the full context. Avoid using unrelevant identifiers or names to reference a separate context.
+
+Avoid adding additional comments or annotations to the commit message.
 
 Given the git diff and additional context below, write the best commit message for the changes.
 
@@ -86,11 +99,14 @@ Commit message:
 
 
 DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """
-You are a senior software engineer tasked with analyzing source code and generating a concise query text that summarizes its functionality and purpose. The query text should be suitable for information retrieval from a software development documentation, such as functional requirement documents or specifications.
+You are a senior software engineer tasked with analyzing git diff and generating a concise query text that summarizes its purpose. The query text should be suitable for information retrieval from a software development documentation, such as functional requirement documents or specifications.
 
-The query text should summarize the main functionality of the code in two or three sentences, focusing on its primary high-level purpose in the context of its application. Avoid assuming specific use cases or applications unless explicitly stated in the code. Avoid mentioning any specific implementation details such as class names, methods, or variables. Avoid using jargon or technical terms.
+The query text should summarize the code changes in one or two brief sentences, focusing on its primary high-level purpose in the context of its application. Avoid assuming specific use cases or applications unless explicitly stated in the code. Avoid mentioning any specific implementation details such as class names, methods, or variables. Avoid using jargon or technical terms.
 
-Given the following source code, write a query text to be used for retrieving relevant documentation.
+Given the following git diff and the relevant source code, write a query text to be used for retrieving relevant documentation. Focus on the code changes in the git diff. The source code is only provided for additional context.
+
+Git Diff:
+{diff}
 
 Source Code:
 {source_code}

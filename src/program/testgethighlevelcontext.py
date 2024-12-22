@@ -10,7 +10,7 @@ from evaluation.models import EvaluationModel
 
 EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "commits.json")
 DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join("out", "test", "highlevelcontext")
-SAMPLE_EVALUATION_ID = "TC001"
+SAMPLE_EVALUATION_ID = "TC050"
 
 
 def get_evaluation_sample() -> EvaluationModel:

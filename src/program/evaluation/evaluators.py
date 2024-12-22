@@ -160,7 +160,7 @@ class Evaluator(IEvaluator):
             diff,
         )
 
-        result = chain.get_high_level_context(relevant_source_code)
+        result = chain.get_high_level_context(relevant_source_code, diff)
         json_string = jsonpickle.encode([result], unpicklable=False)
 
         with open(output_path, "w") as file:

@@ -17,10 +17,10 @@ from langsmith import traceable
 from core.constants import (
     DATA_GENERATION_PROMPT_TEMPLATE,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
+    END_DOCUMENT_SPLIT_SEPARATOR,
     HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     RANDOM_REQUIREMENT_ID_FORMATS,
-    END_DOCUMENT_SPLIT_SEPARATOR
 )
 from core.models import (
     CommitMessageGenerationPromptInputModel,
@@ -59,14 +59,12 @@ class HighLevelContextDocumentRetriever(DocumentRetriever):
         self.__index_name = index_name
         self.__db = db
 
-        retriever = self.__db.as_retriever(search_kwargs={"k": 3})
+        retriever = self.__db.as_retriever(search_kwargs={"k": 4})
 
         self.__retriever_chain = retriever | self.__format_docs
 
     def __format_docs(self, docs: list[Document]) -> str:
-        return ''.join(
-            [d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs]
-        )
+        return ''.join([d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs])
 
     @traceable(run_type="retriever")
     def invoke(self, query: str) -> str:
@@ -172,9 +170,8 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         )
         document_query_text_output_parser = StrOutputParser()
 
-        self.__high_level_context_chain: RunnableSerializable[str, str] = (
-            {"source_code": RunnablePassthrough()}
-            | document_query_text_prompt
+        self.__high_level_context_chain: RunnableSerializable[dict, str] = (
+            document_query_text_prompt
             | document_query_text_llm
             | document_query_text_output_parser
             | document_retriever
@@ -188,18 +185,22 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
 
         self.__cmg_chain = cmg_prompt | cmg_llm | cmg_output_parser
 
-    def __get_high_level_context(self, source_code: str) -> str:
-        return self.__high_level_context_chain.invoke(source_code)
+    def __get_high_level_context(self, source_code: str, diff: str) -> str:
+        return self.__high_level_context_chain.invoke(
+            {"source_code": source_code, "diff": diff}
+        )
 
     @traceable(run_type="llm")
-    def get_high_level_context(self, source_code: str) -> str:
+    def get_high_level_context(self, source_code: str, diff: str) -> str:
         # Testing purpose
-        return self.__get_high_level_context(source_code)
+        return self.__get_high_level_context(source_code, diff)
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
 
-        context = self.__get_high_level_context(prompt_input.source_code)
+        context = self.__get_high_level_context(
+            prompt_input.source_code, prompt_input.diff
+        )
 
         return self.__cmg_chain.invoke({"diff": prompt_input.diff, "context": context})
 
