@@ -4,13 +4,15 @@ import time
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
+from langchain.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import LLMChainFilter
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnablePassthrough, RunnableSerializable
+from langchain_core.runnables import RunnableSerializable
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langsmith import traceable
 
@@ -54,17 +56,25 @@ class DocumentRetriever(BaseRunnable[str, str]):
 class HighLevelContextDocumentRetriever(DocumentRetriever):
     DEFAULT_INDEX_NAME = "high_level_context_index"
 
-    def __init__(self, db: FAISS, index_name: str = DEFAULT_INDEX_NAME):
+    def __init__(
+        self, db: FAISS, compressor_model: str, index_name: str = DEFAULT_INDEX_NAME
+    ):
         super().__init__()
         self.__index_name = index_name
         self.__db = db
 
-        retriever = self.__db.as_retriever(search_kwargs={"k": 4})
+        retriever = self.__db.as_retriever(search_kwargs={"k": 6})
 
-        self.__retriever_chain = retriever | self.__format_docs
+        llm = ChatOpenAI(model=compressor_model, temperature=0)
+        compressor = LLMChainFilter.from_llm(llm)
+        compression_retriever = ContextualCompressionRetriever(
+            base_compressor=compressor, base_retriever=retriever
+        )
+
+        self.__retriever_chain = compression_retriever | self.__format_docs
 
     def __format_docs(self, docs: list[Document]) -> str:
-        return ''.join([d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs])
+        return "".join([d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs])
 
     @traceable(run_type="retriever")
     def invoke(self, query: str) -> str:
@@ -81,22 +91,28 @@ class HighLevelContextDocumentRetriever(DocumentRetriever):
     def from_local(
         cls,
         folder_path: str,
+        embedding_model: str,
+        compressor_model: str,
         index_name: str = DEFAULT_INDEX_NAME,
     ):
-        embeddings = OpenAIEmbeddings()
+        embeddings = OpenAIEmbeddings(model=embedding_model)
         db = FAISS.load_local(
             folder_path, embeddings, index_name, allow_dangerous_deserialization=True
         )
-        return cls(db, index_name)
+        return cls(db, compressor_model, index_name)
 
     @classmethod
     def from_document_file(
-        cls, file_path: str, index_name: str = DEFAULT_INDEX_NAME
+        cls,
+        file_path: str,
+        embeding_model: str,
+        compressor_model: str,
+        index_name: str = DEFAULT_INDEX_NAME,
     ) -> "HighLevelContextDocumentRetriever":
         documents = cls.__load_documents(file_path)
-        embeddings = OpenAIEmbeddings()
+        embeddings = OpenAIEmbeddings(model=embeding_model)
 
-        db = FAISS.from_documents(documents, embeddings)
+        db = FAISS.from_documents(documents, compressor_model, embeddings)
 
         return cls(db, index_name)
 

@@ -21,6 +21,10 @@ code_parser = CodeParser()
 __DEFAULT_RETRIEVER_LOCAL_PATH = os.path.join("data", "context", "defaultretriever")
 __RETRIEVER_DOCUMENT_PATH = os.path.join("data", "context", "highlevelcontext.txt")
 
+__llm_model = os.getenv(EnvironmentKey.OPENAI_LLM_MODEL.value, "gpt-4o-mini")
+__embedding_model = os.getenv(
+    EnvironmentKey.OPENAI_EMBEDDING_MODEL.value, "text-embedding-3-small"
+)
 default_document_retriever: HighLevelContextDocumentRetriever = None
 
 if not os.path.exists(__DEFAULT_RETRIEVER_LOCAL_PATH) or not os.listdir(
@@ -28,31 +32,28 @@ if not os.path.exists(__DEFAULT_RETRIEVER_LOCAL_PATH) or not os.listdir(
 ):
     os.makedirs(__DEFAULT_RETRIEVER_LOCAL_PATH, exist_ok=True)
     default_document_retriever = HighLevelContextDocumentRetriever.from_document_file(
-        __RETRIEVER_DOCUMENT_PATH
+        __RETRIEVER_DOCUMENT_PATH, __embedding_model, __llm_model
     )
     default_document_retriever.save(__DEFAULT_RETRIEVER_LOCAL_PATH)
 
 else:
     default_document_retriever = HighLevelContextDocumentRetriever.from_local(
-        __DEFAULT_RETRIEVER_LOCAL_PATH
+        __DEFAULT_RETRIEVER_LOCAL_PATH, __embedding_model, __llm_model
     )
 
-
-__model = os.getenv(EnvironmentKey.OPENAI_MODEL.value, "gpt-4o-mini")
-
 low_level_cmg_chain = LowLevelContextCommitMessageGenerationChain(
-    __model, temperature=0.7
+    __llm_model, temperature=0.7
 )
 
 high_level_cmg_chain = HighLevelContextCommitMessageGenerationChain(
-    __model,
-    __model,
+    __llm_model,
+    __llm_model,
     default_document_retriever,
     cmg_temperature=0.7,
     document_query_text_temperature=0.7,
 )
 
-data_generation_chain = DataGenerationChain(__model, temperature=0.7)
+data_generation_chain = DataGenerationChain(__llm_model, temperature=0.7)
 
 
 class MockCommitMessageGenerationChain(CommitMessageGenerationChain):
