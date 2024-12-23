@@ -11,6 +11,7 @@ class IGit(ABC):
         previous_commit_hash: str,
         current_commit_hash: str,
         included_file_paths: list[str],
+        is_zero_unified: bool = True,
     ) -> str:
         pass
 
@@ -26,6 +27,7 @@ class Git(IGit):
         previous_commit_hash: str,
         current_commit_hash: str,
         included_file_paths: set[str],
+        is_zero_unified: bool = True,
     ) -> str:
 
         command = [
@@ -33,6 +35,7 @@ class Git(IGit):
             "-C",
             repo_path,
             "diff",
+            "--unified=0" if is_zero_unified else "",
             previous_commit_hash,
             current_commit_hash,
         ]

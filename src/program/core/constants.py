@@ -43,27 +43,26 @@ Avoid mentioning any specific implementation details such as class names, method
 
 Simulate retrieving distinct sections from the document system based on the provided GitHub URL and the source code. The GitHub URL points to a popular project, and the generated content should align with the known purpose and functionality of that project.
 
-Github URL: {{github_url}}
-
-Source Code:
+> Github URL: {{github_url}}
+> Source Code:
+>>>
 {{source_code}}
-
-Retrieved Content:
-"""
+>>>
+>Retrieved Content:"""
 
 LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """{diff}
-{source_code}
-"""
+{source_code}"""
 
 HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """You are a senior software engineer working on a team project having to commit your changes. Your commit message must be clear, concise, and provide enough context for your team to understand the purpose of the changes.
 
 Follow this format for the commit message:
-
+>>>
 {{type}}: {{subject}}
 
 {{body}}
+>>>
 
-Commit types:
+The type should be one of the following:
 - Feat: A new feature
 - Fix: A bug fix
 - Perf: A code change that improves performance or
@@ -85,14 +84,15 @@ Avoid adding additional comments or annotations to the commit message.
 
 Given the git diff and additional context below, write the best commit message for the changes.
 
-Git diff:
+> Git diff:
+>>>
 {diff}
-
-Additional context:
+>>>
+> Additional context:
+>>>
 {context}
-
-Commit message:
-"""
+>>>
+> Commit message:"""
 
 
 DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """You are a senior software engineer tasked with analyzing git diff and generating a concise query text that summarizes its purpose. The query text should be suitable for information retrieval from a software development documentation, such as functional requirement documents or specifications.
@@ -101,19 +101,22 @@ The query text should summarize the code changes in one or two brief sentences, 
 
 Given the following git diff and the relevant source code, write a query text to be used for retrieving relevant documentation. Focus on the code changes in the git diff. The source code is only provided for additional context.
 
-Git Diff:
+> Git Diff:
+>>>
 {diff}
-
-Source Code:
+>>>
+> Source Code:
 {source_code}
 
-Query Text:
-"""
+Query Text:"""
 
-HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Given the following question and context, return YES if the context is relevant to the question and NO if it isn't.
+HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """You are a senior AI Engineer evaluating the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context might relate to the changes in the Git diff, or NO if the context is completely irrelevant to the changes.
 
-> Question: {question}
-> Context:
+> Git Diff: 
+>>>
+{diff}
+>>>
+> Retrieved Context:
 >>>
 {context}
 >>>

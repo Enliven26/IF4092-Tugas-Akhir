@@ -102,7 +102,7 @@ class HighLevelContextDocumentRetriever(
 
     def __set_filter_input_getter(self, diff: str):
         def getter(query: str, doc: Document):
-            return {"question": query, "context": doc.page_content, "diff": diff}
+            return {"query": query, "context": doc.page_content, "diff": diff}
 
         self.__compresor.get_input = getter
 
@@ -238,7 +238,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
                     | document_query_text_llm
                     | document_query_text_output_parser
                 ),
-                "diff": RunnableLambda(lambda x: {"diff": x["diff"]}),
+                "diff": RunnableLambda(lambda x: x["diff"]),
             }
             | self.__retrieve_context
         )
@@ -282,7 +282,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
     ) -> list[str]:
         contexts = self.__high_level_context_chain.batch(
-            [pi.source_code for pi in prompt_inputs]
+            [{"source_code": pi.source_code, "diff": pi.diff} for pi in prompt_inputs]
         )
 
         return self.__cmg_chain.batch(
