@@ -5,7 +5,6 @@ from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
 from langchain.output_parsers.boolean import BooleanOutputParser
-from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import LLMChainFilter
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -320,19 +319,24 @@ class DataGenerationChain(BaseDataGenerationChain):
             random.setstate(self.__original_random_state)
             self.__original_random_state = None
 
-    def __get_random_section_order(self) -> str:
-        return ", ".join(str(i) for i in random.sample(range(5, 31), 3))
+    def __get_random_section_order(self, count: int) -> str:
+        return ", ".join(str(i) for i in random.sample(range(5, 31), count))
+
+    def __get_section_count(self) -> int:
+        return random.randint(2, 5)
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: DataGenerationPromptInputModel) -> str:
         self.__seed_random()
 
-        section_order_string = self.__get_random_section_order()
+        section_count = self.__get_section_count()
+        section_order_string = self.__get_random_section_order(section_count)
 
         result = self.__chain.invoke(
             {
                 "github_url": prompt_input.github_url,
                 "source_code": prompt_input.source_code,
+                "section_count": section_count,
                 "section_order_string": section_order_string,
                 "requirement_id_format": random.choice(RANDOM_REQUIREMENT_ID_FORMATS),
             }
@@ -346,19 +350,25 @@ class DataGenerationChain(BaseDataGenerationChain):
     def batch(self, prompt_inputs: list[DataGenerationPromptInputModel]) -> list[str]:
         self.__seed_random()
 
-        results = self.__chain.batch(
-            [
+        batch_inputs = []
+
+        for pi in prompt_inputs:
+            section_count = self.__get_section_count()
+            section_order_string = self.__get_random_section_order(section_count)
+
+            batch_inputs.append(
                 {
                     "github_url": pi.github_url,
                     "source_code": pi.source_code,
-                    "section_order_string": self.__get_random_section_order(),
+                    "section_count": section_count,
+                    "section_order_string": section_order_string,
                     "requirement_id_format": random.choice(
                         RANDOM_REQUIREMENT_ID_FORMATS
                     ),
                 }
-                for pi in prompt_inputs
-            ]
-        )
+            )
+
+        results = self.__chain.batch(batch_inputs)
 
         self.__reset_random()
 
