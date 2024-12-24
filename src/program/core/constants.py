@@ -43,80 +43,53 @@ Avoid mentioning any specific implementation details such as class names, method
 
 Simulate retrieving distinct sections from the document system based on the provided GitHub URL and the source code. The GitHub URL points to a popular project, and the generated content should align with the known purpose and functionality of that project.
 
-> Github URL: {{github_url}}
-> Source Code:
->>>
+Github URL: {{github_url}}
+Source Code:
 {{source_code}}
->>>
->Retrieved Content:"""
+
+Retrieved Content:"""
 
 LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """{diff}
 {source_code}"""
 
-HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """You are a senior software engineer working on a team project having to commit your changes. Your commit message must be clear, concise, and provide enough context for your team to understand the purpose of the changes.
+HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles for brevity, and referencing multiple contexts is allowed. Focus on the most relevant contexts.
+
+A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences. Avoid adding additional comments or annotations to the commit message.
 
 Follow this format for the commit message:
->>>
+
 {{type}}: {{subject}}
 
 {{body}}
->>>
 
-The type should be one of the following:
-- Feat: A new feature
-- Fix: A bug fix
-- Perf: A code change that improves performance or
-- Test: Adding missing tests or correcting existing tests
-- Refactor: Code improvements without functional changes (including styling)
-- Chore: for other changes (e.g., routine tasks, updates to the build process, or tooling)
+The type should be one of the following: feat, fix, perf, test, refactor, or chore. If any of these types are not suitable, use chore as default.
 
-The subject should summarize the changes in one line. The body should still be concise but provide more context about the changes. The body should be wrapped at 2-3 sentences.
-
-A good commit message explains what changes were made and why they were necessary. For what, describe the changes from the perspective of the impacted code objects (e.g., attributes, methods, classes, packages) to highlight the key components involved. For why, follow below rules:
-
-- Corrective changes: describe where and how the error occurrs
-- Additive and adaptive changes: points to the requirements, user stories, or design documents that motivated the changes if provided. Otherwise, explain the the improvement and benefit that the changes bring.
-- Refactor changes: omit the why part since the what part should be self-explanatory
-
-The why part should be concise. If any context is referenced, use the most efficient way to refer to it (e.g., by ID, name, or title). Avoid repeating the full context. Avoid using unrelevant identifiers or names to reference a separate context.
-
-Avoid adding additional comments or annotations to the commit message.
-
-Given the git diff and additional context below, write the best commit message for the changes.
-
-> Git diff:
->>>
+Git diff:
 {diff}
->>>
-> Additional context:
->>>
+
+Additional context:
 {context}
->>>
-> Commit message:"""
+
+Commit message:"""
 
 
-DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """You are a senior software engineer tasked with analyzing git diff and generating a concise query text that summarizes its purpose. The query text should be suitable for information retrieval from a software development documentation, such as functional requirement documents or specifications.
+DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. The query text must summarize the code changes in two very brief sentences.
 
-The query text should summarize the code changes in one or two brief sentences, focusing on its primary high-level purpose in the context of its application. Avoid assuming specific use cases or applications unless explicitly stated in the code. Avoid mentioning any specific implementation details such as class names, methods, or variables. Avoid using jargon or technical terms.
-
-Given the following git diff and the relevant source code, write a query text to be used for retrieving relevant documentation. Focus on the code changes in the git diff. The source code is only provided for additional context.
-
-> Git Diff:
->>>
+Git diff:
 {diff}
->>>
-> Source Code:
+
+Source code:
 {source_code}
 
-Query Text:"""
+Query text:"""
 
-HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """You are a senior AI Engineer evaluating the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context might relate to the changes in the Git diff, or NO if the context is completely irrelevant to the changes.
+HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context directly or indirectly correlates with the changes in the Git diff. Otherwise, return NO.
 
-> Git Diff: 
+> Git diff: 
 >>>
 {diff}
 >>>
-> Retrieved Context:
+> Retrieved context:
 >>>
 {context}
 >>>

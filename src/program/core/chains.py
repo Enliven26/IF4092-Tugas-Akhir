@@ -66,7 +66,7 @@ class HighLevelContextDocumentRetriever(
     DocumentRetriever[HighLevelContextDocumentRetrieverInputModel]
 ):
     DEFAULT_INDEX_NAME = "high_level_context_index"
-    DEFAULT_LLM_FILTER_TEMPERATURE = 0.4
+    DEFAULT_LLM_FILTER_TEMPERATURE = 0
 
     def __init__(
         self,
@@ -181,7 +181,7 @@ class CommitMessageGenerationChain(
 
 
 class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
-    def __init__(self, model: str, temperature: float = 0.55):
+    def __init__(self, model: str, temperature: float = 0.7):
         super().__init__()
 
         prompt = PromptTemplate.from_template(LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE)
@@ -214,7 +214,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
             HighLevelContextDocumentRetrieverInputModel
         ],
         cmg_temperature: float = 0.7,
-        document_query_text_temperature: float = 0.7,
+        document_query_text_temperature: float = 0.55,
     ):
         super().__init__()
 
