@@ -166,4 +166,5 @@ cython_debug/
 
 # Project
 src/program/out/test
+src/program/out/evaluation
 src/program/data/datageneration/datasets/dataset.parquet

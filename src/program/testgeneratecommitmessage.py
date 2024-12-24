@@ -3,21 +3,28 @@ import os
 
 from dotenv import load_dotenv
 
+from cmg import evaluator
+from cmg.evaluators import CommitMessageGenerator
+from cmg.models import EvaluationModel
 from core import high_level_cmg_chain
 from core.enums import EnvironmentKey
-from evaluation import evaluator
-from evaluation.evaluators import CommitMessageGenerator
-from evaluation.models import EvaluationModel
 
 EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "testcommits.json")
-DEFAULT_EVALUATION_OUTPUT_PATH = os.path.join("out", "test", "evaluation")
+DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "test", "cmg")
+SAMPLE_EVALUATION_ID = "TC000"
 
 
-def get_evaluation_data() -> list[EvaluationModel]:
+def get_evaluation_sample() -> EvaluationModel:
     with open(EVALUATION_JSON_PATH, "r", encoding="utf-8") as file:
         json_string = file.read()
 
-        return EvaluationModel.from_json(json_string)
+        evaluation_data = EvaluationModel.from_json(json_string)
+
+        for evaluation in evaluation_data:
+            if evaluation.id == SAMPLE_EVALUATION_ID:
+                return evaluation
+
+        raise ValueError(f"Evaluation with ID {SAMPLE_EVALUATION_ID} not found.")
 
 
 def test_evaluate(evaluation_data: list[EvaluationModel], output_path: str):
@@ -31,11 +38,13 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
     load_dotenv(dotenv_path=".env.test", verbose=True, override=True)
 
-    output_path = os.getenv(EnvironmentKey.EVALUATION_OUTPUT_PATH.value)
+    output_path = os.getenv(
+        EnvironmentKey.CMG_OUTPUT_PATH.value, DEFAULT_CMG_OUTPUT_PATH
+    )
 
-    evaluation_data = get_evaluation_data()
+    evaluation_sample = get_evaluation_sample()
 
-    test_evaluate(evaluation_data, output_path)
+    test_evaluate([evaluation_sample], output_path)
 
 
 if __name__ == "__main__":

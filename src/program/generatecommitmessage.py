@@ -3,13 +3,13 @@ import os
 
 from dotenv import load_dotenv
 
+from cmg import evaluator
+from cmg.evaluators import CommitMessageGenerator
+from cmg.models import EvaluationModel
 from core.enums import EnvironmentKey
-from evaluation import evaluator
-from evaluation.evaluators import CommitMessageGenerator
-from evaluation.models import EvaluationModel
 
 EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "commits.json")
-DEFAULT_EVALUATION_OUTPUT_PATH = os.path.join("out", "evaluation.json")
+DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "cmg")
 
 
 def get_evaluation_data() -> list[EvaluationModel]:
@@ -28,7 +28,7 @@ def main():
     load_dotenv(verbose=True, override=True)
 
     output_path = os.getenv(
-        EnvironmentKey.EVALUATION_OUTPUT_PATH.value, DEFAULT_EVALUATION_OUTPUT_PATH
+        EnvironmentKey.CMG_OUTPUT_PATH.value, DEFAULT_CMG_OUTPUT_PATH
     )
 
     evaluation_data = get_evaluation_data()

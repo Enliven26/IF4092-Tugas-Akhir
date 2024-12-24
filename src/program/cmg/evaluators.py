@@ -13,7 +13,7 @@ from core.enums import DiffVersion
 from core.git import IGit
 from core.models import CommitMessageGenerationPromptInputModel
 from core.parsers import ICodeParser, IDiffParser
-from evaluation.models import (
+from cmg.models import (
     CommitMessageGenerationResultModel,
     EvaluationModel,
     EvaluationResultModel,
@@ -130,38 +130,43 @@ class Evaluator(IEvaluator):
         directory = os.path.dirname(path)
         os.makedirs(directory, exist_ok=True)
 
-    def get_high_level_context(
+    def get_high_level_contexts(
         self,
         chain: HighLevelContextCommitMessageGenerationChain,
-        evaluation: EvaluationModel,
+        evaluation_data: list[EvaluationModel],
         parent_output_path: str,
     ):
         # This is for testing purpose
         output_path = self.__get__evaluation_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
-        current_commit_hash = evaluation.current_commit_hash
-        previous_commit_hash = (
-            evaluation.previous_commit_hash or f"{current_commit_hash}~1"
-        )
+        results: list[str] = []
 
-        diff = self.__git.get_diff(
-            evaluation.repository_path,
-            previous_commit_hash,
-            current_commit_hash,
-            evaluation.included_file_paths,
-        )
+        for evaluation in evaluation_data:
+            current_commit_hash = evaluation.current_commit_hash
+            previous_commit_hash = (
+                evaluation.previous_commit_hash or f"{current_commit_hash}~1"
+            )
 
-        relevant_source_code = self.__get_implementations(
-            evaluation.repository_path,
-            previous_commit_hash,
-            current_commit_hash,
-            evaluation.included_file_paths,
-            diff,
-        )
+            diff = self.__git.get_diff(
+                evaluation.repository_path,
+                previous_commit_hash,
+                current_commit_hash,
+                evaluation.included_file_paths,
+            )
 
-        result = chain.get_high_level_context(relevant_source_code, diff)
-        json_string = jsonpickle.encode([result], unpicklable=False)
+            relevant_source_code = self.__get_implementations(
+                evaluation.repository_path,
+                previous_commit_hash,
+                current_commit_hash,
+                evaluation.included_file_paths,
+                diff,
+            )
+
+            result = chain.get_high_level_context(relevant_source_code, diff)
+            results.append(result)
+
+        json_string = jsonpickle.encode(results, unpicklable=False)
 
         with open(output_path, "w") as file:
             file.write(json_string)
