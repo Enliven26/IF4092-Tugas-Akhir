@@ -8,7 +8,7 @@ from core.enums import EnvironmentKey
 from cmg import evaluator
 from cmg.models import EvaluationModel
 
-EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "evaluatecommits.json")
+EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
 DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join(
     "out", "evaluation", "highlevelcontext"
 )

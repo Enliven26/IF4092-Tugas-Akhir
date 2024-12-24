@@ -8,7 +8,7 @@ from cmg.evaluators import CommitMessageGenerator
 from cmg.models import EvaluationModel
 from core.enums import EnvironmentKey
 
-EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "commits.json")
+EVALUATION_JSON_PATH = os.path.join("data", "cmg", "commits.json")
 DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "cmg")
 
 

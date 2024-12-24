@@ -5,19 +5,20 @@ from datetime import datetime
 
 import jsonpickle
 
+from cmg.models import (
+    CommitMessageGenerationResultModel,
+    EvaluationModel,
+    EvaluationResultModel,
+)
 from core.chains import (
     CommitMessageGenerationChain,
+    GetHighLevelContextInputModel,
     HighLevelContextCommitMessageGenerationChain,
 )
 from core.enums import DiffVersion
 from core.git import IGit
 from core.models import CommitMessageGenerationPromptInputModel
 from core.parsers import ICodeParser, IDiffParser
-from cmg.models import (
-    CommitMessageGenerationResultModel,
-    EvaluationModel,
-    EvaluationResultModel,
-)
 
 
 class ICommitMessageGenerator(ABC):
@@ -140,7 +141,7 @@ class Evaluator(IEvaluator):
         output_path = self.__get__evaluation_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
-        results: list[str] = []
+        inputs: list[GetHighLevelContextInputModel] = []
 
         for evaluation in evaluation_data:
             current_commit_hash = evaluation.current_commit_hash
@@ -163,8 +164,13 @@ class Evaluator(IEvaluator):
                 diff,
             )
 
-            result = chain.get_high_level_context(relevant_source_code, diff)
-            results.append(result)
+            input = GetHighLevelContextInputModel()
+            input.source_code = relevant_source_code
+            input.diff = diff
+
+            inputs.append(input)
+
+        results = chain.get_high_level_context_batch(inputs)
 
         json_string = jsonpickle.encode(results, unpicklable=False)
 

@@ -7,7 +7,7 @@ from datageneration.models import ExampleModel
 from dotenv import load_dotenv
 
 DATA_GENERATION_JSON_PATH = os.path.join(
-    "data", "datageneration", "evaluateexamples.json"
+    "data", "datageneration", "evaluationexamples.json"
 )
 DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join(
     "out", "evaluation", "datageneration"

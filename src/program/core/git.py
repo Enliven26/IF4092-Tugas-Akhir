@@ -11,7 +11,7 @@ class IGit(ABC):
         previous_commit_hash: str,
         current_commit_hash: str,
         included_file_paths: list[str],
-        is_zero_unified: bool = True,
+        is_zero_unified: bool = False,
     ) -> str:
         pass
 
@@ -27,7 +27,7 @@ class Git(IGit):
         previous_commit_hash: str,
         current_commit_hash: str,
         included_file_paths: set[str],
-        is_zero_unified: bool = True,
+        is_zero_unified: bool = False,
     ) -> str:
 
         command = [
@@ -39,6 +39,8 @@ class Git(IGit):
             previous_commit_hash,
             current_commit_hash,
         ]
+
+        command = [arg for arg in command if arg]
 
         if included_file_paths:
             command.append("--")

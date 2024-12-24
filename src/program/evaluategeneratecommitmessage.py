@@ -9,7 +9,7 @@ from cmg.models import EvaluationModel
 from core import high_level_cmg_chain
 from core.enums import EnvironmentKey
 
-EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "testcommits.json")
+EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
 DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "test", "cmg")
 
 

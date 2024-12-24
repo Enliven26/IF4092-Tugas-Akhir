@@ -1,0 +1,62 @@
+[
+    {
+        "id": "ETC001",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-ktl",
+        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-ktl/if3210-2024-android-ktl",
+        "previous_commit_hash": null,
+        "current_commit_hash": "4b28990f1ee2432bdd53cce613c99228432a9ca0",
+        "included_file_paths": [
+            "app/src/main/java/com/ktl/bondoman/ui/settings/SettingsFragment.kt"
+        ],
+        "remarks": "Implement randomize transaction",
+        "merge_request_number": null
+    },
+    {
+        "id": "ETC002",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yap",
+        "repository_url": "https://gitlab.informatika.org/yansans/if3210-2024-android-yap",
+        "previous_commit_hash": null,
+        "current_commit_hash": "67ff580f3f110a7c706f8c42bcfc2f51a495c533",
+        "included_file_paths": [
+            "app/src/main/java/com/example/bondoyap/ui/scanner/ScannerFragment.kt"
+        ],
+        "remarks": "Loading bar when uploading bill for scanning",
+        "merge_request_number": null
+    },
+    {
+        "id": "ETC003",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yap",
+        "repository_url": "https://gitlab.informatika.org/yansans/if3210-2024-android-yap",
+        "previous_commit_hash": null,
+        "current_commit_hash": "b5445fb5bd4ab759b553a72ab86c26adbbdb2c78",
+        "included_file_paths": [
+            "app/src/main/java/com/example/bondoyap/ui/transactions/AddTransactionsFragment.kt"
+        ],
+        "remarks": "Implement location logic when adding trnasaction",
+        "merge_request_number": null
+    },
+    {
+        "id": "ETC004",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yap",
+        "repository_url": "https://gitlab.informatika.org/yansans/if3210-2024-android-yap",
+        "previous_commit_hash": null,
+        "current_commit_hash": "082791c13d2776e64241b8f61a7beb5ff92f4813",
+        "included_file_paths": [
+            "app/src/main/java/com/example/bondoyap/ui/settings/SettingsFragment.kt"
+        ],
+        "remarks": "Send report email button",
+        "merge_request_number": null
+    },
+    {
+        "id": "ETC005",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-yap",
+        "repository_url": "https://gitlab.informatika.org/yansans/if3210-2024-android-yap",
+        "previous_commit_hash": null,
+        "current_commit_hash": "d416965810622a34df5efcfdc5036a7c14025714",
+        "included_file_paths": [
+            "app/src/main/java/com/example/bondoyap/ui/graph/GraphFragment.kt"
+        ],
+        "remarks": "Simple graph page",
+        "merge_request_number": null
+    }
+]

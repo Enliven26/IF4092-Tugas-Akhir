@@ -33,6 +33,7 @@ from core.models import (
     CommitMessageGenerationPromptInputModel,
     DataGenerationPromptInputModel,
     HighLevelContextDocumentRetrieverInputModel,
+    GetHighLevelContextInputModel
 )
 
 TRunnableInput = TypeVar("TRunnableInput")
@@ -261,11 +262,19 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         return self.__high_level_context_chain.invoke(
             {"source_code": source_code, "diff": diff}
         )
+    
+    def __get_high_level_context_batch(self, inputs: list[dict[str, str]]) -> list[str]:
+        return self.__high_level_context_chain.batch(inputs)
 
     @traceable(run_type="llm")
-    def get_high_level_context(self, source_code: str, diff: str) -> str:
+    def get_high_level_context(self, input: GetHighLevelContextInputModel) -> str:
         # Testing purpose
-        return self.__get_high_level_context(source_code, diff)
+        return self.__get_high_level_context(input.source_code, input.diff)
+    
+    @traceable(run_type="llm")
+    def get_high_level_context_batch(self, inputs: list[GetHighLevelContextInputModel]) -> list[str]:
+        dict_inputs = [{"source_code": input.source_code, "diff": input.diff} for input in inputs]
+        return self.__get_high_level_context_batch(dict_inputs)
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:

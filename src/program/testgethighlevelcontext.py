@@ -1,16 +1,15 @@
 import logging
 import os
 
-from dotenv import load_dotenv
-
-from core import high_level_cmg_chain
-from core.enums import EnvironmentKey
 from cmg import evaluator
 from cmg.models import EvaluationModel
+from core import high_level_cmg_chain
+from core.enums import EnvironmentKey
+from dotenv import load_dotenv
 
-EVALUATION_JSON_PATH = os.path.join("data", "evaluation", "commits.json")
+EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
 DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join("out", "test", "highlevelcontext")
-SAMPLE_EVALUATION_ID = "TC050"
+SAMPLE_EVALUATION_ID = "ETC001"
 
 
 def get_evaluation_sample() -> EvaluationModel:
