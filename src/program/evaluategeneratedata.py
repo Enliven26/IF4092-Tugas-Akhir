@@ -9,17 +9,16 @@ from dotenv import load_dotenv
 DATA_GENERATION_JSON_PATH = os.path.join(
     "data", "datageneration", "evaluateexamples.json"
 )
-DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "test", "datageneration")
-EXAMPLE_INDEX = 0
+DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join(
+    "out", "evaluation", "datageneration"
+)
 
 
-def get_example_sample() -> ExampleModel:
+def get_examples() -> list[ExampleModel]:
     with open(DATA_GENERATION_JSON_PATH, "r", encoding="utf-8") as file:
         json_string = file.read()
 
-        examples = ExampleModel.from_json(json_string)
-
-        return examples[EXAMPLE_INDEX]
+        return ExampleModel.from_json(json_string)
 
 
 def test_generate(examples: list[ExampleModel], output_path: str):
@@ -35,8 +34,8 @@ def main():
         DEFAULT_DATA_GENERATION_OUTPUT_PATH,
     )
 
-    example = get_example_sample()
-    test_generate([example], output_path)
+    examples = get_examples()
+    test_generate(examples, output_path)
 
 
 if __name__ == "__main__":
