@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
 DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join("out", "test", "highlevelcontext")
-SAMPLE_EVALUATION_ID = "ETC001"
+SAMPLE_EVALUATION_ID = "ETC003"
 
 
 def get_evaluation_sample() -> EvaluationModel:

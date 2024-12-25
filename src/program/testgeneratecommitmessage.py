@@ -11,7 +11,7 @@ from core.enums import EnvironmentKey
 
 EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
 DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "test", "cmg")
-SAMPLE_EVALUATION_ID = "TC000"
+SAMPLE_EVALUATION_ID = "ETC003"
 
 
 def get_evaluation_sample() -> EvaluationModel:

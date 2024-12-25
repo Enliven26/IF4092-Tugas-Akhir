@@ -32,7 +32,7 @@
         "included_file_paths": [
             "app/src/main/java/com/example/bondoyap/ui/transactions/AddTransactionsFragment.kt"
         ],
-        "remarks": "Implement location logic when adding trnasaction",
+        "remarks": "Implement location logic when adding transaction",
         "merge_request_number": null
     },
     {

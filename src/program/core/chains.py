@@ -32,8 +32,8 @@ from core.constants import (
 from core.models import (
     CommitMessageGenerationPromptInputModel,
     DataGenerationPromptInputModel,
+    GetHighLevelContextInputModel,
     HighLevelContextDocumentRetrieverInputModel,
-    GetHighLevelContextInputModel
 )
 
 TRunnableInput = TypeVar("TRunnableInput")
@@ -262,7 +262,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         return self.__high_level_context_chain.invoke(
             {"source_code": source_code, "diff": diff}
         )
-    
+
     def __get_high_level_context_batch(self, inputs: list[dict[str, str]]) -> list[str]:
         return self.__high_level_context_chain.batch(inputs)
 
@@ -270,10 +270,14 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
     def get_high_level_context(self, input: GetHighLevelContextInputModel) -> str:
         # Testing purpose
         return self.__get_high_level_context(input.source_code, input.diff)
-    
+
     @traceable(run_type="llm")
-    def get_high_level_context_batch(self, inputs: list[GetHighLevelContextInputModel]) -> list[str]:
-        dict_inputs = [{"source_code": input.source_code, "diff": input.diff} for input in inputs]
+    def get_high_level_context_batch(
+        self, inputs: list[GetHighLevelContextInputModel]
+    ) -> list[str]:
+        dict_inputs = [
+            {"source_code": input.source_code, "diff": input.diff} for input in inputs
+        ]
         return self.__get_high_level_context_batch(dict_inputs)
 
     @traceable(run_type="llm")
@@ -332,7 +336,7 @@ class DataGenerationChain(BaseDataGenerationChain):
         return ", ".join(str(i) for i in random.sample(range(5, 31), count))
 
     def __get_section_count(self) -> int:
-        return random.randint(2, 5)
+        return random.randint(2, 4)
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: DataGenerationPromptInputModel) -> str:
