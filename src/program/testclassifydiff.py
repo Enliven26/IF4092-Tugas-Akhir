@@ -9,7 +9,7 @@ from core import zero_shot_high_level_cmg_chain
 from core.enums import EnvironmentKey
 
 EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
-DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join("out", "test", "highlevelcontext")
+DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join("out", "test", "diffclassification")
 SAMPLE_EVALUATION_ID = "ETC003"
 
 
@@ -26,8 +26,8 @@ def get_evaluation_sample() -> EvaluationModel:
         raise ValueError(f"Evaluation with ID {SAMPLE_EVALUATION_ID} not found.")
 
 
-def test_get_high_level_context(evaluation: EvaluationModel, output_path: str):
-    evaluator.get_high_level_contexts(
+def test_classify_diffs(evaluation: EvaluationModel, output_path: str):
+    evaluator.classify_diffs(
         zero_shot_high_level_cmg_chain, evaluation, output_path
     )
 
@@ -38,11 +38,11 @@ def main():
 
     evaluation_sample = get_evaluation_sample()
     output_path = os.getenv(
-        EnvironmentKey.HIGH_LEVEL_CONTEXT_OUTPUT_PATH.value,
+        EnvironmentKey.DIFF_CLASSIFICATION_OUTPUT_PATH.value,
         DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH,
     )
 
-    test_get_high_level_context([evaluation_sample], output_path)
+    test_classify_diffs([evaluation_sample], output_path)
 
 
 if __name__ == "__main__":

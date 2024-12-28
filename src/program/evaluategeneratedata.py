@@ -27,7 +27,7 @@ def test_generate(examples: list[ExampleModel], output_path: str):
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
-    load_dotenv(dotenv_path=".env.test", verbose=True, override=True)
+    load_dotenv(dotenv_path=".env.evaluation", verbose=True, override=True)
 
     output_path = os.getenv(
         EnvironmentKey.DATA_GENERATION_OUTPUT_PATH.value,

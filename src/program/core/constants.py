@@ -86,9 +86,9 @@ for _i in range(len(__HIGH_LEVEL_CONTEXT_EXAMPLES)):
 LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """{diff}
 {source_code}"""
 
-__HIGH_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant include it in the commit body. Use IDs, names, or titles for brevity, and referencing multiple contexts is allowed Focus on the most relevant contexts.
+__FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts, and include multiple contexts if applicable in the commit message.
 
-A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences. Avoid adding additional comments or annotations to the commit message.
+A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
 
 Follow this format for the commit message:
 
@@ -131,8 +131,8 @@ Additional context 4:
 Commit message 4:"""
 
 
-HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = Template(
-    __HIGH_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE
+FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = Template(
+    __FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE
 ).substitute(
     {
         "diff_1": __DIFF_EXAMPLES[0],
@@ -146,6 +146,26 @@ HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = Template(
         "commit_message_3": __COMMIT_MESSAGE_EXAMPLES[2],
     }
 )
+
+ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts, and include multiple contexts if applicable in the commit message.
+
+A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
+
+Follow this format for the commit message:
+
+{{type}}: {{subject}}
+
+{{body}}
+
+The type should be one of the following: feat, fix, perf, test, refactor, or chore. If any of these types are not suitable, use chore as default.
+
+Git diff:
+{diff}
+
+Additional context:
+{context}
+
+Commit message: {type}: """
 
 
 DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. The query text must summarize the code changes in two very brief sentences.
@@ -169,3 +189,19 @@ HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a doc
 {context}
 >>>
 > Relevant (YES / NO):"""
+
+DIFF_CLASSIFIER_PROMPT_TEMPLATE = """Classify the Git diff into one of the following six software maintenance activities: feat, fix, perf, test, refactor, or chore. Return the activity that best matches the code changes. Refer to the definitions below for each activity.
+
+feat: introducing new features into the system.
+fix: fixing existing bugs or issues in the system.
+perf: improving the performance of the system.
+test: adding, modifying, or deleting test cases.
+refactor: changes made to the internal structure of software to make it easier to understand and cheaper to modify without changing its observable behavior, including code styling.
+chore: regular maintenance tasks, such as updating dependencies or build tasks.
+
+Avoid adding any additional comments or annotations to the classification.
+
+> Git diff: {diff}
+
+> Software maintenance activity (feat / fix / perf / test / refactor / chore):
+"""

@@ -6,12 +6,26 @@ from dotenv import load_dotenv
 from cmg import evaluator
 from cmg.evaluators import CommitMessageGenerator
 from cmg.models import EvaluationModel
-from core import high_level_cmg_chain
+from core import (
+    few_shot_high_level_cmg_chain,
+    low_level_cmg_chain,
+    zero_shot_high_level_cmg_chain,
+)
 from core.enums import EnvironmentKey
 
 EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
 DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "test", "cmg")
 SAMPLE_EVALUATION_ID = "ETC003"
+GENERATORS = [
+    CommitMessageGenerator(
+        "Zero-Shot High-Level Generator", zero_shot_high_level_cmg_chain
+    ),
+    CommitMessageGenerator(
+        "Few-Shot High-Level Generator", few_shot_high_level_cmg_chain
+    ),
+    CommitMessageGenerator("Low-Level Generator", low_level_cmg_chain),
+]
+GENERATOR_INDEX = 0
 
 
 def get_evaluation_sample() -> EvaluationModel:
@@ -28,8 +42,7 @@ def get_evaluation_sample() -> EvaluationModel:
 
 
 def test_evaluate(evaluation_data: list[EvaluationModel], output_path: str):
-    generator = CommitMessageGenerator("TestGenerator", high_level_cmg_chain)
-    generators = [generator]
+    generators = [GENERATORS[GENERATOR_INDEX]]
 
     evaluator.evaluate(generators, evaluation_data, output_path)
 

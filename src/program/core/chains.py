@@ -22,9 +22,10 @@ from langsmith import traceable
 
 from core.constants import (
     DATA_GENERATION_PROMPT_TEMPLATE,
+    DIFF_CLASSIFIER_PROMPT_TEMPLATE,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     END_DOCUMENT_SPLIT_SEPARATOR,
-    HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
+    FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE,
     LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     RANDOM_REQUIREMENT_ID_FORMATS,
@@ -32,8 +33,8 @@ from core.constants import (
 from core.models import (
     CommitMessageGenerationPromptInputModel,
     DataGenerationPromptInputModel,
+    DiffContextDocumentRetrieverInputModel,
     GetHighLevelContextInputModel,
-    HighLevelContextDocumentRetrieverInputModel,
 )
 
 TRunnableInput = TypeVar("TRunnableInput")
@@ -63,8 +64,8 @@ class DocumentRetriever(BaseRunnable[TDocumentRetrieverInput, str]):
     pass
 
 
-class HighLevelContextDocumentRetriever(
-    DocumentRetriever[HighLevelContextDocumentRetrieverInputModel]
+class DiffContextDocumentRetriever(
+    DocumentRetriever[DiffContextDocumentRetrieverInputModel]
 ):
     DEFAULT_INDEX_NAME = "high_level_context_index"
     DEFAULT_LLM_FILTER_TEMPERATURE = 0
@@ -94,7 +95,7 @@ class HighLevelContextDocumentRetriever(
         )
 
     def __get_context(
-        self, input: HighLevelContextDocumentRetrieverInputModel
+        self, input: DiffContextDocumentRetrieverInputModel
     ) -> list[Document]:
         docs = self.__retriever.invoke(input.query)
         self.__set_filter_input_getter(input.diff)
@@ -110,13 +111,11 @@ class HighLevelContextDocumentRetriever(
         return "".join([d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs])
 
     @traceable(run_type="retriever")
-    def invoke(self, input: HighLevelContextDocumentRetrieverInputModel) -> str:
+    def invoke(self, input: DiffContextDocumentRetrieverInputModel) -> str:
         return self.__retriever_chain.invoke(input)
 
     @traceable(run_type="retriever")
-    def batch(
-        self, inputs: list[HighLevelContextDocumentRetrieverInputModel]
-    ) -> list[str]:
+    def batch(self, inputs: list[DiffContextDocumentRetrieverInputModel]) -> list[str]:
         return self.__retriever_chain.batch(inputs)
 
     def save(self, folder_path: str):
@@ -148,7 +147,7 @@ class HighLevelContextDocumentRetriever(
         llm_filter_model: str,
         llm_filter_temperature: int = DEFAULT_LLM_FILTER_TEMPERATURE,
         index_name: str = DEFAULT_INDEX_NAME,
-    ) -> "HighLevelContextDocumentRetriever":
+    ) -> "DiffContextDocumentRetriever":
         documents = cls.__load_documents(file_path)
         embeddings = OpenAIEmbeddings(model=embeding_model)
 
@@ -175,21 +174,64 @@ class HighLevelContextDocumentRetriever(
         return split_documents
 
 
+class DiffClassifierChain(BaseRunnable[str, str]):
+    def __init__(self, model: str, temperature: float = 0):
+        super().__init__()
+
+        prompt = PromptTemplate.from_template(DIFF_CLASSIFIER_PROMPT_TEMPLATE)
+        llm = ChatOpenAI(model=model, temperature=temperature)
+        output_parser = StrOutputParser()
+
+        self.__chain = prompt | llm | output_parser
+
+    @traceable(run_type="llm")
+    def invoke(self, diff: str) -> str:
+        return self.__chain.invoke(diff)
+
+    @traceable(run_type="llm")
+    def batch(self, diffs: list[str]) -> list[str]:
+        return self.__chain.batch(diffs)
+
+
 class CommitMessageGenerationChain(
     BaseRunnable[CommitMessageGenerationPromptInputModel, str]
 ):
-    pass
+    def __init__(self, diff_classifier: BaseRunnable[str, str]):
+        super().__init__()
+        self.__diff_classifier = diff_classifier
+
+    def classify_diff(self, diff: str) -> str:
+        return self.__diff_classifier.invoke(diff)
+
+    def classify_diff_batch(self, diffs: list[str]) -> list[str]:
+        return self.__diff_classifier.batch(diffs)
 
 
 class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
-    def __init__(self, model: str, temperature: float = 0.7):
-        super().__init__()
+    def __init__(
+        self,
+        diff_classifier: BaseRunnable[str, str],
+        model: str,
+        temperature: float = 0.7,
+    ):
+        super().__init__(diff_classifier)
 
         prompt = PromptTemplate.from_template(LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE)
         llm = ChatOpenAI(model=model, temperature=temperature)
         output_parser = StrOutputParser()
 
-        self.__chain = prompt | llm | output_parser
+        self.__chain = (
+            RunnableLambda(
+                lambda x: {
+                    "diff": x["diff"],
+                    "source_code": x["source_code"],
+                    "type": self.classify_diff(x["diff"]),
+                }
+            )
+            | prompt
+            | llm
+            | output_parser
+        )
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
@@ -209,15 +251,15 @@ class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
 class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
     def __init__(
         self,
+        diff_classifier: BaseRunnable[str, str],
+        prompt_template: str,
         cmg_model: str,
         document_query_text_model: str,
-        document_retriever: DocumentRetriever[
-            HighLevelContextDocumentRetrieverInputModel
-        ],
+        document_retriever: DocumentRetriever[DiffContextDocumentRetrieverInputModel],
         cmg_temperature: float = 0.7,
         document_query_text_temperature: float = 0.55,
     ):
-        super().__init__()
+        super().__init__(diff_classifier)
 
         document_query_text_prompt = PromptTemplate.from_template(
             DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE
@@ -243,16 +285,25 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
             | self.__retrieve_context
         )
 
-        cmg_prompt = PromptTemplate.from_template(
-            HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE
-        )
+        cmg_prompt = PromptTemplate.from_template(prompt_template)
         cmg_llm = ChatOpenAI(model=cmg_model, temperature=cmg_temperature)
         cmg_output_parser = StrOutputParser()
 
-        self.__cmg_chain = cmg_prompt | cmg_llm | cmg_output_parser
+        self.__cmg_chain = (
+            RunnableLambda(
+                lambda x: {
+                    "diff": x["diff"],
+                    "context": self.__high_level_context_chain.invoke(x),
+                    "type": self.classify_diff(x["diff"]),
+                }
+            )
+            | cmg_prompt
+            | cmg_llm
+            | cmg_output_parser
+        )
 
     def __retrieve_context(self, input: dict) -> str:
-        retriever_input = HighLevelContextDocumentRetrieverInputModel()
+        retriever_input = DiffContextDocumentRetrieverInputModel()
         retriever_input.query = input["query"]
         retriever_input.diff = input["diff"]
 
@@ -282,26 +333,16 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
-
-        context = self.__get_high_level_context(
-            prompt_input.source_code, prompt_input.diff
+        return self.__cmg_chain.invoke(
+            {"diff": prompt_input.diff, "source_code": prompt_input.source_code}
         )
-
-        return self.__cmg_chain.invoke({"diff": prompt_input.diff, "context": context})
 
     @traceable(run_type="llm")
     def batch(
         self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
     ) -> list[str]:
-        contexts = self.__high_level_context_chain.batch(
-            [{"source_code": pi.source_code, "diff": pi.diff} for pi in prompt_inputs]
-        )
-
         return self.__cmg_chain.batch(
-            [
-                {"diff": pi.diff, "context": context}
-                for pi, context in zip(prompt_inputs, contexts)
-            ]
+            [{"diff": pi.diff, "source_code": pi.source_code} for pi in prompt_inputs]
         )
 
 

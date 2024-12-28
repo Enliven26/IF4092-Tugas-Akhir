@@ -131,6 +131,38 @@ class Evaluator(IEvaluator):
         directory = os.path.dirname(path)
         os.makedirs(directory, exist_ok=True)
 
+    def classify_diffs(
+        self,
+        chain: CommitMessageGenerationChain,
+        evaluation_data: list[EvaluationModel],
+        parent_output_path: str,
+    ):
+        # This is for testing purpose
+        output_path = self.__get__evaluation_output_path(parent_output_path)
+        self.__create_folder_if_not_exist(output_path)
+
+        diffs: list[str] = []
+
+        for evaluation in evaluation_data:
+            current_commit_hash = evaluation.current_commit_hash
+            previous_commit_hash = f"{current_commit_hash}~1"
+
+            diff = self.__git.get_diff(
+                evaluation.repository_path,
+                previous_commit_hash,
+                current_commit_hash,
+                evaluation.included_file_paths,
+            )
+
+            diffs.append(diff)
+
+        results = chain.classify_diff_batch(diffs)
+
+        json_string = jsonpickle.encode(results, unpicklable=False)
+
+        with open(output_path, "w") as file:
+            file.write(json_string)
+
     def get_high_level_contexts(
         self,
         chain: HighLevelContextCommitMessageGenerationChain,

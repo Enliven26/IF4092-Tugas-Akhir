@@ -4,9 +4,14 @@ from core.chains import (
     BaseDataGenerationChain,
     CommitMessageGenerationChain,
     DataGenerationChain,
+    DiffClassifierChain,
+    DiffContextDocumentRetriever,
     HighLevelContextCommitMessageGenerationChain,
-    HighLevelContextDocumentRetriever,
     LowLevelContextCommitMessageGenerationChain,
+)
+from core.constants import (
+    FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
+    ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
 )
 from core.enums import EnvironmentKey
 from core.git import Git
@@ -25,27 +30,41 @@ __llm_model = os.getenv(EnvironmentKey.OPENAI_LLM_MODEL.value, "gpt-4o-mini")
 __embedding_model = os.getenv(
     EnvironmentKey.OPENAI_EMBEDDING_MODEL.value, "text-embedding-3-small"
 )
-default_document_retriever: HighLevelContextDocumentRetriever = None
+default_document_retriever: DiffContextDocumentRetriever = None
 
 if not os.path.exists(__DEFAULT_RETRIEVER_LOCAL_PATH) or not os.listdir(
     __DEFAULT_RETRIEVER_LOCAL_PATH
 ):
     os.makedirs(__DEFAULT_RETRIEVER_LOCAL_PATH, exist_ok=True)
-    default_document_retriever = HighLevelContextDocumentRetriever.from_document_file(
+    default_document_retriever = DiffContextDocumentRetriever.from_document_file(
         __RETRIEVER_DOCUMENT_PATH, __embedding_model, __llm_model
     )
     default_document_retriever.save(__DEFAULT_RETRIEVER_LOCAL_PATH)
 
 else:
-    default_document_retriever = HighLevelContextDocumentRetriever.from_local(
+    default_document_retriever = DiffContextDocumentRetriever.from_local(
         __DEFAULT_RETRIEVER_LOCAL_PATH, __embedding_model, __llm_model
     )
 
+diff_classifier_chain = DiffClassifierChain(__llm_model, temperature=0)
+
 low_level_cmg_chain = LowLevelContextCommitMessageGenerationChain(
-    __llm_model, temperature=0.7
+    diff_classifier_chain, __llm_model, temperature=0.7
 )
 
-high_level_cmg_chain = HighLevelContextCommitMessageGenerationChain(
+zero_shot_high_level_cmg_chain = HighLevelContextCommitMessageGenerationChain(
+    diff_classifier_chain,
+    ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
+    __llm_model,
+    __llm_model,
+    default_document_retriever,
+    cmg_temperature=0.7,
+    document_query_text_temperature=0.7,
+)
+
+few_shot_high_level_cmg_chain = HighLevelContextCommitMessageGenerationChain(
+    diff_classifier_chain,
+    FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     __llm_model,
     __llm_model,
     default_document_retriever,
@@ -54,27 +73,3 @@ high_level_cmg_chain = HighLevelContextCommitMessageGenerationChain(
 )
 
 data_generation_chain = DataGenerationChain(__llm_model, temperature=0.7)
-
-
-class MockCommitMessageGenerationChain(CommitMessageGenerationChain):
-    def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
-        return "Mock commit message"
-
-    def batch(
-        self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
-    ) -> list[str]:
-        return ["Mock commit message"] * len(prompt_inputs)
-
-
-mock_commit_message_generation_chain = MockCommitMessageGenerationChain()
-
-
-class MockDataGenerationChain(BaseDataGenerationChain):
-    def invoke(self, diff: str) -> str:
-        return "Mock high level context"
-
-    def batch(self, diffs: list[str]) -> list[str]:
-        return ["Mock high level context"] * len(diffs)
-
-
-mock_data_generation_chain = MockDataGenerationChain()
