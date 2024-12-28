@@ -24,7 +24,7 @@ GENERATORS = [
     ),
     CommitMessageGenerator("Low-Level Generator", low_level_cmg_chain),
 ]
-INCLUDED_GENERATOR_INDEXES = [0, 1, 2]
+INCLUDED_GENERATOR_INDEXES = [0, 1]
 
 
 def get_evaluation_data() -> list[EvaluationModel]:

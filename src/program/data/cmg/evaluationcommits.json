@@ -1,17 +1,5 @@
 [
     {
-        "id": "ETC000",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-cms",
-        "repository_url": "https://gitlab.informatika.org/if3210-2024-android-cms/if3210-2024-android-cms",
-        "previous_commit_hash": null,
-        "current_commit_hash": "19d584320ea6c3ce9b5469fd3750ebe670a81dce",
-        "included_file_paths": [
-            "app/src/main/java/com/example/bondoman/AddTransactionFragment.kt"
-        ],
-        "remarks": "Change location permission type",
-        "merge_request_number": null
-    },
-    {
         "id": "ETC001",
         "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\evaluations\\\\if3210-2024-android-ktl",
         "repository_url": "https://gitlab.informatika.org/if3210-2024-android-ktl/if3210-2024-android-ktl",

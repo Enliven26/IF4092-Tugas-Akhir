@@ -25,7 +25,7 @@ GENERATORS = [
     ),
     CommitMessageGenerator("Low-Level Generator", low_level_cmg_chain),
 ]
-GENERATOR_INDEX = 0
+INCLUDED_GENERATOR_INDEXES = [0, 1]
 
 
 def get_evaluation_sample() -> EvaluationModel:
@@ -42,7 +42,7 @@ def get_evaluation_sample() -> EvaluationModel:
 
 
 def test_evaluate(evaluation_data: list[EvaluationModel], output_path: str):
-    generators = [GENERATORS[GENERATOR_INDEX]]
+    generators = [GENERATORS[i] for i in INCLUDED_GENERATOR_INDEXES]
 
     evaluator.evaluate(generators, evaluation_data, output_path)
 

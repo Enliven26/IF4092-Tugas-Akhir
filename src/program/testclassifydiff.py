@@ -9,7 +9,9 @@ from core import zero_shot_high_level_cmg_chain
 from core.enums import EnvironmentKey
 
 EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
-DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join("out", "test", "diffclassification")
+DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join(
+    "out", "test", "diffclassification"
+)
 SAMPLE_EVALUATION_ID = "ETC003"
 
 
@@ -27,9 +29,7 @@ def get_evaluation_sample() -> EvaluationModel:
 
 
 def test_classify_diffs(evaluation: EvaluationModel, output_path: str):
-    evaluator.classify_diffs(
-        zero_shot_high_level_cmg_chain, evaluation, output_path
-    )
+    evaluator.classify_diffs(zero_shot_high_level_cmg_chain, evaluation, output_path)
 
 
 def main():

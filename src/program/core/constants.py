@@ -83,10 +83,12 @@ for _i in range(len(__HIGH_LEVEL_CONTEXT_EXAMPLES)):
         __HIGH_LEVEL_CONTEXT_EXAMPLES[_i].replace("{", "{{").replace("}", "}}")
     )
 
+__COMMIT_TYPE_EXAMPLES = ["feat", "fix", "feat"]
+
 LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """{diff}
 {source_code}"""
 
-__FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts, and include multiple contexts if applicable in the commit message.
+__FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts for brevity. Including multiple contexts is allowed.
 
 A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
 
@@ -96,18 +98,20 @@ Follow this format for the commit message:
 
 {{body}}
 
-The type should be one of the following: feat, fix, perf, test, refactor, or chore. If any of these types are not suitable, use chore as default.
-
 Git diff 1:
 $diff_1
 
 Additional context 1:
 $context_1
 
+Commit Type 1: $commit_type_1
+
 commit message 1: $commit_message_1
 
 Git diff 2:
 $diff_2
+
+Commit Type 2: $commit_type_2
 
 Commit message 2: $commit_message_2
 
@@ -120,6 +124,8 @@ $diff_3
 Additional context 3:
 $context_3
 
+Commit Type 3: $commit_type_3
+
 Commit message 3: $commit_message_3
 
 Git diff 4:
@@ -127,6 +133,8 @@ Git diff 4:
 
 Additional context 4:
 {context}
+
+Commit type 4: {type}
 
 Commit message 4:"""
 
@@ -144,10 +152,13 @@ FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = Template(
         "commit_message_1": __COMMIT_MESSAGE_EXAMPLES[0],
         "commit_message_2": __COMMIT_MESSAGE_EXAMPLES[1],
         "commit_message_3": __COMMIT_MESSAGE_EXAMPLES[2],
+        "commit_type_1": __COMMIT_TYPE_EXAMPLES[0],
+        "commit_type_2": __COMMIT_TYPE_EXAMPLES[1],
+        "commit_type_3": __COMMIT_TYPE_EXAMPLES[2],
     }
 )
 
-ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts, and include multiple contexts if applicable in the commit message.
+ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts for brevity. Including multiple contexts is allowed.
 
 A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
 
@@ -157,15 +168,15 @@ Follow this format for the commit message:
 
 {{body}}
 
-The type should be one of the following: feat, fix, perf, test, refactor, or chore. If any of these types are not suitable, use chore as default.
-
 Git diff:
 {diff}
 
 Additional context:
 {context}
 
-Commit message: {type}: """
+Commit type: {type}
+
+Commit message: """
 
 
 DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. The query text must summarize the code changes in two very brief sentences.
