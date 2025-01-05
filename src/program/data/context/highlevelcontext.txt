@@ -24,13 +24,9 @@ The following specifications must be implemented:
 
 **AidFlow-Req-002: Login - Login Page**
 - **Login Requirement**: Users must log in before accessing any features of the application.
-
 - **Token Generation**: Upon successful login, the system will provide a token to signify successful authentication. This token will be used to access other endpoints.
-
 - **Token Storage**: The method of storing the token is flexible, but it is essential to implement best practices for token storage on Android.
-
 - **Login Endpoint**: Login can be performed by making a request to the endpoint {{baseUrl}}/api/auth/login.
-
 - **Request Body Format**: The JSON request body for login should follow the format:
 
 {
@@ -39,62 +35,62 @@ The following specifications must be implemented:
 }
 
 **AidFlow-Req-003: Logout - Settings Page**
-**Logout Functionality**: Users must be able to log out of the application.
-**Logout Location**: The logout option should be available on the Settings page.
-**Redirection After Logout**: After logging out, users will be redirected to the Login page.
+- **Logout Functionality**: Users must be able to log out of the application.
+- **Logout Location**: The logout option should be available on the Settings page.
+- **Redirection After Logout**: After logging out, users will be redirected to the Login page.
 
 **AidFlow-Req-004: Add, Modify, and Delete Transactions**
-**Transaction Data Manipulation**: Users must be able to perform data manipulation on transactions, including adding, modifying, and deleting transactions.
-**Adding Transactions**: When adding a transaction, users must provide at least the following attributes: transaction title, category (Income, Expense), transaction amount, and transaction location. The system should automatically record the transaction date (the date it is entered) and the location as the current location of the user if location access is granted.
-**Modifying Transactions**: When modifying a transaction, the system should automatically pre-fill the attributes based on the existing transaction (including hidden attributes such as date). Users can modify these attributes, except for specific ones. At a minimum, the editable attributes should be title, amount, and location, while the uneditable attributes should be category and date.
-**Deleting Transactions**: Once a transaction is deleted, it should be immediately removed from the displayed transaction list.
+- **Transaction Data Manipulation**: Users must be able to perform data manipulation on transactions, including adding, modifying, and deleting transactions.
+- **Adding Transactions**: When adding a transaction, users must provide at least the following attributes: transaction title, category (Income, Expense), transaction amount, and transaction location. The system should automatically record the transaction date (the date it is entered) and the location as the current location of the user if location access is granted.
+- **Modifying Transactions**: When modifying a transaction, the system should automatically pre-fill the attributes based on the existing transaction (including hidden attributes such as date). Users can modify these attributes, except for specific ones. At a minimum, the editable attributes should be title, amount, and location, while the uneditable attributes should be category and date.
+- **Deleting Transactions**: Once a transaction is deleted, it should be immediately removed from the displayed transaction list.
 
 **AidFlow-Req-005: View List of Transactions**
-**Data Storage**: The transaction list should be stored in Room using the Repository Pattern to allow offline access.
-**Transaction Display**: This page will display the entire list of completed transactions.
-**Transaction Details**: Each transaction should display the category, amount, name, location, and date of the transaction.
-**View Location**: Users should be able to tap a transaction to open Google Maps showing the transaction location.
-**Add New Transaction**: Users should be able to add a new transaction by clicking the "+" button.
+- **Data Storage**: The transaction list should be stored in Room using the Repository Pattern to allow offline access.
+- **Transaction Display**: This page will display the entire list of completed transactions.
+- **Transaction Details**: Each transaction should display the category, amount, name, location, and date of the transaction.
+- **View Location**: Users should be able to tap a transaction to open Google Maps showing the transaction location.
+- **Add New Transaction**: Users should be able to add a new transaction by clicking the "+" button.
 
 **AidFlow-Req-006: Scan Receipt - Receipt Scan Page**
-Scan Receipt Page: Users should be able to access a page for scanning receipts.
-Receipt Scanning Process: The scanning process involves sending an image from the client to the server.
-Server Processing: The server will process dummy data for reading the receipt.
-Image Upload: Users can send images either by taking a picture directly through the camera or by uploading a photo from the gallery.
-Post Scan Actions: After scanning the receipt, the result should be displayed on the screen, and users should be asked if they want to repeat the scanning process. If not, the transaction should be saved in the transaction list.
-Image Upload Endpoint: The image can be uploaded by accessing the endpoint {{baseUrl}}/api/bill/upload with the body in form-data format using the key "file."
+- **Scan Receipt Page**: Users should be able to access a page for scanning receipts.
+- **Receipt Scanning Process**: The scanning process involves sending an image from the client to the server.
+- **Server Processing**: The server will process dummy data for reading the receipt.
+- **Image Upload**: Users can send images either by taking a picture directly through the camera or by uploading a photo from the gallery.
+- **Post Scan Actions**: After scanning the receipt, the result should be displayed on the screen, and users should be asked if they want to repeat the scanning process. If not, the transaction should be saved in the transaction list.
+- **Image Upload Endpoint**: The image can be uploaded by accessing the endpoint {{baseUrl}}/api/bill/upload with the body in form-data format using the key "file."
 
 **AidFlow-Req-007: View Transaction Summary Graph - Graph Page**
-Transaction Summary Graph: Users should be able to view a graph summarizing the transactions that have been completed.
-Graph Design: The graph display style is flexible.
-Portrait and Landscape Layouts: The page must support both portrait and landscape layouts.
-Graphing Tools: The tools used to create the graph are flexible, provided they are implemented in Kotlin.
+- **Transaction Summary Graph**: Users should be able to view a graph summarizing the transactions that have been completed.
+- **Graph Design**: The graph display style is flexible.
+- **Portrait and Landscape Layouts**: The page must support both portrait and landscape layouts.
+- **Graphing Tools**: The tools used to create the graph are flexible, provided they are implemented in Kotlin.
 
 **AidFlow-Req-008: Save Transaction List in .xlsx, .xls Format - Settings Page**
-Export Transactions: Users should be able to export the entire list of transactions to a spreadsheet file (.xlsx or .xls) that can be downloaded and opened outside the application.
-Export Button: There should be a button to prepare the transaction list file. Users can choose between two supported file formats, .xlsx or .xls, before the export process begins.
-Exported File Content: The exported file should contain the following columns: Date, Transaction Category (Income or Expense), Transaction Amount, Transaction Name, and Location. The file should be saved in the device's internal storage.
+- **Export Transactions: Users should be able to export the entire list of transactions to a spreadsheet file (.xlsx or .xls) that can be downloaded and opened outside the application.
+- **Export Button: There should be a button to prepare the transaction list file. Users can choose between two supported file formats, .xlsx or .xls, before the export process begins.
+- **Exported File Content: The exported file should contain the following columns: Date, Transaction Category (Income or Expense), Transaction Amount, Transaction Name, and Location. The file should be saved in the device's internal storage.
 
 **AidFlow-Req-009: Send Transaction List via Gmail - Settings Page**
-**Email Transaction List**: Users should be able to send the transaction list via Gmail to the email address used for login.
-**Attachment**: The transaction list should be sent as an attachment in the form of a spreadsheet (.xlsx or .xls).
-**Email Subject and Text**: The subject and body of the email should also be included as part of the intent. The content of the subject and body is flexible.
+- **Email Transaction List**: Users should be able to send the transaction list via Gmail to the email address used for login.
+- **Attachment**: The transaction list should be sent as an attachment in the form of a spreadsheet (.xlsx or .xls).
+- **Email Subject and Text**: The subject and body of the email should also be included as part of the intent. The content of the subject and body is flexible.
 
 **AidFlow-Req-010: Background Service - Check JWT Expiry**
-**Background Service**: The application should have a background service that checks whether the JWT has expired.
-**Behavior Upon Expiry**: When the JWT expires, the application should define behavior (e.g., automatically log out or trigger re-login).
-**JWT Expiry Time**: The JWT should expire after 5 minutes.
-**JWT Expiry Check Endpoint**: The JWT expiry check can be performed by accessing the endpoint {{baseURL}}/api/auth/token with the header "Authorization: Bearer {token}."
+- **Background Service**: The application should have a background service that checks whether the JWT has expired.
+- **Behavior Upon Expiry**: When the JWT expires, the application should define behavior (e.g., automatically log out or trigger re-login).
+- **JWT Expiry Time**: The JWT should expire after 5 minutes.
+- **JWT Expiry Check Endpoint**: The JWT expiry check can be performed by accessing the endpoint {{baseURL}}/api/auth/token with the header "Authorization: Bearer {token}."
 
 **AidFlow-Req-011: Network Sensing - Signal Detection**
-**Internet Connectivity Check**: The application must be able to check if the device is currently connected to the internet, either via mobile data or Wi-Fi.
-**No Internet Connection Alert**: If the device is disconnected from the internet, a simple pop-up should appear indicating that the device is not connected to the internet.
-**Offline Access**: The application should remain accessible even without an internet connection; however, it should not be able to make requests or pull data from the server while offline.
-**Server Data Request Handling**: If a page requires data from the server and the internet connection is unavailable, a simple page should be displayed indicating that there is no internet connection, rather than showing a blank page.
+- **Internet Connectivity Check**: The application must be able to check if the device is currently connected to the internet, either via mobile data or Wi-Fi.
+- **No Internet Connection Alert**: If the device is disconnected from the internet, a simple pop-up should appear indicating that the device is not connected to the internet.
+- **Offline Access**: The application should remain accessible even without an internet connection; however, it should not be able to make requests or pull data from the server while offline.
+- **Server Data Request Handling**: If a page requires data from the server and the internet connection is unavailable, a simple page should be displayed indicating that there is no internet connection, rather than showing a blank page.
 
 **AidFlow-Req-012: Broadcast Receiver - Randomize Transaction from Settings**
-**Transaction Addition Fragment**: The transaction addition fragment must include a broadcast receiver to receive an intent sent by the "Randomize Transaction" button on the Settings page.
-**Field Population on Intent**: At least one field in the fragment must be pre-filled when the fragment receives the intent.
+- **Transaction Addition Fragment**: The transaction addition fragment must include a broadcast receiver to receive an intent sent by the "Randomize Transaction" button on the Settings page.
+- **Field Population on Intent**: At least one field in the fragment must be pre-filled when the fragment receives the intent.
 
 ### Bonus Specifications
 The following bonus specifications are optional but may be implemented for additional compensation. These features are not part of the core functionality required for the Financial Transaction Management Application but will enhance the system's overall capabilities, improving both security and user engagement. Implementing these features will be rewarded with an additional payment.
