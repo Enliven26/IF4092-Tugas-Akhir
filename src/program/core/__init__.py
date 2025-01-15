@@ -1,8 +1,6 @@
 import os
 
 from core.chains import (
-    BaseDataGenerationChain,
-    CommitMessageGenerationChain,
     DataGenerationChain,
     DiffClassifierChain,
     DiffContextDocumentRetriever,
@@ -15,12 +13,10 @@ from core.constants import (
 )
 from core.enums import EnvironmentKey
 from core.git import Git
-from core.models import CommitMessageGenerationPromptInputModel
-from core.parsers import CodeParser, DiffParser
+from core.parsers.language import JavaCodeParser
 
 git = Git()
-diff_parser = DiffParser()
-code_parser = CodeParser()
+
 
 
 __DEFAULT_RETRIEVER_LOCAL_PATH = os.path.join("data", "context", "defaultretriever")

@@ -1,81 +1,8 @@
-from abc import ABC, abstractmethod
 from enum import Enum
 from textwrap import indent
 
-from core.enums import DiffVersion
-from core.models import FileDiffModel
-from diff_parser import Diff, DiffBlock
+from core.parsers.language.base import ICodeParser
 from kopyt import Parser, node
-
-
-class IDiffParser(ABC):
-    @abstractmethod
-    def get_diff_lines(
-        self, diff: str, included_file_paths: set[str]
-    ) -> list[FileDiffModel]:
-        pass
-
-
-class DiffParser(IDiffParser):
-    def __get_range(self, block: DiffBlock, version: DiffVersion) -> range:
-        if version == DiffVersion.OLD:
-            return range(
-                block.original_line_start,
-                block.original_line_start + block.original_line_count - 1,
-            )
-
-        return range(
-            block.modified_line_start,
-            block.modified_line_start + block.modified_line_count - 1,
-        )
-
-    def get_diff_lines(
-        self, diff: str, included_file_paths: list[str]
-    ) -> list[FileDiffModel]:
-        memo: dict[tuple[str, int], FileDiffModel] = {}
-        parsed_diff = Diff(diff)
-        file_paths = set(included_file_paths)
-
-        for block in parsed_diff:
-            block.old_filepath = block.old_filepath.lstrip("/")
-            block.new_filepath = block.new_filepath.lstrip("/")
-
-        for block in parsed_diff:
-            if block.type != "new" and block.old_filepath in file_paths:
-                model = memo.get((block.old_filepath, DiffVersion.OLD.value))
-
-                if model is None:
-                    model = FileDiffModel()
-                    model.file_path = block.old_filepath
-                    model.version = DiffVersion.OLD
-                    model.line_ranges = []
-
-                    memo[(model.file_path, model.version.value)] = model
-
-                line_range = self.__get_range(block, DiffVersion.OLD)
-                model.line_ranges.append(line_range)
-
-            if block.type != "deleted" and block.new_filepath in file_paths:
-                model = memo.get((block.new_filepath, DiffVersion.NEW.value))
-
-                if model is None:
-                    model = FileDiffModel()
-                    model.file_path = block.new_filepath
-                    model.version = DiffVersion.NEW
-                    model.line_ranges = []
-
-                    memo[(model.file_path, model.version.value)] = model
-
-                line_range = self.__get_range(block, DiffVersion.NEW)
-                model.line_ranges.append(line_range)
-
-        return list(memo.values())
-
-
-class ICodeParser(ABC):
-    @abstractmethod
-    def get_methods(self, source_code: str, line_ranges: list[range]) -> list[str]:
-        pass
 
 
 class _KotlinImplementationType(Enum):
@@ -174,7 +101,7 @@ class KotlinCodeParser(ICodeParser):
     def __init__(self):
         super().__init__()
 
-    def __is_implementation_included(
+    def __is_declaration_included(
         self,
         line_ranges: list[range],
         implementation_start_line: str,
@@ -212,7 +139,9 @@ class KotlinCodeParser(ICodeParser):
             declaration = _KotlinImplementationType.CLASS
 
     def __set_object_implementation_data(
-        self, model: _KotlinObjectImplementationModel, declaration: node.ObjectDeclaration
+        self,
+        model: _KotlinObjectImplementationModel,
+        declaration: node.ObjectDeclaration,
     ):
         model.modifiers = map(str, declaration.modifiers)
         model.name = declaration.name
@@ -226,7 +155,7 @@ class KotlinCodeParser(ICodeParser):
             start_line = member.start_position.line
             end_line = member.end_position.line
 
-            is_member_included = self.__is_implementation_included(
+            is_member_included = self.__is_declaration_included(
                 line_ranges, start_line, end_line
             )
 
@@ -235,7 +164,7 @@ class KotlinCodeParser(ICodeParser):
 
         return str(new_body)
 
-    def get_methods(self, source_code: str, line_ranges: list[range]) -> list[str]:
+    def get_declarations(self, source_code: str, line_ranges: list[range]) -> list[str]:
         parser = Parser(source_code)
         parser_result = parser.parse()
 
@@ -245,7 +174,7 @@ class KotlinCodeParser(ICodeParser):
             parent_start_line = declaration.start_position.line
             parent_end_line = declaration.end_position.line
 
-            is_parent_included = self.__is_implementation_included(
+            is_parent_included = self.__is_declaration_included(
                 line_ranges, parent_start_line, parent_end_line
             )
 

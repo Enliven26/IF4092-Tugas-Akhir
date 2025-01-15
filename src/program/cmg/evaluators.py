@@ -18,7 +18,8 @@ from core.chains import (
 from core.enums import DiffVersion
 from core.git import IGit
 from core.models import CommitMessageGenerationPromptInputModel
-from core.parsers import ICodeParser, IDiffParser
+from core.parsers.git import IDiffParser
+from core.parsers.language.base import ICodeParser
 
 
 class ICommitMessageGenerator(ABC):
@@ -100,7 +101,7 @@ class Evaluator(IEvaluator):
                 source_repo_path, commit_map[file_diff.version], file_diff.file_path
             )
 
-            new_implementations = self.__code_parser.get_methods(
+            new_implementations = self.__code_parser.get_declarations(
                 file_content, file_diff.line_ranges
             )
 

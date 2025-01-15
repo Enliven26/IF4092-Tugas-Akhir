@@ -8,7 +8,8 @@ from core.chains import BaseDataGenerationChain
 from core.enums import DiffVersion
 from core.git import IGit
 from core.models import DataGenerationPromptInputModel
-from core.parsers import ICodeParser, IDiffParser
+from core.parsers.git import IDiffParser
+from core.parsers.language.base import ICodeParser
 from datageneration.models import DataGenerationResultModel, ExampleModel
 
 
@@ -66,7 +67,7 @@ class DataGenerator(IDataGenerator):
                 source_repo_path, commit_map[file_diff.version], file_diff.file_path
             )
 
-            new_implementations = self.__code_parser.get_methods(
+            new_implementations = self.__code_parser.get_declarations(
                 file_content, file_diff.line_ranges
             )
 
