@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 public class JavaParserTest {
 
@@ -18,10 +19,10 @@ public class JavaParserTest {
     public void setUp() {
         Path javaFilePath = Paths.get("src/test/resources/JavaSourceCodeExample.java");
         try {
-            javaSourceCode = Files.readString(javaFilePath);
+            javaSourceCode = Files.lines(javaFilePath)
+                                  .collect(Collectors.joining(System.lineSeparator()));
         } catch (IOException e) {
             javaSourceCode = "";
-
             e.printStackTrace();
         }
 
