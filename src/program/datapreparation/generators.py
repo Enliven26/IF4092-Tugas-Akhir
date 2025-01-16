@@ -145,12 +145,12 @@ class ExampleGenerator(IExampleGenerator):
                 source_repo_path, commit_map[file_diff.version], file_diff.file_path
             )
 
-            new_implementations = self.__code_parser.get_declarations(
+            new_implementation = self.__code_parser.get_declarations(
                 file_content, file_diff.line_ranges
             )
 
             file_info = f"{file_diff.file_path} ({file_diff.version})"
-            implementation = file_info + "\n" + "\n".join(new_implementations)
+            implementation = file_info + "\n" + new_implementation
 
             implementations.append(implementation)
 
@@ -185,6 +185,9 @@ class ExampleGenerator(IExampleGenerator):
             result = ExampleGenerationResultModel()
             result.diff = diff
             result.source_code = relevant_source_code
+            result.commit_message = self.__git.get_commit_message(
+                example.repository_path, example.commit_hash
+            )
 
             # TODO
             result.high_level_context = "TODO"

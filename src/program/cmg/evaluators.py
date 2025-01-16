@@ -4,10 +4,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 
 import jsonpickle
-from cmg.models import (
-    CommitMessageGenerationResultModel,
-    EvaluationResultModel,
-)
+
+from cmg.models import CommitMessageGenerationResultModel, EvaluationResultModel
 from core.chains import (
     CommitMessageGenerationChain,
     GetHighLevelContextInputModel,
@@ -15,7 +13,7 @@ from core.chains import (
 )
 from core.enums import DiffVersion
 from core.git import IGit
-from core.models import CommitMessageGenerationPromptInputModel, CommitDataModel
+from core.models import CommitDataModel, CommitMessageGenerationPromptInputModel
 from core.parsers.git import IDiffParser
 from core.parsers.language.base import ICodeParser
 
@@ -104,7 +102,7 @@ class Evaluator(IEvaluator):
             )
 
             file_info = f"{file_diff.file_path} ({file_diff.version})"
-            implementation = file_info + "\n" + "\n".join(new_implementations)
+            implementation = file_info + "\n" + new_implementations
 
             implementations.append(implementation)
 

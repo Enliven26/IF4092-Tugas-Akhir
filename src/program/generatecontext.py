@@ -7,13 +7,10 @@ from core.enums import EnvironmentKey
 from runners import context_generator_runner
 
 COMMIT_DATA_JSON_PATH = os.path.join("data", "cmg", "commits.json")
-DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join(
-    "data", "context"
-)
+DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("data", "context")
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
     load_dotenv(dotenv_path=".env", verbose=True, override=True)
 
     output_path = os.getenv(
@@ -21,7 +18,7 @@ def main():
         DEFAULT_DATA_GENERATION_OUTPUT_PATH,
     )
 
-    context_generator_runner.run(COMMIT_DATA_JSON_PATH, output_path, logging.DEBUG)
+    context_generator_runner.run(COMMIT_DATA_JSON_PATH, output_path, logging.INFO)
 
 
 if __name__ == "__main__":

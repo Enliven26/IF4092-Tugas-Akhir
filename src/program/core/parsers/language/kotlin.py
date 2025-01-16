@@ -164,11 +164,11 @@ class KotlinCodeParser(ICodeParser):
 
         return str(new_body)
 
-    def get_declarations(self, source_code: str, line_ranges: list[range]) -> list[str]:
+    def get_declarations(self, source_code: str, line_ranges: list[range]) -> str:
         parser = Parser(source_code)
         parser_result = parser.parse()
 
-        result: list[str] = []
+        results: list[str] = []
 
         for declaration in parser_result.declarations:
             parent_start_line = declaration.start_position.line
@@ -194,7 +194,7 @@ class KotlinCodeParser(ICodeParser):
                             declaration.body, line_ranges
                         )
 
-                result.append(str(model))
+                results.append(str(model))
 
             elif isinstance(declaration, node.ObjectDeclaration):
                 model = _KotlinObjectImplementationModel()
@@ -204,9 +204,9 @@ class KotlinCodeParser(ICodeParser):
                 if declaration.body is not None:
                     model.body = self.__get_class_body(declaration.body, line_ranges)
 
-                result.append(str(model))
+                results.append(str(model))
 
             elif isinstance(declaration, node.FunctionDeclaration):
-                result.append(str(declaration))
+                results.append(str(declaration))
 
-        return result
+        return "\n".join(results)
