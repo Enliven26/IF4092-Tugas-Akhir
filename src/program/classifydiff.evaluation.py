@@ -8,14 +8,14 @@ from core import zero_shot_high_level_cmg_chain
 from core.enums import EnvironmentKey
 from core.models import CommitDataModel
 
-EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
+COMMIT_DATA_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
 DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_PATH = os.path.join(
     "out", "evaluation", "diffclassification"
 )
 
 
 def get_evaluation_data() -> list[CommitDataModel]:
-    with open(EVALUATION_JSON_PATH, "r", encoding="utf-8") as file:
+    with open(COMMIT_DATA_JSON_PATH, "r", encoding="utf-8") as file:
         json_string = file.read()
 
         return CommitDataModel.from_json(json_string)

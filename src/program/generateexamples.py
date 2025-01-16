@@ -4,37 +4,27 @@ import os
 from dotenv import load_dotenv
 
 from core.enums import EnvironmentKey
-from datapreparation import context_generator
-from datapreparation.models import ExampleModel
+from runners import example_generator_runner
 
-DATA_GENERATION_JSON_PATH = os.path.join("data", "datageneration", "examples.json")
-DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join("out", "datageneration")
-
-
-def get_examples() -> list[ExampleModel]:
-    with open(DATA_GENERATION_JSON_PATH, "r", encoding="utf-8") as file:
-        json_string = file.read()
-
-        return ExampleModel.from_json(json_string)
-
-
-def generate(examples: list[ExampleModel], output_path: str):
-    context_generator.generate_context(examples, output_path)
+COMMIT_DATA_JSON_PATH = os.path.join(
+    "data", "cmg", "commits.example.json"
+)
+DEFAULT_EXAMPLE_GENERATION_OUTPUT_PATH = os.path.join("data", "cmg")
 
 
 def main():
-    logging.basicConfig(level=logging.INFO)
-    load_dotenv(verbose=True, override=True)
+    load_dotenv(dotenv_path=".env.test", verbose=True, override=True)
 
     output_path = os.getenv(
         EnvironmentKey.CONTEXT_GENERATION_OUTPUT_PATH.value,
-        DEFAULT_DATA_GENERATION_OUTPUT_PATH,
+        DEFAULT_EXAMPLE_GENERATION_OUTPUT_PATH,
     )
 
-    examples = get_examples()
-
-    generate(examples, output_path)
-
+    example_generator_runner.run(
+        COMMIT_DATA_JSON_PATH,
+        output_path,
+        logging.INFO,
+    )
 
 if __name__ == "__main__":
     main()

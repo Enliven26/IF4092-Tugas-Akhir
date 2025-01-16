@@ -3,10 +3,10 @@
         "id": "TC001",
         "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
         "repository_url": "https://github.com/apache/kafka",
-        "previous_commit_hash": null,
-        "current_commit_hash": "66b1f00c0e6fa438d2cd63cb5ad919079f33eee0",
+        "commit_hash": "66b1f00c0e6fa438d2cd63cb5ad919079f33eee0",
         "included_file_paths": [
             "clients/src/main/java/org/apache/kafka/common/security/JaasUtils.java"
-        ]
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
     }
 ]

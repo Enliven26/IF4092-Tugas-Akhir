@@ -7,12 +7,12 @@ from core.models import CommitDataModel
 from core.enums import EnvironmentKey
 from dotenv import load_dotenv
 
-EVALUATION_JSON_PATH = os.path.join("data", "cmg", "commits.json")
+COMMIT_DATA_JSON_PATH = os.path.join("data", "cmg", "commits.json")
 DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "cmg")
 
 
 def get_evaluation_data() -> list[CommitDataModel]:
-    with open(EVALUATION_JSON_PATH, "r", encoding="utf-8") as file:
+    with open(COMMIT_DATA_JSON_PATH, "r", encoding="utf-8") as file:
         json_string = file.read()
 
         return CommitDataModel.from_json(json_string)

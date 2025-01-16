@@ -2,7 +2,6 @@ import os
 
 from core.chains import (
     DiffClassifierChain,
-    DiffContextDocumentRetriever,
     HighLevelContextCommitMessageGenerationChain,
     LowLevelContextCommitMessageGenerationChain,
 )
@@ -11,11 +10,11 @@ from core.constants import (
     ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
 )
 from core.enums import EnvironmentKey
-from core.git import Git
-from core.parsers.language import JavaCodeParser
+from core.git import Git, IGit
+from core.jira import IJira, Jira
 
-git = Git()
-
+git: IGit = Git()
+jira: IJira = Jira()
 
 
 __DEFAULT_RETRIEVER_LOCAL_PATH = os.path.join("data", "context", "defaultretriever")

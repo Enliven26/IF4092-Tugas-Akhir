@@ -19,6 +19,10 @@ class IGit(ABC):
     def get_file_content(self, repo_path: str, commit_hash: str, file_path: str) -> str:
         pass
 
+    @abstractmethod
+    def get_commit_message(self, repo_path: str, commit_hash: str) -> str:
+        pass
+
 
 class Git(IGit):
     def get_diff(
@@ -63,4 +67,15 @@ class Git(IGit):
 
         except subprocess.CalledProcessError:
             logging.exception("Error while retrieving file content:")
+            return ""
+
+    def get_commit_message(self, repo_path: str, commit_hash: str) -> str:
+        command = ["git", "-C", repo_path, "log", "-1", "--pretty=%B", commit_hash]
+
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+            return result.stdout
+
+        except subprocess.CalledProcessError:
+            logging.exception("Error while retrieving commit message:")
             return ""

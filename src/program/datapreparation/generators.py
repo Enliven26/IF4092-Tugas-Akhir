@@ -1,12 +1,14 @@
 import os
+import re
 from abc import ABC, abstractmethod
 from datetime import datetime
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 import jsonpickle
 
 from core.enums import DiffVersion
 from core.git import IGit
+from core.jira import IJira
 from core.models import CommitDataModel
 from core.parsers.git import IDiffParser
 from core.parsers.language.base import ICodeParser
@@ -22,9 +24,10 @@ class IContextGenerator(ABC):
 class JiraContextGenerator(IContextGenerator):
     OUTPUT_FILE_NAME = "contexts.txt"
 
-    def __init__(self, git: IGit):
+    def __init__(self, git: IGit, jira: IJira):
         super().__init__()
         self.__git = git
+        self.__jira = jira
 
     def __create_folder_if_not_exist(self, path: str):
         directory = os.path.dirname(path)
@@ -35,12 +38,31 @@ class JiraContextGenerator(IContextGenerator):
         path = parsed_url.path.lstrip("/")
         return os.path.normpath(path)
 
-    def __generate_context_for_commits(self, commits: list[CommitDataModel]) -> str:
-        context = ""
-        for commit in commits:
-            context += "TODO: Implement context generation for commit\n"
+    def __get_jira_ticket_context(self, commit: CommitDataModel) -> str:
+        commit_message = self.__git.get_commit_message(
+            commit.repository_path, commit.commit_hash
+        )
 
-        return context
+        match = re.search(r"\b([A-Z]+-\d+)\b", commit_message)
+        if match:
+            jira_ticket_id = match.group(1)
+            ticket_content = self.__jira.get_ticket_content(
+                commit.jira_url, jira_ticket_id
+            )
+            return ticket_content
+
+        else:
+            raise ValueError(
+                f"No JIRA ticket found in commit message: {commit_message}"
+            )
+
+    def __generate_context_for_commits(self, commits: list[CommitDataModel]) -> str:
+        contexts = []
+        for commit in commits:
+            context = self.__get_jira_ticket_context(commit)
+            contexts.append(context)
+
+        return "n".join(contexts)
 
     def __write_context_to_file(
         self, parent_output_path: str, relative_path: str, context: str
@@ -71,7 +93,9 @@ class JiraContextGenerator(IContextGenerator):
 
 class IExampleGenerator(ABC):
     @abstractmethod
-    def generate_data(self, diffs: list[str], parent_output_path: str):
+    def generate_examples(
+        self, examples: list[CommitDataModel], parent_output_path: str
+    ):
         pass
 
 
@@ -132,16 +156,16 @@ class ExampleGenerator(IExampleGenerator):
 
         return "\n".join(implementations)
 
-    def generate_data(self, examples: list[CommitDataModel], parent_output_path: str):
+    def generate_examples(
+        self, examples: list[CommitDataModel], parent_output_path: str
+    ):
         output_path = self.__get_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
         results: list[ExampleGenerationResultModel] = []
 
         for example in examples:
-            current_commit_hash = example.current_commit_hash
-            previous_commit_hash = (
-                example.previous_commit_hash or f"{current_commit_hash}^1"
-            )
+            current_commit_hash = example.commit_hash
+            previous_commit_hash = f"{current_commit_hash}^1"
 
             diff = self.__git.get_diff(
                 example.repository_path,

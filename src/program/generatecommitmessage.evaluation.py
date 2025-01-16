@@ -12,7 +12,7 @@ from core import (
 from core.enums import EnvironmentKey
 from runners import cmg_runner
 
-EVALUATION_JSON_PATH = os.path.join("data", "cmg", "evaluationcommits.json")
+COMMIT_DATA_JSON_PATH = os.path.join("data", "cmg", "commits.evaluation.json")
 DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "evaluation", "cmg")
 GENERATORS = [
     CommitMessageGenerator(
@@ -28,7 +28,7 @@ INCLUDED_GENERATOR_INDEXES = [0, 1]
 
 def evaluate(output_path: str):
     generators = [GENERATORS[i] for i in INCLUDED_GENERATOR_INDEXES]
-    cmg_runner.run(generators, EVALUATION_JSON_PATH, output_path, logging.DEBUG)
+    cmg_runner.run(generators, COMMIT_DATA_JSON_PATH, output_path, logging.DEBUG)
 
 
 def main():

@@ -175,10 +175,8 @@ class Evaluator(IEvaluator):
         inputs: list[GetHighLevelContextInputModel] = []
 
         for evaluation in evaluation_data:
-            current_commit_hash = evaluation.current_commit_hash
-            previous_commit_hash = (
-                evaluation.previous_commit_hash or f"{current_commit_hash}~1"
-            )
+            current_commit_hash = evaluation.commit_hash
+            previous_commit_hash = f"{current_commit_hash}~1"
 
             diff = self.__git.get_diff(
                 evaluation.repository_path,
@@ -221,7 +219,7 @@ class Evaluator(IEvaluator):
         results: list[EvaluationResultModel] = []
 
         for evaluation in evaluation_data:
-            current_commit_hash = evaluation.current_commit_hash
+            current_commit_hash = evaluation.commit_hash
             previous_commit_hash = f"{current_commit_hash}~1"
 
             diff = self.__git.get_diff(
