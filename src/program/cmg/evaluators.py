@@ -4,10 +4,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 
 import jsonpickle
-
 from cmg.models import (
     CommitMessageGenerationResultModel,
-    EvaluationModel,
     EvaluationResultModel,
 )
 from core.chains import (
@@ -17,7 +15,7 @@ from core.chains import (
 )
 from core.enums import DiffVersion
 from core.git import IGit
-from core.models import CommitMessageGenerationPromptInputModel
+from core.models import CommitMessageGenerationPromptInputModel, CommitDataModel
 from core.parsers.git import IDiffParser
 from core.parsers.language.base import ICodeParser
 
@@ -58,7 +56,7 @@ class IEvaluator(ABC):
     def evaluate(
         self,
         generators: list[ICommitMessageGenerator],
-        evaluation_data: list[EvaluationModel],
+        evaluation_data: list[CommitDataModel],
         parent_output_path: str,
     ):
         pass
@@ -135,7 +133,7 @@ class Evaluator(IEvaluator):
     def classify_diffs(
         self,
         chain: CommitMessageGenerationChain,
-        evaluation_data: list[EvaluationModel],
+        evaluation_data: list[CommitDataModel],
         parent_output_path: str,
     ):
         # This is for testing purpose
@@ -167,7 +165,7 @@ class Evaluator(IEvaluator):
     def get_high_level_contexts(
         self,
         chain: HighLevelContextCommitMessageGenerationChain,
-        evaluation_data: list[EvaluationModel],
+        evaluation_data: list[CommitDataModel],
         parent_output_path: str,
     ):
         # This is for testing purpose
@@ -213,7 +211,7 @@ class Evaluator(IEvaluator):
     def evaluate(
         self,
         generators: list[ICommitMessageGenerator],
-        evaluation_data: list[EvaluationModel],
+        evaluation_data: list[CommitDataModel],
         parent_output_path: str,
     ):
         output_path = self.__get__evaluation_output_path(parent_output_path)

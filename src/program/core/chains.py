@@ -1,8 +1,6 @@
 import os
-import random
-import time
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic, Optional, TypeVar
 
 from langchain.output_parsers.boolean import BooleanOutputParser
 from langchain.retrievers.document_compressors import LLMChainFilter
@@ -21,14 +19,11 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langsmith import traceable
 
 from core.constants import (
-    DATA_GENERATION_PROMPT_TEMPLATE,
     DIFF_CLASSIFIER_PROMPT_TEMPLATE,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     END_DOCUMENT_SPLIT_SEPARATOR,
-    FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE,
     LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
-    RANDOM_REQUIREMENT_ID_FORMATS,
 )
 from core.models import (
     CommitMessageGenerationPromptInputModel,
@@ -255,7 +250,6 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         prompt_template: str,
         cmg_model: str,
         document_query_text_model: str,
-        document_retriever: DocumentRetriever[DiffContextDocumentRetrieverInputModel],
         cmg_temperature: float = 0.7,
         document_query_text_temperature: float = 0.55,
     ):
@@ -270,7 +264,9 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         )
         document_query_text_output_parser = StrOutputParser()
 
-        self.__document_retriever = document_retriever
+        self.__document_retriever: Optional[
+            DocumentRetriever[DiffContextDocumentRetrieverInputModel]
+        ] = None
         self.__high_level_context_chain: RunnableSerializable[dict, str] = (
             RunnablePassthrough()
             | {
@@ -317,8 +313,19 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
     def __get_high_level_context_batch(self, inputs: list[dict[str, str]]) -> list[str]:
         return self.__high_level_context_chain.batch(inputs)
 
+    def __validate_retriever(self):
+        if self.__document_retriever is None:
+            raise ValueError("Document retriever has not been set.")
+
+    def set_retirever(
+        self, retriever: DocumentRetriever[DiffContextDocumentRetrieverInputModel]
+    ):
+        self.__document_retriever = retriever
+
     @traceable(run_type="llm")
     def get_high_level_context(self, input: GetHighLevelContextInputModel) -> str:
+        self.__validate_retriever()
+
         # Testing purpose
         return self.__get_high_level_context(input.source_code, input.diff)
 
@@ -326,6 +333,8 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
     def get_high_level_context_batch(
         self, inputs: list[GetHighLevelContextInputModel]
     ) -> list[str]:
+        self.__validate_retriever()
+
         dict_inputs = [
             {"source_code": input.source_code, "diff": input.diff} for input in inputs
         ]
@@ -333,6 +342,8 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
+        self.__validate_retriever()
+
         return self.__cmg_chain.invoke(
             {"diff": prompt_input.diff, "source_code": prompt_input.source_code}
         )
@@ -341,89 +352,8 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
     def batch(
         self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
     ) -> list[str]:
+        self.__validate_retriever()
+
         return self.__cmg_chain.batch(
             [{"diff": pi.diff, "source_code": pi.source_code} for pi in prompt_inputs]
         )
-
-
-class BaseDataGenerationChain(BaseRunnable[DataGenerationPromptInputModel, str]):
-    pass
-
-
-class DataGenerationChain(BaseDataGenerationChain):
-    def __init__(self, model: str, temperature: float = 0.7):
-        super().__init__()
-
-        prompt = PromptTemplate.from_template(DATA_GENERATION_PROMPT_TEMPLATE)
-        llm = ChatOpenAI(model=model, temperature=temperature)
-        output_parser = StrOutputParser()
-
-        self.__chain = prompt | llm | output_parser
-
-        self.__original_random_state = None
-
-    def __seed_random(self):
-        # generate random seed based on current time and current machine entropy
-        self.__original_random_state = random.getstate()
-        seed_value = int(time.time() * 1000) + int.from_bytes(os.urandom(8), "little")
-        random.seed(seed_value)
-
-    def __reset_random(self):
-        if self.__original_random_state is not None:
-            random.setstate(self.__original_random_state)
-            self.__original_random_state = None
-
-    def __get_random_section_order(self, count: int) -> str:
-        return ", ".join(str(i) for i in random.sample(range(5, 31), count))
-
-    def __get_section_count(self) -> int:
-        return random.randint(2, 4)
-
-    @traceable(run_type="llm")
-    def invoke(self, prompt_input: DataGenerationPromptInputModel) -> str:
-        self.__seed_random()
-
-        section_count = self.__get_section_count()
-        section_order_string = self.__get_random_section_order(section_count)
-
-        result = self.__chain.invoke(
-            {
-                "github_url": prompt_input.github_url,
-                "source_code": prompt_input.source_code,
-                "section_count": section_count,
-                "section_order_string": section_order_string,
-                "requirement_id_format": random.choice(RANDOM_REQUIREMENT_ID_FORMATS),
-            }
-        )
-
-        self.__reset_random()
-
-        return result
-
-    @traceable(run_type="llm")
-    def batch(self, prompt_inputs: list[DataGenerationPromptInputModel]) -> list[str]:
-        self.__seed_random()
-
-        batch_inputs = []
-
-        for pi in prompt_inputs:
-            section_count = self.__get_section_count()
-            section_order_string = self.__get_random_section_order(section_count)
-
-            batch_inputs.append(
-                {
-                    "github_url": pi.github_url,
-                    "source_code": pi.source_code,
-                    "section_count": section_count,
-                    "section_order_string": section_order_string,
-                    "requirement_id_format": random.choice(
-                        RANDOM_REQUIREMENT_ID_FORMATS
-                    ),
-                }
-            )
-
-        results = self.__chain.batch(batch_inputs)
-
-        self.__reset_random()
-
-        return results

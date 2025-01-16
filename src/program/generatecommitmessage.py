@@ -1,25 +1,24 @@
 import logging
 import os
 
-from dotenv import load_dotenv
-
 from cmg import evaluator
 from cmg.evaluators import CommitMessageGenerator
-from cmg.models import EvaluationModel
+from core.models import CommitDataModel
 from core.enums import EnvironmentKey
+from dotenv import load_dotenv
 
 EVALUATION_JSON_PATH = os.path.join("data", "cmg", "commits.json")
 DEFAULT_CMG_OUTPUT_PATH = os.path.join("out", "cmg")
 
 
-def get_evaluation_data() -> list[EvaluationModel]:
+def get_evaluation_data() -> list[CommitDataModel]:
     with open(EVALUATION_JSON_PATH, "r", encoding="utf-8") as file:
         json_string = file.read()
 
-        return EvaluationModel.from_json(json_string)
+        return CommitDataModel.from_json(json_string)
 
 
-def evaluate(evaluation_data: list[EvaluationModel], output_path: str):
+def evaluate(evaluation_data: list[CommitDataModel], output_path: str):
     pass
 
 
