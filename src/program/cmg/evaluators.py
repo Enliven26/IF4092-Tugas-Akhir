@@ -9,7 +9,7 @@ from cmg.models import CommitMessageGenerationResultModel, EvaluationResultModel
 from core.chains import (
     CommitMessageGenerationChain,
     GetHighLevelContextInputModel,
-    HighLevelContextCommitMessageGenerationChain,
+    HighLevelContextChain,
 )
 from core.enums import DiffVersion
 from core.git import IGit
@@ -141,7 +141,7 @@ class Evaluator(IEvaluator):
         diffs: list[str] = []
 
         for evaluation in evaluation_data:
-            current_commit_hash = evaluation.current_commit_hash
+            current_commit_hash = evaluation.commit_hash
             previous_commit_hash = f"{current_commit_hash}~1"
 
             diff = self.__git.get_diff(
@@ -162,7 +162,7 @@ class Evaluator(IEvaluator):
 
     def get_high_level_contexts(
         self,
-        chain: HighLevelContextCommitMessageGenerationChain,
+        chain: HighLevelContextChain,
         evaluation_data: list[CommitDataModel],
         parent_output_path: str,
     ):
@@ -197,7 +197,7 @@ class Evaluator(IEvaluator):
 
             inputs.append(input)
 
-        results = chain.get_high_level_context_batch(inputs)
+        results = chain.batch(inputs)
 
         json_string = jsonpickle.encode(results, unpicklable=False)
 

@@ -2,14 +2,15 @@ import os
 import re
 from abc import ABC, abstractmethod
 from datetime import datetime
-from urllib.parse import urljoin, urlparse
 
 import jsonpickle
 
+from core.chains import DiffContextDocumentRetriever, DocumentRetriever
+from core.constants import DEFAULT_EMBEDDINGS_MODEL, DEFAULT_LLM_MODEL
 from core.enums import DiffVersion
 from core.git import IGit
 from core.jira import IJira
-from core.models import CommitDataModel
+from core.models import CommitDataModel, DiffContextDocumentRetrieverInputModel
 from core.parsers.git import IDiffParser
 from core.parsers.language.base import ICodeParser
 from datapreparation.models import ExampleGenerationResultModel
@@ -22,8 +23,6 @@ class IContextGenerator(ABC):
 
 
 class JiraContextGenerator(IContextGenerator):
-    OUTPUT_FILE_NAME = "contexts.txt"
-
     def __init__(self, git: IGit, jira: IJira):
         super().__init__()
         self.__git = git
@@ -32,11 +31,6 @@ class JiraContextGenerator(IContextGenerator):
     def __create_folder_if_not_exist(self, path: str):
         directory = os.path.dirname(path)
         os.makedirs(directory, exist_ok=True)
-
-    def __get_context_relative_path(self, commit: CommitDataModel) -> str:
-        parsed_url = urlparse(commit.repository_url)
-        path = parsed_url.path.lstrip("/")
-        return os.path.normpath(path)
 
     def __get_jira_ticket_context(self, commit: CommitDataModel) -> str:
         commit_message = self.__git.get_commit_message(
@@ -65,11 +59,9 @@ class JiraContextGenerator(IContextGenerator):
         return "n".join(contexts)
 
     def __write_context_to_file(
-        self, parent_output_path: str, relative_path: str, context: str
+        self, parent_output_path: str, relative_path: str, file_name: str, context: str
     ):
-        full_path = os.path.join(
-            parent_output_path, relative_path, self.OUTPUT_FILE_NAME
-        )
+        full_path = os.path.join(parent_output_path, relative_path, file_name)
         self.__create_folder_if_not_exist(full_path)
 
         with open(full_path, "w", encoding="utf-8") as file:
@@ -79,7 +71,7 @@ class JiraContextGenerator(IContextGenerator):
         grouped_commits: dict[str, list[CommitDataModel]] = {}
 
         for commit in commits:
-            relative_path = self.__get_context_relative_path(commit)
+            relative_path = commit.get_context_relative_path(commit)
 
             if relative_path not in grouped_commits:
                 grouped_commits[relative_path] = []
@@ -88,7 +80,12 @@ class JiraContextGenerator(IContextGenerator):
 
         for relative_path, commits in grouped_commits.items():
             context = self.__generate_context_for_commits(commits)
-            self.__write_context_to_file(parent_output_path, relative_path, context)
+            self.__write_context_to_file(
+                parent_output_path,
+                relative_path,
+                CommitDataModel.CONTEXT_FILE_NAME,
+                context,
+            )
 
 
 class IExampleGenerator(ABC):
@@ -156,29 +153,64 @@ class ExampleGenerator(IExampleGenerator):
 
         return "\n".join(implementations)
 
+    def __create_retriever_if_not_exist(
+        self,
+        embeddings_model: str,
+        llm_model: str,
+        commit: CommitDataModel,
+        parent_context_path: str,
+    ) -> DocumentRetriever:
+        context_file_path = os.path.join(
+            parent_context_path, commit.get_context_relative_path()
+        )
+        vector_store_path = os.path.join(
+            parent_context_path, commit.get_vector_store_relative_path()
+        )
+
+        document_retriever: DiffContextDocumentRetriever = None
+
+        if not os.path.exists(vector_store_path) or not os.listdir(vector_store_path):
+            os.makedirs(vector_store_path, exist_ok=True)
+            document_retriever = DiffContextDocumentRetriever.from_document_file(
+                context_file_path, embeddings_model, llm_model
+            )
+            document_retriever.save(vector_store_path)
+
+        else:
+            document_retriever = DiffContextDocumentRetriever.from_local(
+                vector_store_path, embeddings_model, llm_model
+            )
+
+        return document_retriever
+
     def generate_examples(
-        self, examples: list[CommitDataModel], parent_output_path: str
+        self,
+        commits: list[CommitDataModel],
+        parent_context_path: str,
+        parent_output_path: str,
+        embeddings_model: str = DEFAULT_EMBEDDINGS_MODEL,
+        llm_model: str = DEFAULT_LLM_MODEL,
     ):
         output_path = self.__get_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
         results: list[ExampleGenerationResultModel] = []
 
-        for example in examples:
-            current_commit_hash = example.commit_hash
+        for commit in commits:
+            current_commit_hash = commit.commit_hash
             previous_commit_hash = f"{current_commit_hash}^1"
 
             diff = self.__git.get_diff(
-                example.repository_path,
+                commit.repository_path,
                 previous_commit_hash,
                 current_commit_hash,
-                example.included_file_paths,
+                commit.included_file_paths,
             )
 
             relevant_source_code = self.__get_implementations(
-                example.repository_path,
+                commit.repository_path,
                 previous_commit_hash,
                 current_commit_hash,
-                example.included_file_paths,
+                commit.included_file_paths,
                 diff,
             )
 
@@ -186,11 +218,16 @@ class ExampleGenerator(IExampleGenerator):
             result.diff = diff
             result.source_code = relevant_source_code
             result.commit_message = self.__git.get_commit_message(
-                example.repository_path, example.commit_hash
+                commit.repository_path, commit.commit_hash
             )
 
-            # TODO
-            result.high_level_context = "TODO"
+            retriever = self.__create_retriever_if_not_exist(
+                embeddings_model, llm_model, commit, parent_context_path
+            )
+            retriever_input = DiffContextDocumentRetrieverInputModel()
+            retriever_input.diff = diff
+
+            result.high_level_context = retriever.invoke(diff)
 
             results.append(result)
 

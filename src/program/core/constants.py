@@ -4,6 +4,9 @@ from enum import Enum
 from string import Template
 from typing import Any
 
+DEFAULT_LLM_MODEL = "gpt-4o-mini"
+DEFAULT_EMBEDDINGS_MODEL = "text-embedding-3-small"
+
 END_DOCUMENT_SPLIT_SEPARATOR = "\n\n--- RETRIEVED DOCUMENT SPLIT END ---\n\n"
 
 

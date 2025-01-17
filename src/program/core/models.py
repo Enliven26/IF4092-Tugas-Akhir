@@ -1,6 +1,8 @@
 import json
+import os
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
+from urllib.parse import urlparse
 
 from core.enums import DiffVersion
 
@@ -37,6 +39,9 @@ class GetHighLevelContextInputModel:
 
 
 class CommitDataModel:
+    CONTEXT_FILE_NAME = "contexts.txt"
+    VECTOR_STORE_FOLDER_NAME = "vector_store"
+
     class __JsonKey(Enum):
         ID = "id"
         COMMIT_HASH = "commit_hash"
@@ -52,6 +57,23 @@ class CommitDataModel:
         self.repository_path: str = ""
         self.repository_url: str = ""
         self.jira_url: str = ""
+
+    def get_context_relative_path(self) -> str:
+        parsed_url = urlparse(self.repository_url)
+        path = parsed_url.path.lstrip("/")
+        return os.path.normpath(path)
+
+    def get_vector_store_relative_path(self) -> str:
+        return os.path.join(
+            self.get_context_relative_path(),
+            self.VECTOR_STORE_FOLDER_NAME,
+        )
+
+    def get_context_file_relative_path(self) -> str:
+        return os.path.join(
+            self.get_context_relative_path(),
+            self.CONTEXT_FILE_NAME,
+        )
 
     @classmethod
     def from_json(cls, json_string: str) -> list["CommitDataModel"]:

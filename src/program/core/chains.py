@@ -27,7 +27,6 @@ from core.constants import (
 )
 from core.models import (
     CommitMessageGenerationPromptInputModel,
-    DataGenerationPromptInputModel,
     DiffContextDocumentRetrieverInputModel,
     GetHighLevelContextInputModel,
 )
@@ -243,18 +242,12 @@ class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
         )
 
 
-class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
+class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
     def __init__(
         self,
-        diff_classifier: BaseRunnable[str, str],
-        prompt_template: str,
-        cmg_model: str,
         document_query_text_model: str,
-        cmg_temperature: float = 0.7,
-        document_query_text_temperature: float = 0.55,
+        document_query_text_temperature: float = 0.7,
     ):
-        super().__init__(diff_classifier)
-
         document_query_text_prompt = PromptTemplate.from_template(
             DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE
         )
@@ -262,12 +255,14 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         document_query_text_llm = ChatOpenAI(
             model=document_query_text_model, temperature=document_query_text_temperature
         )
+
         document_query_text_output_parser = StrOutputParser()
 
-        self.__document_retriever: Optional[
+        self.document_retriever: Optional[
             DocumentRetriever[DiffContextDocumentRetrieverInputModel]
         ] = None
-        self.__high_level_context_chain: RunnableSerializable[dict, str] = (
+
+        self.__chain: RunnableSerializable[dict, str] = (
             RunnablePassthrough()
             | {
                 "query": (
@@ -281,15 +276,64 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
             | self.__retrieve_context
         )
 
+    def __retrieve_context(self, input: dict) -> str:
+        retriever_input = DiffContextDocumentRetrieverInputModel()
+        retriever_input.query = input["query"]
+        retriever_input.diff = input["diff"]
+
+        return self.document_retriever.invoke(retriever_input)
+
+    def __validate_retriever(self):
+        if self.__chain is None:
+            raise ValueError("Document retriever has not been set.")
+
+    def __get_high_level_context(self, source_code: str, diff: str) -> str:
+        return self.__chain.invoke({"source_code": source_code, "diff": diff})
+
+    def __get_high_level_context_batch(self, inputs: list[dict[str, str]]) -> list[str]:
+        return self.__chain.batch(inputs)
+
+    @traceable(run_type="llm")
+    def invoke(self, input: GetHighLevelContextInputModel) -> str:
+        # Testing purpose
+
+        self.__validate_retriever()
+        return self.__get_high_level_context(input.source_code, input.diff)
+
+    @traceable(run_type="llm")
+    def batch(self, inputs: list[GetHighLevelContextInputModel]) -> list[str]:
+        # Testing purpose
+
+        self.__validate_retriever()
+
+        dict_inputs = [
+            {"source_code": input.source_code, "diff": input.diff} for input in inputs
+        ]
+        return self.__get_high_level_context_batch(dict_inputs)
+
+
+class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
+    def __init__(
+        self,
+        diff_classifier: BaseRunnable[str, str],
+        high_level_context_chain: HighLevelContextChain,
+        prompt_template: str,
+        cmg_model: str,
+        cmg_temperature: float = 0.7,
+    ):
+        super().__init__(diff_classifier)
+
+        self.__high_level_context_chain = high_level_context_chain
+
         cmg_prompt = PromptTemplate.from_template(prompt_template)
         cmg_llm = ChatOpenAI(model=cmg_model, temperature=cmg_temperature)
         cmg_output_parser = StrOutputParser()
 
-        self.__cmg_chain = (
+        self.__cmg_chain: RunnableSerializable[dict, str] = (
             RunnableLambda(
                 lambda x: {
                     "diff": x["diff"],
-                    "context": self.__high_level_context_chain.invoke(x),
+                    "context": self.__retrieve_context,
                     "type": self.classify_diff(x["diff"]),
                 }
             )
@@ -299,46 +343,20 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         )
 
     def __retrieve_context(self, input: dict) -> str:
-        retriever_input = DiffContextDocumentRetrieverInputModel()
-        retriever_input.query = input["query"]
-        retriever_input.diff = input["diff"]
+        get_high_level_context_input = GetHighLevelContextInputModel()
+        get_high_level_context_input.diff = input["diff"]
+        get_high_level_context_input.source_code = input["source_code"]
 
-        return self.__document_retriever.invoke(retriever_input)
-
-    def __get_high_level_context(self, source_code: str, diff: str) -> str:
-        return self.__high_level_context_chain.invoke(
-            {"source_code": source_code, "diff": diff}
-        )
-
-    def __get_high_level_context_batch(self, inputs: list[dict[str, str]]) -> list[str]:
-        return self.__high_level_context_chain.batch(inputs)
+        return self.__high_level_context_chain.invoke(get_high_level_context_input)
 
     def __validate_retriever(self):
-        if self.__document_retriever is None:
+        if self.__high_level_context_chain.document_retriever is None:
             raise ValueError("Document retriever has not been set.")
 
     def set_retirever(
         self, retriever: DocumentRetriever[DiffContextDocumentRetrieverInputModel]
     ):
-        self.__document_retriever = retriever
-
-    @traceable(run_type="llm")
-    def get_high_level_context(self, input: GetHighLevelContextInputModel) -> str:
-        self.__validate_retriever()
-
-        # Testing purpose
-        return self.__get_high_level_context(input.source_code, input.diff)
-
-    @traceable(run_type="llm")
-    def get_high_level_context_batch(
-        self, inputs: list[GetHighLevelContextInputModel]
-    ) -> list[str]:
-        self.__validate_retriever()
-
-        dict_inputs = [
-            {"source_code": input.source_code, "diff": input.diff} for input in inputs
-        ]
-        return self.__get_high_level_context_batch(dict_inputs)
+        self.__high_level_context_chain.document_retriever = retriever
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
