@@ -18,6 +18,8 @@ class CommitMessageGenerationPromptInputModel:
     def __init__(self):
         self.diff: str = ""
         self.source_code: str = ""
+        self.context_file_path = ""
+        self.vector_store_path = ""
 
 
 class DataGenerationPromptInputModel:
@@ -36,6 +38,8 @@ class GetHighLevelContextInputModel:
     def __init__(self):
         self.source_code: str = ""
         self.diff: str = ""
+        self.context_file_path = ""
+        self.vector_store_path = ""
 
 
 class CommitDataModel:

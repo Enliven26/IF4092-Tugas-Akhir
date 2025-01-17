@@ -1,0 +1,2 @@
+DEFAULT_EVALUATION_OUTPUT_FILE_NAME = "evaluation.json"
+DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME = "highlevelcontext.json"

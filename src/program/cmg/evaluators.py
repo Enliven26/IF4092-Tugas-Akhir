@@ -1,10 +1,13 @@
-import json
 import os
 from abc import ABC, abstractmethod
 from datetime import datetime
 
 import jsonpickle
 
+from cmg.constants import (
+    DEFAULT_EVALUATION_OUTPUT_FILE_NAME,
+    DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME,
+)
 from cmg.models import CommitMessageGenerationResultModel, EvaluationResultModel
 from core.chains import (
     CommitMessageGenerationChain,
@@ -61,8 +64,8 @@ class IEvaluator(ABC):
 
 
 class Evaluator(IEvaluator):
-    EVALUATION_OUTPUT_FILE_NAME = "evaluation.json"
-    HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME = "highlevelcontext.json"
+    EVALUATION_OUTPUT_FILE_NAME = DEFAULT_EVALUATION_OUTPUT_FILE_NAME
+    HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME = DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME
 
     def __init__(
         self,
@@ -108,12 +111,12 @@ class Evaluator(IEvaluator):
 
         return "\n".join(implementations)
 
-    def __get__evaluation_output_path(self, parent_path: str) -> str:
+    def __get__high_level_context_output_path(self, parent_path: str) -> str:
         now = datetime.now()
         timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
 
         return os.path.join(
-            parent_path, timestamp, self.__class__.EVALUATION_OUTPUT_FILE_NAME
+            parent_path, timestamp, self.__class__.HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME
         )
 
     def __get__evaluation_output_path(self, parent_path: str) -> str:
@@ -121,7 +124,7 @@ class Evaluator(IEvaluator):
         timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
 
         return os.path.join(
-            parent_path, timestamp, self.__class__.HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME
+            parent_path, timestamp, self.__class__.EVALUATION_OUTPUT_FILE_NAME
         )
 
     def __create_folder_if_not_exist(self, path: str):
@@ -163,37 +166,43 @@ class Evaluator(IEvaluator):
     def get_high_level_contexts(
         self,
         chain: HighLevelContextChain,
-        evaluation_data: list[CommitDataModel],
+        commits: list[CommitDataModel],
+        parent_context_path: str,
         parent_output_path: str,
     ):
-        # This is for testing purpose
-        output_path = self.__get__evaluation_output_path(parent_output_path)
+        output_path = self.__get__high_level_context_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
         inputs: list[GetHighLevelContextInputModel] = []
 
-        for evaluation in evaluation_data:
-            current_commit_hash = evaluation.commit_hash
+        for commit in commits:
+            current_commit_hash = commit.commit_hash
             previous_commit_hash = f"{current_commit_hash}~1"
 
             diff = self.__git.get_diff(
-                evaluation.repository_path,
+                commit.repository_path,
                 previous_commit_hash,
                 current_commit_hash,
-                evaluation.included_file_paths,
+                commit.included_file_paths,
             )
 
             relevant_source_code = self.__get_implementations(
-                evaluation.repository_path,
+                commit.repository_path,
                 previous_commit_hash,
                 current_commit_hash,
-                evaluation.included_file_paths,
+                commit.included_file_paths,
                 diff,
             )
 
             input = GetHighLevelContextInputModel()
             input.source_code = relevant_source_code
             input.diff = diff
+            input.context_file_path = os.path.join(
+                parent_context_path, commit.get_context_file_relative_path()
+            )
+            input.vector_store_path = os.path.join(
+                parent_context_path, commit.get_vector_store_relative_path()
+            )
 
             inputs.append(input)
 

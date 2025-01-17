@@ -2,7 +2,7 @@ import logging
 import os
 
 from cmg import evaluator
-from cmg.models import CommitDataModel
+from core.models import CommitDataModel
 from core import zero_shot_high_level_cmg_chain
 from core.enums import EnvironmentKey
 from dotenv import load_dotenv

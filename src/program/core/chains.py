@@ -19,6 +19,10 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langsmith import traceable
 
 from core.constants import (
+    DEFAULT_CMG_TEMPERATURE,
+    DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
+    DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
+    DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
     DIFF_CLASSIFIER_PROMPT_TEMPLATE,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     END_DOCUMENT_SPLIT_SEPARATOR,
@@ -61,15 +65,13 @@ class DocumentRetriever(BaseRunnable[TDocumentRetrieverInput, str]):
 class DiffContextDocumentRetriever(
     DocumentRetriever[DiffContextDocumentRetrieverInputModel]
 ):
-    DEFAULT_INDEX_NAME = "high_level_context_index"
-    DEFAULT_LLM_FILTER_TEMPERATURE = 0
 
     def __init__(
         self,
         db: FAISS,
         llm_filter_model: str,
-        llm_filter_temperature: int = DEFAULT_LLM_FILTER_TEMPERATURE,
-        index_name: str = DEFAULT_INDEX_NAME,
+        llm_filter_temperature: int = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
+        index_name: str = DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     ):
         super().__init__()
         self.__index_name = index_name
@@ -121,8 +123,8 @@ class DiffContextDocumentRetriever(
         folder_path: str,
         embedding_model: str,
         llm_filter_model: str,
-        llm_filter_temperature: int = DEFAULT_LLM_FILTER_TEMPERATURE,
-        index_name: str = DEFAULT_INDEX_NAME,
+        llm_filter_temperature: int = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
+        index_name: str = DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     ):
         embeddings = OpenAIEmbeddings(model=embedding_model)
         db = FAISS.load_local(
@@ -139,8 +141,8 @@ class DiffContextDocumentRetriever(
         file_path: str,
         embeding_model: str,
         llm_filter_model: str,
-        llm_filter_temperature: int = DEFAULT_LLM_FILTER_TEMPERATURE,
-        index_name: str = DEFAULT_INDEX_NAME,
+        llm_filter_temperature: int = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
+        index_name: str = DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     ) -> "DiffContextDocumentRetriever":
         documents = cls.__load_documents(file_path)
         embeddings = OpenAIEmbeddings(model=embeding_model)
@@ -206,7 +208,7 @@ class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
         self,
         diff_classifier: BaseRunnable[str, str],
         model: str,
-        temperature: float = 0.7,
+        temperature: float = DEFAULT_CMG_TEMPERATURE,
     ):
         super().__init__(diff_classifier)
 
@@ -243,24 +245,32 @@ class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
 
 
 class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
+
     def __init__(
         self,
-        document_query_text_model: str,
-        document_query_text_temperature: float = 0.7,
+        llm_query_text_model: str,
+        embeddings_model: str,
+        llm_filter_model: str,
+        llm_query_text_temperature: float = DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
+        llm_filter_temperature: float = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
     ):
         document_query_text_prompt = PromptTemplate.from_template(
             DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE
         )
 
         document_query_text_llm = ChatOpenAI(
-            model=document_query_text_model, temperature=document_query_text_temperature
+            model=llm_query_text_model, temperature=llm_query_text_temperature
         )
 
         document_query_text_output_parser = StrOutputParser()
 
-        self.document_retriever: Optional[
+        self.__document_retriever: Optional[
             DocumentRetriever[DiffContextDocumentRetrieverInputModel]
         ] = None
+
+        self.__embeddings_model = embeddings_model
+        self.__llm_filter_model = llm_filter_model
+        self.__llm_filter_temperature = llm_filter_temperature
 
         self.__chain: RunnableSerializable[dict, str] = (
             RunnablePassthrough()
@@ -272,6 +282,8 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
                     | document_query_text_output_parser
                 ),
                 "diff": RunnableLambda(lambda x: x["diff"]),
+                "context_file_path": RunnableLambda(lambda x: x["context_file_path"]),
+                "vector_store_path": RunnableLambda(lambda x: x["vector_store_path"]),
             }
             | self.__retrieve_context
         )
@@ -281,33 +293,88 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
         retriever_input.query = input["query"]
         retriever_input.diff = input["diff"]
 
-        return self.document_retriever.invoke(retriever_input)
+        self.__document_retriever = self.__create_retriever_if_not_exist(
+            input["context_file_path"], input["vector_store_path"]
+        )
 
-    def __validate_retriever(self):
-        if self.__chain is None:
-            raise ValueError("Document retriever has not been set.")
+        return self.__document_retriever.invoke(retriever_input)
 
-    def __get_high_level_context(self, source_code: str, diff: str) -> str:
-        return self.__chain.invoke({"source_code": source_code, "diff": diff})
+    def __create_retriever_if_not_exist(
+        self,
+        context_file_path: str,
+        vector_store_path: str,
+    ) -> DocumentRetriever:
+        document_retriever: DiffContextDocumentRetriever = None
+
+        if not os.path.exists(vector_store_path) or not os.listdir(vector_store_path):
+            os.makedirs(vector_store_path, exist_ok=True)
+            document_retriever = DiffContextDocumentRetriever.from_document_file(
+                context_file_path,
+                self.__embeddings_model,
+                self.__llm_filter_model,
+                self.__llm_filter_temperature,
+            )
+            document_retriever.save(vector_store_path)
+
+        else:
+            document_retriever = DiffContextDocumentRetriever.from_local(
+                vector_store_path,
+                self.__embeddings_model,
+                self.__llm_filter_model,
+                self.__llm_filter_temperature,
+            )
+
+        return document_retriever
+
+    def __get_high_level_context(
+        self,
+        source_code: str,
+        diff: str,
+        context_file_path: str,
+        vector_store_path: str,
+    ) -> str:
+        return self.__chain.invoke(
+            {
+                "source_code": source_code,
+                "diff": diff,
+                "context_file_path": context_file_path,
+                "vector_store_path": vector_store_path,
+            }
+        )
 
     def __get_high_level_context_batch(self, inputs: list[dict[str, str]]) -> list[str]:
         return self.__chain.batch(inputs)
 
+    def __set_retriever(
+        self,
+        embeddings_model: str,
+        llm_model: str,
+        context_file_path: str,
+        vector_store_path: str,
+    ):
+        self.__document_retriever = self.__create_retriever_if_not_exist(
+            embeddings_model, llm_model, context_file_path, vector_store_path
+        )
+
     @traceable(run_type="llm")
     def invoke(self, input: GetHighLevelContextInputModel) -> str:
-        # Testing purpose
-
-        self.__validate_retriever()
-        return self.__get_high_level_context(input.source_code, input.diff)
+        return self.__get_high_level_context(
+            input.source_code,
+            input.diff,
+            input.context_file_path,
+            input.vector_store_path,
+        )
 
     @traceable(run_type="llm")
     def batch(self, inputs: list[GetHighLevelContextInputModel]) -> list[str]:
-        # Testing purpose
-
-        self.__validate_retriever()
-
         dict_inputs = [
-            {"source_code": input.source_code, "diff": input.diff} for input in inputs
+            {
+                "source_code": input.source_code,
+                "diff": input.diff,
+                "context_file_path": input.context_file_path,
+                "vector_store_path": input.vector_store_path,
+            }
+            for input in inputs
         ]
         return self.__get_high_level_context_batch(dict_inputs)
 
@@ -319,7 +386,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         high_level_context_chain: HighLevelContextChain,
         prompt_template: str,
         cmg_model: str,
-        cmg_temperature: float = 0.7,
+        cmg_temperature: float = DEFAULT_CMG_TEMPERATURE,
     ):
         super().__init__(diff_classifier)
 
@@ -346,32 +413,50 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         get_high_level_context_input = GetHighLevelContextInputModel()
         get_high_level_context_input.diff = input["diff"]
         get_high_level_context_input.source_code = input["source_code"]
+        get_high_level_context_input.context_file_path = input["context_file_path"]
+        get_high_level_context_input.vector_store_path = input["vector_store_path"]
 
         return self.__high_level_context_chain.invoke(get_high_level_context_input)
 
-    def __validate_retriever(self):
-        if self.__high_level_context_chain.document_retriever is None:
-            raise ValueError("Document retriever has not been set.")
-
-    def set_retirever(
+    def set_retriever(
         self, retriever: DocumentRetriever[DiffContextDocumentRetrieverInputModel]
     ):
-        self.__high_level_context_chain.document_retriever = retriever
+        self.__high_level_context_chain.__document_retriever = retriever
+
+    def set_retriever_by_vectorstore(
+        self,
+        embeddings_model: str,
+        llm_model: str,
+        context_file_path: str,
+        vector_store_path: str,
+    ):
+        self.__high_level_context_chain.__set_retriever(
+            embeddings_model, llm_model, context_file_path, vector_store_path
+        )
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
-        self.__validate_retriever()
-
         return self.__cmg_chain.invoke(
-            {"diff": prompt_input.diff, "source_code": prompt_input.source_code}
+            {
+                "diff": prompt_input.diff,
+                "source_code": prompt_input.source_code,
+                "context_file_path": prompt_input.context_file_path,
+                "vector_store_path": prompt_input.vector_store_path,
+            }
         )
 
     @traceable(run_type="llm")
     def batch(
         self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
     ) -> list[str]:
-        self.__validate_retriever()
-
         return self.__cmg_chain.batch(
-            [{"diff": pi.diff, "source_code": pi.source_code} for pi in prompt_inputs]
+            [
+                {
+                    "diff": pi.diff,
+                    "source_code": pi.source_code,
+                    "context_file_path": pi.context_file_path,
+                    "vector_store_path": pi.vector_store_path,
+                }
+                for pi in prompt_inputs
+            ]
         )

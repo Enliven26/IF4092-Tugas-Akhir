@@ -13,7 +13,6 @@ DEFAULT_DATA_GENERATION_OUTPUT_PATH = os.path.join(
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
     load_dotenv(dotenv_path=".env.evaluation", verbose=True, override=True)
 
     output_path = os.getenv(
