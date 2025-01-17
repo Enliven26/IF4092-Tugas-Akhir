@@ -1,2 +1,7 @@
-Remove ZooKeeper logic from JaasUtils
+Ticket ID: KAFKA-18520
+Issue Summary: Remove ZooKeeper logic from JaasUtils
+Issue Type: Sub-task
+Priority: Major
 
+Description:
+No description provided.

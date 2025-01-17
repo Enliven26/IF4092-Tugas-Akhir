@@ -7,7 +7,7 @@ import jsonpickle
 
 from core import high_level_context_chain
 from core.chains import HighLevelContextChain
-from core.constants import DEFAULT_EMBEDDINGS_MODEL, DEFAULT_LLM_MODEL
+from core.constants import END_DOCUMENT_SPLIT_SEPARATOR
 from core.enums import DiffVersion
 from core.git import IGit
 from core.jira import IJira
@@ -57,7 +57,7 @@ class JiraContextGenerator(IContextGenerator):
             context = self.__get_jira_ticket_context(commit)
             contexts.append(context)
 
-        return "n".join(contexts)
+        return END_DOCUMENT_SPLIT_SEPARATOR.join(contexts)
 
     def __write_context_to_file(
         self, parent_output_path: str, relative_path: str, file_name: str, context: str

@@ -31,8 +31,8 @@ from core.constants import (
 )
 from core.models import (
     CommitMessageGenerationPromptInputModel,
-    DiffContextDocumentRetrieverInputModel,
     GetHighLevelContextInputModel,
+    JiraContextDocumentRetrieverInputModel,
 )
 
 TRunnableInput = TypeVar("TRunnableInput")
@@ -62,8 +62,8 @@ class DocumentRetriever(BaseRunnable[TDocumentRetrieverInput, str]):
     pass
 
 
-class DiffContextDocumentRetriever(
-    DocumentRetriever[DiffContextDocumentRetrieverInputModel]
+class JiraContextDocumentRetriever(
+    DocumentRetriever[JiraContextDocumentRetrieverInputModel]
 ):
 
     def __init__(
@@ -91,7 +91,7 @@ class DiffContextDocumentRetriever(
         )
 
     def __get_context(
-        self, input: DiffContextDocumentRetrieverInputModel
+        self, input: JiraContextDocumentRetrieverInputModel
     ) -> list[Document]:
         docs = self.__retriever.invoke(input.query)
         self.__set_filter_input_getter(input.diff)
@@ -107,11 +107,11 @@ class DiffContextDocumentRetriever(
         return "".join([d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs])
 
     @traceable(run_type="retriever")
-    def invoke(self, input: DiffContextDocumentRetrieverInputModel) -> str:
+    def invoke(self, input: JiraContextDocumentRetrieverInputModel) -> str:
         return self.__retriever_chain.invoke(input)
 
     @traceable(run_type="retriever")
-    def batch(self, inputs: list[DiffContextDocumentRetrieverInputModel]) -> list[str]:
+    def batch(self, inputs: list[JiraContextDocumentRetrieverInputModel]) -> list[str]:
         return self.__retriever_chain.batch(inputs)
 
     def save(self, folder_path: str):
@@ -143,7 +143,7 @@ class DiffContextDocumentRetriever(
         llm_filter_model: str,
         llm_filter_temperature: int = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
         index_name: str = DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
-    ) -> "DiffContextDocumentRetriever":
+    ) -> "JiraContextDocumentRetriever":
         documents = cls.__load_documents(file_path)
         embeddings = OpenAIEmbeddings(model=embeding_model)
 
@@ -163,8 +163,7 @@ class DiffContextDocumentRetriever(
         raw_documents = loader.load()
 
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=200,
+            separators=[END_DOCUMENT_SPLIT_SEPARATOR], keep_separator=False
         )
         split_documents = text_splitter.split_documents(raw_documents)
         return split_documents
@@ -265,7 +264,7 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
         document_query_text_output_parser = StrOutputParser()
 
         self.__document_retriever: Optional[
-            DocumentRetriever[DiffContextDocumentRetrieverInputModel]
+            DocumentRetriever[JiraContextDocumentRetrieverInputModel]
         ] = None
 
         self.__embeddings_model = embeddings_model
@@ -289,7 +288,7 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
         )
 
     def __retrieve_context(self, input: dict) -> str:
-        retriever_input = DiffContextDocumentRetrieverInputModel()
+        retriever_input = JiraContextDocumentRetrieverInputModel()
         retriever_input.query = input["query"]
         retriever_input.diff = input["diff"]
 
@@ -304,11 +303,11 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
         context_file_path: str,
         vector_store_path: str,
     ) -> DocumentRetriever:
-        document_retriever: DiffContextDocumentRetriever = None
+        document_retriever: JiraContextDocumentRetriever = None
 
         if not os.path.exists(vector_store_path) or not os.listdir(vector_store_path):
             os.makedirs(vector_store_path, exist_ok=True)
-            document_retriever = DiffContextDocumentRetriever.from_document_file(
+            document_retriever = JiraContextDocumentRetriever.from_document_file(
                 context_file_path,
                 self.__embeddings_model,
                 self.__llm_filter_model,
@@ -317,7 +316,7 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
             document_retriever.save(vector_store_path)
 
         else:
-            document_retriever = DiffContextDocumentRetriever.from_local(
+            document_retriever = JiraContextDocumentRetriever.from_local(
                 vector_store_path,
                 self.__embeddings_model,
                 self.__llm_filter_model,
@@ -419,7 +418,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         return self.__high_level_context_chain.invoke(get_high_level_context_input)
 
     def set_retriever(
-        self, retriever: DocumentRetriever[DiffContextDocumentRetrieverInputModel]
+        self, retriever: DocumentRetriever[JiraContextDocumentRetrieverInputModel]
     ):
         self.__high_level_context_chain.__document_retriever = retriever
 

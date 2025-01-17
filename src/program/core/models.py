@@ -28,7 +28,7 @@ class DataGenerationPromptInputModel:
         self.source_code: str = ""
 
 
-class DiffContextDocumentRetrieverInputModel:
+class JiraContextDocumentRetrieverInputModel:
     def __init__(self):
         self.query: str = ""
         self.diff: str = ""
