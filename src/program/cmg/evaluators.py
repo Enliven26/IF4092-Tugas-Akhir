@@ -57,7 +57,7 @@ class IEvaluator(ABC):
     def evaluate(
         self,
         generators: list[ICommitMessageGenerator],
-        evaluation_data: list[CommitDataModel],
+        commits: list[CommitDataModel],
         parent_output_path: str,
     ):
         pass
@@ -134,7 +134,7 @@ class Evaluator(IEvaluator):
     def classify_diffs(
         self,
         chain: CommitMessageGenerationChain,
-        evaluation_data: list[CommitDataModel],
+        commits: list[CommitDataModel],
         parent_output_path: str,
     ):
         # This is for testing purpose
@@ -143,15 +143,15 @@ class Evaluator(IEvaluator):
 
         diffs: list[str] = []
 
-        for evaluation in evaluation_data:
-            current_commit_hash = evaluation.commit_hash
+        for commit in commits:
+            current_commit_hash = commit.commit_hash
             previous_commit_hash = f"{current_commit_hash}~1"
 
             diff = self.__git.get_diff(
-                evaluation.repository_path,
+                commit.repository_path,
                 previous_commit_hash,
                 current_commit_hash,
-                evaluation.included_file_paths,
+                commit.included_file_paths,
             )
 
             diffs.append(diff)
@@ -194,17 +194,17 @@ class Evaluator(IEvaluator):
                 diff,
             )
 
-            input = GetHighLevelContextInputModel()
-            input.source_code = relevant_source_code
-            input.diff = diff
-            input.context_file_path = os.path.join(
+            prompt_input = GetHighLevelContextInputModel()
+            prompt_input.source_code = relevant_source_code
+            prompt_input.diff = diff
+            prompt_input.context_file_path = os.path.join(
                 parent_context_path, commit.get_context_file_relative_path()
             )
-            input.vector_store_path = os.path.join(
+            prompt_input.vector_store_path = os.path.join(
                 parent_context_path, commit.get_vector_store_relative_path()
             )
 
-            inputs.append(input)
+            inputs.append(prompt_input)
 
         results = chain.batch(inputs)
 
@@ -216,7 +216,8 @@ class Evaluator(IEvaluator):
     def evaluate(
         self,
         generators: list[ICommitMessageGenerator],
-        evaluation_data: list[CommitDataModel],
+        commits: list[CommitDataModel],
+        parent_context_path: str,
         parent_output_path: str,
     ):
         output_path = self.__get__evaluation_output_path(parent_output_path)
@@ -225,33 +226,39 @@ class Evaluator(IEvaluator):
         prompt_inputs: list[CommitMessageGenerationPromptInputModel] = []
         results: list[EvaluationResultModel] = []
 
-        for evaluation in evaluation_data:
-            current_commit_hash = evaluation.commit_hash
+        for commit in commits:
+            current_commit_hash = commit.commit_hash
             previous_commit_hash = f"{current_commit_hash}~1"
 
             diff = self.__git.get_diff(
-                evaluation.repository_path,
+                commit.repository_path,
                 previous_commit_hash,
                 current_commit_hash,
-                evaluation.included_file_paths,
+                commit.included_file_paths,
             )
 
             relevant_source_code = self.__get_implementations(
-                evaluation.repository_path,
+                commit.repository_path,
                 previous_commit_hash,
                 current_commit_hash,
-                evaluation.included_file_paths,
+                commit.included_file_paths,
                 diff,
             )
 
             prompt_input = CommitMessageGenerationPromptInputModel()
             prompt_input.diff = diff
             prompt_input.source_code = relevant_source_code
+            prompt_input.context_file_path = os.path.join(
+                parent_context_path, commit.get_context_file_relative_path()
+            )
+            prompt_input.vector_store_path = os.path.join(
+                parent_context_path, commit.get_vector_store_relative_path()
+            )
 
             prompt_inputs.append(prompt_input)
 
             result = EvaluationResultModel()
-            result.evaluation_id = evaluation.id
+            result.evaluation_id = commit.id
             results.append(result)
 
         for generator in generators:

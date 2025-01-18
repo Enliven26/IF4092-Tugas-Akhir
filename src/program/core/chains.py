@@ -399,7 +399,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
             RunnableLambda(
                 lambda x: {
                     "diff": x["diff"],
-                    "context": self.__retrieve_context,
+                    "context": self.__retrieve_context(x),
                     "type": self.classify_diff(x["diff"]),
                 }
             )
