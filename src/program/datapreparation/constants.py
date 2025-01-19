@@ -1,0 +1,1 @@
+DEFAULT_EXAMPLES_FILE_NAME = "examples.json"

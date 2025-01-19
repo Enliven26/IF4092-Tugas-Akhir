@@ -5,7 +5,6 @@ from datetime import datetime
 
 import jsonpickle
 
-from core import high_level_context_chain
 from core.chains import HighLevelContextChain
 from core.constants import END_DOCUMENT_SPLIT_SEPARATOR
 from core.enums import DiffVersion
@@ -14,6 +13,7 @@ from core.jira import IJira
 from core.models import CommitDataModel, GetHighLevelContextInputModel
 from core.parsers.git import IDiffParser
 from core.parsers.language.base import ICodeParser
+from datapreparation.constants import DEFAULT_EXAMPLES_FILE_NAME
 from datapreparation.models import ExampleGenerationResultModel
 
 
@@ -98,7 +98,7 @@ class IExampleGenerator(ABC):
 
 
 class ExampleGenerator(IExampleGenerator):
-    OUTPUT_FILE_NAME = "examples.json"
+    OUTPUT_FILE_NAME = DEFAULT_EXAMPLES_FILE_NAME
 
     def __init__(
         self,
