@@ -102,8 +102,8 @@ class ExampleGenerator(IExampleGenerator):
 
     def __init__(
         self,
-        high_level_context_chain: HighLevelContextChain,
         git: IGit,
+        jira: IJira,
         diff_parser: IDiffParser,
         code_parser: ICodeParser,
     ):
@@ -111,7 +111,7 @@ class ExampleGenerator(IExampleGenerator):
         self.__git = git
         self.__diff_parser = diff_parser
         self.__code_parser = code_parser
-        self.__high_level_context_chain = high_level_context_chain
+        self.__jira = jira
 
     def __get_output_path(self, parent_path: str) -> str:
         now = datetime.now()
@@ -155,21 +155,37 @@ class ExampleGenerator(IExampleGenerator):
             implementations.append(implementation)
 
         return "\n".join(implementations)
+    
+    def __get_jira_ticket_context(self, commit: CommitDataModel) -> str:
+        commit_message = self.__git.get_commit_message(
+            commit.repository_path, commit.commit_hash
+        )
+
+        match = re.search(r"\b([A-Z]+-\d+)\b", commit_message)
+        if match:
+            jira_ticket_id = match.group(1)
+            ticket_content = self.__jira.get_ticket_content(
+                commit.jira_url, jira_ticket_id
+            )
+            return ticket_content + END_DOCUMENT_SPLIT_SEPARATOR
+
+        else:
+            raise ValueError(
+                f"No JIRA ticket found in commit message: {commit_message}"
+            )
 
     def generate_examples(
         self,
         commits: list[CommitDataModel],
-        parent_context_path: str,
         parent_output_path: str,
     ):
         output_path = self.__get_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
         results: list[ExampleGenerationResultModel] = []
-        high_level_context_inputs: list[GetHighLevelContextInputModel] = []
 
         for commit in commits:
             current_commit_hash = commit.commit_hash
-            previous_commit_hash = f"{current_commit_hash}^1"
+            previous_commit_hash = f"{current_commit_hash}~1"
 
             diff = self.__git.get_diff(
                 commit.repository_path,
@@ -192,26 +208,9 @@ class ExampleGenerator(IExampleGenerator):
             result.commit_message = self.__git.get_commit_message(
                 commit.repository_path, commit.commit_hash
             )
+            result.high_level_context = self.__get_jira_ticket_context(commit)
 
-            high_level_context_input = GetHighLevelContextInputModel()
-            high_level_context_input.diff = diff
-            high_level_context_input.source_code = relevant_source_code
-            high_level_context_input.context_file_path = os.path.join(
-                parent_context_path, commit.get_context_file_relative_path()
-            )
-            high_level_context_input.vector_store_path = os.path.join(
-                parent_context_path, commit.get_vector_store_relative_path()
-            )
-
-            high_level_context_inputs.append(high_level_context_input)
             results.append(result)
-
-        high_level_contexts = self.__high_level_context_chain.batch(
-            high_level_context_inputs
-        )
-
-        for result, context in zip(results, high_level_contexts):
-            result.high_level_context = context
 
         json_string = jsonpickle.encode(results, unpicklable=False)
         with open(output_path, "w") as file:

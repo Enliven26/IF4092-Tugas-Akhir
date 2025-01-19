@@ -50,13 +50,12 @@ class Git(IGit):
             command.append("--")
             command.extend(included_file_paths)
 
-        try:
-            result = subprocess.run(command, capture_output=True, text=True, check=True)
-            return result.stdout
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
+        
+        if result.stderr:
+            raise Exception(f"Error while retrieving diff: {result.stderr}")
 
-        except subprocess.CalledProcessError:
-            logging.exception("Error while running git diff:")
-            return ""
+        return result.stdout
 
     def get_file_content(self, repo_path: str, commit_hash: str, file_path: str) -> str:
         command = ["git", "-C", repo_path, "show", f"{commit_hash}:{file_path}"]

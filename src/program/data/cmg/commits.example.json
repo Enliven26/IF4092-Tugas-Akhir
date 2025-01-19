@@ -1,11 +1,33 @@
 [
     {
-        "id": "TC001",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
-        "repository_url": "https://github.com/apache/kafka",
-        "commit_hash": "66b1f00c0e6fa438d2cd63cb5ad919079f33eee0",
+        "id": "EX001",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_url": "https://github.com/apache/hadoop",
+        "commit_hash": "061c05cc05ff6257b14c5c4f25cbcec2d184cda7",
         "included_file_paths": [
-            "clients/src/main/java/org/apache/kafka/common/security/JaasUtils.java"
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/shell/CopyCommands.java",
+            "hadoop-common-project/hadoop-common/src/test/java/org/apache/hadoop/fs/TestFsShellCopy.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "EX002",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_url": "https://github.com/apache/activemq",
+        "commit_hash": "d0dab2e88b44702d26dd0883c9940b97ee03fdeb",
+        "included_file_paths": [
+            "activemq-client/src/main/java/org/apache/activemq/openwire/v1/BaseDataStreamMarshaller.java",
+            "activemq-client/src/main/java/org/apache/activemq/openwire/v10/BaseDataStreamMarshaller.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "EX003",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_url": "https://github.com/apache/cassandra",
+        "commit_hash": "64b8d6b9add607b80752cd1a8fbce51839af9ec4",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/hints/HintsDispatchTrigger.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     }
