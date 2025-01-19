@@ -6,6 +6,8 @@ import com.github.javaparser.ast.body.*;
 import com.google.gson.Gson;
 import java.util.List;
 import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class JavaParser {
     public static void main(String[] args) {
@@ -13,21 +15,28 @@ public class JavaParser {
             throw new IllegalArgumentException("Usage: JavaParserExample <JavaSourceCode> <LineRangesJson>");
         }
 
-        String javaSourceCode = args[0];
+        String javaSourceCodeFilePath = args[0];
         String lineRangesJson = args[1];
-        
-        Gson gson = new Gson();
-        List<int[]> lineRanges = gson.fromJson(lineRangesJson, new com.google.gson.reflect.TypeToken<List<int[]>>(){}.getType());
-        
-        CompilationUnit cu = StaticJavaParser.parse(javaSourceCode);
-        List<String> result = new ArrayList<>();
-        
-        for (Node childNode : cu.getChildNodes()) {
-            processNode(childNode, lineRanges, javaSourceCode, result);
+
+        try {
+            String javaSourceCode = Files.readString(Path.of(javaSourceCodeFilePath));
+            
+            Gson gson = new Gson();
+            List<int[]> lineRanges = gson.fromJson(lineRangesJson, new com.google.gson.reflect.TypeToken<List<int[]>>(){}.getType());
+            
+            CompilationUnit cu = StaticJavaParser.parse(javaSourceCode);
+            List<String> result = new ArrayList<>();
+            
+            for (Node childNode : cu.getChildNodes()) {
+                processNode(childNode, lineRanges, javaSourceCode, result);
+            }
+            
+            for (String declaration : result) {
+                System.out.print(declaration);
+            }
         }
-        
-        for (String declaration : result) {
-            System.out.print(declaration);
+        catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

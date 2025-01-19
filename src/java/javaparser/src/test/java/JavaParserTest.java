@@ -3,29 +3,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Collectors;
 
 public class JavaParserTest {
 
-    private String javaSourceCode;
+    private String javaSourceCodeFilePath;
     private String lineRangesJson;
     
     @BeforeEach
     public void setUp() {
-        Path javaFilePath = Paths.get("src/test/resources/JavaSourceCodeExample.java");
-        try {
-            javaSourceCode = Files.lines(javaFilePath)
-                                  .collect(Collectors.joining(System.lineSeparator()));
-        } catch (IOException e) {
-            javaSourceCode = "";
-            e.printStackTrace();
-        }
-
+        javaSourceCodeFilePath = "src/test/resources/JavaSourceCodeExample.java";
         lineRangesJson = "[[161, 163], [130, 130], [49, 50], [17, 19]]";
     }
 
@@ -37,7 +24,7 @@ public class JavaParserTest {
         System.setOut(printStream);
 
 
-        String[] args = new String[]{javaSourceCode, lineRangesJson};
+        String[] args = new String[]{javaSourceCodeFilePath, lineRangesJson};
 
         // Act
         tugasakhir.javaparser.JavaParser.main(args);
