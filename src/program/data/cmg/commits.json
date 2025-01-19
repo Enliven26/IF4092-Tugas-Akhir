@@ -3,9 +3,229 @@
         "id": "TC001",
         "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
         "repository_url": "https://github.com/apache/kafka",
-        "commit_hash": "66b1f00c0e6fa438d2cd63cb5ad919079f33eee0",
+        "commit_hash": "d3b4c1bdf41de2d9144e0c2adf41ad08a3fee2e6",
         "included_file_paths": [
-            "clients/src/main/java/org/apache/kafka/common/security/JaasUtils.java"
+            "clients/src/main/java/org/apache/kafka/clients/producer/internals/TransactionManager.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC002",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_url": "https://github.com/apache/kafka",
+        "commit_hash": "e124d3975bdb3a9ec85eee2fba7a1b0a6967d3a6",
+        "included_file_paths": [
+            "storage/src/main/java/org/apache/kafka/storage/internals/log/LocalLog.java",
+            "storage/src/main/java/org/apache/kafka/storage/internals/log/LogAppendInfo.java",
+            "storage/src/main/java/org/apache/kafka/storage/internals/log/LogSegment.java",
+            "storage/src/main/java/org/apache/kafka/storage/internals/log/LogValidator.java"
+
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC003",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_url": "https://github.com/apache/kafka",
+        "commit_hash": "50c15b94c94fbe8f964703c057963b38100b0bd6",
+        "included_file_paths": [
+            "streams/src/main/java/org/apache/kafka/streams/KafkaStreams.java",
+            "streams/src/main/java/org/apache/kafka/streams/internals/metrics/ClientMetrics.java",
+            "streams/src/main/java/org/apache/kafka/streams/processor/internals/StreamThread.java",
+            "streams/src/main/java/org/apache/kafka/streams/processor/internals/metrics/ThreadMetrics.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC004",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_url": "https://github.com/apache/kafka",
+        "commit_hash": "00b22b001fb35e611d85abbfd4511b32058e0048",
+        "included_file_paths": [
+            "connect/runtime/src/main/java/org/apache/kafka/connect/runtime/isolation/ReflectionScanner.java",
+            "connect/runtime/src/test/java/org/apache/kafka/connect/runtime/isolation/PluginScannerTest.java",
+            "connect/runtime/src/test/java/org/apache/kafka/connect/runtime/isolation/TestPlugins.java",
+            "connect/runtime/src/test/resources/test-plugins/classpath-converter/org/apache/kafka/connect/converters/ByteArrayConverter.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC005",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_url": "https://github.com/apache/kafka",
+        "commit_hash": "c8f1ee9cd994c08056df67d22c30a5893e0901a2",
+        "included_file_paths": [
+            "connect/json/src/main/java/org/apache/kafka/connect/json/JsonConverter.java",
+            "connect/json/src/test/java/org/apache/kafka/connect/json/JsonConverterTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC006",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_url": "https://github.com/apache/hadoop",
+        "commit_hash": "aaf92fe1839b8bc732582445e9bbf019c17f3ef0",
+        "included_file_paths": [
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/impl/WeakRefMetricsSource.java",
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/S3AFileSystem.java",
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/S3AInstrumentation.java",
+            "hadoop-tools/hadoop-aws/src/test/java/org/apache/hadoop/fs/s3a/ITestS3AClosedFS.java",
+            "hadoop-tools/hadoop-aws/src/test/java/org/apache/hadoop/fs/s3a/TestInstrumentationLifecycle.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC007",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_url": "https://github.com/apache/hadoop",
+        "commit_hash": "c3e322860f79cbb1ec9a59b4819da0a48155e551",
+        "included_file_paths": [
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/PositionedReadable.java",
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/io/Sizes.java",
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/Constants.java",
+            "hadoop-tools/hadoop-aws/src/test/java/org/apache/hadoop/fs/contract/s3a/ITestS3AContractVectoredRead.java",
+            "hadoop-tools/hadoop-azure/src/main/java/org/apache/hadoop/fs/azurebfs/services/AbfsInputStream.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC008",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_url": "https://github.com/apache/hadoop",
+        "commit_hash": "9634bd31e6594312b68d9e07b736d18d29f7648c",
+        "included_file_paths": [
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/RunJar.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC009",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_url": "https://github.com/apache/hadoop",
+        "commit_hash": "58896f0e13524c81853828d4d94b5f7298bafed5",
+        "included_file_paths": [
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/io/compress/BlockCompressorStream.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC010",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_url": "https://github.com/apache/hadoop",
+        "commit_hash": "28d190b90416e9c4be402e7ef3d3c361a4f4a5a0",
+        "included_file_paths": [
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/S3AUtils.java",
+            "hadoop-tools/hadoop-aws/src/test/java/org/apache/hadoop/fs/s3a/ITestS3AConfiguration.java",
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/Constants.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC011",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_url": "https://github.com/apache/hive",
+        "commit_hash": "20d26ad269af3c281f845df76d3b8d260cabc904",
+        "included_file_paths": [
+            "ql/src/java/org/apache/hadoop/hive/ql/exec/MoveTask.java",
+            "ql/src/java/org/apache/hadoop/hive/ql/parse/SemanticAnalyzer.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC012",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_url": "https://github.com/apache/hive",
+        "commit_hash": "4898d7bfaa1437d39d25070e0ab63c5e0e0de9d7",
+        "included_file_paths": [
+            "standalone-metastore/metastore-common/src/main/java/org/apache/hadoop/hive/metastore/conf/MetastoreConf.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC013",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_url": "https://github.com/apache/hive",
+        "commit_hash": "421887705f821213f48ae9c6beab62fa09e8a2e2",
+        "included_file_paths": [
+            "ql/src/java/org/apache/hadoop/hive/ql/plan/Statistics.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC014",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_url": "https://github.com/apache/hive",
+        "commit_hash": "6bd45cc6a1cdfc2272d24251c330497223123d63",
+        "included_file_paths": [
+            "service/src/java/org/apache/hive/service/servlet/LoginServlet.java",
+            "service/src/java/org/apache/hive/service/servlet/LDAPAuthenticationFilter.java",
+            "service/src/java/org/apache/hive/service/server/HiveServer2.java",
+            "service/src/java/org/apache/hive/service/auth/ldap/LdapAuthService.java",
+            "common/src/java/org/apache/hive/http/HttpServer.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC015",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_url": "https://github.com/apache/hive",
+        "commit_hash": "2ff3ed6d83a1633d17bbf5b3c852b34b51548ef8",
+        "included_file_paths": [
+            "ql/src/java/org/apache/hadoop/hive/ql/parse/TezCompiler.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC016",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_url": "https://github.com/apache/activemq",
+        "commit_hash": "5f79b651c225babe62d8742d20e993073faaf1d0",
+        "included_file_paths": [
+            "activemq-kahadb-store/src/main/java/org/apache/activemq/store/kahadb/disk/page/PageFile.java",
+            "activemq-kahadb-store/src/main/java/org/apache/activemq/util/RecoverableRandomAccessFile.java",
+            "activemq-kahadb-store/src/test/java/org/apache/activemq/store/kahadb/disk/page/PageFileTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC017",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_url": "https://github.com/apache/activemq",
+        "commit_hash": "550cb9b2be32e5a6454e7bee5e31632498626a9c",
+        "included_file_paths": [
+            "activemq-client/src/main/java/org/apache/activemq/util/IntrospectionSupport.java",
+            "activemq-jms-pool/src/main/java/org/apache/activemq/jms/pool/IntrospectionSupport.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC018",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_url": "https://github.com/apache/activemq",
+        "commit_hash": "d8ae8734a9f6da41e206d33322048aedf5491e8e",
+        "included_file_paths": [
+            "activemq-jdbc-store/src/main/java/org/apache/activemq/store/jdbc/JDBCPersistenceAdapter.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC019",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_url": "https://github.com/apache/activemq",
+        "commit_hash": "ecbeb6d2eb8675832acec243a4e50fea735763e0",
+        "included_file_paths": [
+            "activemq-client/src/main/java/org/apache/activemq/TransactionContext.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC020",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_url": "https://github.com/apache/activemq",
+        "commit_hash": "6f338aa2817c221c16b6a97b7d3377daeaf42726",
+        "included_file_paths": [
+            "activemq-amqp/src/main/java/org/apache/activemq/transport/amqp/message/JMSMappingOutboundTransformer.java",
+            "activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/message/JMSMappingOutboundTransformerTest.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     }
