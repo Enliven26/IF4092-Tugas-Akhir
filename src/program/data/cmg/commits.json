@@ -228,5 +228,170 @@
             "activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/message/JMSMappingOutboundTransformerTest.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC021",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_url": "https://github.com/apache/cassandra",
+        "commit_hash": "f66183a711dd440b3619a960ba4e5444c1c900ff",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/config/DatabaseDescriptor.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC022",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_url": "https://github.com/apache/cassandra",
+        "commit_hash": "4bc61e5209d474c50639a4858e273653fbb4e399",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/db/ReadCommand.java",
+            "src/java/org/apache/cassandra/db/transform/StoppingTransformation.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC023",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_url": "https://github.com/apache/cassandra",
+        "commit_hash": "407dbacb0a0fcd5eca28abe781be635476325a65",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/service/snapshot/SnapshotManagerMBean.java",
+            "src/java/org/apache/cassandra/tools/nodetool/ListSnapshots.java",
+            "test/distributed/org/apache/cassandra/distributed/test/SnapshotsTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC024",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_url": "https://github.com/apache/cassandra",
+        "commit_hash": "b15a1f04b61e11bc3b9719c06bffb9fa672a25cd",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/service/snapshot/SnapshotDetailsTabularData.java",
+            "src/java/org/apache/cassandra/service/snapshot/SnapshotManager.java",
+            "src/java/org/apache/cassandra/service/snapshot/SnapshotManagerMBean.java",
+            "src/java/org/apache/cassandra/tools/nodetool/ListSnapshots.java",
+            "test/unit/org/apache/cassandra/db/ColumnFamilyStoreTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC025",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_url": "https://github.com/apache/cassandra",
+        "commit_hash": "4fc8bb29fcda935728d8863a4499fa0e9d924b82",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/db/filter/RowFilter.java",
+            "test/unit/org/apache/cassandra/cql3/validation/operations/SelectTest.java",
+            "test/unit/org/apache/cassandra/index/sasi/plan/OperationTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC026",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_url": "https://github.com/apache/camel",
+        "commit_hash": "d45136e6de61c09cca934ba4a13d8ff2a6f5b52d",
+        "included_file_paths": [
+            "components/camel-aws/camel-aws2-s3/src/main/java/org/apache/camel/component/aws2/s3/stream/AWS2S3StreamUploadProducer.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC027",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_url": "https://github.com/apache/camel",
+        "commit_hash": "2f8a0881ed6e65cecf9bf7ae2e3968f2751d8bd1",
+        "included_file_paths": [
+            "dsl/camel-jbang/camel-jbang-plugin-kubernetes/src/main/java/org/apache/camel/dsl/jbang/core/commands/kubernetes/KubernetesHelper.java",
+            "dsl/camel-jbang/camel-jbang-plugin-kubernetes/src/main/java/org/apache/camel/dsl/jbang/core/commands/kubernetes/KubernetesRun.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC028",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_url": "https://github.com/apache/camel",
+        "commit_hash": "32895ccfeae995497a275754dafcad38947447b7",
+        "included_file_paths": [
+            "core/camel-support/src/main/java/org/apache/camel/support/cache/SimpleLRUCache.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC029",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_url": "https://github.com/apache/camel",
+        "commit_hash": "b3797fc19a260c9ec8cc292fd3b2a6f254b5030a",
+        "included_file_paths": [
+            "dsl/camel-jbang/camel-jbang-plugin-kubernetes/src/main/java/org/apache/camel/dsl/jbang/core/commands/kubernetes/KubernetesHelper.java",
+            "dsl/camel-jbang/camel-jbang-plugin-kubernetes/src/main/java/org/apache/camel/dsl/jbang/core/commands/kubernetes/KubernetesRun.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC030",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_url": "https://github.com/apache/camel",
+        "commit_hash": "d944fb9a8a2874282f0571c348c1839481cfa6b3",
+        "included_file_paths": [
+            "components/camel-kamelet/src/main/java/org/apache/camel/component/kamelet/utils/langchain4j/embeddings/HuggingFaceEmbeddingModelBuilder.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC031",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_url": "https://github.com/apache/maven",
+        "commit_hash": "6767f2500f1d005924ccff27f04350c253858a84",
+        "included_file_paths": [
+            "maven-core/src/main/java/org/apache/maven/internal/MultilineMessageHelper.java",
+            "maven-core/src/main/java/org/apache/maven/lifecycle/internal/builder/BuilderCommon.java",
+            "maven-core/src/test/java/org/apache/maven/internal/MultilineMessageHelperTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC032",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_url": "https://github.com/apache/maven",
+        "commit_hash": "36de1c6e512435dffe0f27e1c117bd725cfba293",
+        "included_file_paths": [
+            "maven-embedder/src/main/java/org/apache/maven/cli/CLIManager.java",
+            "maven-embedder/src/main/java/org/apache/maven/cli/MavenCli.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC033",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_url": "https://github.com/apache/maven",
+        "commit_hash": "84ed8bea95c7ad45270a2a8e940f8ce3914b751d",
+        "included_file_paths": [
+            "maven-api-impl/src/main/java/org/apache/maven/internal/impl/model/DefaultModelBuilder.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC034",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_url": "https://github.com/apache/maven",
+        "commit_hash": "9f2ef3434390da0f558224acccfdbdc9194c65e9",
+        "included_file_paths": [
+            "maven-api-impl/src/main/java/org/apache/maven/internal/impl/model/DefaultModelValidator.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC035",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_url": "https://github.com/apache/maven",
+        "commit_hash": "4bd12915c9399e02d4826e5150c1a9c735d12765",
+        "included_file_paths": [
+            "maven-core/src/main/java/org/apache/maven/session/scope/internal/SessionScope.java",
+            "maven-core/src/test/java/org/apache/maven/session/scope/SessionScopeProxyTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
     }
 ]
