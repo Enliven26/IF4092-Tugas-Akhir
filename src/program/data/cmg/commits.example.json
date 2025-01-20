@@ -5,8 +5,7 @@
         "repository_url": "https://github.com/apache/hadoop",
         "commit_hash": "061c05cc05ff6257b14c5c4f25cbcec2d184cda7",
         "included_file_paths": [
-            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/shell/CopyCommands.java",
-            "hadoop-common-project/hadoop-common/src/test/java/org/apache/hadoop/fs/TestFsShellCopy.java"
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/shell/CopyCommands.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     },
@@ -16,7 +15,6 @@
         "repository_url": "https://github.com/apache/activemq",
         "commit_hash": "d0dab2e88b44702d26dd0883c9940b97ee03fdeb",
         "included_file_paths": [
-            "activemq-client/src/main/java/org/apache/activemq/openwire/v1/BaseDataStreamMarshaller.java",
             "activemq-client/src/main/java/org/apache/activemq/openwire/v10/BaseDataStreamMarshaller.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
