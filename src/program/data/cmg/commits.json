@@ -393,5 +393,177 @@
             "maven-core/src/test/java/org/apache/maven/session/scope/SessionScopeProxyTest.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC036",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_url": "https://github.com/apache/opennlp",
+        "commit_hash": "c9440e68e098654a9f4315c816d0f0dd0cbef7b5",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/formats/brat/BratDocumentStream.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC037",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_url": "https://github.com/apache/opennlp",
+        "commit_hash": "5310565f6f402a93a41222050ab6f88f9f13d013",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/chunker/ThreadSafeChunkerME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/lemmatizer/ThreadSafeLemmatizerME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/namefind/ThreadSafeNameFinderME.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC038",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_url": "https://github.com/apache/opennlp",
+        "commit_hash": "e91ceb17e36120b66dafdf15d2e11fc6a59c92c6",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/util/DownloadUtil.java",
+            "opennlp-tools/src/test/java/opennlp/tools/util/AbstractDownloadUtilTest.java",
+            "opennlp-tools/src/test/java/opennlp/tools/util/DownloadUtilDownloadTwiceTest.java",
+            "opennlp-tools/src/test/java/opennlp/tools/util/DownloadUtilTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC039",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_url": "https://github.com/apache/opennlp",
+        "commit_hash": "374bee9324dfb69dcb2735f3ca4d7de57f10918f",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/sentdetect/SentenceDetectorME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/sentdetect/ThreadSafeSentenceDetectorME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/tokenize/ThreadSafeTokenizerME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/tokenize/TokenizerME.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC040",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_url": "https://github.com/apache/opennlp",
+        "commit_hash": "a1c46d185ab39a1e93bf77c6f211b4178bba5e4a",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/postag/POSTagFormat.java",
+            "opennlp-tools/src/main/java/opennlp/tools/postag/POSTagFormatMapper.java",
+            "opennlp-tools/src/main/java/opennlp/tools/postag/POSTaggerME.java",
+            "opennlp-tools/src/test/java/opennlp/tools/postag/POSTaggerMETest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC041",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_url": "https://github.com/apache/zookeeper",
+        "commit_hash": "91ab3f5274658a457f205065233db038ba7e622f",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/common/X509Util.java",
+            "zookeeper-server/src/main/java/org/apache/zookeeper/common/ZKConfig.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC042",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_url": "https://github.com/apache/zookeeper",
+        "commit_hash": "e2070bed85d8b0c98a5a0045bf92421f473c412e",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/server/quorum/auth/SaslQuorumServerCallbackHandler.java",
+            "zookeeper-server/src/test/java/org/apache/zookeeper/server/quorum/auth/QuorumKerberosAuthTest.java",
+            "zookeeper-server/src/test/java/org/apache/zookeeper/server/quorum/auth/QuorumKerberosHostBasedAuthTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC043",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_url": "https://github.com/apache/zookeeper",
+        "commit_hash": "c0e92411fbb38025d4cd257835cf5e4afeea4956",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/server/ZooKeeperServer.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC044",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_url": "https://github.com/apache/zookeeper",
+        "commit_hash": "9f355f5a57f35d3760f8e669696622135c457938",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/KeeperException.java",
+            "zookeeper-server/src/test/java/org/apache/zookeeper/ZooKeeperTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC045",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_url": "https://github.com/apache/zookeeper",
+        "commit_hash": "58e0a7741533ec3598c619c526208f8a90f5756c",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/server/quorum/QuorumCnxManager.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC046",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_url": "https://github.com/apache/drill",
+        "commit_hash": "ce7874479cee9ac0a60bb4ea24af090212df0ece",
+        "included_file_paths": [
+            "zexec/java-exec/src/main/java/org/apache/drill/exec/physical/impl/join/HashJoinProbeTemplate.java",
+            "exec/java-exec/src/test/java/org/apache/drill/exec/physical/impl/join/TestHashJoin.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC047",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_url": "https://github.com/apache/drill",
+        "commit_hash": "6d94399fef380d55d79bff390bfaf3a7e2f61805",
+        "included_file_paths": [
+            "exec/rpc/src/main/java/org/apache/drill/exec/rpc/RpcEncoder.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC048",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_url": "https://github.com/apache/drill",
+        "commit_hash": "ac98f349e86673555c2e2161cbd42c304840b5b9",
+        "included_file_paths": [
+            "contrib/storage-splunk/src/main/java/org/apache/drill/exec/store/splunk/SplunkConnection.java",
+            "contrib/storage-splunk/src/main/java/org/apache/drill/exec/store/splunk/SplunkPluginConfig.java",
+            "contrib/storage-splunk/src/main/java/org/apache/drill/exec/store/splunk/SplunkUtils.java",
+            "contrib/storage-splunk/src/test/java/org/apache/drill/exec/store/splunk/SplunkConnectionTest.java",
+            "contrib/storage-splunk/src/test/java/org/apache/drill/exec/store/splunk/SplunkTestSuite.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC049",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_url": "https://github.com/apache/drill",
+        "commit_hash": "1c23173549ee53481316c85a65028f6ff9fb1b93",
+        "included_file_paths": [
+            "exec/java-exec/src/main/java/org/apache/drill/exec/service/ServiceEngine.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC050",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_url": "https://github.com/apache/drill",
+        "commit_hash": "e9afb95f161f1fec527a04458adf78add91567bc",
+        "included_file_paths": [
+            "exec/java-exec/src/main/java/org/apache/drill/exec/planner/physical/AggPrelBase.java",
+            "exec/java-exec/src/test/java/org/apache/drill/exec/fn/impl/TestAggregateFunctions.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
     }
+
 ]
