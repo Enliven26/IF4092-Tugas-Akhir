@@ -1,11 +1,12 @@
 [
     {
         "id": "TC001",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
-        "repository_url": "https://github.com/apache/kafka",
-        "commit_hash": "66b1f00c0e6fa438d2cd63cb5ad919079f33eee0",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_url": "https://github.com/apache/drill",
+        "commit_hash": "9d6af6dea6ed6f47f45a2bd064c01bf69d85acbf",
         "included_file_paths": [
-            "clients/src/main/java/org/apache/kafka/common/security/JaasUtils.java"
+            "contrib/storage-hive/core/src/main/java/org/apache/drill/exec/store/hive/HiveStoragePlugin.java",
+            "contrib/storage-hive/core/src/test/java/org/apache/drill/exec/TestHivePartitionPruning.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     }

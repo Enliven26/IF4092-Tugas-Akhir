@@ -1,11 +1,36 @@
 [
     {
         "id": "TC001",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
-        "repository_url": "https://github.com/apache/kafka",
-        "commit_hash": "66b1f00c0e6fa438d2cd63cb5ad919079f33eee0",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_url": "https://github.com/apache/drill",
+        "commit_hash": "9d6af6dea6ed6f47f45a2bd064c01bf69d85acbf",
         "included_file_paths": [
-            "clients/src/main/java/org/apache/kafka/common/security/JaasUtils.java"
+            "contrib/storage-hive/core/src/main/java/org/apache/drill/exec/store/hive/HiveStoragePlugin.java",
+            "contrib/storage-hive/core/src/test/java/org/apache/drill/exec/TestHivePartitionPruning.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC002",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_url": "https://github.com/apache/zookeeper",
+        "commit_hash": "045833b795a7041607337b192fa3dbcf2cc3f291",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/common/X509Util.java",
+            "zookeeper-server/src/main/java/org/apache/zookeeper/common/ZKConfig.java",
+            "zookeeper-server/src/test/java/org/apache/zookeeper/common/X509UtilTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "TC003",
+        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_url": "https://github.com/apache/opennlp",
+        "commit_hash": "ccca8ca5d5f95ae9af9b23126e6611058605bb17",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/postag/ThreadSafePOSTaggerME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/sentdetect/ThreadSafeSentenceDetectorME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/tokenize/ThreadSafeTokenizerME.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     }
