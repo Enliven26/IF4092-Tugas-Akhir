@@ -1,0 +1,123 @@
+Ticket ID: HADOOP-18526
+Issue Summary: Leak of S3AInstrumentation instances via hadoop Metrics references
+Issue Type: Sub-task
+Priority: Blocker
+
+Description:
+A heap dump of a process running OOM shows that if a process creates then destroys lots of S3AFS instances, you seem to run out of heap due to references to S3AInstrumentation and the IOStatisticsStore kept via the hadoop metrics registry
+
+It doesn't look like S3AInstrumentation.close() is being invoked in S3AFS.close(). it should -with the IOStats being snapshotted to a local reference before this happens. This allows for stats of a closed fs to be examined.
+
+If you look at org.apache.hadoop.ipc.DecayRpcScheduler.MetricsProxy it uses a WeakReference to refer back to the larger object. we should do the same for abfs/s3a bindings. ideally do some template proxy class in hadoop common they can both use.
+
+
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HADOOP-19229
+Issue Summary: Vector IO on cloud storage: what is a good minimum seek size?
+Issue Type: Sub-task
+Priority: Major
+
+Description:
+vector iO has a max size to coalesce ranges, but it also needs a maximum gap between ranges to justify the merge. Right now we could have a read where two vectors of size 8 bytes can be merged with a 1 MB gap between them -and that's wasteful. 
+
+We could also consider an "efficiency" metric which looks at the ratio of bytes-read to bytes-discarded. Not sure what we'd do with it, but we could track it as an IOStat
+
+h2. Current values
+
+The thresholds at which adjacent vector IO read ranges are coalesced into a
+single range has been increased, as has the limit at which point they are 
+considered large enough that parallel reads are faster.
+
+* The min/max for local filesystems and any other FS without custom support are 
+now 16K and 1M
+* s3a and abfs use 128K as the minimum size, 2M for max.
+
+
+
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HADOOP-19031
+Issue Summary: CVE-2024-23454: Apache Hadoop: Temporary File Local Information Disclosure
+Issue Type: Bug
+Priority: Major
+
+Description:
+Apache Hadoop’s RunJar.run() does not set permissions for temporary directory by default. If sensitive data will be present in this file, all the other local users may be able to view the content.
+
+This is because, on unix-like systems, the system temporary directory is shared between all local users. As such, files written in this directory, without setting the correct posix permissions explicitly, may be viewable by all other local users.
+
+Credit: Andrea Cosentino (finder)
+
+See: https://www.cve.org/CVERecord?id=CVE-2024-23454
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HADOOP-19339
+Issue Summary: OutofBounds Exception due to assumption about buffer size in BlockCompressorStream
+Issue Type: Bug
+Priority: Major
+
+Description:
+h3. What Happened: 
+
+Got an OutofBounds exception when io.compression.codec.snappy.buffersize is set to 7. BlockCompressorStream assumes that the buffer size will always be greater than the compression overhead, and consequently MAX_INPUT_SIZE will always be greater than or equal to 0. 
+h3. Buggy Code: 
+
+When io.compression.codec.snappy.buffersize is set to 7, compressionOverhead is 33 and MAX_INPUT_SIZE is -26. 
+{code:java}
+public BlockCompressorStream(OutputStream out, Compressor compressor, 
+                             int bufferSize, int compressionOverhead) {
+  super(out, compressor, bufferSize);
+  MAX_INPUT_SIZE = bufferSize - compressionOverhead; // -> Assumes bufferSize is always greater than compressionOverhead and MAX_INPUT_SIZE is non-negative. 
+} {code}
+h3. Stack Trace: 
+{code:java}
+java.lang.ArrayIndexOutOfBoundsException
+        at org.apache.hadoop.io.compress.snappy.SnappyCompressor.setInput(SnappyCompressor.java:86)
+        at org.apache.hadoop.io.compress.BlockCompressorStream.write(BlockCompressorStream.java:112) {code}
+h3. How to Reproduce: 
+
+(1) Set io.compression.codec.snappy.buffersize to 7
+
+(2) Run test: org.apache.hadoop.io.compress.TestCodec#testSnappyMapFile
+
+ 
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HADOOP-18845
+Issue Summary: Add ability to configure ConnectionTTL of http connections while creating S3 Client.
+Issue Type: Sub-task
+Priority: Major
+
+Description:
+The option fs.s3a.connection.ttl sets the maximum time an idle connection may be retained in the http connection pool. 
+
+A lower value: fewer connections kept open, networking problems related to long-lived connections less likely
+A higher value: less time spent negotiating TLS connections when new connections are needed
+
+
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HADOOP-12657
+Issue Summary: Add a option to skip newline on empty files with getMerge -nl
+Issue Type: New Feature
+Priority: Minor
+
+Description:
+Hello everyone,
+
+I recently was in the need of using the new line option -nl with getMerge because the files I needed to merge simply didn't had one. I was merging all the files from one directory and unfortunately this directory also included empty files, which effectively led to multiple newlines append after some files. I needed to remove them manually afterwards.
+
+In this situation it is maybe good to have another argument that allows skipping empty files.
+Thing one could try to implement this feature:
+
+The call for IOUtils.copyBytes(in, out, getConf(), false); doesn't
+return the number of bytes copied which would be convenient as one could
+skip append the new line when 0 bytes where copied or one would check the file size before.
+
+I posted this Idea on the mailing list http://mail-archives.apache.org/mod_mbox/hadoop-user/201507.mbox/%3C55B25140.3060005%40trivago.com%3E but I didn't really get many responses, so I thought I my try this way.

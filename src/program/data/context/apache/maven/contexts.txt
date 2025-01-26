@@ -1,0 +1,207 @@
+Ticket ID: MNG-7486
+Issue Summary: Create a multiline message helper for boxed log messages
+Issue Type: Task
+Priority: Major
+
+Description:
+Simplify the way how boxed messages, e.g., for non-threadsafe plugins is created.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: MNG-8237
+Issue Summary: Option deprecation notices cleanup
+Issue Type: Bug
+Priority: Minor
+
+Description:
+When I run a build with the deprecated global-setting option I'm told four times about it
+{noformat}
+$ ./mvnw validate -N --global-settings ~/.m2/settings.xml
+Option 'gs''global-settings': Deprecated
+Option 'gs''global-settings': Deprecated
+Option 'gs''global-settings': Deprecated
+Option 'gs''global-settings': Deprecated{noformat}
+The documentation from
+{noformat}
+./mvnw --help{noformat}
+however does not mention this
+{noformat}
+ -gs,--global-settings <arg>                       Alternate path for the global settings file{noformat}
+It could rather be
+{noformat}
+ -gs,--global-settings <arg>                       <deprecated> Alternate path for the global settings file{noformat}
+ 
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: MNG-8331
+Issue Summary: Versioned dependencies may disappear in modelVersion 4.1.0
+Issue Type: Bug
+Priority: Blocker
+
+Description:
+First observations, will elaborate as we discover more.
+
+When using modelVersion 4.1.0, it is possible to declare dependencies without the {{version}} element in two scenarios:
+
+# dependencies that are managed through a BOM.
+# dependencies that live in the same aggregator project.
+
+When you mix dependencies with a {{version}} element and dependencies without a {{version}} element, the ones with a {{version}} element will not be present in the model.
+
+* Only version-less dependencies: works.
+* Only versioned dependencies: works.
+* Version-less and versioned dependencies mixed: versioned dependencies can disappear, depending on how the version of the version-less dependency would be calculated. It would only disappear when it was calculated from the aggregator project.
+
+This only breaks in modelVersion 4.1.0. Working on an IT that demonstrates this and a fix.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: MNG-8349
+Issue Summary: NumberFormatException during model building
+Issue Type: Bug
+Priority: Major
+
+Description:
+{code}
+<project>
+  <modelVersion>4..0.0</modelVersion>
+  <groupId>org.test</groupId>
+  <artifactId>foo</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+</project>
+{code}
+
+The above pom.xml leads to the following error:
+
+{code}
+[INFO] Scanning for projects...
+[ERROR] Internal error: java.lang.NumberFormatException: For input string: "" -> [Help 1]
+org.apache.maven.InternalErrorException: Internal error: java.lang.NumberFormatException: For input string: ""
+    at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:157)
+    at org.apache.maven.cling.invoker.mvn.DefaultMavenInvoker.doExecute(DefaultMavenInvoker.java:496)
+    at org.apache.maven.cling.invoker.mvn.DefaultMavenInvoker.execute(DefaultMavenInvoker.java:113)
+    at org.apache.maven.cling.invoker.mvn.DefaultMavenInvoker.execute(DefaultMavenInvoker.java:80)
+    at org.apache.maven.cling.invoker.LookupInvoker.doInvoke(LookupInvoker.java:235)
+    at org.apache.maven.cling.invoker.LookupInvoker.invoke(LookupInvoker.java:210)
+    at org.apache.maven.cling.ClingSupport.run(ClingSupport.java:68)
+    at org.apache.maven.cling.MavenCling.main(MavenCling.java:51)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke(Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:314)
+Caused by: java.lang.NumberFormatException: For input string: ""
+    at java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+    at java.lang.Long.parseLong(Long.java:719)
+    at java.lang.Long.valueOf(Long.java:1157)
+    at org.apache.maven.internal.impl.model.DefaultModelValidator.compareModelVersions(DefaultModelValidator.java:1967)
+    at org.apache.maven.internal.impl.model.DefaultModelValidator.validateModelVersion(DefaultModelValidator.java:1911)
+    at org.apache.maven.internal.impl.model.DefaultModelValidator.validateFileModel(DefaultModelValidator.java:367)
+    at org.apache.maven.internal.impl.model.DefaultModelBuilder$DefaultModelBuilderSession.doReadFileModel(DefaultModelBuilder.java:1434)
+    at org.apache.maven.internal.impl.model.DefaultModelCache$CachingSupplier.get(DefaultModelCache.java:178)
+    at org.apache.maven.internal.impl.model.DefaultModelCache.computeIfAbsent(DefaultModelCache.java:65)
+    at org.apache.maven.internal.impl.model.DefaultModelCache.computeIfAbsent(DefaultModelCache.java:56)
+    at org.apache.maven.internal.impl.model.DefaultModelBuilder$DefaultModelBuilderSession.cache(DefaultModelBuilder.java:1734)
+    at org.apache.maven.internal.impl.model.DefaultModelBuilder$DefaultModelBuilderSession.readFileModel(DefaultModelBuilder.java:1239)
+    at org.apache.maven.internal.impl.model.DefaultModelBuilder$DefaultModelBuilderSession.loadFilePom(DefaultModelBuilder.java:733)
+    at org.apache.maven.internal.impl.model.DefaultModelBuilder$DefaultModelBuilderSession.loadFromRoot(DefaultModelBuilder.java:711)
+    at org.apache.maven.internal.impl.model.DefaultModelBuilder$DefaultModelBuilderSession.buildBuildPom(DefaultModelBuilder.java:658)
+    at org.apache.maven.internal.impl.model.DefaultModelBuilder$1.build(DefaultModelBuilder.java:226)
+    at org.apache.maven.project.DefaultProjectBuilder$BuildSession.build(DefaultProjectBuilder.java:497)
+    at org.apache.maven.project.DefaultProjectBuilder$BuildSession.lambda$doBuild$5(DefaultProjectBuilder.java:474)
+    at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+    at java.util.Collections$2.tryAdvance(Collections.java:5073)
+    at java.util.Collections$2.forEachRemaining(Collections.java:5081)
+    at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+    at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+    at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+    at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+    at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)
+    at org.apache.maven.project.DefaultProjectBuilder$BuildSession.doBuild(DefaultProjectBuilder.java:476)
+    at org.apache.maven.project.DefaultProjectBuilder$BuildSession.build(DefaultProjectBuilder.java:450)
+    at org.apache.maven.project.DefaultProjectBuilder.build(DefaultProjectBuilder.java:184)
+    at org.apache.maven.project.collector.DefaultProjectsSelector.selectProjects(DefaultProjectsSelector.java:61)
+    at org.apache.maven.project.collector.RequestPomCollectionStrategy.collectProjects(RequestPomCollectionStrategy.java:49)
+    at org.apache.maven.graph.DefaultGraphBuilder.getProjectsForMavenReactor(DefaultGraphBuilder.java:364)
+    at org.apache.maven.graph.DefaultGraphBuilder.build(DefaultGraphBuilder.java:100)
+    at org.apache.maven.DefaultMaven.buildGraph(DefaultMaven.java:629)
+    at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:250)
+    at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:225)
+    at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:149)
+    at org.apache.maven.cling.invoker.mvn.DefaultMavenInvoker.doExecute(DefaultMavenInvoker.java:496)
+    at org.apache.maven.cling.invoker.mvn.DefaultMavenInvoker.execute(DefaultMavenInvoker.java:113)
+    at org.apache.maven.cling.invoker.mvn.DefaultMavenInvoker.execute(DefaultMavenInvoker.java:80)
+    at org.apache.maven.cling.invoker.LookupInvoker.doInvoke(LookupInvoker.java:235)
+    at org.apache.maven.cling.invoker.LookupInvoker.invoke(LookupInvoker.java:210)
+    at org.apache.maven.cling.ClingSupport.run(ClingSupport.java:68)
+    at org.apache.maven.cling.MavenCling.main(MavenCling.java:51)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke(Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:314)
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the '-e' switch
+[ERROR] Re-run Maven using the '-X' switch to enable verbose output
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/InternalErrorException
+{code}
+
+The error is somehow expected given the typo in the {{modelVersion}}, but a more friendly exception would be welcomed.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: MNG-7662
+Issue Summary: Proxy session scoped components so that they can be injected into singletons beans
+Issue Type: New Feature
+Priority: Major
+
+Description:
+The {{SessionScope}} will now create proxies to wrap beans when there's a need to inject a bean while the session scope is not yet available. Such proxies require the use of a {{Typed}} annotation, either the {{org.eclipse.sisu.Typed}} or {{javax.enterprise.inject.Typed}} annotation, to be put on the bean that requires to be wrapped by a proxy.
+{code:java}
+    @Named
+    static class MySingletonBean {
+        @Inject
+        BeanItf myBean;
+    }
+
+    interface BeanItf {
+        Session getSession();
+    }
+
+    @SessionScoped
+    @Typed
+    static class MySessionScopedBean implements BeanItf {
+        @Inject
+        Session session;
+
+        public Session getSession() {
+            return session;
+        }
+    }
+{code}
+=======
+
+Original problem:
+
+Currently DefaultMaven gets the Graphbuilder injected as a strict requirement at a very early stage. This leads to the problem, that a GraphBuilder implementation can not use any SessionScoped Components (because the session scope is not setup yet).
+
+The error then is
+{code:java}
+1) Error in custom provider, com.google.inject.OutOfScopeException: Cannot access Key[type=org.apache.maven.execution.MavenSession, annotation=[none]] outside of a scoping block
+  at org.apache.maven.session.scope.internal.SessionScopeModule.configure(SessionScopeModule.java:64) (via modules: org.eclipse.sisu.wire.WireModule -> org.apache.maven.session.scope.internal.SessionScopeModule)
+  while locating org.apache.maven.execution.MavenSession
+    for the 1st parameter of org.eclipse.tycho.helper.PluginRealmHelper.<init>(Unknown Source)
+  at ClassRealm[coreExtension>org.eclipse.tycho:tycho-build:${tycho-version}, parent: ClassRealm[plexus.core, parent: null]] (via modules: org.eclipse.sisu.wire.WireModule -> org.eclipse.sisu.plexus.PlexusBindingModule)
+  while locating org.eclipse.tycho.helper.PluginRealmHelper
+  at ClassRealm[coreExtension>org.eclipse.tycho:tycho-build:${tycho-version}, parent: ClassRealm[plexus.core, parent: null]] (via modules: org.eclipse.sisu.wire.WireModule -> org.eclipse.sisu.plexus.PlexusBindingModule)
+  while locating org.eclipse.tycho.p2maven.InstallableUnitGenerator
+  at ClassRealm[coreExtension>org.eclipse.tycho:tycho-build:${tycho-version}, parent: ClassRealm[plexus.core, parent: null]] (via modules: org.eclipse.sisu.wire.WireModule -> org.eclipse.sisu.plexus.PlexusBindingModule)
+  while locating org.eclipse.tycho.p2maven.MavenProjectDependencyProcessor
+  while locating org.eclipse.tycho.build.TychoGraphBuilder
+{code}

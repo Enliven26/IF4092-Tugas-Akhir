@@ -65,7 +65,10 @@ class JiraContextGenerator(IContextGenerator):
         full_path = os.path.join(parent_output_path, relative_path, file_name)
         self.__create_folder_if_not_exist(full_path)
 
-        with open(full_path, "w", encoding="utf-8") as file:
+        with open(full_path, "a", encoding="utf-8") as file:
+            if os.path.exists(full_path) and os.path.getsize(full_path) > 0:
+                file.write(END_DOCUMENT_SPLIT_SEPARATOR)
+
             file.write(context)
 
     def generate_context(self, commits: list[CommitDataModel], parent_output_path: str):
@@ -155,7 +158,7 @@ class ExampleGenerator(IExampleGenerator):
             implementations.append(implementation)
 
         return "\n".join(implementations)
-    
+
     def __get_jira_ticket_context(self, commit: CommitDataModel) -> str:
         commit_message = self.__git.get_commit_message(
             commit.repository_path, commit.commit_hash

@@ -1,0 +1,157 @@
+Ticket ID: DRILL-8513
+Issue Summary: Right Hash Join with empty Left table ruturns 0 result
+Issue Type: Bug
+Priority: Major
+
+Description:
+Drill returns no results on the right Hash Join if the probe(left) table is empty.
+
+The simplest way to reproduce the issue:
+
+1.To force Drill not to use merge join and use the hash join operator instead:
+{code:java}
+alter session set planner.enable_mergejoin = false;
+alter session set planner.enable_nestedloopjoin= false; {code}
+2. Disable join order optimization to prevent Drill from flipping join tables:
+{code:java}
+alter session set planner.enable_join_optimization = false;  {code}
+3. Execute a query with empty left table outcome:
+{code:java}
+SELECT *
+FROM 
+    (SELECT * FROM (VALUES (1, 'Max', 28), 
+                           (2, 'Jane', 32),
+                           (3, 'Saymon', 29)
+                   ) AS users(id, name, age)
+    WHERE false
+    ) AS users
+RIGHT JOIN 
+    (VALUES (1, 'Engineer'), 
+            (2, 'Doctor'), 
+            (3, 'Teacher')
+    ) AS job(id, title)
+ON users.id = job.id {code}
+Expected result is:
+||id||name||age||id0||title||
+|null|null|null|1|Engineer|
+|null|null|null|2|Doctor|
+|null|null|null|3|Teacher|
+
+But we get 0 rows.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: DRILL-8489
+Issue Summary: Sender memory leak when rpc encode exception
+Issue Type: Bug
+Priority: Major
+
+Description:
+When encode throw Exception, if encode msg instanceof ReferenceCounted, netty can release msg, but drill convert msg to OutboundRpcMessage, so netty can not release msg. this  causes sender memory leaks
+
+exception info 
+{code:java}
+2024-04-16 16:25:57,998 [DataClient-7] ERROR o.a.d.exec.rpc.RpcExceptionHandler - Exception in RPC communication.  Connection: /10.32.112.138:47924 <--> /10.32.112.138:31012 (data client).  Closing connection.
+io.netty.handler.codec.EncoderException: org.apache.drill.exec.exception.OutOfMemoryException: Unable to allocate buffer of size 4096 due to memory limit (9223372036854775807). Current allocation: 0
+        at io.netty.handler.codec.MessageToMessageEncoder.write(MessageToMessageEncoder.java:107)
+        at io.netty.channel.AbstractChannelHandlerContext.invokeWrite0(AbstractChannelHandlerContext.java:881)
+        at io.netty.channel.AbstractChannelHandlerContext.invokeWriteAndFlush(AbstractChannelHandlerContext.java:940)
+        at io.netty.channel.AbstractChannelHandlerContext$WriteTask.run(AbstractChannelHandlerContext.java:1247)
+        at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+        at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+        at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+        at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:569)
+        at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+        at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.drill.exec.exception.OutOfMemoryException: Unable to allocate buffer of size 4096 due to memory limit (9223372036854775807). Current allocation: 0
+        at org.apache.drill.exec.memory.BaseAllocator.buffer(BaseAllocator.java:245)
+        at org.apache.drill.exec.memory.BaseAllocator.buffer(BaseAllocator.java:220)
+        at org.apache.drill.exec.memory.DrillByteBufAllocator.buffer(DrillByteBufAllocator.java:55)
+        at org.apache.drill.exec.memory.DrillByteBufAllocator.buffer(DrillByteBufAllocator.java:50)
+        at org.apache.drill.exec.rpc.RpcEncoder.encode(safeRelease.java:87)
+        at org.apache.drill.exec.rpc.RpcEncoder.encode(RpcEncoder.java:38)
+        at io.netty.handler.codec.MessageToMessageEncoder.write(MessageToMessageEncoder.java:90){code}
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: DRILL-8503
+Issue Summary: Add Configuration Option to Skip Host Validation for Splunk
+Issue Type: Improvement
+Priority: Major
+
+Description:
+This PR adds an option to skip host validation for SSL connections to Splunk. 
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: DRILL-4935
+Issue Summary: Allow drillbits to advertise a configurable host address to Zookeeper
+Issue Type: New Feature
+Priority: Minor
+
+Description:
+There are certain situations, such as running Drill in distributed Docker containers, in which it is desirable to advertise a different hostname to Zookeeper than would be output by INetAddress.getLocalHost().  I propose adding a configuration variable 'drill.exec.rpc.bit.advertised.host' and passing this address to Zookeeper when the configuration variable is populated, otherwise falling back to the present behavior.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: DRILL-8381
+Issue Summary: Add support for filtered aggregate calls
+Issue Type: New Feature
+Priority: Major
+
+Description:
+Currently, Drill ignores filters for filtered aggregate calls and returns incorrect results.
+Here is the example query for which Drill will return incorrect results:
+{code:sql}
+SELECT count(n_name) FILTER(WHERE n_regionkey = 1) AS nations_count_in_1_region,
+count(n_name) FILTER(WHERE n_regionkey = 2) AS nations_count_in_2_region,
+count(n_name) FILTER(WHERE n_regionkey = 3) AS nations_count_in_3_region,
+count(n_name) FILTER(WHERE n_regionkey = 4) AS nations_count_in_4_region,
+count(n_name) FILTER(WHERE n_regionkey = 0) AS nations_count_in_0_region
+FROM cp.`tpch/nation.parquet`
+{code}
+{noformat}
++---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+| nations_count_in_1_region | nations_count_in_2_region | nations_count_in_3_region | nations_count_in_4_region | nations_count_in_0_region |
++---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+| 25                        | 25                        | 25                        | 25                        | 25                        |
++---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+{noformat}
+But the correct result is
+{noformat}
++---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+| nations_count_in_1_region | nations_count_in_2_region | nations_count_in_3_region | nations_count_in_4_region | nations_count_in_0_region |
++---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+| 5                         | 5                         | 5                         | 5                         | 5                         |
++---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+{noformat}
+Side note:
+The query above could be rewritten using PIVOT:
+{code:sql}
+SELECT `1` nations_count_in_1_region, `2` nations_count_in_2_region, `3` nations_count_in_3_region, `4` nations_count_in_4_region, `0` nations_count_in_0_region
+FROM (SELECT n_name, n_regionkey FROM cp.`tpch/nation.parquet`) 
+PIVOT(count(n_name) FOR n_regionkey IN (0, 1, 2, 3, 4))
+{code}
+And will return correct results when this issue is fixed and Calcite is updated to 1.33.0
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: DRILL-8400
+Issue Summary: Fix pruning partitions with pushed transitive predicates
+Issue Type: Bug
+Priority: Major
+
+Description:
+See {{TestHivePartitionPruning.prunePartitionsBasedOnTransitivePredicates()}} test for details.
+
+The issue occurs for queries like these:
+{code:sql}
+SELECT * FROM hive.partition_pruning_test t1 
+JOIN hive.partition_with_few_schemas t2 ON t1.`d` = t2.`d` AND t1.`e` = t2.`e` 
+WHERE t2.`e` IS NOT NULL AND t1.`d` = 1
+{code}
+
+The expected behavior is to create additional filters based on the existing filters and join conditions. We have a {{TRANSITIVE_CLOSURE}} planning phase, which is responsible for such query transformations, but Drill pushes down filters from the WHERE condition before that phase, so the optimization is not performed.
+
+Ideally, we should move rules from the {{TRANSITIVE_CLOSURE}} phase to the {{LOGICAL}} phase so that the planner will choose the most optimal plan, but it wouldn't help until CALCITE-1048 is fixed (it is required to pull predicates when three has {{RelSubset}} nodes).

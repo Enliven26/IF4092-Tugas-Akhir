@@ -1,0 +1,148 @@
+Ticket ID: ZOOKEEPER-4790
+Issue Summary: TLS Quorum hostname verification breaks in some scenarios
+Issue Type: Improvement
+Priority: Minor
+
+Description:
+Currently, enabling Quorum TLS will make the server validate SANs client certificates of connecting quorum peers against their reverse DNS address. 
+
+ We have seen this cause issues when running in Kubernetes, due to ip addresses resolving to multiple dns names, when ZooKeeper pods participate in multiple services. 
+
+Since `InetAddress.getHostAddress()` returns a String, it basically becomes a game of chance which dns name is checked against the cert. 
+This usually shakes itself loose after a few minutes, when the hostname that gets returned by the reverse lookup randomly changes and all of a sudden matches the certificate... but this is less than ideal.
+
+This has also caused issues in the Strimzi operator as well (see [this issue|https://github.com/strimzi/strimzi-kafka-operator/issues/3099]) - they solved this by pretty much adding anything they can find that might be relevant to the SAN, and a few wildcards on top of that.
+
+This is both, error prone and doesn't really add any relevant extra amount of security, since "This certificate matches the connecting peer" shouldn't automatically mean "this peer should be allowed to connect".
+ 
+ There are two (probably more) ways to fix this:
+
+# Retrieve _all_  reverse entries and check against all of them
+# The ZK server could verify the SAN against the list of servers ({{{}servers.N{}}} in the config). A peer should be able to connect on the quorum port if and only if at least one SAN matches at least one of the listed servers.
+
+I'd argue that the second option is the better one, especially since the java api doesn't even seem to have the option of retrieving all dns entries, but also because it better matches the expressed intent of the ZK admin.
+
+Additionally, it would be nice to have a "disable client hostname verification" option that still leaves server hostname verification enabled. Strictly speaking this is a separate issue though, I'd be happy to spin that out into a ticket of its own..
+
+
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: ZOOKEEPER-4753
+Issue Summary: Explicit handling of DIGEST-MD5 vs GSSAPI in quorum auth
+Issue Type: Improvement
+Priority: Major
+
+Description:
+The SASL-based quorum authorizer does not explicitly distinguish between the DIGEST-MD5 and GSSAPI mechanisms: it is simply relying on {{NameCallback}} and {{PasswordCallback}} for authentication with the former and examining Kerberos principals in {{AuthorizeCallback}} for the latter.
+
+It turns out that some SASL/DIGEST-MD5 configurations cause authentication and authorization IDs not to match the expected format, and the DIGEST-MD5-based portions of the quorum test suite to fail with obscure errors. (They can be traced to failures to join the quorum, but only by looking into detailed logs.)
+
+We can use the login module name to determine whether DIGEST-MD5 or GSSAPI is used, and relax the authentication ID check for the former.  As a cleanup, we can keep the password-based credential map empty when Kerberos principals are expected.  Finally, we can adapt tests to ensure "weirdly-shaped" credentials only cause authentication failures in the GSSAPI case.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: ZOOKEEPER-4858
+Issue Summary: Remove the lock contention between snapshotting and the sync operation
+Issue Type: Bug
+Priority: Major
+
+Description:
+Remove the synchronized keyword from Zookeeper.takeSnapshot() and  ZookeeperServer.restoreFromSnapshot() API, as it causes lock contention on the ZookeeperServer object with the sync operation. 
+
+In ZookeeperServer.java, we have the following
+{code:java}
+
+ public synchronized File takeSnapshot(boolean syncSnap, boolean isSevere, boolean fastForwardFromEdits) throws IOException {
+....
+}
+{code}
+
+In ObserverZookeeperServer.java and FollowerZookeeperServer.java, we have the following
+       
+{code:java}
+public synchronized void sync() {
+     ...
+    }
+
+{code}
+
+
+
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: ZOOKEEPER-4377
+Issue Summary: KeeperException.create has NullPointerException when low version client requests the high version server
+Issue Type: Bug
+Priority: Minor
+
+Description:
+{code:java}
+blishment complete on server localhost/127.0.0.1:2180, sessionid = 0x1000278adba0129, negotiated timeout = 30000blishment complete on server localhost/127.0.0.1:2180, sessionid = 0x1000278adba0129, negotiated timeout = 30000java.lang.NullPointerException at org.apache.zookeeper.KeeperException.create(KeeperException.java:94) at org.apache.zookeeper.KeeperException.create(KeeperException.java:54) at org.apache.zookeeper.ZooKeeper.create(ZooKeeper.java:1538) at site.ycsb.db.zookeeper.ZKClient.insert(ZKClient.java:131) at site.ycsb.DBWrapper.insert(DBWrapper.java:227) at site.ycsb.workloads.CoreWorkload.doInsert(CoreWorkload.java:621) at site.ycsb.ClientThread.run(ClientThread.java:135) at java.lang.Thread.run(Thread.java:748)java.lang.NullPointerExceptionjava.lang.NullPointerException
+ at org.apache.zookeeper.KeeperException.create(KeeperException.java:94) at org.apache.zookeeper.KeeperException.create(KeeperException.java:54) at org.apache.zookeeper.KeeperException.create(KeeperException.java:94) at org.apache.zookeeper.ZooKeeper.create(ZooKeeper.java:1538)
+{code}
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: ZOOKEEPER-3991
+Issue Summary: QuorumCnxManager Listener port bind retry does not retry DNS lookup
+Issue Type: Bug
+Priority: Minor
+
+Description:
+We run Zookeeper in a container environment where DNS is not stable. As recommended by the documentation, we set _electionPortBindRetry_ to 0 (keeps retrying forever).
+
+On some instances, we get the following exception in an infinite loop, even though the address already became resolve-able:
+
+ 
+{noformat}
+zk-2_1  | 2020-11-03 10:57:08,407 [myid:3] - ERROR [ListenerHandler-zk-2.test:3888:QuorumCnxManager$Listener$ListenerHandler@1093] - Exception while listening
+zk-2_1  | java.net.SocketException: Unresolved address
+zk-2_1  | 	at java.base/java.net.ServerSocket.bind(Unknown Source)
+zk-2_1  | 	at java.base/java.net.ServerSocket.bind(Unknown Source)
+zk-2_1  | 	at org.apache.zookeeper.server.quorum.QuorumCnxManager$Listener$ListenerHandler.createNewServerSocket(QuorumCnxManager.java:1140)
+zk-2_1  | 	at org.apache.zookeeper.server.quorum.QuorumCnxManager$Listener$ListenerHandler.acceptConnections(QuorumCnxManager.java:1064)
+zk-2_1  | 	at org.apache.zookeeper.server.quorum.QuorumCnxManager$Listener$ListenerHandler.run(QuorumCnxManager.java:1033)
+zk-2_1  | 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+zk-2_1  | 	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+zk-2_1  | 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+zk-2_1  | 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+zk-2_1  | 	at java.base/java.lang.Thread.run(Unknown Source){noformat}
+Zookeeper does not actually retry the DNS resolution, it just keeps using the old failed result.
+
+ 
+
+This happens because the InetSocketAddress is created once and the DNS lookup happens when it is created.
+
+This issue has come up previously in https://issues.apache.org/jira/browse/ZOOKEEPER-1506 but it appears to still happen here.
+
+I have attached a repro.tar.gz to help reproduce this issue. Steps:
+ * Untar repro.tar.gz
+ * docker-compose up
+ * See the exception keeps happening for zk-2, not for the others
+ * Open db.test and uncomment the zk-2 line, increment the serial and save
+ * Wait a few seconds for the DNS to refresh
+ * Verify that you can resolve zk-2.test now (dig @172.16.60.2 zk-2.test) but the error keeps appearing
+
+I have also attached a patch that resolves this. The patch will retry DNS resolution if the address is still unresolved every time it tries to create the server socket.
+
+ 
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: ZOOKEEPER-3160
+Issue Summary: Custom User SSLContext
+Issue Type: New Feature
+Priority: Minor
+
+Description:
+The Zookeeper libraries currently allow you to set up your SSL Context via system properties such as "zookeeper.ssl.keyStore.location" in the X509Util. This covers most simple use cases, where users have software keystores on their harddrive.
+
+There are, however, a few additional scenarios that this doesn't cover. Two possible ones would be:
+ # The user has a hardware keystore, loaded in using PKCS11 or something similar.
+ # The user has no access to the software keystore, but can retrieve an already-constructed SSLContext from their container.
+
+For this, I would propose that the X509Util be extended to allow a user to set a property such as "zookeeper.ssl.client.context" to provide a class which supplies a custom SSL context. This gives a lot more flexibility to the ZK client, and allows the user to construct the SSLContext in whatever way they please (which also future proofs the implementation somewhat).
+
+I've already completed this feature, and will put in a PR soon for it.

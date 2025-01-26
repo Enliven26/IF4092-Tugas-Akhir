@@ -1,0 +1,133 @@
+Ticket ID: HIVE-28473
+Issue Summary: INSERT OVERWRITE LOCAL DIRECTORY writes staging files to wrong hdfs directory
+Issue Type: Bug
+Priority: Major
+
+Description:
+using HIVE 3.1.3 ; mr engine; HADOOP 3.3.4
+
+ 
+
+*Description*
+
+When I try to insert data into the local directory "/path/to/local", Hive usually first creates an intermediate HDFS directory like "hdfs:/session/execution/.staging-hive-xx", which is based on sessionId and executionId. After that, it moves the results to the local filesystem at "/path/to/local".
+
+However, it’s currently trying to create an intermediate HDFS directory at "hdfs:/path/to/local/.staging-hive-xx", which incorrectly uses the local filesystem path. This causes an error because it's attempting to create a new path starting from {{{}/root{}}}, where we don't have sufficient permissions.
+
+ 
+
+It can be reproduced by:
+{code:java}
+INSERT OVERWRITE LOCAL DIRECTORY "/path/to/local/dir"
+select a 
+from table 
+group by a; {code}
+ 
+
+StackTrace:
+{code:java}
+RuntimeException: cannot create staging directory "hdfs:/path/to/local/dir/.hive-staging-xx":
+Permission denied: user=aaa, access=WRITE, inode="/":hdfs:hdfs:drwxr-xr-x {code}
+ 
+
+*ANALYSE*
+
+ 
+
+In function _org.apache.hadoop.hive.ql.parse.SemanticAnalyzer#createFileSinkDesc._ We do the same execution for both _QBMetaData.DEST_LOCAL_FILE_ and _QBMetaData.DEST_DFS_FILE,_ and then we set the value _ctx.getTempDirForInterimJobPath(dest_path).toString() to_ {_}statsTmpLoc{_}. But for local filesystem dest_path is always totally different from the paths of HADOOP filesystem, and then we get the exception that we cannot create a HDFS directory because we don't have sufficient permissions.
+
+ 
+
+*SOLUTION*
+
+ 
+
+we should modify the function  _org.apache.hadoop.hive.ql.parse.SemanticAnalyzer#createFileSinkDesc_ to treat _QBMetaData.DEST_LOCAL_FILE_ and _QBMetaData.DEST_DFS_FILE_ differently by giving the value _ctx.getMRTmpPath().toString()_ to _statsTmpLoc_ to avoid creating a wrong intermediate direcoty. 
+
+ 
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HIVE-28662
+Issue Summary: Enable the dynamic leader election for HMS
+Issue Type: Improvement
+Priority: Major
+
+Description:
+In the Hive ACID world, we must enable the metastore.compactor.initiator.on and metastore.compactor.cleaner.on on HMS to trigger the table compaction automatically. In a real warehouse, we might have multiple HMS instances behind, or even deploy for different purposes, running the tasks like these on all instances could be a waste of resources, make the HMS scale out not so easily. 
+
+The HIVE-26509 introduces the dynamic leader election. Compared to the old one, the administrator doesn't need to know the deployment beforehand, and a shared properties can be used across all the HMS instances, simple yet effective.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HIVE-28637
+Issue Summary: Fix the issue of datasize becoming negative due to overflow during addition
+Issue Type: Bug
+Priority: Major
+
+Description:
+I encountered an issue in production where, with a large amount of data and more than four windowing functions, the execution plan shows a negative {{width}} value for windowing functions beyond the fourth. Additionally, during execution on the Tez engine, the number of reducers for that stage is set to 2. Upon reviewing the Hive {{Statistics}} code, I found that when {{datasize}} exceeds the maximum value of a {{{}long{}}}, it wraps around and becomes negative.
+
+```
+public void addBasicStats(Statistics stats) {
+dataSize += stats.dataSize;
+numRows += stats.numRows;
+basicStatsState = inferColumnStatsState(basicStatsState, stats.basicStatsState);
+}
+
+@Deprecated
+public void addToDataSize(long rds) {
+dataSize += rds;
+}
+```
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HIVE-28594
+Issue Summary: HS2 WebUI's LDAP authentication has security issues
+Issue Type: Bug
+Priority: Blocker
+
+Description:
+In the following commit, we noticed that HS2 wanted to add Ldap authentication function to WEBUI: [https://github.com/apache/hive/commit/d87e2fccc3b0f30f7808cc33d73aae6f07644212#diff-b7bbe8545a21ec7d7e9cfe40ef66444789e332996aaa9e7f1430dbe4822a2c9cR4027]
+
+However, the following code in LDAPAuthenticationFilter seems to have security issues: [https://github.com/apache/hive/blob/d87e2fccc3b0f30f7808cc33d73aae6f07644212/service/src/java/org/apache/hive/service/servlet/LDAPAuthenticationFilter.java#L52]
+
+ !image-20241025124321373.png! 
+
+Here, {{request.getRequestURI()}} is used to obtain the access URI and {{endswith}} is used to determine the current access route.
+
+However, for this writing, attackers can use SEMICOLON to forge a URI suffix, for example: {{/hiveserver2.jsp;login}}, and this causes permission escape.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: HIVE-28633
+Issue Summary: Insert to Bucketed Partition table fails with CBO=false and dynamic sort partition optimization enabled
+Issue Type: Bug
+Priority: Major
+
+Description:
+Steps To Reproduce:
+|set hive.cbo.enable=false;
+drop table if exists dynpart_bucket;
+CREATE TABLE dynpart_bucket (bn string) PARTITIONED BY (br string) CLUSTERED BY (bn) INTO 2 BUCKETS ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE ;
+*INSERT into TABLE dynpart_bucket VALUES ('tv_0', 'tv');*|
+
+ 
+
+Error:
+|java.lang.NullPointerException
+    at org.apache.hadoop.hive.ql.exec.RowSchema.getPosition(RowSchema.java:90)
+    at org.apache.hadoop.hive.ql.optimizer.ConstantPropagateProcCtx.getPropagatedConstants(ConstantPropagateProcCtx.java:217)
+    at org.apache.hadoop.hive.ql.optimizer.ConstantPropagateProcFactory$ConstantPropagateReduceSinkProc.process(ConstantPropagateProcFactory.java:1328)
+    at org.apache.hadoop.hive.ql.lib.DefaultRuleDispatcher.dispatch(DefaultRuleDispatcher.java:90)
+    at org.apache.hadoop.hive.ql.lib.DefaultGraphWalker.dispatchAndReturn(DefaultGraphWalker.java:105)
+    at org.apache.hadoop.hive.ql.lib.DefaultGraphWalker.dispatch(DefaultGraphWalker.java:89)
+    at org.apache.hadoop.hive.ql.optimizer.ConstantPropagate$ConstantPropagateWalker.walk(ConstantPropagate.java:151)
+    at org.apache.hadoop.hive.ql.lib.DefaultGraphWalker.startWalking(DefaultGraphWalker.java:120)
+    at org.apache.hadoop.hive.ql.optimizer.ConstantPropagate.transform(ConstantPropagate.java:120)
+    at org.apache.hadoop.hive.ql.parse.TezCompiler.optimizeOperatorPlan(TezCompiler.java:257)
+    at org.apache.hadoop.hive.ql.parse.TaskCompiler.compile(TaskCompiler.java:182)
+    at org.apache.hadoop.hive.ql.parse.SemanticAnalyzer.compilePlan(SemanticAnalyzer.java:13096)
+    at org.apache.hadoop.hive.ql.parse.SemanticAnalyzer.analyzeInternal(SemanticAnalyzer.java:13331)
+    at org.apache.hadoop.hive.ql.parse.SemanticAnalyzer.analyzeInternal(SemanticAnalyzer.java:12669|

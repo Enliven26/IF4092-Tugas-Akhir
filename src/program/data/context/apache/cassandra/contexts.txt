@@ -1,0 +1,288 @@
+Ticket ID: CASSANDRA-20208
+Issue Summary: audit_logging_options parameters are not sanitized when loaded from a configuration file on startup
+Issue Type: Bug
+Priority: Normal
+
+Description:
+based on the discussion in [https://lists.apache.org/thread/3whc30bqfcr1vgwv73zwlv74l2v3c0gt]
+
+a configuration like this:
+{code:java}
+audit_logging_options:
+  enabled: true
+  logger:
+    - class_name: FileAuditLogger
+  included_categories: DCL, ERROR, AUTH {code}
+is not sanitized when it is loaded on startup from cassandra.yaml file - spaces here are remaining: " ERROR", " AUTH" after parsing. As a result the audit logs filtering works not in a way as a user may expect and it is hard to troubleshoot:
+!audit_filtering_state.png|width=400!
+
+When we run nodetool enableauditlog the following logic is invoked: [https://github.com/apache/cassandra/blob/cassandra-4.1.7/src/java/org/apache/cassandra/service/StorageService.java#L6459] which rebuild AuditLogOptions using builder API.AuditLogOption.build() has sanitisation logic which does the trimming: [https://github.com/apache/cassandra/blob/trunk/src/java/org/apache/cassandra/audit/AuditLogOptions.java#L235] 
+
+org.apache.cassandra.config.Config#audit_logging_options is created a generic reflective code which does not use the builder, so there is no trimming during a startup.
+
+It can be fixed by adding sanitisation during the startup parsing too to make the behaviour more consistent and less error prone.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CASSANDRA-20135
+Issue Summary: Assertion errors on CheckForAbort / QueryCancellationChecker on multiple calls of applyToPartition
+Issue Type: Bug
+Priority: Normal
+
+Description:
+We see there are assertion errors thrown in 4.1 at least in StoppingTransformation like these:
+
+{code}
+java.lang.RuntimeException: java.lang.AssertionError
+        at org.apache.cassandra.net.InboundSink.accept(InboundSink.java:108)
+        at org.apache.cassandra.net.InboundSink.accept(InboundSink.java:45)
+        at org.apache.cassandra.net.InboundMessageHandler$ProcessMessage.run(InboundMessageHandler.java:430)
+        at org.apache.cassandra.concurrent.ExecutionFailure$1.run(ExecutionFailure.java:133)
+        at org.apache.cassandra.concurrent.SEPWorker.run(SEPWorker.java:142)
+        at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+        at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.AssertionError: null
+        at org.apache.cassandra.db.transform.StoppingTransformation.attachTo(StoppingTransformation.java:72)
+        at org.apache.cassandra.db.transform.BaseRows.add(BaseRows.java:104)
+        at org.apache.cassandra.db.transform.UnfilteredRows.add(UnfilteredRows.java:49)
+        at org.apache.cassandra.db.transform.Transformation.add(Transformation.java:198)
+        at org.apache.cassandra.db.transform.Transformation.apply(Transformation.java:140)
+        at org.apache.cassandra.db.ReadCommand$CheckForAbort.applyToPartition(ReadCommand.java:616)
+        at org.apache.cassandra.db.ReadCommand$CheckForAbort.applyToPartition(ReadCommand.java:604)
+        at org.apache.cassandra.db.transform.BasePartitions.hasNext(BasePartitions.java:97)
+        at org.apache.cassandra.db.partitions.UnfilteredPartitionIterators$Serializer.serialize(UnfilteredPartitionIterators.java:303)
+        at org.apache.cassandra.db.ReadResponse$LocalDataResponse.build(ReadResponse.java:201)
+        at org.apache.cassandra.db.ReadResponse$LocalDataResponse.<init>(ReadResponse.java:186)
+        at org.apache.cassandra.db.ReadResponse.createDataResponse(ReadResponse.java:48)
+        at org.apache.cassandra.db.ReadCommand.createResponse(ReadCommand.java:337)
+        at org.apache.cassandra.db.ReadCommandVerbHandler.doVerb(ReadCommandVerbHandler.java:63)
+        at org.apache.cassandra.net.InboundSink.lambda$new$0(InboundSink.java:78)
+        at org.apache.cassandra.net.InboundSink.accept(InboundSink.java:97)
+        ... 6 common frames omitted
+{code}
+
+This does not make sense at first sight and it is quite a rabbit hole to go through. If you follow the stacktrace, you see that 
+
+{code}
+Caused by: java.lang.AssertionError: null
+        at org.apache.cassandra.db.transform.StoppingTransformation.attachTo(StoppingTransformation.java:72)
+{code}
+
+but ... why? It means that this (1) was called twice because that is the only place where "this.rows" are ever updated in that class (and this.rows is private) which means that _something_ has to call this twice in a row. Once it sets it just fine and another time it goes to set it again but it fails as it is not null anymore. Hence, the question is why is that set twice?
+
+The reason is quite elaborative. "attachTo" which throws is ever called in BaseRows#add(Transformation) (2) and just on the next line it calls "super.add(transformation);" which adds that transformation at the end of a stack in Stack class which BaseRows extends.
+
+{code}
+    void add(Transformation add)
+    {
+        if (length == stack.length)
+            stack = resize(stack);
+        stack[length++] = add;
+    }
+{code}
+
+Next thing we see from the stacktrace is that CheckForAbort.applyToPartition is calling Transformation.apply (3) and what that ultimately does is that it will add itself, again, at the end of the stack (4).
+
+When we look at that stacktrace as a whole, what it does is that it is iterating over Unfiliteredpartition while building a local data response on a read and as it does so, it calls "BasePartitions.hasNext". Now we are getting to that ... (5). What "hasNext" is doing is that while this.next is null, it will take the stack and it loops in while by taking "next" from "input" and it applies all the transformations by calling "fs[i].applyToParition(next)".
+
+So, there is a stack of transformations and they are called just one after another until some result of "applyToPartition" returns null or we iterated over all transformations. The chain of transformations also include "CheckForAbort" transformation which we added here (6) so what happens is that when we call "applyToPartitions" for the first time on CheckForAbort, it will run just fine, but when that while loop / for loop in BasePartitions is called _again_ (e.g. we are calling "hasNext" upon iterating in UnfilteredPartitionIterators), then "applyToPartition" for "CheckForAbort" will be called again as well. But CheckForAbort is doing this (7).
+
+{code}
+        protected UnfilteredRowIterator applyToPartition(UnfilteredRowIterator partition)
+        {
+            if (maybeAbort())
+            {
+                partition.close();
+                return null;
+            }
+
+            return Transformation.apply(partition, this);
+        }
+{code}
+
+Check the last line where it applies itself when it is not aborted:
+
+{code}
+Transformation.apply(partition, this)
+{code}
+
+The application of this stopping transformation to given partition means that it will add that transformation at the end of the stack as we already showed. Then, we will iterate over that stack again upon iterating in BasePartitions, which eventually calls "attachTo" for the second time, hence the assertion error.
+
+The stack might look like
+
+{code}
+stack[0] = transformation1
+stack[1] = transformation2
+stack[2] = CheckForAbort
+{code}
+
+then we call "fs[i].applyToParition(next)" which will modify the stack like this:
+
+{code}
+stack[0] = transformation1
+stack[1] = transformation2
+stack[2] = CheckForAbort
+stack[3] = CheckForAbort 
+{code}
+
+Then we will loop over that again and if I am not mistaken, when we hit stack[2], it will call applyToPartition on that and it will do 
+
+{code}
+stack[0] = transformation1
+stack[1] = transformation2
+stack[2] = CheckForAbort // this basically adds itself at the end again
+stack[3] = CheckForAbort 
+stack[4] = CheckForAbort 
+{code}
+
+but we actually never get this far because on adding itself to the stack, we will hit that assertion error. 
+
+I also see that CheckForAbort was replaced by CASSANDRA-17810 (8) by QueryCancellationChecker but except some "cosmetic" changes, the logic remains the same. That stopping transformation is applying itself in applyToPartition so I think that this problem is present in 5.0+ too. No transformation is applying itself like that but this one. 
+
+I am not completely sure what we should do about this but two ideas are obvious (with non-zero probability that both of them are wrong)
+
+1) We apply _new instance_ of QueryCancellationChecker / CheckForAbort so we will never call attachTo on the _same_ instance (but then we would end up with a bunch of QueryCancellationChecker / CheckForAbort instances in the stack, brrr)
+2) We will remove "assert" in attachTo in StoppingTransformation so we will enable this to be called twice so we will not throw at least ... 
+
+(1) https://github.com/apache/cassandra/blob/trunk/src/java/org/apache/cassandra/db/transform/StoppingTransformation.java#L72
+(2) https://github.com/apache/cassandra/blob/cassandra-4.1/src/java/org/apache/cassandra/db/transform/BaseRows.java#L104
+(3) https://github.com/apache/cassandra/blob/cassandra-4.1/src/java/org/apache/cassandra/db/ReadCommand.java#L627
+(4) https://github.com/apache/cassandra/blob/cassandra-4.1/src/java/org/apache/cassandra/db/transform/Transformation.java#L198
+(5) https://github.com/apache/cassandra/blob/cassandra-4.1/src/java/org/apache/cassandra/db/transform/BasePartitions.java#L87-L109
+(6) https://github.com/apache/cassandra/blob/cassandra-4.1/src/java/org/apache/cassandra/db/ReadCommand.java#L436
+(7) https://github.com/apache/cassandra/blob/cassandra-4.1/src/java/org/apache/cassandra/db/ReadCommand.java#L619-L628
+(8) https://github.com/apache/cassandra/commit/f4b69ba0e82bb051e56a92d792142034d9f617f0#diff-554e7dff38b500f5eaed0b9b651c7098c3f8a1bd4f6aca12063eab352e685b9fR690
+
+cc [~jmckenzie] [~marcuse] [~aleksey]
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CASSANDRA-20151
+Issue Summary: Enable filtering on keyspace, table and snapshot name in nodetool listsnapshots
+Issue Type: New Feature
+Priority: Normal
+
+Description:
+There might in practice hundreds of snapshots a user has a hard time navigate through in the current output of nodetool listsnapshots.
+
+The patch would consist of adding flags to listsnapshots so we can narrow down what snapshots to display.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CASSANDRA-20149
+Issue Summary: nodetool listsnapshots initiates two jmx calls unnecessarily
+Issue Type: Improvement
+Priority: Normal
+
+Description:
+listsnapshots calls jmx on two occasions
+
+1) when getting trueSnapshotsSize
+2) when getting snapshot details
+
+What it was doing in practice before CASSANDRA-18111 was that it was essentially loading the snapshots twice hence almost double the time to list.
+
+What it is doing after CASSANDRA-18111 is that it still resolves sizes but in a way more efficient way however it still calls jmx twice which is not necessary.
+
+The fix consists of returning resolved sizes together with snapshot details and then on the client size we just display and sum it up in case of wanting to know the total. 
+
+It is more optimal to just return results in one response and sum few numbers on the client from the results than to call jmx twice. 
+
+It is, actually, safer too. Because for now, total true snapshots size is returned _before_ we list snapshots. So what can happen, albeit quite improbably, is that a snapshot can be removed _after_ we call total true snapshot size method but _before_ we list all snapshots. So that means that total true disk size would be bigger than the sum of true disk sizes for all snapshots after one of them was removed. 
+
+This also means that a user will get true raw size (raw means not human friendly, human friendly is returned in the response already) of a snapshot in the result of snapshot details automatically. They do not need to call extra MBean method for that (which this patch opportunistically introduces too).
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CASSANDRA-20108
+Issue Summary: IndexOutOfBoundsException when accessing partition where the column was deleted
+Issue Type: Bug
+Priority: Normal
+
+Description:
+{code}
+Caused by: java.lang.IndexOutOfBoundsException
+	at java.base/java.nio.Buffer.checkIndex(Buffer.java:687)
+	at java.base/java.nio.HeapByteBuffer.get(HeapByteBuffer.java:169)
+	at org.apache.cassandra.db.marshal.ByteBufferAccessor.getByte(ByteBufferAccessor.java:184)
+	at org.apache.cassandra.db.marshal.ByteBufferAccessor.getByte(ByteBufferAccessor.java:42)
+	at org.apache.cassandra.db.marshal.ByteType.compareCustom(ByteType.java:51)
+	at org.apache.cassandra.db.marshal.AbstractType.compare(AbstractType.java:216)
+	at org.apache.cassandra.db.marshal.AbstractType.compare(AbstractType.java:211)
+	at org.apache.cassandra.db.marshal.AbstractType.compareForCQL(AbstractType.java:269)
+	at org.apache.cassandra.cql3.Operator$1.isSatisfiedBy(Operator.java:73)
+	at org.apache.cassandra.db.filter.RowFilter$SimpleExpression.isSatisfiedBy(RowFilter.java:725)
+	at org.apache.cassandra.db.filter.RowFilter$1.applyToPartition(RowFilter.java:227)
+	at org.apache.cassandra.db.transform.BasePartitions.hasNext(BasePartitions.java:94)
+	at org.apache.cassandra.cql3.statements.SelectStatement.process(SelectStatement.java:1045)
+	at org.apache.cassandra.cql3.statements.SelectStatement.processResults(SelectStatement.java:629)
+	at org.apache.cassandra.cql3.statements.SelectStatement.executeInternal(SelectStatement.java:665)
+	at org.apache.cassandra.cql3.statements.SelectStatement.executeLocally(SelectStatement.java:635)
+	at org.apache.cassandra.cql3.statements.SelectStatement.executeLocally(SelectStatement.java:151)
+{code}
+
+Table
+
+{code}
+CREATE TABLE keyspace_test_00."3W56TBuMmC11vPVxalpse84eS" (
+		    pk0 date,
+		    pk1 double,
+		    ck0 int,
+		    ck1 inet,
+		    s0 tinyint static,
+		    v0 int,
+		    v1 varint,
+		    v2 varint,
+		    v3 timestamp,
+		    PRIMARY KEY ((pk0, pk1), ck0, ck1)
+		) WITH CLUSTERING ORDER BY (ck0 DESC, ck1 ASC)
+{code}
+
+The query
+
+{code}
+SELECT *
+FROM keyspace_test_00."3W56TBuMmC11vPVxalpse84eS"
+WHERE s0 = ? —- value is "(byte) -113"
+ALLOW FILTERING
+{code}
+
+The issue is that we see the delete, but don’t properly handle null data
+
+{code}
+ByteBuffer foundValue = getValue(metadata, partitionKey, row);
+// value is java.nio.HeapByteBuffer[pos=0 lim=0 cap=0]; aka null (empty)
+{code}
+
+History of operations on this partition
+
+{code}
+	History:
+		1: UPDATE pd0
+		2: Select Whole Partition pd0
+		4: Select Whole Partition pd0
+		6: Delete COLUMN [s0, v0, v1, v2, v3] pd0
+		7: Select Whole Partition pd0
+		10: Select Whole Partition pd0
+		12: Select Row pd0
+		17: Delete COLUMN [s0, v0, v1, v2, v3] pd0
+		20: INSERT pd0
+		27: UPDATE pd0
+		38: INSERT pd0
+		41: Select Row pd0
+		56: Select Row pd0
+		66: Delete COLUMN [s0, v0, v1, v2, v3] pd0
+		67: Search on column s0
+{code}
+
+Here we see an insert was done so liveness info is generated, but we do delete on all columns leaving only the partition/clustering keys around...
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CASSANDRA-20188
+Issue Summary: Allow hint delivery during schema mismatch
+Issue Type: Bug
+Priority: Normal
+
+Description:
+In CASSANDRA-2083 we made hints require schema agreement to avoid a flood of errors in case the table the hints were destined for did not yet exist.  This, however, has other undesirable effects, such as making keeping upgrades in a mixed mode over a longer period of time less tenable.  We should still try to deliver hints and back off if the destination table doesn't exist.

@@ -1,0 +1,99 @@
+Ticket ID: OPENNLP-1702
+Issue Summary: BratDocumentStream should process files in bratCorpusDir deterministically
+Issue Type: Bug
+Priority: Minor
+
+Description:
+With the recent addition of {{BratNameSampleStreamFactoryTest}} via OPENNLP-1695, it became obvious (Eval test run), that the code in BratDocumentStream is prone to non-determinism. This stems from the fact that {{java.util.File#listFiles(..)}} does not guarantee any order of the returned elements. 
+
+A potential fix for achieving determinism again is to sort the result of listFiles(..) alphabetically in ASC order.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: OPENNLP-1667
+Issue Summary: Add thread-safe version of ChunkerME
+Issue Type: New Feature
+Priority: Major
+
+Description:
+Currently, ChunkerME is not thread-safe. With OPENNLP-936, a thread-safe version for several related classes was introduced.
+
+However, this was not done for the Chunker case.
+Let's introduce and provide ThreadSafeChunkerME.
+
+
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: OPENNLP-1661
+Issue Summary: Fix custom models being wiped from OpenNLP user.home directory
+Issue Type: Bug
+Priority: Major
+
+Description:
+Currently, a Maven build ({{mvn clean test}}) wipes existing models in the '{{user.home/.opennlp}}' directory, as the code in {{AbstractDownloadUtilTest#cleanupWhenOnline}} will clean those up before the related methods in {{DownloadUtil}} will be tested.
+
+However, this causes some headache, if custom-trained models with similar name patterns exist in that directory, as:
+
+_wipeExistingModelFiles("\-tokens\-");_
+_wipeExistingModelFiles("\-sentence\-");_
+_wipeExistingModelFiles("\-pos\-");_
+_wipeExistingModelFiles("\-lemmas\-");_
+
+will be executed. Moreover, this also causes a lot of overhead for dev people, as each run of the whole test suite will clean up either in the target directory of {{opennlp-tools}} module, or even worse, the local '{{user.home/.opennlp}}' directory, causing at least 128 (32 langs x 4 model types) models to be downloaded (over and over again).
+
+Aims:
+* Ensure no (custom) model is accidentally removed from '{{user.home/.opennlp}}'.
+* Ensure models downloads aren't repeated if they exist locally & are "valid" (_sha512_)
+* Validate freshly downloaded models AND existing ones to discover broken model files
+* Reduce download volume required for full (IT) builds
+* Reduce load for ASF infrastructure
+* Reduce overall ecological footprint
+
+Note: Same applies for 'ci' Maven profile. As long as no "mvn clean" is executed, existing models kept in a build's {{target}} folder should not be wiped and not be re-downloaded per test suite execution.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: OPENNLP-1655
+Issue Summary: Add constructors in SentenceDetectorME and TokenizerME to inject custom abbreviation dictionary
+Issue Type: Improvement
+Priority: Major
+
+Description:
+Users of {{TokenizerME}} and/or {{SentenceDetectorME}} may want to load an additional or custom {{Dictionary}} for abbreviations used in a certain language or domain.
+
+However, this is not possible right now, at construction time of those classes.
+
+Let's fix this by adding an additional constructor providing more flexibility.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: OPENNLP-1600
+Issue Summary: Ability to disable POS mapper
+Issue Type: New Feature
+Priority: Major
+
+Description:
+Since version 2.4.0, the OpenNLP includes a mandatory POS tag mapper which either maps UD to Penn POS tags or vice versa.
+
+Now, this is a problem if you want to train a custom model on some arbitrary other POS tagset. 
+
+It would be great if there was a was to disable the POS mapper. 
+
+In fact, I would propose that POS mapping is turned off by default unless a POS mapper is manually supplied to the POS tagger - so stuff would remain backwards compatible.
+
+But at least being able to turn of the mapper and/or to provide a custom mapper would be appreciated.
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: OPENNLP-1620
+Issue Summary: It should be possible to remove the allocated ThreadLocal
+Issue Type: Improvement
+Priority: Major
+
+Description:
+It should be possible to remove the allocated thread locals, if needed by the user as it is tied to the lifetime of the thread using it.
+
+ 
+
+!image-2024-10-08-11-55-15-901.png!

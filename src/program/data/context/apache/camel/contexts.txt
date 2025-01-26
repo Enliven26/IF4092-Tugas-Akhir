@@ -1,0 +1,284 @@
+Ticket ID: CAMEL-21631
+Issue Summary: Enable Checksum algorithm on S3 streaming upload producer
+Issue Type: Task
+Priority: Major
+
+Description:
+https://github.com/aws/aws-sdk-java-v2/blob/master/CHANGELOG.md#features-8
+
+and tests are failing https://github.com/apache/camel/actions/runs/12824983217
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CAMEL-21625
+Issue Summary: camel k8s run may not cleanup properly on openshift
+Issue Type: Bug
+Priority: Major
+
+Description:
+{code}
+Exception in thread "Camel Thread #7 - CamelShutdownInterceptor" java.lang.RuntimeException: java.io.FileNotFoundException: Unable to resolve Kubernetes manifest file type `yml` in folder: .camel-jbang-run/timer-log/target/kubernetes
+	at org.apache.camel.dsl.jbang.core.commands.kubernetes.KubernetesRun.lambda$installShutdownHook$10(KubernetesRun.java:514)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.io.FileNotFoundException: Unable to resolve Kubernetes manifest file type `yml` in folder: .camel-jbang-run/timer-log/target/kubernetes
+	at org.apache.camel.dsl.jbang.core.commands.kubernetes.KubernetesHelper.resolveKubernetesManifest(KubernetesHelper.java:207)
+	at org.apache.camel.dsl.jbang.core.commands.kubernetes.KubernetesHelper.resolveKubernetesManifest(KubernetesHelper.java:194)
+	at org.apache.camel.dsl.jbang.core.commands.kubernetes.KubernetesDelete.doCall(KubernetesDelete.java:86)
+	at org.apache.camel.dsl.jbang.core.commands.kubernetes.KubernetesRun.lambda$installShutdownHook$10(KubernetesRun.java:511)
+{code}
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CAMEL-21614
+Issue Summary: Simple expressions execute forever. Thread is RUNNABLE for ever. Issue appears with bean expressions inside simple expressions on SimpleLRUCache
+Issue Type: Bug
+Priority: Major
+
+Description:
+This is a Follow-Up on this issue: CAMEL-21467
+
+Unfortunately we are still experiencing the same issue with threads getting stuck in the state RUNNABLE. It seems like the frequency of the issue has greatly decreased though. We have had it twice in about a month.
+
+ 
+
+Threaddump:
+{noformat}
+"Camel (camel-1) thread #4 - timer://my-timer" - Thread t@65
+   java.lang.Thread.State: RUNNABLE
+    at org.apache.camel.support.cache.SimpleLRUCache$OperationContext.close(SimpleLRUCache.java:309)
+    at org.apache.camel.support.cache.SimpleLRUCache.put(SimpleLRUCache.java:104)
+    at org.apache.camel.support.cache.SimpleSoftCache.put(SimpleSoftCache.java:114)
+    at org.apache.camel.component.bean.BeanComponent.addBeanInfoToCache(BeanComponent.java:96)
+    at org.apache.camel.component.bean.BeanInfo.<init>(BeanInfo.java:169)
+    at org.apache.camel.component.bean.ConstantBeanHolder.<init>(ConstantBeanHolder.java:50)
+    at org.apache.camel.language.bean.BeanExpression.createBeanHolder(BeanExpression.java:303)
+    at org.apache.camel.language.bean.BeanExpression.init(BeanExpression.java:175)
+    at org.apache.camel.language.bean.BeanLanguage.createExpression(BeanLanguage.java:148)
+    at org.apache.camel.language.simple.SimpleExpressionBuilder$KeyedOgnlExpressionAdapter.evaluate(SimpleExpressionBuilder.java:1251)
+    at org.apache.camel.support.ExpressionAdapter.evaluate(ExpressionAdapter.java:45)
+    at org.apache.camel.support.builder.ExpressionBuilder$62.evaluate(ExpressionBuilder.java:2105)
+    at org.apache.camel.support.ExpressionAdapter.evaluate(ExpressionAdapter.java:45)
+    at org.apache.camel.processor.LogProcessor.process(LogProcessor.java:71)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.doRun(RedeliveryErrorHandler.java:808)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.run(RedeliveryErrorHandler.java:714)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.executeFromQueue(DefaultReactiveExecutor.java:240)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor.executeFromQueue(DefaultReactiveExecutor.java:77)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.await(DefaultAsyncProcessorAwaitManager.java:95)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.process(DefaultAsyncProcessorAwaitManager.java:84)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler.process(RedeliveryErrorHandler.java:178)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.processTransacted(CamelInternalProcessor.java:390)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.process(CamelInternalProcessor.java:320)
+    at org.apache.camel.processor.Pipeline$PipelineTask.run(Pipeline.java:102)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.executeFromQueue(DefaultReactiveExecutor.java:240)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor.executeFromQueue(DefaultReactiveExecutor.java:77)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.await(DefaultAsyncProcessorAwaitManager.java:95)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.process(DefaultAsyncProcessorAwaitManager.java:84)
+    at org.apache.camel.support.AsyncProcessorSupport.process(AsyncProcessorSupport.java:32)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.processTransacted(CamelInternalProcessor.java:390)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.process(CamelInternalProcessor.java:320)
+    at org.apache.camel.component.direct.DirectProducer.process(DirectProducer.java:102)
+    at org.apache.camel.processor.SendProcessor.process(SendProcessor.java:208)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.doRun(RedeliveryErrorHandler.java:808)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.run(RedeliveryErrorHandler.java:714)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.executeFromQueue(DefaultReactiveExecutor.java:240)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor.executeFromQueue(DefaultReactiveExecutor.java:77)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.await(DefaultAsyncProcessorAwaitManager.java:95)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.process(DefaultAsyncProcessorAwaitManager.java:84)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler.process(RedeliveryErrorHandler.java:178)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.processTransacted(CamelInternalProcessor.java:390)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.process(CamelInternalProcessor.java:320)
+    at org.apache.camel.processor.Pipeline$PipelineTask.run(Pipeline.java:102)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.executeFromQueue(DefaultReactiveExecutor.java:240)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor.executeFromQueue(DefaultReactiveExecutor.java:77)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.await(DefaultAsyncProcessorAwaitManager.java:95)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.process(DefaultAsyncProcessorAwaitManager.java:84)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler.process(RedeliveryErrorHandler.java:178)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.processTransacted(CamelInternalProcessor.java:390)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.process(CamelInternalProcessor.java:320)
+    at org.apache.camel.processor.Pipeline$PipelineTask.run(Pipeline.java:102)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.executeFromQueue(DefaultReactiveExecutor.java:240)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor.executeFromQueue(DefaultReactiveExecutor.java:77)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.await(DefaultAsyncProcessorAwaitManager.java:95)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.process(DefaultAsyncProcessorAwaitManager.java:84)
+    at org.apache.camel.spring.spi.TransactionErrorHandler.processByErrorHandler(TransactionErrorHandler.java:244)
+    at org.apache.camel.spring.spi.TransactionErrorHandler.process(TransactionErrorHandler.java:119)
+    at org.apache.camel.spring.spi.TransactionErrorHandler.process(TransactionErrorHandler.java:132)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.doRun(RedeliveryErrorHandler.java:808)
+    at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.run(RedeliveryErrorHandler.java:714)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.executeFromQueue(DefaultReactiveExecutor.java:240)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor.executeFromQueue(DefaultReactiveExecutor.java:77)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.await(DefaultAsyncProcessorAwaitManager.java:95)
+    at org.apache.camel.impl.engine.DefaultAsyncProcessorAwaitManager.process(DefaultAsyncProcessorAwaitManager.java:84)
+    at org.apache.camel.spring.spi.TransactionErrorHandler.processByErrorHandler(TransactionErrorHandler.java:244)
+    at org.apache.camel.spring.spi.TransactionErrorHandler$1.doInTransactionWithoutResult(TransactionErrorHandler.java:207)
+    at org.springframework.transaction.support.TransactionCallbackWithoutResult.doInTransaction(TransactionCallbackWithoutResult.java:36)
+    at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:140)
+    at org.apache.camel.spring.spi.TransactionErrorHandler.doInTransactionTemplate(TransactionErrorHandler.java:200)
+    at org.apache.camel.spring.spi.TransactionErrorHandler.processInTransaction(TransactionErrorHandler.java:155)
+    at org.apache.camel.spring.spi.TransactionErrorHandler.process(TransactionErrorHandler.java:123)
+    at org.apache.camel.spring.spi.TransactionErrorHandler.process(TransactionErrorHandler.java:132)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.processNonTransacted(CamelInternalProcessor.java:347)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.process(CamelInternalProcessor.java:323)
+    at org.apache.camel.processor.Pipeline$PipelineTask.run(Pipeline.java:102)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.doRun(DefaultReactiveExecutor.java:199)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.executeReactiveWork(DefaultReactiveExecutor.java:189)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.tryExecuteReactiveWork(DefaultReactiveExecutor.java:166)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.schedule(DefaultReactiveExecutor.java:148)
+    at org.apache.camel.impl.engine.DefaultReactiveExecutor.scheduleMain(DefaultReactiveExecutor.java:59)
+    at org.apache.camel.processor.Pipeline.process(Pipeline.java:163)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.processNonTransacted(CamelInternalProcessor.java:347)
+    at org.apache.camel.impl.engine.CamelInternalProcessor.process(CamelInternalProcessor.java:323)
+    at org.apache.camel.component.timer.TimerConsumer.sendTimerExchange(TimerConsumer.java:293)
+    at org.apache.camel.component.timer.TimerConsumer$1.doRun(TimerConsumer.java:164)
+    at org.apache.camel.component.timer.TimerConsumer$1.run(TimerConsumer.java:136)
+    at java.base@21.0.2/java.util.TimerThread.mainLoop(Timer.java:566)
+    at java.base@21.0.2/java.util.TimerThread.run(Timer.java:516){noformat}
+
+This is basically exactly the second case from my previous issue and seems to occur in this route:
+
+
+{code:java}
+from(direct(getDeliverRecipientRouteId()))
+        .routeId(getDeliverRecipientRouteId())
+        .startupOrder(1)
+        .policy(txJmsPropagationRequiresNew)
+        .choice()
+            .when(not(isPageable))
+                .log(LoggingLevel.INFO, log, "--- Sending data message to queue=" + getRecipientQueueName())
+            .when(currentStatusIs(StockRequestStatus.DATA))
+                .log(LoggingLevel.INFO, log, "--- Sending data message for page=${exchangeProperty."
+                        + Exchange.LOOP_INDEX + "} to queue=" + getRecipientQueueName())
+            .otherwise()
+                .log(LoggingLevel.INFO, log, "--- Sending control message for status=${exchangeProperty."
+                        + PROPERTY_REQUEST + ".status} to queue=" + getRecipientQueueName())
+        .end()
+        .convertBodyTo(String.class)
+        .to(getJmsUriToRecipientQueue()); {code}
+
+Regarding [~davsclaus]'s question in the last issue (which apparently I have overseen):
+
+The bean referenced via PROPERTY_REQUEST looks something like this:
+{code:java}
+@Data
+@RequiredArgsConstructor
+public class MyRequest implements BaseRequest<Long, MyRequestDataType> {
+
+    public static final String COLUMN_FROM_REVISION = "FROM_REVISION";
+    public static final String COLUMN_TO_REVISION = "TO_REVISION";
+
+    private Long id;
+    private RequestStatus status;
+    private RequestDataType dataType;
+    private Instant timestamp;
+    private Long fromRevision;
+    private Long toRevision;
+    private String errorMessage;
+}{code}
+
+// the implemented interface
+{code:java}
+public interface BaseRequest<ID, D extends RequestDataType> extends Serializable {
+
+    String COLUMN_ID = "ID";
+    String COLUMN_STATUS = "STATUS";
+    String COLUMN_DATATYPE = "DATATYPE";
+    String COLUMN_FROM = "\"FROM\"";
+    String COLUMN_TO = "\"TO\"";
+    String COLUMN_TIMESTAMP = "\"TIMESTAMP\"";
+    String COLUMN_ERROR_MESSAGE = "ERROR_MESSAGE";
+
+    ID getId();
+
+    void setId(ID id);
+
+    RequestStatus getStatus();
+
+    void setStatus(RequestStatus status);
+
+    D getDataType();
+
+    void setDataType(D dataType);
+
+    default Instant getFrom() {
+        return null;
+    }
+
+    default void setFrom(Instant from) {
+        // noop
+    }
+
+    default Instant getTo() {
+        return null;
+    }
+
+    default void setTo(Instant to) {
+        // noop
+    }
+
+    Instant getTimestamp();
+
+    void setTimestamp(Instant instant);
+
+    String getErrorMessage();
+
+    void setErrorMessage(String errorMessage);
+
+    default Map<String, Object> toMap(Exchange exchange) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("id", getId());
+        map.put("status", getStatus());
+        map.put("dataType", getDataType().getName());
+        if (getDataType().isDeltaDeliverable()) {
+            map.put("from", getFrom().toString());
+            map.put("to", getTo().toString());
+        }
+        map.put("timestamp", getTimestamp().toString());
+        map.put("errorMessage", getErrorMessage());
+        return map;
+    }
+} {code}
+
+Are the classes of the contained fields (RequestStatus, RequestDataType) also relevant for your question?
+
+ 
+
+Regarding clear steps to reproduce, I am unsure whether I can provide. The issue appeared twice in a month within thousands of invocations of the timer route and the constellation causing it is not clear to me.
+
+ 
+
+ 
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CAMEL-21621
+Issue Summary: camel-jbang - k8s-httpclient-vertx fails in shutdown hook
+Issue Type: Bug
+Priority: Major
+
+Description:
+{code}
+Exception in thread "Camel Thread #7 - CamelShutdownInterceptor" java.lang.RuntimeException: java.lang.IllegalStateException: Client is closed
+	at org.apache.camel.dsl.jbang.core.commands.kubernetes.KubernetesRun.lambda$installShutdownHook$10(KubernetesRun.java:514)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.IllegalStateException: Client is closed
+	at io.vertx.core.http.impl.HttpClientImpl.checkClosed(HttpClientImpl.java:405)
+	at io.vertx.core.http.impl.HttpClientImpl.doRequest(HttpClientImpl.java:281)
+	at io.vertx.core.http.impl.HttpClientImpl.request(HttpClientImpl.java:191)
+	at io.fabric8.kubernetes.client.vertx.VertxHttpRequest.consumeBytes(VertxHttpRequest.java:124)
+{code}
+
+--- RETRIEVED DOCUMENT SPLIT END ---
+
+Ticket ID: CAMEL-21560
+Issue Summary: Create a HugginFace Embedding Model builder acting as Java Bean for a Kamelet
+Issue Type: New Feature
+Priority: Major
+
+Description:
+Create a HugginFace Embedding Model builder acting as Java Bean for a Kamelet.
+
+ 
+
+Details : 
+ * Main issue : [https://github.com/apache/camel-kamelets/issues/2247] 
+ * Specific issue:  [https://github.com/apache/camel-kamelets/issues/2323] 
