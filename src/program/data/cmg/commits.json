@@ -13,12 +13,10 @@
         "id": "TC002",
         "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
         "repository_url": "https://github.com/apache/kafka",
-        "commit_hash": "e124d3975bdb3a9ec85eee2fba7a1b0a6967d3a6",
+        "commit_hash": "badfbacdd09a9ee8821847f4b28d98625f354ed7",
         "included_file_paths": [
-            "storage/src/main/java/org/apache/kafka/storage/internals/log/LocalLog.java",
-            "storage/src/main/java/org/apache/kafka/storage/internals/log/LogAppendInfo.java",
-            "storage/src/main/java/org/apache/kafka/storage/internals/log/LogSegment.java",
-            "storage/src/main/java/org/apache/kafka/storage/internals/log/LogValidator.java"
+            "clients/src/main/java/org/apache/kafka/clients/producer/KafkaProducer.java",
+            "clients/src/main/java/org/apache/kafka/clients/producer/internals/RecordAccumulator.java"
 
         ],
         "jira_url": "https://issues.apache.org/jira/"
@@ -292,9 +290,9 @@
         "id": "TC026",
         "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
         "repository_url": "https://github.com/apache/camel",
-        "commit_hash": "d45136e6de61c09cca934ba4a13d8ff2a6f5b52d",
+        "commit_hash": "293ad682e312ebd9fdac49c90d242595c43d3916",
         "included_file_paths": [
-            "components/camel-aws/camel-aws2-s3/src/main/java/org/apache/camel/component/aws2/s3/stream/AWS2S3StreamUploadProducer.java"
+            "dsl/camel-jbang/camel-jbang-core/src/main/java/org/apache/camel/dsl/jbang/core/commands/ExportBaseCommand.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     },
@@ -334,9 +332,11 @@
         "id": "TC030",
         "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
         "repository_url": "https://github.com/apache/camel",
-        "commit_hash": "d944fb9a8a2874282f0571c348c1839481cfa6b3",
+        "commit_hash": "529d1ccca1f0b0e7bf6e7092bbe53d41c342c6a3",
         "included_file_paths": [
-            "components/camel-kamelet/src/main/java/org/apache/camel/component/kamelet/utils/langchain4j/embeddings/HuggingFaceEmbeddingModelBuilder.java"
+            "components/camel-hashicorp-vault/src/main/java/org/apache/camel/component/hashicorp/vault/HashicorpVaultPropertiesFunction.java",
+            "core/camel-main/src/main/java/org/apache/camel/main/BaseMainSupport.java",
+            "core/camel-main/src/main/java/org/apache/camel/main/DefaultConfigurationConfigurer.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     },
