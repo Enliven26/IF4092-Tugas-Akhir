@@ -21,15 +21,21 @@ class _FewShotExampleModel:
         DIFF = "diff"
         SOURCE_CODE = "source_code"
         HIGH_LEVEL_CONTEXT = "high_level_context"
-        COMMIT_MESSAGE = "new_commit_message"
         COMMIT_TYPE = "commit_type"
+        COMMIT_SUBJECT = "commit_subject"
+        COMMIT_BODY = "commit_body"
+        JIRA_TICKET_TYPE = "jira_ticket_type"
 
     def __init__(self):
         self.diff = ""
         self.source_code = ""
         self.high_level_context = ""
-        self.commit_message = ""
         self.commit_type = ""
+        self.commit_subject = ""
+        self.commit_body = ""
+
+    def get_commit_message(self) -> str:
+        return f"{self.commit_type}: {self.commit_subject}\n\n{self.commit_body}"
 
     @classmethod
     def from_json(cls, json_string: str) -> list["_FewShotExampleModel"]:
@@ -48,10 +54,11 @@ class _FewShotExampleModel:
                 instance.high_level_context = data.get(
                     cls.__JsonKey.HIGH_LEVEL_CONTEXT.value, []
                 )
-                instance.commit_message = data.get(
-                    cls.__JsonKey.COMMIT_MESSAGE.value, ""
-                )
                 instance.commit_type = data.get(cls.__JsonKey.COMMIT_TYPE.value, "")
+                instance.commit_subject = data.get(
+                    cls.__JsonKey.COMMIT_SUBJECT.value, ""
+                )
+                instance.commit_body = data.get(cls.__JsonKey.COMMIT_BODY.value, "")
 
                 instances.append(instance)
 
@@ -79,10 +86,11 @@ for __example in __EXAMPLES:
     __example.high_level_context = __example.high_level_context.replace(
         "{", "{{"
     ).replace("}", "}}")
-    __example.commit_message = __example.commit_message.replace("{", "{{").replace(
+    __example.commit_type = __example.commit_type.replace("{", "{{").replace("}", "}}")
+    __example.commit_subject = __example.commit_subject.replace("{", "{{").replace(
         "}", "}}"
     )
-    __example.commit_type = __example.commit_type.replace("{", "{{").replace("}", "}}")
+    __example.commit_body = __example.commit_body.replace("{", "{{").replace("}", "}}")
 
 __ZERO_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and relevant source code provided. The relevant source code should be used to provide additional context for the changes made in the Git diff.
 
@@ -154,7 +162,7 @@ Commit type 4: {type}
 
 Commit message 4:"""
 
-LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
+FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
     Template(__FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE).substitute(
         {
             "diff_1": __EXAMPLES[0].diff,
@@ -163,9 +171,9 @@ LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
             "source_code_1": __EXAMPLES[0].source_code,
             "source_code_2": __EXAMPLES[1].source_code,
             "source_code_3": __EXAMPLES[2].source_code,
-            "commit_message_1": __EXAMPLES[0].commit_message,
-            "commit_message_2": __EXAMPLES[1].commit_message,
-            "commit_message_3": __EXAMPLES[2].commit_message,
+            "commit_message_1": __EXAMPLES[0].get_commit_message(),
+            "commit_message_2": __EXAMPLES[1].get_commit_message(),
+            "commit_message_3": __EXAMPLES[2].get_commit_message(),
             "commit_type_1": __EXAMPLES[0].commit_type,
             "commit_type_2": __EXAMPLES[1].commit_type,
             "commit_type_3": __EXAMPLES[2].commit_type,
@@ -255,9 +263,9 @@ FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
             "context_1": __EXAMPLES[0].high_level_context,
             "context_2": __EXAMPLES[1].high_level_context,
             "context_3": __EXAMPLES[2].high_level_context,
-            "commit_message_1": __EXAMPLES[0].commit_message,
-            "commit_message_2": __EXAMPLES[1].commit_message,
-            "commit_message_3": __EXAMPLES[2].commit_message,
+            "commit_message_1": __EXAMPLES[0].get_commit_message(),
+            "commit_message_2": __EXAMPLES[1].get_commit_message(),
+            "commit_message_3": __EXAMPLES[2].get_commit_message(),
             "commit_type_1": __EXAMPLES[0].commit_type,
             "commit_type_2": __EXAMPLES[1].commit_type,
             "commit_type_3": __EXAMPLES[2].commit_type,
@@ -290,7 +298,7 @@ HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a doc
 >>>
 > Relevant (YES / NO):"""
 
-DIFF_CLASSIFIER_PROMPT_TEMPLATE = """Classify the Git diff into one of the following six software maintenance activities: feat, fix, perf, test, refactor, or chore. Return the activity that best matches the code changes. Refer to the definitions below for each activity.
+LOW_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE = """Classify the Git diff into one of the following six software maintenance activities: feat, fix, perf, test, refactor, or chore. Return the activity that best matches the code changes. Refer to the definitions below for each activity.
 
 feat: introducing new features into the system.
 fix: fixing existing bugs or issues in the system.
@@ -302,6 +310,28 @@ chore: regular maintenance tasks, such as updating dependencies or build tasks.
 Avoid adding any additional comments or annotations to the classification.
 
 > Git diff: {diff}
+
+> Software maintenance activity (feat / fix / perf / test / refactor / chore):
+"""
+
+
+HIGH_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE = """Classify the Git diff into one of the following six software maintenance activities: feat, fix, perf, test, refactor, or chore. Return the activity that best matches the code changes. If one or more contexts are relevant to the code changes, use them to help classify the Git diff.
+
+Refer to the definitions below for each activity.
+
+feat: introducing new features into the system.
+fix: fixing existing bugs or issues in the system.
+perf: improving the performance of the system.
+test: adding, modifying, or deleting test cases.
+refactor: changes made to the internal structure of software to make it easier to understand and cheaper to modify without changing its observable behavior, including code styling.
+chore: regular maintenance tasks, such as updating dependencies or build tasks.
+
+Avoid adding any additional comments or annotations to the classification.
+
+> Git diff: {diff}
+
+> Additional context:
+{context}
 
 > Software maintenance activity (feat / fix / perf / test / refactor / chore):
 """

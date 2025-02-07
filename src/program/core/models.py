@@ -41,6 +41,10 @@ class GetHighLevelContextInputModel:
         self.context_file_path = ""
         self.vector_store_path = ""
 
+class HighLevelContextDiffClassificationInputModel:
+    def __init__(self):
+        self.diff: str = ""
+        self.context: str = ""
 
 class CommitDataModel:
     CONTEXT_FILE_NAME = "contexts.txt"

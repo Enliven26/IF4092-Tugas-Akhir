@@ -135,15 +135,18 @@ class Evaluator(IEvaluator):
         self,
         chain: CommitMessageGenerationChain,
         commits: list[CommitDataModel],
+        parent_context_path: str,
         parent_output_path: str,
     ):
         # This is for testing purpose
         output_path = self.__get__evaluation_output_path(parent_output_path)
         self.__create_folder_if_not_exist(output_path)
 
-        diffs: list[str] = []
+        inputs: list[dict[str, str]] = []
 
         for commit in commits:
+            input = {}
+
             current_commit_hash = commit.commit_hash
             previous_commit_hash = f"{current_commit_hash}~1"
 
@@ -154,9 +157,26 @@ class Evaluator(IEvaluator):
                 commit.included_file_paths,
             )
 
-            diffs.append(diff)
+            relevant_source_code = self.__get_implementations(
+                commit.repository_path,
+                previous_commit_hash,
+                current_commit_hash,
+                commit.included_file_paths,
+                diff,
+            )
 
-        results = chain.classify_diff_batch(diffs)
+            input["diff"] = diff
+            input["source_code"] = relevant_source_code
+            input["context_file_path"] = os.path.join(
+                parent_context_path, commit.get_context_file_relative_path()
+            )
+            input["vector_store_path"] = os.path.join(
+                parent_context_path, commit.get_vector_store_relative_path()
+            )
+
+            inputs.append(input)
+
+        results = chain.classify_diff_batch(inputs)
 
         json_string = jsonpickle.encode(results, unpicklable=False)
 

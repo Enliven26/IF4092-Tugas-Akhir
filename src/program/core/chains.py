@@ -23,15 +23,17 @@ from core.constants import (
     DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
     DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
-    DIFF_CLASSIFIER_PROMPT_TEMPLATE,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     END_DOCUMENT_SPLIT_SEPARATOR,
+    FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
+    HIGH_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE,
     HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE,
-    LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
+    LOW_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE,
 )
 from core.models import (
     CommitMessageGenerationPromptInputModel,
     GetHighLevelContextInputModel,
+    HighLevelContextDiffClassificationInputModel,
     JiraContextDocumentRetrieverInputModel,
 )
 
@@ -169,11 +171,13 @@ class JiraContextDocumentRetriever(
         return split_documents
 
 
-class DiffClassifierChain(BaseRunnable[str, str]):
+class LowLevelContextDiffClassifierChain(BaseRunnable[str, str]):
     def __init__(self, model: str, temperature: float = 0):
         super().__init__()
 
-        prompt = PromptTemplate.from_template(DIFF_CLASSIFIER_PROMPT_TEMPLATE)
+        prompt = PromptTemplate.from_template(
+            LOW_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE
+        )
         llm = ChatOpenAI(model=model, temperature=temperature)
         output_parser = StrOutputParser()
 
@@ -188,18 +192,43 @@ class DiffClassifierChain(BaseRunnable[str, str]):
         return self.__chain.batch(diffs)
 
 
+class HighLevelContextDiffClassifierChain(
+    BaseRunnable[HighLevelContextDiffClassificationInputModel, str]
+):
+    def __init__(self, model: str, temperature: float = 0):
+        super().__init__()
+
+        prompt = PromptTemplate.from_template(
+            HIGH_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE
+        )
+        llm = ChatOpenAI(model=model, temperature=temperature)
+        output_parser = StrOutputParser()
+
+        self.__chain = prompt | llm | output_parser
+
+    @traceable(run_type="llm")
+    def invoke(self, input: HighLevelContextDiffClassificationInputModel) -> str:
+        return self.__chain.invoke({"diff": input.diff, "context": input.context})
+
+    @traceable(run_type="llm")
+    def batch(
+        self, inputs: list[HighLevelContextDiffClassificationInputModel]
+    ) -> list[str]:
+        return self.__chain.batch(
+            [{"diff": input.diff, "context": input.context} for input in inputs]
+        )
+
+
 class CommitMessageGenerationChain(
     BaseRunnable[CommitMessageGenerationPromptInputModel, str]
 ):
-    def __init__(self, diff_classifier: BaseRunnable[str, str]):
-        super().__init__()
-        self.__diff_classifier = diff_classifier
+    @abstractmethod
+    def classify_diff(self, input: dict[str, str]) -> str:
+        pass
 
-    def classify_diff(self, diff: str) -> str:
-        return self.__diff_classifier.invoke(diff)
-
-    def classify_diff_batch(self, diffs: list[str]) -> list[str]:
-        return self.__diff_classifier.batch(diffs)
+    @abstractmethod
+    def classify_diff_batch(self, inputs: list[dict[str, str]]) -> list[str]:
+        pass
 
 
 class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
@@ -209,24 +238,36 @@ class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
         model: str,
         temperature: float = DEFAULT_CMG_TEMPERATURE,
     ):
-        super().__init__(diff_classifier)
+        super().__init__()
 
-        prompt = PromptTemplate.from_template(LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE)
+        prompt = PromptTemplate.from_template(
+            FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE
+        )
         llm = ChatOpenAI(model=model, temperature=temperature)
         output_parser = StrOutputParser()
 
+        self.__diff_classifier = diff_classifier
         self.__chain = (
             RunnableLambda(
                 lambda x: {
                     "diff": x["diff"],
                     "source_code": x["source_code"],
-                    "type": self.classify_diff(x["diff"]),
+                    "type": self.__classify_diff(x["diff"]),
                 }
             )
             | prompt
             | llm
             | output_parser
         )
+
+    def __classify_diff(self, diff: str) -> str:
+        return self.__diff_classifier.invoke(diff)
+
+    def classify_diff(self, input: dict[str, str]) -> str:
+        return self.__classify_diff(input["diff"])
+
+    def classify_diff_batch(self, diffs: list[dict[str, str]]) -> list[str]:
+        return self.__diff_classifier.batch([diff["diff"] for diff in diffs])
 
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
@@ -381,13 +422,15 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
 class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
     def __init__(
         self,
-        diff_classifier: BaseRunnable[str, str],
+        diff_classifier: BaseRunnable[
+            HighLevelContextDiffClassificationInputModel, str
+        ],
         high_level_context_chain: HighLevelContextChain,
         prompt_template: str,
         cmg_model: str,
         cmg_temperature: float = DEFAULT_CMG_TEMPERATURE,
     ):
-        super().__init__(diff_classifier)
+        super().__init__()
 
         self.__high_level_context_chain = high_level_context_chain
 
@@ -395,12 +438,23 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         cmg_llm = ChatOpenAI(model=cmg_model, temperature=cmg_temperature)
         cmg_output_parser = StrOutputParser()
 
+        self.__diff_classifier = diff_classifier
+
         self.__cmg_chain: RunnableSerializable[dict, str] = (
             RunnableLambda(
                 lambda x: {
                     "diff": x["diff"],
+                    "source_code": x["source_code"],
+                    "context_file_path": x["context_file_path"],
+                    "vector_store_path": x["vector_store_path"],
                     "context": self.__retrieve_context(x),
-                    "type": self.classify_diff(x["diff"]),
+                }
+            )
+            | RunnableLambda(
+                lambda x: {
+                    "diff": x["diff"],
+                    "context": x["context"],
+                    "type": self.__classify_diff(x["diff"], x["context"]),
                 }
             )
             | cmg_prompt
@@ -416,6 +470,43 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
         get_high_level_context_input.vector_store_path = input["vector_store_path"]
 
         return self.__high_level_context_chain.invoke(get_high_level_context_input)
+
+    def __retrieve_context_batch(self, inputs: list[dict]) -> list[str]:
+        get_high_level_context_inputs = []
+
+        for input in inputs:
+            get_high_level_context_input = GetHighLevelContextInputModel()
+            get_high_level_context_input.diff = input["diff"]
+            get_high_level_context_input.source_code = input["source_code"]
+            get_high_level_context_input.context_file_path = input["context_file_path"]
+            get_high_level_context_input.vector_store_path = input["vector_store_path"]
+
+            get_high_level_context_inputs.append(get_high_level_context_input)
+
+        return self.__high_level_context_chain.batch(get_high_level_context_inputs)
+
+    def __classify_diff(self, diff: str, context: str) -> str:
+        input = HighLevelContextDiffClassificationInputModel()
+        input.diff = diff
+        input.context = context
+
+        return self.__diff_classifier.invoke(input)
+
+    def classify_diff(self, input: dict[str, str]) -> str:
+        context = self.__retrieve_context(input)
+        self.__classify_diff(input["diff"], context)
+
+    def classify_diff_batch(self, inputs: list[dict[str, str]]) -> list[str]:
+        classifier_inputs: list[HighLevelContextDiffClassifierChain] = []
+        contexts = self.__retrieve_context_batch(inputs)
+
+        for input, context in zip(inputs, contexts):
+            classifier_input = HighLevelContextDiffClassificationInputModel()
+            classifier_input.diff = input["diff"]
+            classifier_input.context = context
+            classifier_inputs.append(classifier_input)
+
+        return self.__diff_classifier.batch(classifier_inputs)
 
     def set_retriever(
         self, retriever: DocumentRetriever[JiraContextDocumentRetrieverInputModel]
