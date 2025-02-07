@@ -20,6 +20,7 @@ from langsmith import traceable
 
 from core.constants import (
     DEFAULT_CMG_TEMPERATURE,
+    DEFAULT_DIFF_CLASSIFIER_TEMPERATURE,
     DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
     DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
@@ -172,7 +173,9 @@ class JiraContextDocumentRetriever(
 
 
 class LowLevelContextDiffClassifierChain(BaseRunnable[str, str]):
-    def __init__(self, model: str, temperature: float = 0):
+    def __init__(
+        self, model: str, temperature: float = DEFAULT_DIFF_CLASSIFIER_TEMPERATURE
+    ):
         super().__init__()
 
         prompt = PromptTemplate.from_template(
@@ -195,7 +198,9 @@ class LowLevelContextDiffClassifierChain(BaseRunnable[str, str]):
 class HighLevelContextDiffClassifierChain(
     BaseRunnable[HighLevelContextDiffClassificationInputModel, str]
 ):
-    def __init__(self, model: str, temperature: float = 0):
+    def __init__(
+        self, model: str, temperature: float = DEFAULT_DIFF_CLASSIFIER_TEMPERATURE
+    ):
         super().__init__()
 
         prompt = PromptTemplate.from_template(

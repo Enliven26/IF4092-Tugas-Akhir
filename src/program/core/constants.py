@@ -10,6 +10,7 @@ DEFAULT_EMBEDDINGS_MODEL = "text-embedding-3-small"
 DEFAULT_CMG_TEMPERATURE = 0.7
 DEFAULT_LLM_QUERY_TEXT_TEMPERATURE = 0.7
 DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE = 0
+DEFAULT_DIFF_CLASSIFIER_TEMPERATURE = 0
 DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME = "high_level_context_index"
 
 END_DOCUMENT_SPLIT_SEPARATOR = "\n\n--- RETRIEVED DOCUMENT SPLIT END ---\n\n"
@@ -315,7 +316,7 @@ Avoid adding any additional comments or annotations to the classification.
 """
 
 
-HIGH_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE = """Classify the Git diff into one of the following six software maintenance activities: feat, fix, perf, test, refactor, or chore. Return the activity that best matches the code changes. If one or more contexts are relevant to the code changes, use them to help classify the Git diff.
+HIGH_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE = """Classify the Git diff into one of the following six software maintenance activities: feat, fix, perf, test, refactor, or chore. Return the activity that best matches the code changes. If one or more contexts are relevant to the code changes, use them to help classify the Git diff. Note that some contexts may be irrelevant to the code changes.
 
 Refer to the definitions below for each activity.
 
