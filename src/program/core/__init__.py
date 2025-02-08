@@ -13,6 +13,7 @@ from core.chains import (
 from core.constants import (
     DEFAULT_CMG_TEMPERATURE,
     DEFAULT_DEEPSEEK_LLM_MODEL,
+    DEFAULT_DEEPSEEK_MAX_TOKENS,
     DEFAULT_DIFF_CLASSIFIER_TEMPERATURE,
     DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
     DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
@@ -56,17 +57,25 @@ __deepseek_llm_model = os.getenv(
     EnvironmentKey.DEEPSEEK_LLM_MODEL.value, DEFAULT_DEEPSEEK_LLM_MODEL
 )
 __deepseek_diff_classifier_chat_model = ChatOllama(
-    model=__deepseek_llm_model, temperature=DEFAULT_DIFF_CLASSIFIER_TEMPERATURE
+    model=__deepseek_llm_model,
+    temperature=DEFAULT_DIFF_CLASSIFIER_TEMPERATURE,
+    num_ctx=DEFAULT_DEEPSEEK_MAX_TOKENS,
 )
 
 __deepseek_cmg_chat_model = ChatOllama(
-    model=__deepseek_llm_model, temperature=DEFAULT_CMG_TEMPERATURE
+    model=__deepseek_llm_model,
+    temperature=DEFAULT_CMG_TEMPERATURE,
+    num_ctx=DEFAULT_DEEPSEEK_MAX_TOKENS,
 )
 __deepseek_query_text_chat_model = ChatOllama(
-    model=__deepseek_llm_model, temperature=DEFAULT_LLM_QUERY_TEXT_TEMPERATURE, 
+    model=__deepseek_llm_model,
+    temperature=DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
+    num_ctx=DEFAULT_DEEPSEEK_MAX_TOKENS,
 )
 __deepseek_filter_chat_model = ChatOllama(
-    model=__deepseek_llm_model, temperature=DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE
+    model=__deepseek_llm_model,
+    temperature=DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
+    num_ctx=DEFAULT_DEEPSEEK_MAX_TOKENS,
 )
 
 # Open AI Chains

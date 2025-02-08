@@ -8,6 +8,7 @@ DEFAULT_OPEN_AI_LLM_MODEL = "gpt-4o-mini"
 DEFAULT_OPEN_AI_EMBEDDINGS_MODEL = "text-embedding-3-small"
 
 DEFAULT_DEEPSEEK_LLM_MODEL = "deepseek-coder-v2"
+DEFAULT_DEEPSEEK_MAX_TOKENS = 16384
 
 DEFAULT_CMG_TEMPERATURE = 0.7
 DEFAULT_LLM_QUERY_TEXT_TEMPERATURE = 0.7
@@ -15,7 +16,10 @@ DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE = 0
 DEFAULT_DIFF_CLASSIFIER_TEMPERATURE = 0
 DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME = "high_level_context_index"
 
-END_DOCUMENT_SPLIT_SEPARATOR = "\n\n--- RETRIEVED DOCUMENT SPLIT END ---\n\n"
+DEFAULT_RETRIEVER_SPLIT_RESULT_COUNT = 5
+
+
+END_DOCUMENT_SPLIT_SEPARATOR = "--- RETRIEVED DOCUMENT SPLIT END ---"
 
 
 class _FewShotExampleModel:
@@ -289,7 +293,7 @@ Source code:
 
 Query text:"""
 
-HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context directly or indirectly correlates with the changes in the Git diff. Otherwise, return NO.
+HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context directly or indirectly correlates with the changes in the Git diff. Otherwise, return NO. Avoid adding any additional comments or annotations to the classification.
 
 > Git diff: 
 >>>

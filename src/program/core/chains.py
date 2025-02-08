@@ -5,7 +5,6 @@ from typing import Generic, Optional, TypeVar
 from langchain.output_parsers.boolean import BooleanOutputParser
 from langchain.retrievers.document_compressors import LLMChainFilter
 from langchain.schema import Document
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.embeddings.embeddings import Embeddings
@@ -21,6 +20,7 @@ from langsmith import traceable
 
 from core.constants import (
     DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
+    DEFAULT_RETRIEVER_SPLIT_RESULT_COUNT,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     END_DOCUMENT_SPLIT_SEPARATOR,
     FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
@@ -82,7 +82,9 @@ class JiraContextDocumentRetriever(
             output_parser=BooleanOutputParser(),
         )
 
-        self.__retriever = self.__db.as_retriever(search_kwargs={"k": 6})
+        self.__retriever = self.__db.as_retriever(
+            search_kwargs={"k": DEFAULT_RETRIEVER_SPLIT_RESULT_COUNT}
+        )
         self.__compresor = LLMChainFilter.from_llm(filter_chat_model, filter_prompt)
         self.__retriever_chain = (
             self.__get_context | RunnablePassthrough() | self.__format_docs
@@ -102,7 +104,12 @@ class JiraContextDocumentRetriever(
         self.__compresor.get_input = getter
 
     def __format_docs(self, docs: list[Document]) -> str:
-        return "".join([d.page_content + END_DOCUMENT_SPLIT_SEPARATOR for d in docs])
+        return "".join(
+            [
+                d.page_content + "\n\n" + END_DOCUMENT_SPLIT_SEPARATOR + "\n\n"
+                for d in docs
+            ]
+        )
 
     @traceable(run_type="retriever")
     def invoke(self, input: JiraContextDocumentRetrieverInputModel) -> str:
@@ -156,10 +163,17 @@ class JiraContextDocumentRetriever(
         loader = TextLoader(file_path)
         raw_documents = loader.load()
 
-        text_splitter = RecursiveCharacterTextSplitter(
-            separators=[END_DOCUMENT_SPLIT_SEPARATOR], keep_separator=False
-        )
-        split_documents = text_splitter.split_documents(raw_documents)
+        split_documents = []
+
+        for raw_document in raw_documents:
+            splits = raw_document.page_content.split(END_DOCUMENT_SPLIT_SEPARATOR)
+            splits = [split.strip() for split in splits]
+            splits = [split for split in splits if split]
+
+            split_documents.extend(
+                [Document(page_content=split) for split in splits if split]
+            )
+
         return split_documents
 
 
