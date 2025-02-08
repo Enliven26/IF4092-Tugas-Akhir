@@ -8,6 +8,8 @@ from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
+from langchain_core.embeddings.embeddings import Embeddings
+from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import (
@@ -15,15 +17,10 @@ from langchain_core.runnables import (
     RunnablePassthrough,
     RunnableSerializable,
 )
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langsmith import traceable
 
 from core.constants import (
-    DEFAULT_CMG_TEMPERATURE,
-    DEFAULT_DIFF_CLASSIFIER_TEMPERATURE,
     DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
-    DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
-    DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     END_DOCUMENT_SPLIT_SEPARATOR,
     FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
@@ -72,15 +69,13 @@ class JiraContextDocumentRetriever(
     def __init__(
         self,
         db: FAISS,
-        llm_filter_model: str,
-        llm_filter_temperature: int = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
+        filter_chat_model: BaseChatModel,
         index_name: str = DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     ):
         super().__init__()
         self.__index_name = index_name
         self.__db = db
 
-        llm = ChatOpenAI(model=llm_filter_model, temperature=llm_filter_temperature)
         filter_prompt = PromptTemplate(
             template=HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE,
             input_variables=["question", "context", "diff"],
@@ -88,7 +83,7 @@ class JiraContextDocumentRetriever(
         )
 
         self.__retriever = self.__db.as_retriever(search_kwargs={"k": 6})
-        self.__compresor = LLMChainFilter.from_llm(llm, filter_prompt)
+        self.__compresor = LLMChainFilter.from_llm(filter_chat_model, filter_prompt)
         self.__retriever_chain = (
             self.__get_context | RunnablePassthrough() | self.__format_docs
         )
@@ -124,35 +119,31 @@ class JiraContextDocumentRetriever(
     def from_local(
         cls,
         folder_path: str,
-        embedding_model: str,
-        llm_filter_model: str,
-        llm_filter_temperature: int = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
+        embeddings: Embeddings,
+        filter_chat_model: BaseChatModel,
         index_name: str = DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     ):
-        embeddings = OpenAIEmbeddings(model=embedding_model)
         db = FAISS.load_local(
             folder_path,
             embeddings,
             index_name,
             allow_dangerous_deserialization=True,
         )
-        return cls(db, llm_filter_model, llm_filter_temperature, index_name)
+        return cls(db, filter_chat_model, index_name)
 
     @classmethod
     def from_document_file(
         cls,
         file_path: str,
-        embeding_model: str,
-        llm_filter_model: str,
-        llm_filter_temperature: int = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
+        embedings: Embeddings,
+        filter_chat_model: BaseChatModel,
         index_name: str = DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     ) -> "JiraContextDocumentRetriever":
         documents = cls.__load_documents(file_path)
-        embeddings = OpenAIEmbeddings(model=embeding_model)
 
-        db = FAISS.from_documents(documents, embeddings)
+        db = FAISS.from_documents(documents, embedings)
 
-        return cls(db, llm_filter_model, llm_filter_temperature, index_name)
+        return cls(db, filter_chat_model, index_name)
 
     @classmethod
     def __load_documents(cls, file_path: str) -> list[Document]:
@@ -173,18 +164,15 @@ class JiraContextDocumentRetriever(
 
 
 class LowLevelContextDiffClassifierChain(BaseRunnable[str, str]):
-    def __init__(
-        self, model: str, temperature: float = DEFAULT_DIFF_CLASSIFIER_TEMPERATURE
-    ):
+    def __init__(self, chat_model: BaseChatModel):
         super().__init__()
 
         prompt = PromptTemplate.from_template(
             LOW_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE
         )
-        llm = ChatOpenAI(model=model, temperature=temperature)
         output_parser = StrOutputParser()
 
-        self.__chain = prompt | llm | output_parser
+        self.__chain = prompt | chat_model | output_parser
 
     @traceable(run_type="llm")
     def invoke(self, diff: str) -> str:
@@ -198,18 +186,15 @@ class LowLevelContextDiffClassifierChain(BaseRunnable[str, str]):
 class HighLevelContextDiffClassifierChain(
     BaseRunnable[HighLevelContextDiffClassificationInputModel, str]
 ):
-    def __init__(
-        self, model: str, temperature: float = DEFAULT_DIFF_CLASSIFIER_TEMPERATURE
-    ):
+    def __init__(self, chat_model: BaseChatModel):
         super().__init__()
 
         prompt = PromptTemplate.from_template(
             HIGH_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE
         )
-        llm = ChatOpenAI(model=model, temperature=temperature)
         output_parser = StrOutputParser()
 
-        self.__chain = prompt | llm | output_parser
+        self.__chain = prompt | chat_model | output_parser
 
     @traceable(run_type="llm")
     def invoke(self, input: HighLevelContextDiffClassificationInputModel) -> str:
@@ -238,17 +223,14 @@ class CommitMessageGenerationChain(
 
 class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
     def __init__(
-        self,
-        diff_classifier: BaseRunnable[str, str],
-        model: str,
-        temperature: float = DEFAULT_CMG_TEMPERATURE,
+        self, diff_classifier: BaseRunnable[str, str], chat_model: BaseChatModel
     ):
         super().__init__()
 
         prompt = PromptTemplate.from_template(
             FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE
         )
-        llm = ChatOpenAI(model=model, temperature=temperature)
+
         output_parser = StrOutputParser()
 
         self.__diff_classifier = diff_classifier
@@ -261,7 +243,7 @@ class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
                 }
             )
             | prompt
-            | llm
+            | chat_model
             | output_parser
         )
 
@@ -293,29 +275,22 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
 
     def __init__(
         self,
-        llm_query_text_model: str,
-        embeddings_model: str,
-        llm_filter_model: str,
-        llm_query_text_temperature: float = DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
-        llm_filter_temperature: float = DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
+        query_text_chat_model: BaseChatModel,
+        filter_chat_model: BaseChatModel,
+        embeddings: Embeddings,
     ):
         document_query_text_prompt = PromptTemplate.from_template(
             DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE
         )
 
-        document_query_text_llm = ChatOpenAI(
-            model=llm_query_text_model, temperature=llm_query_text_temperature
-        )
-
         document_query_text_output_parser = StrOutputParser()
 
-        self.__document_retriever: Optional[
+        self.document_retriever: Optional[
             DocumentRetriever[JiraContextDocumentRetrieverInputModel]
         ] = None
 
-        self.__embeddings_model = embeddings_model
-        self.__llm_filter_model = llm_filter_model
-        self.__llm_filter_temperature = llm_filter_temperature
+        self.__embeddings = embeddings
+        self.__filter_chat_model = filter_chat_model
 
         self.__chain: RunnableSerializable[dict, str] = (
             RunnablePassthrough()
@@ -323,7 +298,7 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
                 "query": (
                     RunnablePassthrough()
                     | document_query_text_prompt
-                    | document_query_text_llm
+                    | query_text_chat_model
                     | document_query_text_output_parser
                 ),
                 "diff": RunnableLambda(lambda x: x["diff"]),
@@ -338,11 +313,11 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
         retriever_input.query = input["query"]
         retriever_input.diff = input["diff"]
 
-        self.__document_retriever = self.__create_retriever_if_not_exist(
+        self.document_retriever = self.__create_retriever_if_not_exist(
             input["context_file_path"], input["vector_store_path"]
         )
 
-        return self.__document_retriever.invoke(retriever_input)
+        return self.document_retriever.invoke(retriever_input)
 
     def __create_retriever_if_not_exist(
         self,
@@ -354,19 +329,13 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
         if not os.path.exists(vector_store_path) or not os.listdir(vector_store_path):
             os.makedirs(vector_store_path, exist_ok=True)
             document_retriever = JiraContextDocumentRetriever.from_document_file(
-                context_file_path,
-                self.__embeddings_model,
-                self.__llm_filter_model,
-                self.__llm_filter_temperature,
+                context_file_path, self.__embeddings, self.__filter_chat_model
             )
             document_retriever.save(vector_store_path)
 
         else:
             document_retriever = JiraContextDocumentRetriever.from_local(
-                vector_store_path,
-                self.__embeddings_model,
-                self.__llm_filter_model,
-                self.__llm_filter_temperature,
+                vector_store_path, self.__embeddings, self.__filter_chat_model
             )
 
         return document_retriever
@@ -390,15 +359,17 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
     def __get_high_level_context_batch(self, inputs: list[dict[str, str]]) -> list[str]:
         return self.__chain.batch(inputs)
 
-    def __set_retriever(
+    def set_retriever(
         self,
-        embeddings_model: str,
-        llm_model: str,
+        embeddings: Embeddings,
+        filter_chat_model: BaseChatModel,
         context_file_path: str,
         vector_store_path: str,
     ):
-        self.__document_retriever = self.__create_retriever_if_not_exist(
-            embeddings_model, llm_model, context_file_path, vector_store_path
+        self.__embeddings = embeddings
+        self.__filter_chat_model = filter_chat_model
+        self.document_retriever = self.__create_retriever_if_not_exist(
+            context_file_path, vector_store_path
         )
 
     @traceable(run_type="llm")
@@ -431,16 +402,14 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
             HighLevelContextDiffClassificationInputModel, str
         ],
         high_level_context_chain: HighLevelContextChain,
+        cmg_chat_model: BaseChatModel,
         prompt_template: str,
-        cmg_model: str,
-        cmg_temperature: float = DEFAULT_CMG_TEMPERATURE,
     ):
         super().__init__()
 
         self.__high_level_context_chain = high_level_context_chain
 
         cmg_prompt = PromptTemplate.from_template(prompt_template)
-        cmg_llm = ChatOpenAI(model=cmg_model, temperature=cmg_temperature)
         cmg_output_parser = StrOutputParser()
 
         self.__diff_classifier = diff_classifier
@@ -463,7 +432,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
                 }
             )
             | cmg_prompt
-            | cmg_llm
+            | cmg_chat_model
             | cmg_output_parser
         )
 
@@ -516,17 +485,17 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
     def set_retriever(
         self, retriever: DocumentRetriever[JiraContextDocumentRetrieverInputModel]
     ):
-        self.__high_level_context_chain.__document_retriever = retriever
+        self.__high_level_context_chain.document_retriever = retriever
 
     def set_retriever_by_vectorstore(
         self,
-        embeddings_model: str,
-        llm_model: str,
+        embeddings: Embeddings,
+        filter_chat_model: BaseChatModel,
         context_file_path: str,
         vector_store_path: str,
     ):
-        self.__high_level_context_chain.__set_retriever(
-            embeddings_model, llm_model, context_file_path, vector_store_path
+        self.__high_level_context_chain.set_retriever(
+            embeddings, filter_chat_model, context_file_path, vector_store_path
         )
 
     @traceable(run_type="llm")
