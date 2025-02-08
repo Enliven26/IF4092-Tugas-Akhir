@@ -5,12 +5,11 @@ from datetime import datetime
 
 import jsonpickle
 
-from core.chains import HighLevelContextChain
 from core.constants import END_DOCUMENT_SPLIT_SEPARATOR
 from core.enums import DiffVersion
 from core.git import IGit
 from core.jira import IJira
-from core.models import CommitDataModel, GetHighLevelContextInputModel
+from core.models import CommitDataModel
 from core.parsers.git import IDiffParser
 from core.parsers.language.base import ICodeParser
 from datapreparation.constants import DEFAULT_EXAMPLES_FILE_NAME

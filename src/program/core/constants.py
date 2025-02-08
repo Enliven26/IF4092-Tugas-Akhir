@@ -4,8 +4,10 @@ from enum import Enum
 from string import Template
 from typing import Any
 
-DEFAULT_LLM_MODEL = "gpt-4o-mini"
-DEFAULT_EMBEDDINGS_MODEL = "text-embedding-3-small"
+DEFAULT_OPEN_AI_LLM_MODEL = "gpt-4o-mini"
+DEFAULT_OPEN_AI_EMBEDDINGS_MODEL = "text-embedding-3-small"
+
+DEFAULT_DEEPSEEK_LLM_MODEL = "deepseek-coder-v2"
 
 DEFAULT_CMG_TEMPERATURE = 0.7
 DEFAULT_LLM_QUERY_TEXT_TEMPERATURE = 0.7
