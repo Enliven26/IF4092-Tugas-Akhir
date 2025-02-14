@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "AutoCommit"
+description = "AutoCommit is a library for commit message generation using LLM and high-level context information."
+authors = [{ name = "Johanes Lee", email = "johaneslee26@gmail.com" }]
+license = { text = "MIT" }
+requires-python = ">=3.13"
+dynamic = ["version", "readme"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = [
+    "autocommit.core*",
+    "autocommit.diff_parser*",
+    "autocommit.jars*",
+]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["src/program/requirements.txt"]}
+version = {attr = "autocommit.__version__"}
+readme = {file = ["README.md"]}
+
+[tool.setuptools.package-data]
+autocommit = ["jars/*.jar"] 

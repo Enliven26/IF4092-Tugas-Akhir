@@ -210,5 +210,5 @@ hs_err_pid*
 replay_pid*
 
 # Project
-src/program/out
-src/program/data/datageneration/datasets/dataset.parquet
+src/autocommit/out
+!src/autocommit/jars/*
