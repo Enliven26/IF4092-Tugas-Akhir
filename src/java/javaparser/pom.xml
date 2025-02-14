@@ -52,6 +52,11 @@
             <artifactId>maven-assembly-plugin</artifactId>
             <version>3.7.1</version>
             <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>tugasakhir.javaparser.JavaParser</mainClass>
+                    </manifest>
+                </archive>
                 <descriptorRefs>
                     <descriptorRef>jar-with-dependencies</descriptorRef>
                 </descriptorRefs>
