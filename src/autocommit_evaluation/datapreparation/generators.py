@@ -5,15 +5,15 @@ from datetime import datetime
 
 import jsonpickle
 
-from core.constants import END_DOCUMENT_SPLIT_SEPARATOR
-from core.enums import DiffVersion
-from core.git import IGit
-from core.jira import IJira
-from core.models import CommitDataModel
-from core.parsers.git import IDiffParser
-from core.parsers.language.base import ICodeParser
-from datapreparation.constants import DEFAULT_EXAMPLES_FILE_NAME
-from datapreparation.models import ExampleGenerationResultModel
+from autocommit.core.constants import END_DOCUMENT_SPLIT_SEPARATOR
+from autocommit.core.enums import DiffVersion
+from autocommit.core.git import IGit
+from autocommit.core.jira import IJira
+from autocommit.core.models import CommitDataModel
+from autocommit.core.parsers.git import IDiffParser
+from autocommit.core.parsers.language.base import ICodeParser
+from autocommit_evaluation.datapreparation.constants import DEFAULT_EXAMPLES_FILE_NAME
+from autocommit_evaluation.datapreparation.models import ExampleGenerationResultModel
 
 
 class IContextGenerator(ABC):

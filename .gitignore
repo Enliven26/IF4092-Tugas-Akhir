@@ -210,5 +210,5 @@ hs_err_pid*
 replay_pid*
 
 # Project
-src/autocommit/out
+src/out
 !src/autocommit/jars/*

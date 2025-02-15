@@ -3,22 +3,25 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 
 import jsonpickle
-
-from cmg.constants import (
-    DEFAULT_EVALUATION_OUTPUT_FILE_NAME,
-    DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME,
-)
-from cmg.models import CommitMessageGenerationResultModel, EvaluationResultModel
-from core.chains import (
+from autocommit.core.chains import (
     CommitMessageGenerationChain,
     GetHighLevelContextInputModel,
     HighLevelContextChain,
 )
-from core.enums import DiffVersion
-from core.git import IGit
-from core.models import CommitDataModel, CommitMessageGenerationPromptInputModel
-from core.parsers.git import IDiffParser
-from core.parsers.language.base import ICodeParser
+from autocommit.core.enums import DiffVersion
+from autocommit.core.git import IGit
+from autocommit.core.models import CommitDataModel, CommitMessageGenerationPromptInputModel
+from autocommit.core.parsers.git import IDiffParser
+from autocommit.core.parsers.language.base import ICodeParser
+
+from autocommit_evaluation.cmg.constants import (
+    DEFAULT_EVALUATION_OUTPUT_FILE_NAME,
+    DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME,
+)
+from autocommit_evaluation.cmg.models import (
+    CommitMessageGenerationResultModel,
+    EvaluationResultModel,
+)
 
 
 class ICommitMessageGenerator(ABC):

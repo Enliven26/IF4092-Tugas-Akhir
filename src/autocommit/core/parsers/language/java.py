@@ -3,7 +3,7 @@ import os
 import subprocess
 import tempfile
 
-from core.parsers.language.base import ICodeParser
+from autocommit.core.parsers.language.base import ICodeParser
 
 
 class JavaCodeParser(ICodeParser):
@@ -17,7 +17,11 @@ class JavaCodeParser(ICodeParser):
             temp_file_path = temp_file.name
             temp_file.write(java_source_code.encode("utf-8"))
 
-        jar_path = os.path.join("jars", "javaparser.jar")
+        jar_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__), "..", "..", "..", "jars", "javaparser.jar"
+            )
+        )
         line_ranges_json = json.dumps([[r.start, r.stop] for r in line_ranges])
 
         command = [

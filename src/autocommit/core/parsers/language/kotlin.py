@@ -1,8 +1,8 @@
 from enum import Enum
 from textwrap import indent
 
-from core.parsers.language.base import ICodeParser
-from kopyt import Parser, node
+from autocommit.core.parsers.language.base import ICodeParser
+from autocommit.kopyt import Parser, node
 
 
 class _KotlinImplementationType(Enum):

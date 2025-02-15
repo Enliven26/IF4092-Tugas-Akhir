@@ -1,7 +1,7 @@
 [
     {
         "id": "EX001",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
         "repository_url": "https://github.com/apache/hadoop",
         "commit_hash": "061c05cc05ff6257b14c5c4f25cbcec2d184cda7",
         "included_file_paths": [
@@ -11,7 +11,7 @@
     },
     {
         "id": "EX002",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\activemq",
         "repository_url": "https://github.com/apache/activemq",
         "commit_hash": "d0dab2e88b44702d26dd0883c9940b97ee03fdeb",
         "included_file_paths": [
@@ -21,7 +21,7 @@
     },
     {
         "id": "EX003",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
         "repository_url": "https://github.com/apache/cassandra",
         "commit_hash": "64b8d6b9add607b80752cd1a8fbce51839af9ec4",
         "included_file_paths": [

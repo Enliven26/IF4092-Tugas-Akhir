@@ -1,7 +1,7 @@
 [
     {
         "id": "TC001",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\drill",
         "repository_url": "https://github.com/apache/drill",
         "commit_hash": "9d6af6dea6ed6f47f45a2bd064c01bf69d85acbf",
         "included_file_paths": [
