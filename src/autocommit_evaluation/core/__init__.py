@@ -29,7 +29,7 @@ from autocommit.core.constants import (
     FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
 )
-from autocommit.core.enums import EnvironmentKey
+from autocommit_evaluation.core.enums import EnvironmentKey
 
 if TYPE_CHECKING:
     from langchain_core.runnables import RunnableConfig
