@@ -16,7 +16,8 @@ include-package-data = true
 [tool.setuptools.packages.find]
 where = ["src"]
 include = [
-    "autocommit"
+    "autocommit",
+    "autocommit.*"
 ]
 namespaces = false
 
