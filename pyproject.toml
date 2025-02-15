@@ -8,7 +8,7 @@ description = "AutoCommit is a library for commit message generation using LLM a
 authors = [{ name = "Johanes Lee", email = "johaneslee26@gmail.com" }]
 license = { text = "MIT" }
 requires-python = ">=3.13"
-dynamic = ["version", "readme"]
+dynamic = ["version", "readme", "dependencies"]
 
 [tool.setuptools]
 include-package-data = true
@@ -22,6 +22,6 @@ include = [
 namespaces = false
 
 [tool.setuptools.dynamic]
-dependencies = {file = ["src/program/requirements.txt"]}
+dependencies = {file = ["src/requirements.txt"]}
 version = {attr = "autocommit.__version__"}
 readme = {file = ["README.md"]}
