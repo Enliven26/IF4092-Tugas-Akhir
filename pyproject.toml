@@ -16,16 +16,11 @@ include-package-data = true
 [tool.setuptools.packages.find]
 where = ["src"]
 include = [
-    "autocommit.core*",
-    "autocommit.diff_parser*",
-    "autocommit.jars*",
-    "autocommit.py.typed"
+    "autocommit"
 ]
+namespaces = false
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["src/program/requirements.txt"]}
 version = {attr = "autocommit.__version__"}
 readme = {file = ["README.md"]}
-
-[tool.setuptools.package-data]
-autocommit = ["jars/*.jar", "py.typed"] 
