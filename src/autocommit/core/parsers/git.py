@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
-from core.enums import DiffVersion
-from core.models import FileDiffModel
-from diff_parser import Diff, DiffBlock
+from autocommit.core.enums import DiffVersion
+from autocommit.core.models import FileDiffModel
+from autocommit.diff_parser import Diff, DiffBlock
 
 
 class IDiffParser(ABC):

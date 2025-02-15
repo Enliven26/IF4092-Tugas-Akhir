@@ -19,6 +19,7 @@ include = [
     "autocommit.core*",
     "autocommit.diff_parser*",
     "autocommit.jars*",
+    "autocommit.py.typed"
 ]
 
 [tool.setuptools.dynamic]
@@ -27,4 +28,4 @@ version = {attr = "autocommit.__version__"}
 readme = {file = ["README.md"]}
 
 [tool.setuptools.package-data]
-autocommit = ["jars/*.jar"] 
+autocommit = ["jars/*.jar", "py.typed"] 

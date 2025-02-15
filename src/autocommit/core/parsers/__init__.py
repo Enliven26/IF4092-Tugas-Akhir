@@ -1,5 +1,3 @@
-from core.parsers.git import DiffParser
-from core.parsers.language import java_code_parser
+from autocommit.core.parsers.git import DiffParser
 
 diff_parser = DiffParser()
-code_parser = java_code_parser

@@ -18,7 +18,7 @@ from langchain_core.runnables import (
 )
 from langsmith import traceable
 
-from core.constants import (
+from autocommit.core.constants import (
     DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME,
     DEFAULT_RETRIEVER_SPLIT_RESULT_COUNT,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
@@ -28,7 +28,7 @@ from core.constants import (
     HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE,
     LOW_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE,
 )
-from core.models import (
+from autocommit.core.models import (
     CommitMessageGenerationPromptInputModel,
     GetHighLevelContextInputModel,
     HighLevelContextDiffClassificationInputModel,

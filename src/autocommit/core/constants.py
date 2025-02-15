@@ -75,7 +75,9 @@ class _FewShotExampleModel:
             raise ValueError(f"Invalid JSON string for EvaluationModel list: {e}")
 
 
-__EXAMPLE_PATH = os.path.join("data", "cmg", "examples.json")
+__EXAMPLE_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "data", "cmg", "examples.json")
+)
 
 __json_string = ""
 

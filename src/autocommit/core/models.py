@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Any
 from urllib.parse import urlparse
 
-from core.enums import DiffVersion
+from autocommit.core.enums import DiffVersion
 
 
 class FileDiffModel:
