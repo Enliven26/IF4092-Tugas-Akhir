@@ -30,9 +30,12 @@ from autocommit.core.constants import (
     ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
 )
 from autocommit_evaluation.core.enums import EnvironmentKey
+from autocommit_evaluation.core.jira import Jira
 
 if TYPE_CHECKING:
     from langchain_core.runnables import RunnableConfig
+
+jira = Jira()
 
 # OPEN AI Configs
 __open_ai_llm_model = os.getenv(

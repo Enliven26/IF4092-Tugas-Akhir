@@ -8,7 +8,7 @@ import jsonpickle
 from autocommit.core.constants import END_DOCUMENT_SPLIT_SEPARATOR
 from autocommit.core.enums import DiffVersion
 from autocommit.core.git import IGit
-from autocommit.core.jira import IJira
+from autocommit_evaluation.core.jira import IJira
 from autocommit.core.models import CommitDataModel
 from autocommit.core.parsers.git import IDiffParser
 from autocommit.core.parsers.language.base import ICodeParser
