@@ -17,8 +17,8 @@ from autocommit.core.constants import (
     DEFAULT_DIFF_CLASSIFIER_TEMPERATURE,
     DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
     DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
-    DEFAULT_openai_EMBEDDINGS_MODEL,
-    DEFAULT_openai_LLM_MODEL,
+    DEFAULT_OPENAI_EMBEDDINGS_MODEL,
+    DEFAULT_OPENAI_LLM_MODEL,
     DEFAULT_OPENROUTER_LLM_MODEL,
     DEFAULT_OPENROUTER_MAX_TOKENS,
     FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
@@ -31,10 +31,10 @@ jira = Jira()
 
 # OPEN AI Configs
 __openai_llm_model = os.getenv(
-    EnvironmentKey.OPENAI_LLM_MODEL.value, DEFAULT_openai_LLM_MODEL
+    EnvironmentKey.OPENAI_LLM_MODEL.value, DEFAULT_OPENAI_LLM_MODEL
 )
 __openai_embedding_model = os.getenv(
-    EnvironmentKey.OPENAI_EMBEDDING_MODEL.value, DEFAULT_openai_EMBEDDINGS_MODEL
+    EnvironmentKey.OPENAI_EMBEDDING_MODEL.value, DEFAULT_OPENAI_EMBEDDINGS_MODEL
 )
 
 __openai_diff_classifier_chat_model = ChatOpenAI(
