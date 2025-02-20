@@ -17,8 +17,8 @@ from autocommit.core.constants import (
     DEFAULT_DIFF_CLASSIFIER_TEMPERATURE,
     DEFAULT_LLM_QUERY_TEXT_TEMPERATURE,
     DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE,
-    DEFAULT_OPEN_AI_EMBEDDINGS_MODEL,
-    DEFAULT_OPEN_AI_LLM_MODEL,
+    DEFAULT_openai_EMBEDDINGS_MODEL,
+    DEFAULT_openai_LLM_MODEL,
     DEFAULT_OPENROUTER_LLM_MODEL,
     DEFAULT_OPENROUTER_MAX_TOKENS,
     FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
@@ -30,27 +30,27 @@ from autocommit_evaluation.core.jira import Jira
 jira = Jira()
 
 # OPEN AI Configs
-__open_ai_llm_model = os.getenv(
-    EnvironmentKey.OPENAI_LLM_MODEL.value, DEFAULT_OPEN_AI_LLM_MODEL
+__openai_llm_model = os.getenv(
+    EnvironmentKey.OPENAI_LLM_MODEL.value, DEFAULT_openai_LLM_MODEL
 )
-__open_ai_embedding_model = os.getenv(
-    EnvironmentKey.OPENAI_EMBEDDING_MODEL.value, DEFAULT_OPEN_AI_EMBEDDINGS_MODEL
-)
-
-__open_ai_diff_classifier_chat_model = ChatOpenAI(
-    model=__open_ai_llm_model, temperature=DEFAULT_DIFF_CLASSIFIER_TEMPERATURE
+__openai_embedding_model = os.getenv(
+    EnvironmentKey.OPENAI_EMBEDDING_MODEL.value, DEFAULT_openai_EMBEDDINGS_MODEL
 )
 
-__open_ai_cmg_chat_model = ChatOpenAI(
-    model=__open_ai_llm_model, temperature=DEFAULT_CMG_TEMPERATURE
+__openai_diff_classifier_chat_model = ChatOpenAI(
+    model=__openai_llm_model, temperature=DEFAULT_DIFF_CLASSIFIER_TEMPERATURE
 )
-__open_ai_query_text_chat_model = ChatOpenAI(
-    model=__open_ai_llm_model, temperature=DEFAULT_LLM_QUERY_TEXT_TEMPERATURE
+
+__openai_cmg_chat_model = ChatOpenAI(
+    model=__openai_llm_model, temperature=DEFAULT_CMG_TEMPERATURE
 )
-__open_ai_filter_chat_model = ChatOpenAI(
-    model=__open_ai_llm_model, temperature=DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE
+__openai_query_text_chat_model = ChatOpenAI(
+    model=__openai_llm_model, temperature=DEFAULT_LLM_QUERY_TEXT_TEMPERATURE
 )
-__open_ai_embeddings = OpenAIEmbeddings(model=__open_ai_embedding_model)
+__openai_filter_chat_model = ChatOpenAI(
+    model=__openai_llm_model, temperature=DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE
+)
+__openai_embeddings = OpenAIEmbeddings(model=__openai_embedding_model)
 
 # OpenRouter Configs
 __openrouter_llm_model = os.getenv(
@@ -97,35 +97,35 @@ __openrouter_filter_chat_model = ChatOpenRouter(
 )
 
 # Open AI Chains
-open_ai_low_level_context_diff_classifier_chain = LowLevelContextDiffClassifierChain(
-    __open_ai_diff_classifier_chat_model
+openai_low_level_context_diff_classifier_chain = LowLevelContextDiffClassifierChain(
+    __openai_diff_classifier_chat_model
 )
-open_ai_high_level_context_diff_classifier_chain = HighLevelContextDiffClassifierChain(
-    __open_ai_diff_classifier_chat_model
-)
-
-open_ai_low_level_context_cmg_chain = LowLevelContextCommitMessageGenerationChain(
-    open_ai_low_level_context_diff_classifier_chain, __open_ai_cmg_chat_model
+openai_high_level_context_diff_classifier_chain = HighLevelContextDiffClassifierChain(
+    __openai_diff_classifier_chat_model
 )
 
-open_ai_high_level_context_chain = HighLevelContextChain(
-    __open_ai_query_text_chat_model, __open_ai_filter_chat_model, __open_ai_embeddings
+openai_low_level_context_cmg_chain = LowLevelContextCommitMessageGenerationChain(
+    openai_low_level_context_diff_classifier_chain, __openai_cmg_chat_model
 )
 
-open_ai_zero_shot_high_level_context_cmg_chain = (
+openai_high_level_context_chain = HighLevelContextChain(
+    __openai_query_text_chat_model, __openai_filter_chat_model, __openai_embeddings
+)
+
+openai_zero_shot_high_level_context_cmg_chain = (
     HighLevelContextCommitMessageGenerationChain(
-        open_ai_high_level_context_diff_classifier_chain,
-        open_ai_high_level_context_chain,
-        __open_ai_cmg_chat_model,
+        openai_high_level_context_diff_classifier_chain,
+        openai_high_level_context_chain,
+        __openai_cmg_chat_model,
         ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     )
 )
 
-open_ai_few_shot_high_level_context_cmg_chain = (
+openai_few_shot_high_level_context_cmg_chain = (
     HighLevelContextCommitMessageGenerationChain(
-        open_ai_high_level_context_diff_classifier_chain,
-        open_ai_high_level_context_chain,
-        __open_ai_cmg_chat_model,
+        openai_high_level_context_diff_classifier_chain,
+        openai_high_level_context_chain,
+        __openai_cmg_chat_model,
         FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     )
 )
@@ -138,10 +138,14 @@ openrouter_high_level_context_diff_classifier_chain = (
     HighLevelContextDiffClassifierChain(__openrouter_diff_classifier_chat_model)
 )
 
+openrouter_low_level_context_cmg_chain = LowLevelContextCommitMessageGenerationChain(
+    openrouter_low_level_context_diff_classifier_chain, __openrouter_cmg_chat_model
+)
+
 openrouter_high_level_context_chain = HighLevelContextChain(
     __openrouter_query_text_chat_model,
     __openrouter_filter_chat_model,
-    __open_ai_embeddings,
+    __openai_embeddings,
 )
 
 openrouter_zero_shot_high_level_context_cmg_chain = (
@@ -150,5 +154,14 @@ openrouter_zero_shot_high_level_context_cmg_chain = (
         openrouter_high_level_context_chain,
         __openrouter_cmg_chat_model,
         ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
+    )
+)
+
+openrouter_few_shot_high_level_context_cmg_chain = (
+    HighLevelContextCommitMessageGenerationChain(
+        openrouter_high_level_context_diff_classifier_chain,
+        openrouter_high_level_context_chain,
+        __openrouter_cmg_chat_model,
+        FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     )
 )
