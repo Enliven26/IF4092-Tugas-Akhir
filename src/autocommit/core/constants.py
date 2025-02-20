@@ -4,8 +4,8 @@ from enum import Enum
 from string import Template
 from typing import Any
 
-DEFAULT_OPEN_AI_LLM_MODEL = "gpt-4o-mini"
-DEFAULT_OPEN_AI_EMBEDDINGS_MODEL = "text-embedding-3-small"
+DEFAULT_OPENAI_LLM_MODEL = "gpt-4o-mini"
+DEFAULT_OPENAI_EMBEDDINGS_MODEL = "text-embedding-3-small"
 
 DEFAULT_OPENROUTER_LLM_MODEL = "meta-llama/llama-3.1-405b-instruct"
 DEFAULT_OPENROUTER_MAX_TOKENS = 4096
