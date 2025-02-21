@@ -5,7 +5,8 @@
         "repository_url": "https://github.com/apache/hadoop",
         "commit_hash": "061c05cc05ff6257b14c5c4f25cbcec2d184cda7",
         "included_file_paths": [
-            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/shell/CopyCommands.java"
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/shell/CopyCommands.java",
+            "hadoop-common-project/hadoop-common/src/test/java/org/apache/hadoop/fs/TestFsShellCopy.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     },
