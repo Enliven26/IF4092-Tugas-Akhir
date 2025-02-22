@@ -1,2 +1,2 @@
-include src/autocommit/**/*.json
-include src/autocommit/**/*.jar
+recursive-include src/autocommit *.json
+recursive-include src/autocommit *.jar

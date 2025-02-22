@@ -4,11 +4,12 @@ from enum import Enum
 from string import Template
 from typing import Any
 
-DEFAULT_OPEN_AI_LLM_MODEL = "gpt-4o-mini"
-DEFAULT_OPEN_AI_EMBEDDINGS_MODEL = "text-embedding-3-small"
+DEFAULT_OPENAI_LLM_MODEL = "gpt-4o-mini"
+DEFAULT_OPENAI_EMBEDDINGS_MODEL = "text-embedding-3-small"
 
-DEFAULT_DEEPSEEK_LLM_MODEL = "deepseek-r1"
-DEFAULT_DEEPSEEK_MAX_TOKENS = 4096
+DEFAULT_OPENROUTER_LLM_MODEL = "deepseek/deepseek-r1-distill-qwen-32b"
+DEFAULT_OPENROUTER_MAX_TOKENS = 4096
+DEFAULT_OPENROUTER_API_BASE = "https://openrouter.ai/api/v1"
 
 DEFAULT_CMG_TEMPERATURE = 0.7
 DEFAULT_LLM_QUERY_TEXT_TEMPERATURE = 0.7
@@ -103,13 +104,15 @@ for __example in __EXAMPLES:
 
 __ZERO_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and relevant source code provided. The relevant source code should be used to provide additional context for the changes made in the Git diff.
 
-A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
+Wrap the body at one to three brief sentences in a single paragraph. Make sure to include any side changes that are relevant to the Git diff, ex. test cases. This is necessary to provide a complete picture of the changes made in the Git diff.
 
 Follow this format for the commit message:
 
 {{type}}: {{subject}}
 
 {{body}}
+
+Avoid adding any additional comments or annotations to the commit message. Avoid creating more than one body paragraph.
 
 Git diff:
 {diff}
@@ -123,13 +126,15 @@ Commit message:"""
 
 __FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and relevant source code provided. The relevant source code should be used to provide additional context for the changes made in the Git diff.
 
-A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
+Wrap the body at one to three brief sentences in a single paragraph. Make sure to include any side changes that are relevant to the Git diff, ex. test cases. This is necessary to provide a complete picture of the changes made in the Git diff.
 
 Follow this format for the commit message:
 
 {{type}}: {{subject}}
 
 {{body}}
+
+Avoid adding any additional comments or annotations to the commit message. Avoid creating more than one body paragraph.
 
 Git diff 1:
 $diff_1
@@ -194,13 +199,15 @@ FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
 
 ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts for brevity. Including multiple contexts is allowed.
 
-A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
+Wrap the body at one to three brief sentences in a single paragraph. Make sure to include any side changes that are relevant to the Git diff, ex. test cases. This is necessary to provide a complete picture of the changes made in the Git diff.
 
 Follow this format for the commit message:
 
 {{type}}: {{subject}}
 
 {{body}}
+
+Avoid adding any additional comments or annotations to the commit message. Avoid creating more than one body paragraph.
 
 Git diff:
 {diff}
@@ -210,17 +217,19 @@ Additional context:
 
 Commit type: {type}
 
-Commit message: """
+Commit message:"""
 
 __FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts for brevity. Including multiple contexts is allowed.
 
-A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
+Wrap the body at one to three brief sentences in a single paragraph. Make sure to include any side changes that are relevant to the Git diff, ex. test cases. This is necessary to provide a complete picture of the changes made in the Git diff.
 
 Follow this format for the commit message:
 
 {{type}}: {{subject}}
 
 {{body}}
+
+Avoid adding any additional comments or annotations to the commit message. Avoid creating more than one body paragraph.
 
 Git diff 1:
 $diff_1
@@ -285,7 +294,7 @@ FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
 )
 
 
-DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. The query text must summarize the code changes in two very brief sentences.
+DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. Summarize in exactly two concise sentences. Avoid adding any additional comments or annotations to the summary.
 
 Git diff:
 {diff}
@@ -293,7 +302,7 @@ Git diff:
 Source code:
 {source_code}
 
-Query text:"""
+Summary:"""
 
 HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context directly or indirectly correlates with the changes in the Git diff. Otherwise, return NO. Avoid adding any additional comments or annotations to the classification.
 
