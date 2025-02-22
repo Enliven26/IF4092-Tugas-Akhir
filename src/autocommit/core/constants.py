@@ -7,7 +7,7 @@ from typing import Any
 DEFAULT_OPENAI_LLM_MODEL = "gpt-4o-mini"
 DEFAULT_OPENAI_EMBEDDINGS_MODEL = "text-embedding-3-small"
 
-DEFAULT_OPENROUTER_LLM_MODEL = "meta-llama/llama-3.1-405b-instruct"
+DEFAULT_OPENROUTER_LLM_MODEL = "deepseek/deepseek-r1-distill-qwen-32b"
 DEFAULT_OPENROUTER_MAX_TOKENS = 4096
 DEFAULT_OPENROUTER_API_BASE = "https://openrouter.ai/api/v1"
 
