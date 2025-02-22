@@ -9,6 +9,7 @@ DEFAULT_OPENAI_EMBEDDINGS_MODEL = "text-embedding-3-small"
 
 DEFAULT_OPENROUTER_LLM_MODEL = "meta-llama/llama-3.1-405b-instruct"
 DEFAULT_OPENROUTER_MAX_TOKENS = 4096
+DEFAULT_OPENROUTER_API_BASE = "https://openrouter.ai/api/v1"
 
 DEFAULT_CMG_TEMPERATURE = 0.7
 DEFAULT_LLM_QUERY_TEXT_TEMPERATURE = 0.7
@@ -194,7 +195,7 @@ FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
 
 ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts for brevity. Including multiple contexts is allowed.
 
-A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
+A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences. Avoid adding any additional comments or annotations to the commit message.
 
 Follow this format for the commit message:
 
@@ -214,7 +215,7 @@ Commit message: """
 
 __FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts for brevity. Including multiple contexts is allowed.
 
-A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences.
+A good commit message explains what changes were made and why they were necessary. Wrap the body at one to three brief sentences. Avoid adding any additional comments or annotations to the commit message.
 
 Follow this format for the commit message:
 
