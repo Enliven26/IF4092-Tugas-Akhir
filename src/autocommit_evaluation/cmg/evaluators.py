@@ -1,8 +1,11 @@
 import os
+import re
 from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import Optional
 
 import jsonpickle
+
 from autocommit.core.chains import (
     CommitMessageGenerationChain,
     GetHighLevelContextInputModel,
@@ -10,10 +13,12 @@ from autocommit.core.chains import (
 )
 from autocommit.core.enums import DiffVersion
 from autocommit.core.git import IGit
-from autocommit.core.models import CommitDataModel, CommitMessageGenerationPromptInputModel
+from autocommit.core.models import (
+    CommitDataModel,
+    CommitMessageGenerationPromptInputModel,
+)
 from autocommit.core.parsers.git import IDiffParser
 from autocommit.core.parsers.language.base import ICodeParser
-
 from autocommit_evaluation.cmg.constants import (
     DEFAULT_EVALUATION_OUTPUT_FILE_NAME,
     DEFAULT_HIGH_LEVEL_CONTEXT_OUTPUT_FILE_NAME,
@@ -133,6 +138,14 @@ class Evaluator(IEvaluator):
     def __create_folder_if_not_exist(self, path: str):
         directory = os.path.dirname(path)
         os.makedirs(directory, exist_ok=True)
+
+    def __get_jira_ticket_id(self, commit: CommitDataModel) -> Optional[str]:
+        commit_message = self.__git.get_commit_message(
+            commit.repository_path, commit.commit_hash
+        )
+
+        match = re.search(r"\b([A-Z]+-\d+)\b", commit_message)
+        return match.group(1) if match else None
 
     def classify_diffs(
         self,
@@ -282,6 +295,12 @@ class Evaluator(IEvaluator):
 
             result = EvaluationResultModel()
             result.evaluation_id = commit.id
+            result.commit_url = f"{commit.repository_url}/commit/{commit.commit_hash}"
+            result.jira_url = (
+                f"{commit.jira_url}/browse/{self.__get_jira_ticket_id(commit)}"
+            )
+            result.included_file_paths = commit.included_file_paths
+
             results.append(result)
 
         for generator in generators:
