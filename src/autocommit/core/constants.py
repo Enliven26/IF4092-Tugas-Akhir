@@ -13,8 +13,8 @@ DEFAULT_OPENROUTER_API_BASE = "https://openrouter.ai/api/v1"
 
 DEFAULT_CMG_TEMPERATURE = 0.7
 DEFAULT_LLM_QUERY_TEXT_TEMPERATURE = 0.7
-DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE = 0
-DEFAULT_DIFF_CLASSIFIER_TEMPERATURE = 0
+DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE = 0.1
+DEFAULT_DIFF_CLASSIFIER_TEMPERATURE = 0.1
 DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME = "high_level_context_index"
 
 DEFAULT_RETRIEVER_SPLIT_RESULT_COUNT = 5
@@ -304,7 +304,9 @@ Source code:
 
 Summary:"""
 
-HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context directly or indirectly correlates with the changes in the Git diff. Otherwise, return NO. Avoid adding any additional comments or annotations to the classification.
+HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context directly or indirectly correlates with the changes in the Git diff. Otherwise, return NO. 
+
+Avoid adding any additional comments or annotations to the classification. Return only YES or NO. Any additional words will break the system.
 
 > Git diff: 
 >>>
