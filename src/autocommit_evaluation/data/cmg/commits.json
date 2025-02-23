@@ -1,7 +1,7 @@
 [
     {
         "id": "TC001",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\kafka",
         "repository_url": "https://github.com/apache/kafka",
         "commit_hash": "d3b4c1bdf41de2d9144e0c2adf41ad08a3fee2e6",
         "included_file_paths": [
@@ -11,7 +11,7 @@
     },
     {
         "id": "TC002",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\kafka",
         "repository_url": "https://github.com/apache/kafka",
         "commit_hash": "badfbacdd09a9ee8821847f4b28d98625f354ed7",
         "included_file_paths": [
@@ -23,7 +23,7 @@
     },
     {
         "id": "TC003",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\kafka",
         "repository_url": "https://github.com/apache/kafka",
         "commit_hash": "50c15b94c94fbe8f964703c057963b38100b0bd6",
         "included_file_paths": [
@@ -36,7 +36,7 @@
     },
     {
         "id": "TC004",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\kafka",
         "repository_url": "https://github.com/apache/kafka",
         "commit_hash": "00b22b001fb35e611d85abbfd4511b32058e0048",
         "included_file_paths": [
@@ -49,7 +49,7 @@
     },
     {
         "id": "TC005",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\kafka",
         "repository_url": "https://github.com/apache/kafka",
         "commit_hash": "c8f1ee9cd994c08056df67d22c30a5893e0901a2",
         "included_file_paths": [
@@ -60,7 +60,7 @@
     },
     {
         "id": "TC006",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
         "repository_url": "https://github.com/apache/hadoop",
         "commit_hash": "aaf92fe1839b8bc732582445e9bbf019c17f3ef0",
         "included_file_paths": [
@@ -74,7 +74,7 @@
     },
     {
         "id": "TC007",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
         "repository_url": "https://github.com/apache/hadoop",
         "commit_hash": "c3e322860f79cbb1ec9a59b4819da0a48155e551",
         "included_file_paths": [
@@ -88,7 +88,7 @@
     },
     {
         "id": "TC008",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
         "repository_url": "https://github.com/apache/hadoop",
         "commit_hash": "9634bd31e6594312b68d9e07b736d18d29f7648c",
         "included_file_paths": [
@@ -98,7 +98,7 @@
     },
     {
         "id": "TC009",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
         "repository_url": "https://github.com/apache/hadoop",
         "commit_hash": "58896f0e13524c81853828d4d94b5f7298bafed5",
         "included_file_paths": [
@@ -108,7 +108,7 @@
     },
     {
         "id": "TC010",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
         "repository_url": "https://github.com/apache/hadoop",
         "commit_hash": "28d190b90416e9c4be402e7ef3d3c361a4f4a5a0",
         "included_file_paths": [
@@ -120,7 +120,7 @@
     },
     {
         "id": "TC011",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hive",
         "repository_url": "https://github.com/apache/hive",
         "commit_hash": "20d26ad269af3c281f845df76d3b8d260cabc904",
         "included_file_paths": [
@@ -131,7 +131,7 @@
     },
     {
         "id": "TC012",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hive",
         "repository_url": "https://github.com/apache/hive",
         "commit_hash": "4898d7bfaa1437d39d25070e0ab63c5e0e0de9d7",
         "included_file_paths": [
@@ -141,7 +141,7 @@
     },
     {
         "id": "TC013",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hive",
         "repository_url": "https://github.com/apache/hive",
         "commit_hash": "421887705f821213f48ae9c6beab62fa09e8a2e2",
         "included_file_paths": [
@@ -151,7 +151,7 @@
     },
     {
         "id": "TC014",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hive",
         "repository_url": "https://github.com/apache/hive",
         "commit_hash": "6bd45cc6a1cdfc2272d24251c330497223123d63",
         "included_file_paths": [
@@ -165,7 +165,7 @@
     },
     {
         "id": "TC015",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hive",
         "repository_url": "https://github.com/apache/hive",
         "commit_hash": "2ff3ed6d83a1633d17bbf5b3c852b34b51548ef8",
         "included_file_paths": [
@@ -175,7 +175,7 @@
     },
     {
         "id": "TC016",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\activemq",
         "repository_url": "https://github.com/apache/activemq",
         "commit_hash": "5f79b651c225babe62d8742d20e993073faaf1d0",
         "included_file_paths": [
@@ -187,7 +187,7 @@
     },
     {
         "id": "TC017",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\activemq",
         "repository_url": "https://github.com/apache/activemq",
         "commit_hash": "550cb9b2be32e5a6454e7bee5e31632498626a9c",
         "included_file_paths": [
@@ -198,7 +198,7 @@
     },
     {
         "id": "TC018",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\activemq",
         "repository_url": "https://github.com/apache/activemq",
         "commit_hash": "d8ae8734a9f6da41e206d33322048aedf5491e8e",
         "included_file_paths": [
@@ -208,7 +208,7 @@
     },
     {
         "id": "TC019",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\activemq",
         "repository_url": "https://github.com/apache/activemq",
         "commit_hash": "ecbeb6d2eb8675832acec243a4e50fea735763e0",
         "included_file_paths": [
@@ -218,7 +218,7 @@
     },
     {
         "id": "TC020",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\activemq",
         "repository_url": "https://github.com/apache/activemq",
         "commit_hash": "6f338aa2817c221c16b6a97b7d3377daeaf42726",
         "included_file_paths": [
@@ -229,7 +229,7 @@
     },
     {
         "id": "TC021",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
         "repository_url": "https://github.com/apache/cassandra",
         "commit_hash": "f66183a711dd440b3619a960ba4e5444c1c900ff",
         "included_file_paths": [
@@ -239,7 +239,7 @@
     },
     {
         "id": "TC022",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
         "repository_url": "https://github.com/apache/cassandra",
         "commit_hash": "4bc61e5209d474c50639a4858e273653fbb4e399",
         "included_file_paths": [
@@ -250,7 +250,7 @@
     },
     {
         "id": "TC023",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
         "repository_url": "https://github.com/apache/cassandra",
         "commit_hash": "407dbacb0a0fcd5eca28abe781be635476325a65",
         "included_file_paths": [
@@ -262,7 +262,7 @@
     },
     {
         "id": "TC024",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
         "repository_url": "https://github.com/apache/cassandra",
         "commit_hash": "b15a1f04b61e11bc3b9719c06bffb9fa672a25cd",
         "included_file_paths": [
@@ -276,7 +276,7 @@
     },
     {
         "id": "TC025",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
         "repository_url": "https://github.com/apache/cassandra",
         "commit_hash": "4fc8bb29fcda935728d8863a4499fa0e9d924b82",
         "included_file_paths": [
@@ -288,7 +288,7 @@
     },
     {
         "id": "TC026",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\camel",
         "repository_url": "https://github.com/apache/camel",
         "commit_hash": "293ad682e312ebd9fdac49c90d242595c43d3916",
         "included_file_paths": [
@@ -298,7 +298,7 @@
     },
     {
         "id": "TC027",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\camel",
         "repository_url": "https://github.com/apache/camel",
         "commit_hash": "2f8a0881ed6e65cecf9bf7ae2e3968f2751d8bd1",
         "included_file_paths": [
@@ -309,7 +309,7 @@
     },
     {
         "id": "TC028",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\camel",
         "repository_url": "https://github.com/apache/camel",
         "commit_hash": "32895ccfeae995497a275754dafcad38947447b7",
         "included_file_paths": [
@@ -319,7 +319,7 @@
     },
     {
         "id": "TC029",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\camel",
         "repository_url": "https://github.com/apache/camel",
         "commit_hash": "b3797fc19a260c9ec8cc292fd3b2a6f254b5030a",
         "included_file_paths": [
@@ -330,7 +330,7 @@
     },
     {
         "id": "TC030",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\camel",
         "repository_url": "https://github.com/apache/camel",
         "commit_hash": "529d1ccca1f0b0e7bf6e7092bbe53d41c342c6a3",
         "included_file_paths": [
@@ -342,7 +342,7 @@
     },
     {
         "id": "TC031",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\maven",
         "repository_url": "https://github.com/apache/maven",
         "commit_hash": "6767f2500f1d005924ccff27f04350c253858a84",
         "included_file_paths": [
@@ -354,7 +354,7 @@
     },
     {
         "id": "TC032",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\maven",
         "repository_url": "https://github.com/apache/maven",
         "commit_hash": "36de1c6e512435dffe0f27e1c117bd725cfba293",
         "included_file_paths": [
@@ -365,7 +365,7 @@
     },
     {
         "id": "TC033",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\maven",
         "repository_url": "https://github.com/apache/maven",
         "commit_hash": "84ed8bea95c7ad45270a2a8e940f8ce3914b751d",
         "included_file_paths": [
@@ -375,7 +375,7 @@
     },
     {
         "id": "TC034",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\maven",
         "repository_url": "https://github.com/apache/maven",
         "commit_hash": "9f2ef3434390da0f558224acccfdbdc9194c65e9",
         "included_file_paths": [
@@ -385,7 +385,7 @@
     },
     {
         "id": "TC035",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\maven",
         "repository_url": "https://github.com/apache/maven",
         "commit_hash": "4bd12915c9399e02d4826e5150c1a9c735d12765",
         "included_file_paths": [
@@ -396,7 +396,7 @@
     },
     {
         "id": "TC036",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
         "repository_url": "https://github.com/apache/opennlp",
         "commit_hash": "c9440e68e098654a9f4315c816d0f0dd0cbef7b5",
         "included_file_paths": [
@@ -406,7 +406,7 @@
     },
     {
         "id": "TC037",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
         "repository_url": "https://github.com/apache/opennlp",
         "commit_hash": "5310565f6f402a93a41222050ab6f88f9f13d013",
         "included_file_paths": [
@@ -418,7 +418,7 @@
     },
     {
         "id": "TC038",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
         "repository_url": "https://github.com/apache/opennlp",
         "commit_hash": "e91ceb17e36120b66dafdf15d2e11fc6a59c92c6",
         "included_file_paths": [
@@ -431,7 +431,7 @@
     },
     {
         "id": "TC039",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
         "repository_url": "https://github.com/apache/opennlp",
         "commit_hash": "374bee9324dfb69dcb2735f3ca4d7de57f10918f",
         "included_file_paths": [
@@ -444,7 +444,7 @@
     },
     {
         "id": "TC040",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
         "repository_url": "https://github.com/apache/opennlp",
         "commit_hash": "a1c46d185ab39a1e93bf77c6f211b4178bba5e4a",
         "included_file_paths": [
@@ -457,7 +457,7 @@
     },
     {
         "id": "TC041",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
         "repository_url": "https://github.com/apache/zookeeper",
         "commit_hash": "91ab3f5274658a457f205065233db038ba7e622f",
         "included_file_paths": [
@@ -468,7 +468,7 @@
     },
     {
         "id": "TC042",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
         "repository_url": "https://github.com/apache/zookeeper",
         "commit_hash": "e2070bed85d8b0c98a5a0045bf92421f473c412e",
         "included_file_paths": [
@@ -480,7 +480,7 @@
     },
     {
         "id": "TC043",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
         "repository_url": "https://github.com/apache/zookeeper",
         "commit_hash": "c0e92411fbb38025d4cd257835cf5e4afeea4956",
         "included_file_paths": [
@@ -490,7 +490,7 @@
     },
     {
         "id": "TC044",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
         "repository_url": "https://github.com/apache/zookeeper",
         "commit_hash": "9f355f5a57f35d3760f8e669696622135c457938",
         "included_file_paths": [
@@ -501,7 +501,7 @@
     },
     {
         "id": "TC045",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
         "repository_url": "https://github.com/apache/zookeeper",
         "commit_hash": "58e0a7741533ec3598c619c526208f8a90f5756c",
         "included_file_paths": [
@@ -511,7 +511,7 @@
     },
     {
         "id": "TC046",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\drill",
         "repository_url": "https://github.com/apache/drill",
         "commit_hash": "ce7874479cee9ac0a60bb4ea24af090212df0ece",
         "included_file_paths": [
@@ -522,7 +522,7 @@
     },
     {
         "id": "TC047",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\drill",
         "repository_url": "https://github.com/apache/drill",
         "commit_hash": "6d94399fef380d55d79bff390bfaf3a7e2f61805",
         "included_file_paths": [
@@ -532,7 +532,7 @@
     },
     {
         "id": "TC048",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\drill",
         "repository_url": "https://github.com/apache/drill",
         "commit_hash": "ac98f349e86673555c2e2161cbd42c304840b5b9",
         "included_file_paths": [
@@ -546,7 +546,7 @@
     },
     {
         "id": "TC049",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\drill",
         "repository_url": "https://github.com/apache/drill",
         "commit_hash": "1c23173549ee53481316c85a65028f6ff9fb1b93",
         "included_file_paths": [
@@ -556,7 +556,7 @@
     },
     {
         "id": "TC050",
-        "repository_path": "..\\\\..\\\\..\\\\RepoTugasAkhir\\\\drill",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\drill",
         "repository_url": "https://github.com/apache/drill",
         "commit_hash": "e9afb95f161f1fec527a04458adf78add91567bc",
         "included_file_paths": [
