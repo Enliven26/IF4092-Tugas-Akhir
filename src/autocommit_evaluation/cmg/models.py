@@ -7,4 +7,7 @@ class CommitMessageGenerationResultModel:
 class EvaluationResultModel:
     def __init__(self):
         self.evaluation_id: str = ""
+        self.commit_url: str = ""
+        self.jira_url: str = ""
+        self.included_file_paths: list[str] = []
         self.generation_results: list[CommitMessageGenerationResultModel] = []
