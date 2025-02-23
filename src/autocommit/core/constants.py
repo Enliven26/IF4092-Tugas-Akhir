@@ -112,7 +112,9 @@ Follow this format for the commit message:
 
 {{body}}
 
-Avoid adding any additional comments or annotations to the commit message. Avoid creating more than one body paragraph.
+Avoid creating more than one body paragraph.
+
+Avoid adding any additional comments or annotations to the commit message. Any additional words or characters other than the commit message will break the system.
 
 Git diff:
 {diff}
@@ -134,7 +136,9 @@ Follow this format for the commit message:
 
 {{body}}
 
-Avoid adding any additional comments or annotations to the commit message. Avoid creating more than one body paragraph.
+Avoid creating more than one body paragraph.
+
+Avoid adding any additional comments or annotations to the commit message. Any additional words or characters other than the commit message will break the system. You only have to generate the fourth commit message.
 
 Git diff 1:
 $diff_1
@@ -207,7 +211,9 @@ Follow this format for the commit message:
 
 {{body}}
 
-Avoid adding any additional comments or annotations to the commit message. Avoid creating more than one body paragraph.
+Avoid creating more than one body paragraph.
+
+Avoid adding any additional comments or annotations to the commit message. Any additional words or characters other than the commit message will break the system.
 
 Git diff:
 {diff}
@@ -229,7 +235,9 @@ Follow this format for the commit message:
 
 {{body}}
 
-Avoid adding any additional comments or annotations to the commit message. Avoid creating more than one body paragraph.
+Avoid creating more than one body paragraph.
+
+Avoid adding any additional comments or annotations to the commit message. Any additional words or characters other than the commit message will break the system. You only have to generate the fourth commit message.
 
 Git diff 1:
 $diff_1
