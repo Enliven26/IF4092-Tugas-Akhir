@@ -2,16 +2,17 @@ import os
 import re
 from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import Optional
 
 import jsonpickle
 
 from autocommit.core.constants import END_DOCUMENT_SPLIT_SEPARATOR
 from autocommit.core.enums import DiffVersion
 from autocommit.core.git import IGit
-from autocommit_evaluation.core.jira import IJira
 from autocommit.core.models import CommitDataModel
 from autocommit.core.parsers.git import IDiffParser
 from autocommit.core.parsers.language.base import ICodeParser
+from autocommit_evaluation.core.jira import IJira
 from autocommit_evaluation.datapreparation.constants import DEFAULT_EXAMPLES_FILE_NAME
 from autocommit_evaluation.datapreparation.models import ExampleGenerationResultModel
 
@@ -64,13 +65,35 @@ class JiraContextGenerator(IContextGenerator):
         full_path = os.path.join(parent_output_path, relative_path, file_name)
         self.__create_folder_if_not_exist(full_path)
 
-        with open(full_path, "a", encoding="utf-8") as file:
-            if os.path.exists(full_path) and os.path.getsize(full_path) > 0:
-                file.write(END_DOCUMENT_SPLIT_SEPARATOR)
-
+        with open(full_path, "w") as file:
             file.write(context)
 
-    def generate_context(self, commits: list[CommitDataModel], parent_output_path: str):
+    def __filter_commits_by_repo_name(
+        self, commits: list[CommitDataModel], repo_name_filters: Optional[list[str]]
+    ) -> list[CommitDataModel]:
+        if repo_name_filters is None:
+            return commits
+
+        filtered_commits = []
+
+        for commit in commits:
+            repo_url = commit.repository_url
+
+            for repo_name_filter in repo_name_filters:
+                if repo_url.endswith(repo_name_filter):
+                    filtered_commits.append(commit)
+                    break
+
+        return filtered_commits
+
+    def generate_context(
+        self,
+        commits: list[CommitDataModel],
+        parent_output_path: str,
+        repo_name_filters: Optional[list[str]] = None,
+    ):
+
+        commits = self.__filter_commits_by_repo_name(commits, repo_name_filters)
         grouped_commits: dict[str, list[CommitDataModel]] = {}
 
         for commit in commits:
