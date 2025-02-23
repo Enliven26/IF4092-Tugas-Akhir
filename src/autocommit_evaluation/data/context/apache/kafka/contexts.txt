@@ -60,53 +60,83 @@ Another test case, which is essentially the same as the previous one, starts wit
         }
     }
 {code}
-Â 
+ 
 
-[0]: [https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/clients/producer/internals/TransactionManager.java#L857-L865]
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: KAFKA-806
-Issue Summary: Index may not always observe log.index.interval.bytes
-Issue Type: Improvement
-Priority: Major
+[0]: [https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/clients/producer/internals/TransactionManager.java#L857-L865]--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: KAFKA-14020
+Issue Summary: Performance regression in Producer
+Issue Type: Bug
+Priority: Blocker
 
 Description:
-Currently, each log.append() will add at most 1 index entry, even when the appended data is larger than log.index.interval.bytes. One potential issue is that if a follower restarts after being down for a long time, it may fetch data much bigger than log.index.interval.bytes at a time. This means that fewer index entries are created, which can increase the fetch time from the consumers.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: KAFKA-17561
+[https://github.com/apache/kafka/commit/f7db6031b84a136ad0e257df722b20faa7c37b8a] introduced a 10% performance regression in the KafkaProducer under a default config.
+
+ 
+
+The context for this result is a benchmark that we run for Kafka Streams. The benchmark provisions 5 independent AWS clusters, including one broker node on an i3.large and one client node on an i3.large. During a benchmark run, we first run the Producer for 10 minutes to generate test data, and then we run Kafka Streams under a number of configurations to measure its performance.
+
+Our observation was a 10% regression in throughput under the simplest configuration, in which Streams simply consumes from a topic and does nothing else. That benchmark actually runs faster than the producer that generates the test data, so its thoughput is bounded by the data generator's throughput. After investigation, we realized that the regression was in the data generator, not the consumer or Streams.
+
+We have numerous benchmark runs leading up to the commit in question, and they all show a throughput in the neighborhood of 115,000 records per second. We also have 40 runs including and after that commit, and they all show a throughput in the neighborhood of 105,000 records per second. A test on [trunk with the commit reverted |https://github.com/apache/kafka/pull/12342] shows a return to around 115,000 records per second.
+
+Config:
+{code:java}
+final Properties properties = new Properties();
+properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, broker);
+properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+{code}
+Here's the producer code in the data generator. Our tests were running with three produceThreads.
+{code:java}
+ for (int t = 0; t < produceThreads; t++) {
+    futures.add(executorService.submit(() -> {
+        int threadTotal = 0;
+        long lastPrint = start;
+        final long printInterval = Duration.ofSeconds(10).toMillis();
+        long now;
+        try (final org.apache.kafka.clients.producer.Producer<String, String> producer = new KafkaProducer<>(producerConfig(broker))) {
+            while (limit > (now = System.currentTimeMillis()) - start) {
+                for (int i = 0; i < 1000; i++) {
+                    final String key = keys.next();
+                    final String data = dataGen.generate();
+
+                    producer.send(new ProducerRecord<>(topic, key, valueBuilder.apply(key, data)));
+
+                    threadTotal++;
+                }
+
+                if ((now - lastPrint) > printInterval) {
+                    System.out.println(Thread.currentThread().getName() + " produced " + numberFormat.format(threadTotal) + " to " + topic + " in " + Duration.ofMillis(now - start));
+                    lastPrint = now;
+                }
+            }
+        }
+        total.addAndGet(threadTotal);
+        System.out.println(Thread.currentThread().getName() + " finished (" + numberFormat.format(threadTotal) + ") in " + Duration.ofMillis(now - start));
+    }));
+}{code}
+As you can see, this is a very basic usage.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: KAFKA-17561
 Issue Summary: Operator Metrics for Kafka Streams
 Issue Type: Improvement
 Priority: Major
 
 Description:
-This task for adding 3 new metrics to Kafka StreamsÂ 
+This task for adding 3 new metrics to Kafka Streams 
  # client-state the current state of the Kafka Streams client
  # thread-state a client-level metric for the state of each `StreamThread`
- # recording-level a metric that reflects the current recording level of KafkaStreams metrics
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: KAFKA-18211
+ # recording-level a metric that reflects the current recording level of KafkaStreams metrics--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: KAFKA-18211
 Issue Summary: ClassGraph scanning does not correctly find isolated connect plugins
 Issue Type: Bug
 Priority: Blocker
 
 Description:
-Connect used to use reflections scanner for scanning and identifying connect plugins in its plugin.path. This would load said plugins in isolation via the use of a child first PluginClassloader, which is designed to load class from its set of URIs before delegating to parent, if not found. This effectively enforces that if a plugin and its dependencies are part of a plugin path it would not conflict with other plugins in the plugin path or plugins in classpath.Â 
+Connect used to use reflections scanner for scanning and identifying connect plugins in its plugin.path. This would load said plugins in isolation via the use of a child first PluginClassloader, which is designed to load class from its set of URIs before delegating to parent, if not found. This effectively enforces that if a plugin and its dependencies are part of a plugin path it would not conflict with other plugins in the plugin path or plugins in classpath. 
 
-Â 
+ 
 
-GlassGraph was introduced as a replacement for the older reflections scanner in [KAFKA-15203 Use Classgraph since org.reflections is no longer under maintainence by PARADOXST Â· Pull Request #16604 Â· apache/kafka|https://github.com/apache/kafka/pull/16604]. It is used in place of reflections scanner for finding plugins during plugin scanning. The issue here is that it is missing any plugins present in isolated plugin paths if its already present in classpath.Â  We can repro this by adding the json converter under an isolated plugin path and starting connect with debug logs. We can see the logs from ReflectionsScanner and find that the ClassGraph loader is always fetching the plugin from the classpath even though the PluginClassLoader is provided. This is causing [kafka/connect/runtime/src/main/java/org/apache/kafka/connect/runtime/isolation/ReflectionScanner.java at 520681c38dbefe497181c4fd5dfc793d54233408 Â· apache/kafka|https://github.com/apache/kafka/blob/520681c38dbefe497181c4fd5dfc793d54233408/connect/runtime/src/main/java/org/apache/kafka/connect/runtime/isolation/ReflectionScanner.java#L134] check to fail with the logs like.Â 
+GlassGraph was introduced as a replacement for the older reflections scanner in [KAFKA-15203 Use Classgraph since org.reflections is no longer under maintainence by PARADOXST · Pull Request #16604 · apache/kafka|https://github.com/apache/kafka/pull/16604]. It is used in place of reflections scanner for finding plugins during plugin scanning. The issue here is that it is missing any plugins present in isolated plugin paths if its already present in classpath.  We can repro this by adding the json converter under an isolated plugin path and starting connect with debug logs. We can see the logs from ReflectionsScanner and find that the ClassGraph loader is always fetching the plugin from the classpath even though the PluginClassLoader is provided. This is causing [kafka/connect/runtime/src/main/java/org/apache/kafka/connect/runtime/isolation/ReflectionScanner.java at 520681c38dbefe497181c4fd5dfc793d54233408 · apache/kafka|https://github.com/apache/kafka/blob/520681c38dbefe497181c4fd5dfc793d54233408/connect/runtime/src/main/java/org/apache/kafka/connect/runtime/isolation/ReflectionScanner.java#L134] check to fail with the logs like. 
 {code:java}
 [2024-12-11 07:29:28,968] DEBUG class org.apache.kafka.connect.json.JsonConverter from other classloader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 is visible from C:\Users\user\Desktop\confluent\testing\plugins3\connect-file-1.2.1-T-0.9.0-P-3.1, excluding to prevent isolated loading (org.apache.kafka.connect.runtime.isolation.ReflectionScanner:135)
-[2024-12-11 07:29:28,969] DEBUG class org.apache.kafka.connect.json.JsonConverter from other classloader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 is visible from C:\Users\user\Desktop\confluent\testing\plugins3\connect-file-1.2.1-T-0.9.0-P-3.1, excluding to prevent isolated loading (org.apache.kafka.connect.runtime.isolation.ReflectionScanner:135) {code}
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: KAFKA-9192
+[2024-12-11 07:29:28,969] DEBUG class org.apache.kafka.connect.json.JsonConverter from other classloader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 is visible from C:\Users\user\Desktop\confluent\testing\plugins3\connect-file-1.2.1-T-0.9.0-P-3.1, excluding to prevent isolated loading (org.apache.kafka.connect.runtime.isolation.ReflectionScanner:135) {code}--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: KAFKA-9192
 Issue Summary: NullPointerException if field in schema not present in value
 Issue Type: Bug
 Priority: Major
