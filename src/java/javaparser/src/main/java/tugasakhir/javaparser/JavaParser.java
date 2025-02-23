@@ -23,9 +23,25 @@ public class JavaParser {
             
             Gson gson = new Gson();
             List<int[]> lineRanges = gson.fromJson(lineRangesJson, new com.google.gson.reflect.TypeToken<List<int[]>>(){}.getType());
-            
-            CompilationUnit cu = StaticJavaParser.parse(javaSourceCode);
             List<String> result = new ArrayList<>();
+
+            CompilationUnit cu = null;
+            for (ParserConfiguration.LanguageLevel level : ParserConfiguration.LanguageLevel.values()) {
+                try {
+                    ParserConfiguration parserConfiguration = new ParserConfiguration();
+                    parserConfiguration.setLanguageLevel(level);
+
+                    com.github.javaparser.JavaParser javaParser = new com.github.javaparser.JavaParser(parserConfiguration);
+
+                    cu = javaParser.parse(javaSourceCode).getResult().orElseThrow();
+                    break;
+                } catch (Exception e) {
+                }
+            }
+
+            if (cu == null) {
+                throw new RuntimeException("Parsing failed with all Java versions.");
+            }
             
             for (Node childNode : cu.getChildNodes()) {
                 processNode(childNode, lineRanges, javaSourceCode, result);
