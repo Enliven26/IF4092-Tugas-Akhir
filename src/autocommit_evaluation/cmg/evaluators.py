@@ -290,6 +290,7 @@ class Evaluator(IEvaluator):
             prompt_input.vector_store_path = os.path.join(
                 parent_context_path, commit.get_vector_store_relative_path()
             )
+            prompt_input.id = commit.id
 
             prompt_inputs.append(prompt_input)
 
