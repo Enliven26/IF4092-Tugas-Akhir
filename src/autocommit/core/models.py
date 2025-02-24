@@ -20,6 +20,7 @@ class CommitMessageGenerationPromptInputModel:
         self.source_code: str = ""
         self.context_file_path = ""
         self.vector_store_path = ""
+        self.id: str = ""
 
 
 class DataGenerationPromptInputModel:

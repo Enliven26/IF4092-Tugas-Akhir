@@ -273,7 +273,11 @@ class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
     @traceable(run_type="llm")
     def invoke(self, prompt_input: CommitMessageGenerationPromptInputModel) -> str:
         return self.__chain.invoke(
-            {"diff": prompt_input.diff, "source_code": prompt_input.source_code}
+            {
+                "diff": prompt_input.diff,
+                "source_code": prompt_input.source_code,
+                "id": prompt_input.id,
+            }
         )
 
     @traceable(run_type="llm")
@@ -281,7 +285,10 @@ class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
         self, prompt_inputs: list[CommitMessageGenerationPromptInputModel]
     ) -> list[str]:
         return self.__chain.batch(
-            [{"diff": pi.diff, "source_code": pi.source_code} for pi in prompt_inputs]
+            [
+                {"diff": pi.diff, "source_code": pi.source_code, "id": pi.id}
+                for pi in prompt_inputs
+            ]
         )
 
 
@@ -520,6 +527,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
                 "source_code": prompt_input.source_code,
                 "context_file_path": prompt_input.context_file_path,
                 "vector_store_path": prompt_input.vector_store_path,
+                "id": prompt_input.id,
             }
         )
 
@@ -534,6 +542,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
                     "source_code": pi.source_code,
                     "context_file_path": pi.context_file_path,
                     "vector_store_path": pi.vector_store_path,
+                    "id": pi.id,
                 }
                 for pi in prompt_inputs
             ]
