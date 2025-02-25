@@ -1,12 +1,12 @@
 [
     {
-        "id": "TC001",
-        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\drill",
-        "repository_url": "https://github.com/apache/drill",
-        "commit_hash": "9d6af6dea6ed6f47f45a2bd064c01bf69d85acbf",
+        "id": "ETC001",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_url": "https://github.com/apache/kafka",
+        "commit_hash": "cf5a86b654fd0be0c15bd47ca711bcea75d9d800",
         "included_file_paths": [
-            "contrib/storage-hive/core/src/main/java/org/apache/drill/exec/store/hive/HiveStoragePlugin.java",
-            "contrib/storage-hive/core/src/test/java/org/apache/drill/exec/TestHivePartitionPruning.java"
+            "core/src/main/java/kafka/log/remote/RemoteLogManager.java",
+            "core/src/test/java/kafka/log/remote/RemoteLogManagerTest.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     }

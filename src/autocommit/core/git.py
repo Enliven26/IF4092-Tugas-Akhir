@@ -50,31 +50,32 @@ class Git(IGit):
             command.append("--")
             command.extend(included_file_paths)
 
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
-        
-        if result.stderr:
-            raise Exception(f"Error while retrieving diff: {result.stderr}")
+        result = subprocess.run(command, capture_output=True, text=True, check=True, encoding="utf-8")
 
         return result.stdout
 
     def get_file_content(self, repo_path: str, commit_hash: str, file_path: str) -> str:
-        command = ["git", "-C", repo_path, "show", f"{commit_hash}:{file_path}"]
+        command = [
+            "git",
+            "-C",
+            repo_path,
+            "show",
+            f"{commit_hash}:{file_path}",
+        ]
+        result = subprocess.run(
+            command, 
+            capture_output=True, 
+            text=True, 
+            check=True,
+            encoding="utf-8")
 
-        try:
-            result = subprocess.run(command, capture_output=True, text=True, check=True)
-            return result.stdout
+        if result.stdout is None:
+            pass
 
-        except subprocess.CalledProcessError:
-            logging.exception("Error while retrieving file content:")
-            return ""
+        return result.stdout
 
     def get_commit_message(self, repo_path: str, commit_hash: str) -> str:
         command = ["git", "-C", repo_path, "log", "-1", "--pretty=%B", commit_hash]
+        result = subprocess.run(command, capture_output=True, text=True, check=True, encoding="utf-8")
 
-        try:
-            result = subprocess.run(command, capture_output=True, text=True, check=True)
-            return result.stdout
-
-        except subprocess.CalledProcessError:
-            logging.exception("Error while retrieving commit message:")
-            return ""
+        return result.stdout

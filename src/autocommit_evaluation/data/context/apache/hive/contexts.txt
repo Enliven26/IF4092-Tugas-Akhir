@@ -44,11 +44,7 @@ In function _org.apache.hadoop.hive.ql.parse.SemanticAnalyzer#createFileSinkDesc
 
 we should modify the function  _org.apache.hadoop.hive.ql.parse.SemanticAnalyzer#createFileSinkDesc_ to treat _QBMetaData.DEST_LOCAL_FILE_ and _QBMetaData.DEST_DFS_FILE_ differently by giving the value _ctx.getMRTmpPath().toString()_ to _statsTmpLoc_ to avoid creating a wrong intermediate direcoty. 
 
- 
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HIVE-28662
+ --- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HIVE-28662
 Issue Summary: Enable the dynamic leader election for HMS
 Issue Type: Improvement
 Priority: Major
@@ -56,11 +52,7 @@ Priority: Major
 Description:
 In the Hive ACID world, we must enable the metastore.compactor.initiator.on and metastore.compactor.cleaner.on on HMS to trigger the table compaction automatically. In a real warehouse, we might have multiple HMS instances behind, or even deploy for different purposes, running the tasks like these on all instances could be a waste of resources, make the HMS scale out not so easily. 
 
-The HIVE-26509 introduces the dynamic leader election. Compared to the old one, the administrator doesn't need to know the deployment beforehand, and a shared properties can be used across all the HMS instances, simple yet effective.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HIVE-28637
+The HIVE-26509 introduces the dynamic leader election. Compared to the old one, the administrator doesn't need to know the deployment beforehand, and a shared properties can be used across all the HMS instances, simple yet effective.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HIVE-28637
 Issue Summary: Fix the issue of datasize becoming negative due to overflow during addition
 Issue Type: Bug
 Priority: Major
@@ -79,11 +71,7 @@ basicStatsState = inferColumnStatsState(basicStatsState, stats.basicStatsState);
 public void addToDataSize(long rds) {
 dataSize += rds;
 }
-```
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HIVE-28594
+```--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HIVE-28594
 Issue Summary: HS2 WebUI's LDAP authentication has security issues
 Issue Type: Bug
 Priority: Blocker
@@ -97,11 +85,7 @@ However, the following code in LDAPAuthenticationFilter seems to have security i
 
 Here, {{request.getRequestURI()}} is used to obtain the access URI and {{endswith}} is used to determine the current access route.
 
-However, for this writing, attackers can use SEMICOLON to forge a URI suffix, for example: {{/hiveserver2.jsp;login}}, and this causes permission escape.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HIVE-28633
+However, for this writing, attackers can use SEMICOLON to forge a URI suffix, for example: {{/hiveserver2.jsp;login}}, and this causes permission escape.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HIVE-28633
 Issue Summary: Insert to Bucketed Partition table fails with CBO=false and dynamic sort partition optimization enabled
 Issue Type: Bug
 Priority: Major
@@ -130,4 +114,59 @@ Error:
     at org.apache.hadoop.hive.ql.parse.TaskCompiler.compile(TaskCompiler.java:182)
     at org.apache.hadoop.hive.ql.parse.SemanticAnalyzer.compilePlan(SemanticAnalyzer.java:13096)
     at org.apache.hadoop.hive.ql.parse.SemanticAnalyzer.analyzeInternal(SemanticAnalyzer.java:13331)
-    at org.apache.hadoop.hive.ql.parse.SemanticAnalyzer.analyzeInternal(SemanticAnalyzer.java:12669|
+    at org.apache.hadoop.hive.ql.parse.SemanticAnalyzer.analyzeInternal(SemanticAnalyzer.java:12669|--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HIVE-27536
+Issue Summary: Merge task must be invoked after optimisation for external CTAS queries
+Issue Type: Bug
+Priority: Major
+
+Description:
+Merge task is not invoked on S3 file system / object stores when CTAS query is performed. 
+Repro test - Test.q
+{code:java}
+--! qt:dataset:src
+set hive.mapred.mode=nonstrict;
+set hive.explain.user=false;
+set hive.merge.mapredfiles=true;
+set hive.merge.mapfiles=true;
+set hive.merge.tezfiles=true;
+set hive.blobstore.supported.schemes=hdfs,file;
+set hive.merge.smallfiles.avgsize=7500;
+
+-- SORT_QUERY_RESULTS
+
+create table part_source(key string, value string) partitioned by (ds string);
+create table source(key string);
+
+-- The partitioned table must have 2 files per partition (necessary for merge task)
+insert overwrite table part_source partition(ds='102') select * from src;
+insert into table part_source partition(ds='102') select * from src;
+insert overwrite table part_source partition(ds='103') select * from src;
+insert into table part_source partition(ds='102') select * from src;
+
+-- The unpartitioned table must have 2 files.
+insert overwrite table source select key from src;
+insert into table source select key from src;
+
+-- Create CTAS tables both for unpartitioned and partitioned cases for ORC formats.
+explain analyze create external table ctas_table stored as orc as select * from source;
+create external table ctas_table stored as orc as select * from source;
+explain analyze create external table ctas_part_table partitioned by (ds) stored as orc as select * from part_source;
+create external table ctas_part_table partitioned by (ds) stored as orc as select * from part_source;
+
+-- This must be 1 indicating there is 1 file after merge.
+select count(distinct(INPUT__FILE__NAME)) from ctas_table;
+-- This must be 2 indicating there is 1 file per partition after merge.
+select count(distinct(INPUT__FILE__NAME)) from ctas_part_table;
+
+-- Create CTAS tables both for unpartitioned and partitioned cases for non-ORC formats.
+explain analyze create external table ctas_table_non_orc as select * from source;
+create external table ctas_table_non_orc as select * from source;
+explain analyze create external table ctas_part_table_non_orc partitioned by (ds) as select * from part_source;
+create external table ctas_part_table_non_orc partitioned by (ds) as select * from part_source;
+
+-- This must be 1 indicating there is 1 file after merge.
+select count(distinct(INPUT__FILE__NAME)) from ctas_table_non_orc;
+-- This must be 2 indicating there is 1 file per partition after merge.
+select count(distinct(INPUT__FILE__NAME)) from ctas_part_table_non_orc;
+{code}
+ 

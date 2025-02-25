@@ -6,11 +6,7 @@ Priority: Minor
 Description:
 With the recent addition of {{BratNameSampleStreamFactoryTest}} via OPENNLP-1695, it became obvious (Eval test run), that the code in BratDocumentStream is prone to non-determinism. This stems from the fact that {{java.util.File#listFiles(..)}} does not guarantee any order of the returned elements. 
 
-A potential fix for achieving determinism again is to sort the result of listFiles(..) alphabetically in ASC order.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: OPENNLP-1667
+A potential fix for achieving determinism again is to sort the result of listFiles(..) alphabetically in ASC order.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: OPENNLP-1667
 Issue Summary: Add thread-safe version of ChunkerME
 Issue Type: New Feature
 Priority: Major
@@ -21,11 +17,7 @@ Currently, ChunkerME is not thread-safe. With OPENNLP-936, a thread-safe version
 However, this was not done for the Chunker case.
 Let's introduce and provide ThreadSafeChunkerME.
 
-
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: OPENNLP-1661
+--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: OPENNLP-1661
 Issue Summary: Fix custom models being wiped from OpenNLP user.home directory
 Issue Type: Bug
 Priority: Major
@@ -50,11 +42,7 @@ Aims:
 * Reduce load for ASF infrastructure
 * Reduce overall ecological footprint
 
-Note: Same applies for 'ci' Maven profile. As long as no "mvn clean" is executed, existing models kept in a build's {{target}} folder should not be wiped and not be re-downloaded per test suite execution.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: OPENNLP-1655
+Note: Same applies for 'ci' Maven profile. As long as no "mvn clean" is executed, existing models kept in a build's {{target}} folder should not be wiped and not be re-downloaded per test suite execution.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: OPENNLP-1655
 Issue Summary: Add constructors in SentenceDetectorME and TokenizerME to inject custom abbreviation dictionary
 Issue Type: Improvement
 Priority: Major
@@ -64,11 +52,7 @@ Users of {{TokenizerME}} and/or {{SentenceDetectorME}} may want to load an addi
 
 However, this is not possible right now, at construction time of those classes.
 
-Let's fix this by adding an additional constructor providing more flexibility.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: OPENNLP-1600
+Let's fix this by adding an additional constructor providing more flexibility.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: OPENNLP-1600
 Issue Summary: Ability to disable POS mapper
 Issue Type: New Feature
 Priority: Major
@@ -82,11 +66,7 @@ It would be great if there was a was to disable the POS mapper.
 
 In fact, I would propose that POS mapping is turned off by default unless a POS mapper is manually supplied to the POS tagger - so stuff would remain backwards compatible.
 
-But at least being able to turn of the mapper and/or to provide a custom mapper would be appreciated.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: OPENNLP-1620
+But at least being able to turn of the mapper and/or to provide a custom mapper would be appreciated.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: OPENNLP-1620
 Issue Summary: It should be possible to remove the allocated ThreadLocal
 Issue Type: Improvement
 Priority: Major

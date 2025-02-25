@@ -23,7 +23,6 @@ from autocommit.core.constants import (
     DEFAULT_RETRIEVER_SPLIT_RESULT_COUNT,
     DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE,
     END_DOCUMENT_SPLIT_SEPARATOR,
-    FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     HIGH_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE,
     HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE,
     LOW_LEVEL_CONTEXT_DIFF_CLASSIFIER_PROMPT_TEMPLATE,
@@ -160,7 +159,7 @@ class JiraContextDocumentRetriever(
         if os.path.isdir(file_path):
             raise ValueError("File path must be a file, not a directory.")
 
-        loader = TextLoader(file_path)
+        loader = TextLoader(file_path, encoding="utf-8")
         raw_documents = loader.load()
 
         split_documents = []
@@ -237,13 +236,14 @@ class CommitMessageGenerationChain(
 
 class LowLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
     def __init__(
-        self, diff_classifier: BaseRunnable[str, str], chat_model: BaseChatModel
+        self,
+        diff_classifier: BaseRunnable[str, str],
+        chat_model: BaseChatModel,
+        prompt_template: str,
     ):
         super().__init__()
 
-        prompt = PromptTemplate.from_template(
-            FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE
-        )
+        prompt = PromptTemplate.from_template(prompt_template)
 
         output_parser = StrOutputParser()
 

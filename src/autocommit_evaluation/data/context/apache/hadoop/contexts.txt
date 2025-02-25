@@ -10,11 +10,7 @@ It doesn't look like S3AInstrumentation.close() is being invoked in S3AFS.close(
 
 If you look at org.apache.hadoop.ipc.DecayRpcScheduler.MetricsProxy it uses a WeakReference to refer back to the larger object. we should do the same for abfs/s3a bindings. ideally do some template proxy class in hadoop common they can both use.
 
-
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HADOOP-19229
+--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HADOOP-19229
 Issue Summary: Vector IO on cloud storage: what is a good minimum seek size?
 Issue Type: Sub-task
 Priority: Major
@@ -35,11 +31,7 @@ now 16K and 1M
 * s3a and abfs use 128K as the minimum size, 2M for max.
 
 
-
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HADOOP-19031
+--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HADOOP-19031
 Issue Summary: CVE-2024-23454: Apache Hadoop: Temporary File Local Information Disclosure
 Issue Type: Bug
 Priority: Major
@@ -51,11 +43,7 @@ This is because, on unix-like systems, the system temporary directory is shared 
 
 Credit: Andrea Cosentino (finder)
 
-See: https://www.cve.org/CVERecord?id=CVE-2024-23454
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HADOOP-19339
+See: https://www.cve.org/CVERecord?id=CVE-2024-23454--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HADOOP-19339
 Issue Summary: OutofBounds Exception due to assumption about buffer size in BlockCompressorStream
 Issue Type: Bug
 Priority: Major
@@ -84,11 +72,7 @@ h3. How to Reproduce: 
 
 (2) Run test: org.apache.hadoop.io.compress.TestCodec#testSnappyMapFile
 
- 
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HADOOP-18845
+ --- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HADOOP-18845
 Issue Summary: Add ability to configure ConnectionTTL of http connections while creating S3 Client.
 Issue Type: Sub-task
 Priority: Major
@@ -99,11 +83,16 @@ The option fs.s3a.connection.ttl sets the maximum time an idle connection may be
 A lower value: fewer connections kept open, networking problems related to long-lived connections less likely
 A higher value: less time spent negotiating TLS connections when new connections are needed
 
+--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HADOOP-19393
+Issue Summary: ABFS: Returning FileAlreadyExists Exception for UnauthorizedBlobOverwrite Rename Errors
+Issue Type: Bug
+Priority: Minor
 
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: HADOOP-12657
+Description:
+ABFS driver adheres to Hadoop's expectations which does not allow rename blob overwrites. Recently we came across the case where UnauthorizedBlobOverwrite error (HTTP 403- Access Denied Exception) is thrown for rename overwrites (with SAS authentication).
+
+
+Remapping this error to FileAlreadyExists exception for better understanding.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: HADOOP-12657
 Issue Summary: Add a option to skip newline on empty files with getMerge -nl
 Issue Type: New Feature
 Priority: Minor

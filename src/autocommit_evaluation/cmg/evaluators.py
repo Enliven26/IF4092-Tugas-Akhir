@@ -108,6 +108,9 @@ class Evaluator(IEvaluator):
                 source_repo_path, commit_map[file_diff.version], file_diff.file_path
             )
 
+            if (file_content is None):
+                pass
+            
             new_implementations = self.__code_parser.get_declarations(
                 file_content, file_diff.line_ranges
             )

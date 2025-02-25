@@ -20,11 +20,7 @@ When we run nodetool enableauditlog the following logic is invoked: [https://g
 
 org.apache.cassandra.config.Config#audit_logging_options is created a generic reflective code which does not use the builder, so there is no trimming during a startup.
 
-It can be fixed by adding sanitisation during the startup parsing too to make the behaviour more consistent and less error prone.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: CASSANDRA-20135
+It can be fixed by adding sanitisation during the startup parsing too to make the behaviour more consistent and less error prone.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: CASSANDRA-20135
 Issue Summary: Assertion errors on CheckForAbort / QueryCancellationChecker on multiple calls of applyToPartition
 Issue Type: Bug
 Priority: Normal
@@ -153,11 +149,7 @@ I am not completely sure what we should do about this but two ideas are obvious 
 (7) https://github.com/apache/cassandra/blob/cassandra-4.1/src/java/org/apache/cassandra/db/ReadCommand.java#L619-L628
 (8) https://github.com/apache/cassandra/commit/f4b69ba0e82bb051e56a92d792142034d9f617f0#diff-554e7dff38b500f5eaed0b9b651c7098c3f8a1bd4f6aca12063eab352e685b9fR690
 
-cc [~jmckenzie] [~marcuse] [~aleksey]
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: CASSANDRA-20151
+cc [~jmckenzie] [~marcuse] [~aleksey]--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: CASSANDRA-20151
 Issue Summary: Enable filtering on keyspace, table and snapshot name in nodetool listsnapshots
 Issue Type: New Feature
 Priority: Normal
@@ -165,11 +157,7 @@ Priority: Normal
 Description:
 There might in practice hundreds of snapshots a user has a hard time navigate through in the current output of nodetool listsnapshots.
 
-The patch would consist of adding flags to listsnapshots so we can narrow down what snapshots to display.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: CASSANDRA-20149
+The patch would consist of adding flags to listsnapshots so we can narrow down what snapshots to display.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: CASSANDRA-20149
 Issue Summary: nodetool listsnapshots initiates two jmx calls unnecessarily
 Issue Type: Improvement
 Priority: Normal
@@ -190,11 +178,7 @@ It is more optimal to just return results in one response and sum few numbers on
 
 It is, actually, safer too. Because for now, total true snapshots size is returned _before_ we list snapshots. So what can happen, albeit quite improbably, is that a snapshot can be removed _after_ we call total true snapshot size method but _before_ we list all snapshots. So that means that total true disk size would be bigger than the sum of true disk sizes for all snapshots after one of them was removed. 
 
-This also means that a user will get true raw size (raw means not human friendly, human friendly is returned in the response already) of a snapshot in the result of snapshot details automatically. They do not need to call extra MBean method for that (which this patch opportunistically introduces too).
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: CASSANDRA-20108
+This also means that a user will get true raw size (raw means not human friendly, human friendly is returned in the response already) of a snapshot in the result of snapshot details automatically. They do not need to call extra MBean method for that (which this patch opportunistically introduces too).--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: CASSANDRA-20108
 Issue Summary: IndexOutOfBoundsException when accessing partition where the column was deleted
 Issue Type: Bug
 Priority: Normal
@@ -275,11 +259,13 @@ History of operations on this partition
 		67: Search on column s0
 {code}
 
-Here we see an insert was done so liveness info is generated, but we do delete on all columns leaving only the partition/clustering keys around...
+Here we see an insert was done so liveness info is generated, but we do delete on all columns leaving only the partition/clustering keys around...--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: CASSANDRA-15542
+Issue Summary: In JVM test for repairs on token boundaries 
+Issue Type: New Feature
+Priority: Low
 
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: CASSANDRA-20188
+Description:
+Putting partitions on each token range +-1 and making sure the logic end to end with repairs correctly handle inclusive and exclusivity of the bounds.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: CASSANDRA-20188
 Issue Summary: Allow hint delivery during schema mismatch
 Issue Type: Bug
 Priority: Normal

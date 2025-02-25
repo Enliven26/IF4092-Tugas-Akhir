@@ -24,11 +24,7 @@ I'd argue that the second option is the better one, especially since the java ap
 
 Additionally, it would be nice to have a "disable client hostname verification" option that still leaves server hostname verification enabled. Strictly speaking this is a separate issue though, I'd be happy to spin that out into a ticket of its own..
 
-
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: ZOOKEEPER-4753
+--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: ZOOKEEPER-4753
 Issue Summary: Explicit handling of DIGEST-MD5 vs GSSAPI in quorum auth
 Issue Type: Improvement
 Priority: Major
@@ -38,11 +34,7 @@ The SASL-based quorum authorizer does not explicitly distinguish between the DIG
 
 It turns out that some SASL/DIGEST-MD5 configurations cause authentication and authorization IDs not to match the expected format, and the DIGEST-MD5-based portions of the quorum test suite to fail with obscure errors. (They can be traced to failures to join the quorum, but only by looking into detailed logs.)
 
-We can use the login module name to determine whether DIGEST-MD5 or GSSAPI is used, and relax the authentication ID check for the former.  As a cleanup, we can keep the password-based credential map empty when Kerberos principals are expected.  Finally, we can adapt tests to ensure "weirdly-shaped" credentials only cause authentication failures in the GSSAPI case.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: ZOOKEEPER-4858
+We can use the login module name to determine whether DIGEST-MD5 or GSSAPI is used, and relax the authentication ID check for the former.  As a cleanup, we can keep the password-based credential map empty when Kerberos principals are expected.  Finally, we can adapt tests to ensure "weirdly-shaped" credentials only cause authentication failures in the GSSAPI case.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: ZOOKEEPER-4858
 Issue Summary: Remove the lock contention between snapshotting and the sync operation
 Issue Type: Bug
 Priority: Major
@@ -68,11 +60,7 @@ public synchronized void sync() {
 {code}
 
 
-
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: ZOOKEEPER-4377
+--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: ZOOKEEPER-4377
 Issue Summary: KeeperException.create has NullPointerException when low version client requests the high version server
 Issue Type: Bug
 Priority: Minor
@@ -81,11 +69,7 @@ Description:
 {code:java}
 blishment complete on server localhost/127.0.0.1:2180, sessionid = 0x1000278adba0129, negotiated timeout = 30000blishment complete on server localhost/127.0.0.1:2180, sessionid = 0x1000278adba0129, negotiated timeout = 30000java.lang.NullPointerException at org.apache.zookeeper.KeeperException.create(KeeperException.java:94) at org.apache.zookeeper.KeeperException.create(KeeperException.java:54) at org.apache.zookeeper.ZooKeeper.create(ZooKeeper.java:1538) at site.ycsb.db.zookeeper.ZKClient.insert(ZKClient.java:131) at site.ycsb.DBWrapper.insert(DBWrapper.java:227) at site.ycsb.workloads.CoreWorkload.doInsert(CoreWorkload.java:621) at site.ycsb.ClientThread.run(ClientThread.java:135) at java.lang.Thread.run(Thread.java:748)java.lang.NullPointerExceptionjava.lang.NullPointerException
  at org.apache.zookeeper.KeeperException.create(KeeperException.java:94) at org.apache.zookeeper.KeeperException.create(KeeperException.java:54) at org.apache.zookeeper.KeeperException.create(KeeperException.java:94) at org.apache.zookeeper.ZooKeeper.create(ZooKeeper.java:1538)
-{code}
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: ZOOKEEPER-3991
+{code}--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: ZOOKEEPER-3991
 Issue Summary: QuorumCnxManager Listener port bind retry does not retry DNS lookup
 Issue Type: Bug
 Priority: Minor
@@ -127,11 +111,7 @@ I have attached a repro.tar.gz to help reproduce this issue. Steps:
 
 I have also attached a patch that resolves this. The patch will retry DNS resolution if the address is still unresolved every time it tries to create the server socket.
 
- 
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: ZOOKEEPER-3160
+ --- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: ZOOKEEPER-3160
 Issue Summary: Custom User SSLContext
 Issue Type: New Feature
 Priority: Minor

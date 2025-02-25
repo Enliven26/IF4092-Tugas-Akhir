@@ -37,11 +37,7 @@ Expected result is:
 |null|null|null|2|Doctor|
 |null|null|null|3|Teacher|
 
-But we get 0 rows.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: DRILL-8489
+But we get 0 rows.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: DRILL-8489
 Issue Summary: Sender memory leak when rpc encode exception
 Issue Type: Bug
 Priority: Major
@@ -71,31 +67,19 @@ Caused by: org.apache.drill.exec.exception.OutOfMemoryException: Unable to alloc
         at org.apache.drill.exec.memory.DrillByteBufAllocator.buffer(DrillByteBufAllocator.java:50)
         at org.apache.drill.exec.rpc.RpcEncoder.encode(safeRelease.java:87)
         at org.apache.drill.exec.rpc.RpcEncoder.encode(RpcEncoder.java:38)
-        at io.netty.handler.codec.MessageToMessageEncoder.write(MessageToMessageEncoder.java:90){code}
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: DRILL-8503
+        at io.netty.handler.codec.MessageToMessageEncoder.write(MessageToMessageEncoder.java:90){code}--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: DRILL-8503
 Issue Summary: Add Configuration Option to Skip Host Validation for Splunk
 Issue Type: Improvement
 Priority: Major
 
 Description:
-This PR adds an option to skip host validation for SSL connections to Splunk. 
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: DRILL-4935
+This PR adds an option to skip host validation for SSL connections to Splunk. --- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: DRILL-4935
 Issue Summary: Allow drillbits to advertise a configurable host address to Zookeeper
 Issue Type: New Feature
 Priority: Minor
 
 Description:
-There are certain situations, such as running Drill in distributed Docker containers, in which it is desirable to advertise a different hostname to Zookeeper than would be output by INetAddress.getLocalHost().  I propose adding a configuration variable 'drill.exec.rpc.bit.advertised.host' and passing this address to Zookeeper when the configuration variable is populated, otherwise falling back to the present behavior.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: DRILL-8381
+There are certain situations, such as running Drill in distributed Docker containers, in which it is desirable to advertise a different hostname to Zookeeper than would be output by INetAddress.getLocalHost().  I propose adding a configuration variable 'drill.exec.rpc.bit.advertised.host' and passing this address to Zookeeper when the configuration variable is populated, otherwise falling back to the present behavior.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: DRILL-8381
 Issue Summary: Add support for filtered aggregate calls
 Issue Type: New Feature
 Priority: Major
@@ -133,11 +117,24 @@ SELECT `1` nations_count_in_1_region, `2` nations_count_in_2_region, `3` nations
 FROM (SELECT n_name, n_regionkey FROM cp.`tpch/nation.parquet`) 
 PIVOT(count(n_name) FOR n_regionkey IN (0, 1, 2, 3, 4))
 {code}
-And will return correct results when this issue is fixed and Calcite is updated to 1.33.0
+And will return correct results when this issue is fixed and Calcite is updated to 1.33.0--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: DRILL-8400
+Issue Summary: Fix pruning partitions with pushed transitive predicates
+Issue Type: Bug
+Priority: Major
 
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: DRILL-8400
+Description:
+See {{TestHivePartitionPruning.prunePartitionsBasedOnTransitivePredicates()}} test for details.
+
+The issue occurs for queries like these:
+{code:sql}
+SELECT * FROM hive.partition_pruning_test t1 
+JOIN hive.partition_with_few_schemas t2 ON t1.`d` = t2.`d` AND t1.`e` = t2.`e` 
+WHERE t2.`e` IS NOT NULL AND t1.`d` = 1
+{code}
+
+The expected behavior is to create additional filters based on the existing filters and join conditions. We have a {{TRANSITIVE_CLOSURE}} planning phase, which is responsible for such query transformations, but Drill pushes down filters from the WHERE condition before that phase, so the optimization is not performed.
+
+Ideally, we should move rules from the {{TRANSITIVE_CLOSURE}} phase to the {{LOGICAL}} phase so that the planner will choose the most optimal plan, but it wouldn't help until CALCITE-1048 is fixed (it is required to pull predicates when three has {{RelSubset}} nodes).--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: DRILL-8400
 Issue Summary: Fix pruning partitions with pushed transitive predicates
 Issue Type: Bug
 Priority: Major

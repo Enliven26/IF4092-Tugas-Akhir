@@ -6,11 +6,7 @@ Priority: Major
 Description:
 There are 3 places in PageFile (part of KahaDB) that call setLength() in RecoverableRandomAccessFile. This method was changed in AMQ-5578 so that it always throws an exception when called. This method should just be removed entirely since it always throws an error and in the places where it is used we need to either stop calling it if we can or throw an exception if the length is unexpected. 
 
-Currently when KahaDB tries to redo recovery updates, if the file length is encountered as 0 it will call this method which leads to throwing an exception. This causes the store to detect the error and rebuild the index. We should be able to just continue without calling this method and recover.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: AMQ-9473
+Currently when KahaDB tries to redo recovery updates, if the file length is encountered as 0 it will call this method which leads to throwing an exception. This causes the store to detect the error and rebuild the index. We should be able to just continue without calling this method and recover.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: AMQ-9473
 Issue Summary: Client SSL Socket configuration fails while settings parameters
 Issue Type: Bug
 Priority: Major
@@ -123,11 +119,7 @@ Fix for this issue would be:
            // ...
 {code}
  
-There is also similar code (https://github.com/apache/activemq/blob/3636a497ede5b95cf8257c2f359a3bc8a02fb325/activemq-jms-pool/src/main/java/org/apache/activemq/jms/pool/IntrospectionSupport.java#L87),  which probably should be corrected the same manner.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: AMQ-7424
+There is also similar code (https://github.com/apache/activemq/blob/3636a497ede5b95cf8257c2f359a3bc8a02fb325/activemq-jms-pool/src/main/java/org/apache/activemq/jms/pool/IntrospectionSupport.java#L87),  which probably should be corrected the same manner.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: AMQ-7424
 Issue Summary: NPE under very high database load
 Issue Type: Bug
 Priority: Major
@@ -164,11 +156,7 @@ Through debugging, we believe the following causes the connection leak in Active
  ... 1 more{noformat}
 By overloading the method {{commitRemoved(...)}} in {{JDBCPersistenceAdapter}} and converting the {{NullPointerException}} above to an {{IOException}}, the connection handling code behaves as expected. We see no connection leak, and the system recovers correctly after the load abnormality has passed.
 
-There is a very large number of things going wrong when these NPEs occur and its near impossible for us (not being experts at ActiveMQ) to see what the underlying cause for these exceptions are. However, for us, the most important is that we recover.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: AMQ-7480
+There is a very large number of things going wrong when these NPEs occur and its near impossible for us (not being experts at ActiveMQ) to see what the underlying cause for these exceptions are. However, for us, the most important is that we recover.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: AMQ-7480
 Issue Summary: NPE after XA transaction timeout
 Issue Type: Bug
 Priority: Major
@@ -228,11 +216,7 @@ Caused by: java.lang.NullPointerException
  at org.apache.activemq.transport.tcp.TcpTransport.doRun(TcpTransport.java:233) ~[activemq-client-5.15.12.jar:5.15.12]
  at org.apache.activemq.transport.tcp.TcpTransport.run(TcpTransport.java:215) ~[activemq-client-5.15.12.jar:5.15.12]
  at java.lang.Thread.run(Thread.java:834) ~[?:?]{noformat}
-It is believed that this might be related to, or have same underlying root condition as [#AMQ-7424]
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: AMQ-7068
+It is believed that this might be related to, or have same underlying root condition as [#AMQ-7424]--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: AMQ-7068
 Issue Summary: Advisory messages are empty when received with a AMQP subscription
 Issue Type: New Feature
 Priority: Minor
@@ -244,11 +228,16 @@ Accessing the advisory messages through the topic is not the problem, but the bo
 
 To be honest, I don't know if this is the desired behavior, but I think if there are messages on the advisory topic they should be useful.
 
-I know that a byte representation wouldn't be that useful, but you could present the information in json or xml format, like in Stomp? (https://issues.apache.org/jira/browse/AMQ-2098)
+I know that a byte representation wouldn't be that useful, but you could present the information in json or xml format, like in Stomp? (https://issues.apache.org/jira/browse/AMQ-2098)--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: AMQ-2098
+Issue Summary: Advisory messages are empty when received with a Stomp subscription
+Issue Type: Bug
+Priority: Major
 
---- RETRIEVED DOCUMENT SPLIT END ---
+Description:
+We need advisory messages for client connections, and we are stomp when connecting to ActiveMQ.  When we subscribe to ActiveMQ.Advisory.Connection, we get messages when clients connect of disconnect, but the messages are empty.  I suspect the information is lost when converting the ActiveMQMessage to a Stomp message.
 
-Ticket ID: AMQ-6894
+Some sort of simple serialization (like key: value pairs) of the ConnectionInfo object in ActiveMQMessage.getDataStructure would solve the problem.
+--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: AMQ-6894
 Issue Summary: Excessive number of connections by failover transport with priorityBackup
 Issue Type: Bug
 Priority: Major

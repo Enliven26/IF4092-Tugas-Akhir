@@ -57,7 +57,7 @@ class JiraContextGenerator(IContextGenerator):
             context = self.__get_jira_ticket_context(commit)
             contexts.append(context)
 
-        return END_DOCUMENT_SPLIT_SEPARATOR.join(contexts)
+        return f"\n\n{END_DOCUMENT_SPLIT_SEPARATOR}\n\n".join(contexts)
 
     def __write_context_to_file(
         self, parent_output_path: str, relative_path: str, file_name: str, context: str
@@ -65,7 +65,7 @@ class JiraContextGenerator(IContextGenerator):
         full_path = os.path.join(parent_output_path, relative_path, file_name)
         self.__create_folder_if_not_exist(full_path)
 
-        with open(full_path, "w") as file:
+        with open(full_path, "w", encoding="utf-8") as file:
             file.write(context)
 
     def __filter_commits_by_repo_name(
