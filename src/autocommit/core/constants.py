@@ -1,26 +1,13 @@
 import json
 import os
+import re
 from enum import Enum
 from string import Template
 from typing import Any
 
-DEFAULT_OPENAI_LLM_MODEL = "gpt-4o-mini"
-DEFAULT_OPENAI_EMBEDDINGS_MODEL = "text-embedding-3-small"
-
-DEFAULT_OPENROUTER_LLM_MODEL = "deepseek/deepseek-r1-distill-qwen-32b"
-DEFAULT_OPENROUTER_MAX_TOKENS = 4096
-DEFAULT_OPENROUTER_API_BASE = "https://openrouter.ai/api/v1"
-
-DEFAULT_CMG_TEMPERATURE = 0.7
-DEFAULT_LLM_QUERY_TEXT_TEMPERATURE = 0.7
-DEFAULT_LLM_RETRIEVAL_FILTER_TEMPERATURE = 0.1
-DEFAULT_DIFF_CLASSIFIER_TEMPERATURE = 0.1
-DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME = "high_level_context_index"
-
-DEFAULT_RETRIEVER_SPLIT_RESULT_COUNT = 5
-
-
 END_DOCUMENT_SPLIT_SEPARATOR = "--- RETRIEVED DOCUMENT SPLIT END ---"
+DEFAULT_HIGH_LEVEL_CONTEXT_INDEX_NAME = "high_level_context_index"
+DEFAULT_RETRIEVER_SPLIT_RESULT_COUNT = 3
 
 
 class _FewShotExampleModel:
@@ -44,6 +31,15 @@ class _FewShotExampleModel:
 
     def get_commit_message(self) -> str:
         return f"{self.commit_type}: {self.commit_subject}\n\n{self.commit_body}"
+
+    def get_commit_message_without_jira_ticket(self) -> str:
+        commit_message = self.get_commit_message()
+        commit_message = re.sub(
+            r"^\s*\[[A-Z]+-\d+\]\s*|\s*\[[A-Z]+-\d+\]\s*$", "", commit_message
+        )
+        commit_message = re.sub(r"\s*\[[A-Z]+-\d+\]\s*", " ", commit_message)
+
+        return commit_message.strip()
 
     @classmethod
     def from_json(cls, json_string: str) -> list["_FewShotExampleModel"]:
@@ -102,7 +98,7 @@ for __example in __EXAMPLES:
     )
     __example.commit_body = __example.commit_body.replace("{", "{{").replace("}", "}}")
 
-__ZERO_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE = """Write a concise commit message based on the Git diff and relevant source code provided. The relevant source code should be used to provide additional context for the changes made in the Git diff.
+ZERO_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """Write a concise commit message based on the Git diff and relevant source code provided. The relevant source code should be used to provide additional context for the changes made in the Git diff.
 
 Wrap the body at one to three brief sentences in a single paragraph. Make sure to include any side changes that are relevant to the Git diff, ex. test cases. This is necessary to provide a complete picture of the changes made in the Git diff.
 
@@ -112,9 +108,7 @@ Follow this format for the commit message:
 
 {{body}}
 
-Avoid creating more than one body paragraph.
-
-Avoid adding any additional comments or annotations to the commit message. Any additional words or characters other than the commit message will break the system.
+Avoid adding any additional comments or annotations to the commit message.
 
 Git diff:
 {diff}
@@ -136,9 +130,7 @@ Follow this format for the commit message:
 
 {{body}}
 
-Avoid creating more than one body paragraph.
-
-Avoid adding any additional comments or annotations to the commit message. Any additional words or characters other than the commit message will break the system. You only have to generate the fourth commit message.
+Avoid adding any additional comments or annotations to the commit message.
 
 Git diff 1:
 $diff_1
@@ -189,16 +181,16 @@ FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
             "source_code_1": __EXAMPLES[0].source_code,
             "source_code_2": __EXAMPLES[1].source_code,
             "source_code_3": __EXAMPLES[2].source_code,
-            "commit_message_1": __EXAMPLES[0].get_commit_message(),
-            "commit_message_2": __EXAMPLES[1].get_commit_message(),
-            "commit_message_3": __EXAMPLES[2].get_commit_message(),
+            "commit_message_1": __EXAMPLES[0].get_commit_message_without_jira_ticket(),
+            "commit_message_2": __EXAMPLES[1].get_commit_message_without_jira_ticket(),
+            "commit_message_3": __EXAMPLES[2].get_commit_message_without_jira_ticket(),
             "commit_type_1": __EXAMPLES[0].commit_type,
             "commit_type_2": __EXAMPLES[1].commit_type,
             "commit_type_3": __EXAMPLES[2].commit_type,
         }
     )
     if len(__EXAMPLES) >= 3
-    else __ZERO_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_ORIGINAL_TEMPLATE
+    else ZERO_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE
 )
 
 ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = """Write a concise commit message based on the Git diff and additional context provided. If the context is relevant, include it in the commit body. Use IDs, names, or titles to reference relevant contexts for brevity. Including multiple contexts is allowed.
@@ -211,9 +203,7 @@ Follow this format for the commit message:
 
 {{body}}
 
-Avoid creating more than one body paragraph.
-
-Avoid adding any additional comments or annotations to the commit message. Any additional words or characters other than the commit message will break the system.
+Avoid adding any additional comments or annotations to the commit message.
 
 Git diff:
 {diff}
@@ -235,9 +225,7 @@ Follow this format for the commit message:
 
 {{body}}
 
-Avoid creating more than one body paragraph.
-
-Avoid adding any additional comments or annotations to the commit message. Any additional words or characters other than the commit message will break the system. You only have to generate the fourth commit message.
+Avoid adding any additional comments or annotations to the commit message.
 
 Git diff 1:
 $diff_1
@@ -302,7 +290,9 @@ FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
 )
 
 
-DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. Summarize in exactly two concise sentences. Avoid adding any additional comments or annotations to the summary.
+DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. Summarize in exactly two concise sentences. 
+
+Avoid adding any additional comments or annotations to the summary.
 
 Git diff:
 {diff}
@@ -312,9 +302,9 @@ Source code:
 
 Summary:"""
 
-HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context directly or indirectly correlates with the changes in the Git diff. Otherwise, return NO. 
+HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context is relevant with the changes in the Git diff. Otherwise, return NO.
 
-Avoid adding any additional comments or annotations to the classification. Return only YES or NO. Any additional words will break the system.
+Avoid adding any additional comments or annotations to the classification.
 
 > Git diff: 
 >>>

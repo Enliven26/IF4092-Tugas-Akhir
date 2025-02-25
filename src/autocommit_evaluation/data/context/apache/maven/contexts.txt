@@ -4,11 +4,7 @@ Issue Type: Task
 Priority: Major
 
 Description:
-Simplify the way how boxed messages, e.g., for non-threadsafe plugins is created.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: MNG-8237
+Simplify the way how boxed messages, e.g., for non-threadsafe plugins is created.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: MNG-8237
 Issue Summary: Option deprecation notices cleanup
 Issue Type: Bug
 Priority: Minor
@@ -30,11 +26,7 @@ however does not mention this
 It could rather be
 {noformat}
  -gs,--global-settings <arg>                       <deprecated> Alternate path for the global settings file{noformat}
- 
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: MNG-8331
+ --- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: MNG-8331
 Issue Summary: Versioned dependencies may disappear in modelVersion 4.1.0
 Issue Type: Bug
 Priority: Blocker
@@ -53,11 +45,7 @@ When you mix dependencies with a {{version}} element and dependencies without a 
 * Only versioned dependencies: works.
 * Version-less and versioned dependencies mixed: versioned dependencies can disappear, depending on how the version of the version-less dependency would be calculated. It would only disappear when it was calculated from the aggregator project.
 
-This only breaks in modelVersion 4.1.0. Working on an IT that demonstrates this and a fix.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: MNG-8349
+This only breaks in modelVersion 4.1.0. Working on an IT that demonstrates this and a fix.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: MNG-8349
 Issue Summary: NumberFormatException during model building
 Issue Type: Bug
 Priority: Major
@@ -152,11 +140,7 @@ Caused by: java.lang.NumberFormatException: For input string: ""
 [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/InternalErrorException
 {code}
 
-The error is somehow expected given the typo in the {{modelVersion}}, but a more friendly exception would be welcomed.
-
---- RETRIEVED DOCUMENT SPLIT END ---
-
-Ticket ID: MNG-7662
+The error is somehow expected given the typo in the {{modelVersion}}, but a more friendly exception would be welcomed.--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: MNG-7662
 Issue Summary: Proxy session scoped components so that they can be injected into singletons beans
 Issue Type: New Feature
 Priority: Major
@@ -204,4 +188,38 @@ The error then is
   at ClassRealm[coreExtension>org.eclipse.tycho:tycho-build:${tycho-version}, parent: ClassRealm[plexus.core, parent: null]] (via modules: org.eclipse.sisu.wire.WireModule -> org.eclipse.sisu.plexus.PlexusBindingModule)
   while locating org.eclipse.tycho.p2maven.MavenProjectDependencyProcessor
   while locating org.eclipse.tycho.build.TychoGraphBuilder
-{code}
+{code}--- RETRIEVED DOCUMENT SPLIT END ---Ticket ID: MNG-8241
+Issue Summary: ComparableVersion incorrectly handles Unicode non-BMP characters
+Issue Type: Bug
+Priority: Minor
+
+Description:
+Java strings are (usually) Unicode, but Java chars are a subset of Unicode. ComparableVersion makes heavy use of [String.charAt|https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html#charAt(int)], which will return surrogate values instead of Unicode code points whenever a character takes more than 16 bits.
+
+This leads to the following behavior:
+
+ 
+{noformat}
+java -jar ~/.m2/repository/org/apache/maven/maven-artifact/3.9.4/maven-artifact-3.9.4.jar 1 𝟤
+Display parameters as parsed by Maven (in canonical form and as a list of tokens) and comparison result:
+1. 1 -> 1; tokens: [1]
+   1 > 𝟤
+2. 𝟤 -> 𝟤; tokens: [𝟤]{noformat}
+1 (DIGIT ONE) > 𝟤 (MATHEMATICAL SANS-SERIF DIGIT TWO) because ComparableVersion sees 𝟤 as two invalid characters and treats it as text.
+
+ 
+
+ 
+{noformat}
+java -jar ~/.m2/repository/org/apache/maven/maven-artifact/3.9.4/maven-artifact-3.9.4.jar 0 𝟤
+Display parameters as parsed by Maven (in canonical form and as a list of tokens) and comparison result:
+1. 0 -> ; tokens: []
+   0 < 𝟤
+2. 𝟤 -> 𝟤; tokens: [𝟤]{noformat}
+However, 0 (DIGIT 0) is still < 𝟤 (MATHEMATICAL SANS-SERIF DIGIT TWO). 0 < 𝟤 < 1 the same way 0 < a < 1.
+
+ 
+
+It's unclear whether this should be considered to be a bug or whether it's just an undocumented limitation. String.charAt and String.length should be avoided unless you can be sure the characters are all BMP (Basic Multilingual Plane).
+
+I was initially worried that 𝟣𝟣𝟣𝟣𝟣 (MATHEMATICAL SANS-SERIF DIGIT ONE) > 22222 (DIGIT TWO) because "𝟣𝟣𝟣𝟣𝟣".length is 10, greater than MAX_INTITEM_LENGTH, but that code doesn't even get hit because String.charAt is producing effectively "�����������". If the code is changed to identify non-BMP Nd class digits like 𝟣 as digits then the code that determines the required size of the data type needs to be updated to measure the length in code points instead of chars.

@@ -1,6 +1,90 @@
 [
     {
-        "id": "TC001",
+        "id": "ETC001",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\kafka",
+        "repository_url": "https://github.com/apache/kafka",
+        "commit_hash": "cf5a86b654fd0be0c15bd47ca711bcea75d9d800",
+        "included_file_paths": [
+            "core/src/main/java/kafka/log/remote/RemoteLogManager.java",
+            "core/src/test/java/kafka/log/remote/RemoteLogManagerTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "ETC002",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hadoop",
+        "repository_url": "https://github.com/apache/hadoop",
+        "commit_hash": "f1df74855dc5fe412ecf3b7672a1fca2960169b7",
+        "included_file_paths": [
+            "hadoop-tools/hadoop-azure/src/main/java/org/apache/hadoop/fs/azurebfs/contracts/services/AzureServiceErrorCode.java",
+            "hadoop-tools/hadoop-azure/src/main/java/org/apache/hadoop/fs/azurebfs/services/AbfsDfsClient.java",
+            "hadoop-tools/hadoop-azure/src/main/java/org/apache/hadoop/fs/azurebfs/services/AbfsErrors.java",
+            "hadoop-tools/hadoop-azure/src/test/java/org/apache/hadoop/fs/azurebfs/ITestAzureBlobFileSystemDelegationSAS.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "ETC003",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\hive",
+        "repository_url": "https://github.com/apache/hive",
+        "commit_hash": "5bce6de3463b2381a18d554901b4ed634dbd7b76",
+        "included_file_paths": [
+            "ql/src/java/org/apache/hadoop/hive/ql/exec/Utilities.java",
+            "ql/src/java/org/apache/hadoop/hive/ql/io/merge/MergeFileWork.java",
+            "ql/src/java/org/apache/hadoop/hive/ql/plan/ConditionalResolverMergeFiles.java",
+            "ql/src/java/org/apache/hadoop/hive/ql/plan/MapWork.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "ETC004",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\activemq",
+        "repository_url": "https://github.com/apache/activemq",
+        "commit_hash": "1fdcf592b785b8f49c749f2001e7dbad79e62e5c",
+        "included_file_paths": [
+            "activemq-stomp/src/main/java/org/apache/activemq/transport/stomp/JmsFrameTranslator.java",
+            "activemq-stomp/src/main/java/org/apache/activemq/transport/stomp/LegacyFrameTranslator.java",
+            "activemq-stomp/src/main/java/org/apache/activemq/transport/stomp/ProtocolConverter.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "ETC005",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\cassandra",
+        "repository_url": "https://github.com/apache/cassandra",
+        "commit_hash": "a0debd8f9e8636b69d5ed1752f8e9b1b3c664954",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/dht/Murmur3Partitioner.java",
+            "src/java/org/apache/cassandra/utils/ByteBufferUtil.java",
+            "src/java/org/apache/cassandra/utils/MurmurHash.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "ETC006",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_url": "https://github.com/apache/camel",
+        "commit_hash": "05aeabe0124c6667c1897030c70223a68ba825c5",
+        "included_file_paths": [
+            "components/camel-bean/src/main/java/org/apache/camel/language/bean/BeanExpression.java",
+            "core/camel-base-engine/src/main/java/org/apache/camel/impl/engine/DefaultRoute.java",
+            "core/camel-core/src/test/java/org/apache/camel/processor/SupervisingRouteControllerSplitOnExceptionTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "ETC007",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\maven",
+        "repository_url": "https://github.com/apache/maven",
+        "commit_hash": "688c9c8d011f07ae8cbb2285959a319922e98219",
+        "included_file_paths": [
+            "compat/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java",
+            "compat/maven-artifact/src/test/java/org/apache/maven/artifact/versioning/ComparableVersionTest.java"
+        ],
+        "jira_url": "https://issues.apache.org/jira/"
+    },
+    {
+        "id": "ETC008",
         "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\drill",
         "repository_url": "https://github.com/apache/drill",
         "commit_hash": "9d6af6dea6ed6f47f45a2bd064c01bf69d85acbf",
@@ -11,7 +95,7 @@
         "jira_url": "https://issues.apache.org/jira/"
     },
     {
-        "id": "TC002",
+        "id": "ETC009",
         "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\zookeeper",
         "repository_url": "https://github.com/apache/zookeeper",
         "commit_hash": "045833b795a7041607337b192fa3dbcf2cc3f291",
@@ -23,7 +107,7 @@
         "jira_url": "https://issues.apache.org/jira/"
     },
     {
-        "id": "TC003",
+        "id": "ETC010",
         "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\opennlp",
         "repository_url": "https://github.com/apache/opennlp",
         "commit_hash": "ccca8ca5d5f95ae9af9b23126e6611058605bb17",
