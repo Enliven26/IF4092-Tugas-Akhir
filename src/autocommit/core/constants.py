@@ -290,7 +290,7 @@ FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE = (
 )
 
 
-DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. Summarize in exactly two concise sentences. 
+DOCUMENT_QUERY_TEXT_PROMPT_TEMPLATE = """Given a Git diff and the relevant source code, write a concise summary of the code changes in a way that a non-technical person can understand. Summarize in maximum three concise sentences. 
 
 Avoid adding any additional comments or annotations to the summary.
 
