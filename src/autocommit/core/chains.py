@@ -416,6 +416,27 @@ class HighLevelContextChain(BaseRunnable[GetHighLevelContextInputModel, str]):
         return self.__get_high_level_context_batch(dict_inputs)
 
 
+def _cache_classification_by_id(func):
+    cache = {}
+
+    def wrapper(self, id: str, diff: str, context: str):
+        if id not in cache:
+            cache[id] = func(self, id, diff, context)
+        return cache[id]
+
+    return wrapper
+
+def _cache_context_by_id(func):
+    cache = {}
+
+    def wrapper(self, input: dict):
+        id = input["id"]
+        if id not in cache:
+            cache[id] = func(self, input)
+        return cache[id]
+
+    return wrapper
+
 class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain):
     def __init__(
         self,
@@ -443,13 +464,14 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
                     "context_file_path": x["context_file_path"],
                     "vector_store_path": x["vector_store_path"],
                     "context": self.__retrieve_context(x),
+                    "id": x["id"],
                 }
             )
             | RunnableLambda(
                 lambda x: {
                     "diff": x["diff"],
                     "context": x["context"],
-                    "type": self.__classify_diff(x["diff"], x["context"]),
+                    "type": self.__classify_diff(x["id"], x["diff"], x["context"]),
                 }
             )
             | cmg_prompt
@@ -457,6 +479,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
             | cmg_output_parser
         )
 
+    @_cache_context_by_id
     def __retrieve_context(self, input: dict) -> str:
         get_high_level_context_input = GetHighLevelContextInputModel()
         get_high_level_context_input.diff = input["diff"]
@@ -480,7 +503,8 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
 
         return self.__high_level_context_chain.batch(get_high_level_context_inputs)
 
-    def __classify_diff(self, diff: str, context: str) -> str:
+    @_cache_classification_by_id
+    def __classify_diff(self, _, diff: str, context: str) -> str:
         input = HighLevelContextDiffClassificationInputModel()
         input.diff = diff
         input.context = context
@@ -489,7 +513,7 @@ class HighLevelContextCommitMessageGenerationChain(CommitMessageGenerationChain)
 
     def classify_diff(self, input: dict[str, str]) -> str:
         context = self.__retrieve_context(input)
-        self.__classify_diff(input["diff"], context)
+        self.__classify_diff(input["id"], input["diff"], context)
 
     def classify_diff_batch(self, inputs: list[dict[str, str]]) -> list[str]:
         classifier_inputs: list[HighLevelContextDiffClassifierChain] = []

@@ -1,12 +1,13 @@
 [
     {
-        "id": "ETC001",
-        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\kafka",
-        "repository_url": "https://github.com/apache/kafka",
-        "commit_hash": "cf5a86b654fd0be0c15bd47ca711bcea75d9d800",
+        "id": "ETC006",
+        "repository_path": "..\\\\..\\\\RepoTugasAkhir\\\\camel",
+        "repository_url": "https://github.com/apache/camel",
+        "commit_hash": "05aeabe0124c6667c1897030c70223a68ba825c5",
         "included_file_paths": [
-            "core/src/main/java/kafka/log/remote/RemoteLogManager.java",
-            "core/src/test/java/kafka/log/remote/RemoteLogManagerTest.java"
+            "components/camel-bean/src/main/java/org/apache/camel/language/bean/BeanExpression.java",
+            "core/camel-base-engine/src/main/java/org/apache/camel/impl/engine/DefaultRoute.java",
+            "core/camel-core/src/test/java/org/apache/camel/processor/SupervisingRouteControllerSplitOnExceptionTest.java"
         ],
         "jira_url": "https://issues.apache.org/jira/"
     }
