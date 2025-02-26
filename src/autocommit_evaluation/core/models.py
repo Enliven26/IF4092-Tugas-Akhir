@@ -82,8 +82,11 @@ class ChatModelFactory:
     ) -> BaseChatOpenAI:
         splits = model.split("/")
 
-        if len(splits) != 2:
+        if len(splits) != 2 and (len(splits) != 3 or splits[0] != "openrouter"):
             raise ValueError(f"Invalid model format: {model}")
+
+        if len(splits) == 3:
+            model = splits[1] + "/" + splits[2]
 
         if splits[0] == "openai":
             return ChatOpenAI(model=splits[1], temperature=temperature, **kwargs)

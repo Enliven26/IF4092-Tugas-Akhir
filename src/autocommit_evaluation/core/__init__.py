@@ -92,7 +92,7 @@ openai_high_level_context_diff_classifier_chain = HighLevelContextDiffClassifier
     __diff_classifier_chat_model
 )
 
-openai_zero_shot_low_level_context_cmg_chain = (
+baseline_zero_shot_low_level_context_cmg_chain = (
     LowLevelContextCommitMessageGenerationChain(
         openai_low_level_context_diff_classifier_chain,
         __openai_cmg_chat_model,
@@ -108,23 +108,23 @@ openai_few_shot_low_level_context_cmg_chain = (
     )
 )
 
-openai_high_level_context_chain = HighLevelContextChain(
+baseline_high_level_context_chain = HighLevelContextChain(
     __openai_query_text_chat_model, __filter_chat_model, __openai_embeddings
 )
 
-openai_zero_shot_high_level_context_cmg_chain = (
+baseline_zero_shot_high_level_context_cmg_chain = (
     HighLevelContextCommitMessageGenerationChain(
         openai_high_level_context_diff_classifier_chain,
-        openai_high_level_context_chain,
+        baseline_high_level_context_chain,
         __openai_cmg_chat_model,
         ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     )
 )
 
-openai_few_shot_high_level_context_cmg_chain = (
+baseline_few_shot_high_level_context_cmg_chain = (
     HighLevelContextCommitMessageGenerationChain(
         openai_high_level_context_diff_classifier_chain,
-        openai_high_level_context_chain,
+        baseline_high_level_context_chain,
         __openai_cmg_chat_model,
         FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     )
@@ -138,7 +138,7 @@ openrouter_high_level_context_diff_classifier_chain = (
     HighLevelContextDiffClassifierChain(__diff_classifier_chat_model)
 )
 
-openrouter_zero_shot_low_level_context_cmg_chain = (
+main_zero_shot_low_level_context_cmg_chain = (
     LowLevelContextCommitMessageGenerationChain(
         openrouter_low_level_context_diff_classifier_chain,
         __openrouter_cmg_chat_model,
@@ -146,33 +146,31 @@ openrouter_zero_shot_low_level_context_cmg_chain = (
     )
 )
 
-openrouter_few_shot_low_level_context_cmg_chain = (
-    LowLevelContextCommitMessageGenerationChain(
-        openrouter_low_level_context_diff_classifier_chain,
-        __openrouter_cmg_chat_model,
-        FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
-    )
+main_few_shot_low_level_context_cmg_chain = LowLevelContextCommitMessageGenerationChain(
+    openrouter_low_level_context_diff_classifier_chain,
+    __openrouter_cmg_chat_model,
+    FEW_SHOT_LOW_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
 )
 
-openrouter_high_level_context_chain = HighLevelContextChain(
+main_high_level_context_chain = HighLevelContextChain(
     __openrouter_query_text_chat_model,
     __filter_chat_model,
     __openai_embeddings,
 )
 
-openrouter_zero_shot_high_level_context_cmg_chain = (
+main_zero_shot_high_level_context_cmg_chain = (
     HighLevelContextCommitMessageGenerationChain(
         openrouter_high_level_context_diff_classifier_chain,
-        openrouter_high_level_context_chain,
+        main_high_level_context_chain,
         __openrouter_cmg_chat_model,
         ZERO_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     )
 )
 
-openrouter_few_shot_high_level_context_cmg_chain = (
+main_few_shot_high_level_context_cmg_chain = (
     HighLevelContextCommitMessageGenerationChain(
         openrouter_high_level_context_diff_classifier_chain,
-        openrouter_high_level_context_chain,
+        main_high_level_context_chain,
         __openrouter_cmg_chat_model,
         FEW_SHOT_HIGH_LEVEL_CONTEXT_CMG_PROMPT_TEMPLATE,
     )

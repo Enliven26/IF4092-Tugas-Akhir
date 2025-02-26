@@ -8,18 +8,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "Okay, I need to write a concise commit message based on the provided Git diff and relevant source code. The user has given four different diffs and source code snippets, each with their own context. I'll go through each one step by step to understand the changes and then craft the appropriate commit messages.\n\nStarting with Git diff 1, which is from the Hadoop project. The changes involve modifying the `CopyCommands.java` file, specifically the `Merge` class. The `USAGE` and `DESCRIPTION` strings have been updated to include a new option `-skip-empty-file`. Looking at the code, a new boolean variable `skipEmptyFileDelimiter` was added, and the `processOptions` method now parses this new option. In the `processArguments` method, there's a check for whether the file is empty and whether to skip adding a delimiter. Additionally, a new method `writeDelimiter` was introduced to handle writing the delimiter. The test file `TestFsShellCopy.java` was also updated to include tests for this new option.\n\nSo, the commit type is 'feat' as it's adding a new feature. The subject should mention the addition of the `-skip-empty-file` option. The body should explain that this flag skips appending newlines for empty files when using `-nl`, referencing the relevant JIRA issue HADOOP-12657. It should also note that tests were added to validate this behavior.\n\nMoving on to Git diff 2 from the ActiveMQ project. The changes are in `BaseDataStreamMarshaller.java`. A new constant `MAX_EXCEPTION_MESSAGE_SIZE` was added, and the `tightMarshalThrowable1`, `tightMarshalThrowable2`, and `looseMarshalThrowable` methods now call `cutMessageIfNeeded` on the exception message. This method truncates messages longer than 1024 characters, appending \"...\" at the end. The commit type is 'fix' because it's addressing a potential issue with resource exhaustion. The subject should mention truncating exception messages, and the body should explain the limit and the reason, referencing AMQ-6894.\n\nGit diff 3 is from Apache Cassandra's `HintsDispatchTrigger.java`. The code removes a filter that checks if the schema versions match before dispatching hints. This means hints will now be dispatched even during schema mismatches. The commit type is 'fix' as it's improving resilience in mixed-version clusters. The subject should state the removal of the schema version check, and the body should explain that this allows dispatching during mismatches, referencing CASSANDRA-20188.\n\nLastly, Git diff 4 is from Kafka's `TransactionManager.java`. The changes involve adding the `transactionStarted` flag and modifying how it's set in `sendOffsetsToTransaction` and `maybeAddPartition` methods. The `nextRequest` method now checks `transactionStarted` differently. The commit type is 'fix' because it's correcting the handling of transaction completion. The subject should mention fixing the handling of transaction completion, and the body should explain that it ensures proper EndTxn requests are sent only when necessary, referencing KAFKA-13458.\n\nPutting it all together, each commit message should follow the specified format with the type, subject, and a brief body explaining the changes and their context.\nfeat: add -skip-empty-file option to getmerge\n\nAdd flag to skip appending newline delimiters for empty files when using -nl [HADOOP-12657]. Includes tests validating flag behavior for zero-byte files.\n\nfix: truncate exception messages to prevent resource exhaustion\n\nLimit exception message size to 1024 characters with ... suffix [AMQ-6894]. This reduces memory/thread consumption from oversized messages during repeated failover attempts.\n\nfix: remove schema version check for hint delivery\n\nAllow dispatching hints during schema mismatches to improve upgrade/mixed-version cluster resilience [CASSANDRA-20188].\n\nfix: fix handling of transaction completion\n\nEnsure proper EndTxn requests are sent only when necessary, preventing unnecessary operations [KAFKA-13458].",
-                "cleaned_commit_message": "fix: fix handling of transaction completion\n\nEnsure proper EndTxn requests are sent only when necessary, preventing unnecessary operations [KAFKA-13458]."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Ensure transactionStarted is set for V2 transactions\n\nEnsure the `transactionStarted` flag is set when adding offsets or partitions to a transaction in the V2 transaction protocol. This prevents the `EndTxn` request from being sent prematurely when no send or `sendOffsetsToTransaction` operations have been triggered."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "**Step-by-step Explanation:**\n\n1. **Identify the Problem**: The issue is with transaction version 2 (TV2) not handling empty transactions (commit without records) correctly, causing errors.\n\n2. **Review Changes**: The code changes in TransactionManager.java ensure that `EndTxnRequest` isn't sent if no records were added, aligning TV2 with older versions.\n\n3. **Refer to Context**: The commit addresses ticket KAFKA-18401, with provided test cases illustrating the problem.\n\n4. **Structure the Message**: Use 'fix' as the type, include the ticket ID, and summarize the fix, referencing tests.\n\n**Final Commit Message:**\n\n```\nfix: KAFKA-18401 - Handle empty transactions in TV2 without sending EndTxnRequest\n\nUpdate transaction handling to skip sending EndTxnRequest when no records or offsets are added in TV2, aligning with TV0 and TV1 behavior. Includes test cases to ensure correct behavior across all transaction versions.\n```",
-                "cleaned_commit_message": "fix: KAFKA-18401 - Handle empty transactions in TV2 without sending EndTxnRequest\n\nUpdate transaction handling to skip sending EndTxnRequest when no records or offsets are added in TV2, aligning with TV0 and TV1 behavior. Includes test cases to ensure correct behavior across all transaction versions.\n"
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: ensure transactionStarted flag is set for transaction V2\n\nSet `transactionStarted` flag in `sendOffsetsToTransaction` and `maybeAddPartition` methods when using transaction V2 protocol. This prevents the `EndTxn` request from being skipped incorrectly when no partitions or offsets were added, ensuring proper transaction completion."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add -skip-empty-file option to getmerge\n\nAdd flag to skip appending newline delimiters for empty files when using -nl [HADOOP-12657]. Includes tests validating flag behavior for zero-byte files."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure EndTxnRequest is not sent for empty transactions in TV_2\n\nIn TransactionManager, set `transactionStarted` to `true` when adding offsets or partitions in TV_2 to prevent sending an EndTxnRequest for empty transactions. This aligns TV_2 behavior with TV_0 and TV_1, addressing KAFKA-18401."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle commit transaction without records in transaction version 2\n\nEnsure `transactionStarted` is set when offsets or records are added to a transaction in version 2, preventing `EndTxnRequest` from being sent if no operations were performed [KAFKA-18401]. Includes test cases to validate the behavior."
             }
         ]
     },
@@ -33,16 +35,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "perf: optimize record handling in KafkaProducer and RecordAccumulator\n\nOptimize memory usage by avoiding unnecessary record references and reduce time measurement overhead during batch processing."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "perf: Optimize buffer allocation and partition handling in KafkaProducer\n\nOptimize the buffer allocation process by updating the current time after allocation to avoid potential race conditions. Additionally, improve partition handling in `AppendCallbacks` by extracting record information early and using it to avoid keeping unnecessary references to the `ProducerRecord` throughout the batch lifetime. This change also ensures that interceptors are notified even if the record is null."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "perf: Optimize KafkaProducer performance by reducing object retention and improving concurrency\n\nThis change reduces object retention in AppendCallbacks by storing only necessary record metadata and improves concurrency through volatile variables. Additionally, RecordAccumulator now passes current time as a parameter to avoid redundant calculations, addressing performance regression observed in KAFKA-14020."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "perf: optimize buffer allocation and time updates in record appending\n\nAvoid redundant time updates and reduce the overhead of buffer allocation during record appending by updating the current time only when necessary. This improves performance and reduces the likelihood of blocking due to buffer exhaustion."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "perf: optimize KafkaProducer to improve performance\n\nOptimize KafkaProducer by deferring time calculations and reducing redundant operations in the producer's append logic [KAFKA-14020]. This reduces overhead during record accumulation and improves throughput."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "perf: Optimize KafkaProducer to prevent performance regression\n\nThis commit addresses the 10% performance regression introduced in KAFKA-14020. The changes involve optimizing the `KafkaProducer` and `RecordAccumulator` classes to reduce unnecessary object references and minimize the overhead of buffer allocation and time updates. Specifically, the `AppendCallbacks` class now extracts and caches record information to avoid retaining references to the `ProducerRecord` for the entire batch lifetime. Additionally, the `RecordAccumulator` updates the current time only when necessary to avoid expensive time retrieval operations under lock. These optimizations ensure that the producer performance is restored to the expected level."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "perf: optimize KafkaProducer record appending\n\nAvoid holding lock while getting current time in `RecordAccumulator.appendNewBatch` to prevent performance regression [KAFKA-14020]. This change ensures that the `nowMs` value is updated after buffer allocation, reducing the overhead of acquiring the current time under a lock."
             }
         ]
     },
@@ -58,16 +64,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add new metrics for client and thread state tracking\n\nIntroduce metrics to track Kafka Streams client operational state and recording level, along with thread-specific state metrics for better monitoring and diagnostics."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add client and thread state telemetry metrics\n\nAdd metrics to track the client and thread state telemetry, including the metrics recording level and the current state of the Kafka Streams client and threads. This change introduces new methods to calculate and register these metrics in the `KafkaStreams`, `ClientMetrics`, and `ThreadMetrics` classes."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add metrics for Kafka Streams client state, thread state, and recording level\n\nAdded client-state, thread-state, and recording-level metrics to provide enhanced monitoring capabilities. The recording-level metric reflects the current metrics recording level configuration.\n\n# KAFKA-17561"
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add metrics for stream thread state and recording level\n\nAdd metrics to track the current state and recording level of Kafka Streams threads. The state metric provides the ordinal value of the thread state, while the recording level metric reflects the configured logging level for metrics."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add operator metrics for Kafka Streams\n\nAdd client-state, thread-state, and recording-level metrics to Kafka Streams [KAFKA-17561]. Includes new methods to track client and thread states along with metrics recording level."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add client and thread state metrics and recording level metric\n\nAdd metrics for the client state, thread state, and recording level to Kafka Streams as per KAFKA-17561. These metrics provide better visibility into the operational state and configuration of the Kafka Streams client and its threads."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add operator metrics for Kafka Streams\n\nAdd `client-state`, `thread-state`, and `recording-level` metrics to Kafka Streams [KAFKA-17561]. These metrics provide insights into the current state of the Kafka Streams client and its threads, as well as the recording level of the metrics."
             }
         ]
     },
@@ -83,16 +93,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: improve plugin isolation by correctly handling classloader delegation\n\nEnsure plugins on the classpath are properly isolated and loaded using PluginClassLoader [KAFKA-17354]. Added tests to verify isolation of classpath plugins and their loading behavior. This change improves plugin discovery by correctly delegating classloading according to the child-first model.\n\nThe changes include:\n- Modifying ReflectionScanner to correctly order classloaders\n- Adding tests to verify classpath plugin isolation\n- Adding a sample classpath converter plugin for testing\n- Ensuring plugins are loaded with the appropriate classloader"
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "test: Ensure classpath plugins are loaded in isolation\n\nThis commit adds a new test to verify that classpath plugins are correctly loaded in isolation. The `ReflectionScanner` class has been updated to use a custom class loader order that ensures the child-first delegation model is adhered to. Additionally, a new test case `testClasspathPluginIsAlsoLoadedInIsolation` has been added to `PluginScannerTest` to validate that a classpath plugin is loaded using the isolated `PluginClassLoader`. The `TestPlugins` enum has also been updated to include a new classpath converter plugin."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Fix ClassGraph scanning to correctly identify isolated plugins\n\nUpdate reflection scanner to provide the correct class loader chain to ClassGraph, ensuring plugin isolation. Add test case to validate isolation of classpath plugins."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: ensure classpath plugins are loaded in isolation\n\nModify the `ReflectionScanner` to compute and provide the classloader chain starting from the isolated `PluginClassLoader` to ensure it adheres to the child-first delegation model. Added a test case to validate that a classpath plugin is loaded in isolation."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: fix plugin isolation scanning\n\nAdjust classloader handling in ReflectionScanner to properly isolate plugins [KAFKA-18211]. Added test cases to verify isolation for classpath plugins."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure ClassGraph correctly finds isolated connect plugins\n\nClassGraph was not correctly identifying plugins in isolated paths if they were already present in the classpath. This commit adds a method to compute and provide the classloader chain, ensuring that the isolated `PluginClassLoader` is used first. Additionally, a new test case `testClasspathPluginIsAlsoLoadedInIsolation` is added to verify that plugins from the classpath are correctly loaded in isolation. This addresses the issue described in KAFKA-18211."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: ensure isolated plugins are correctly loaded\n\nModify ClassGraph scanning to correctly handle isolated plugins by explicitly setting the class loader order [KAFKA-18211]. Includes tests to validate classpath plugin isolation."
             }
         ]
     },
@@ -106,16 +120,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "test: add test for optional struct fields in JSON conversion\n\nAdd test case to verify that optional struct fields are properly omitted when not present in the payload."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Handle null JSON values in `convertToConnect` method\n\nEnsure that `convertToConnect` correctly handles null JSON values by checking if `jsonValue` is null or `isNull()`. Added a test case to validate the behavior for structs with optional fields."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Handle null jsonValue to prevent NullPointerException when field is optional\n\nKAFKA-9192: Fixed NullPointerException when optional field is missing in payload by adding null check for jsonValue. Added test case to verify handling of optional fields."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "test: add test case for struct with optional field in JsonConverter\n\nAdd test to validate handling of optional fields in struct when converting JSON to Connect data. This ensures that null or missing optional fields are correctly processed."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: handle null jsonValue to prevent NullPointerException in optional fields [KAFKA-9192]. Add test case for optional fields not present in payload.\n\nThis change checks for null jsonValue before accessing its properties and adds a test case to validate the behavior when optional fields are missing."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle null jsonValue in JsonConverter to avoid NPE\n\nCheck for null `jsonValue` before checking if it is a JSON null to avoid NullPointerException when an optional field is not present in the payload. Added a test case to validate the fix. (KAFKA-9192)"
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle null or missing optional fields in JsonConverter\n\nHandle cases where optional fields are null or missing in the JSON payload to prevent NullPointerException [KAFKA-9192]. Includes a test case for struct with optional fields."
             }
         ]
     },
@@ -132,16 +150,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: improve metrics source memory management with weak references\n\nIntroduce `WeakRefMetricsSource` to prevent memory leaks by avoiding strong references to large objects. Update metrics registration to use weak references and add tests to ensure proper lifecycle management."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add weak reference metrics source and update S3AFileSystem and S3AInstrumentation\n\nThis commit introduces a weak reference metrics source `WeakRefMetricsSource` to avoid holding onto large objects if they are not fully closed or cleaned up. The `S3AFileSystem` initialization now logs a full trace for deep diagnostics of object creation, and the `close` method logs IO statistics, including any file deletions during superclass close. Additionally, `S3AInstrumentation` now registers itself as a metrics source via a weak reference, ensuring that the metrics system is properly unregistered and shutdown when the instrumentation is closed. Test cases have been added to verify the lifecycle of the instrumentation and the behavior of double close operations.\n\n- Added `WeakRefMetricsSource` to handle weak references for metrics.\n- Updated `S3AFileSystem` to log a full trace during initialization and log IO statistics during close.\n- Updated `S3AInstrumentation` to use weak references for metrics registration and unregistration.\n- Added test cases to verify instrumentation lifecycle and double close behavior."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Address S3AInstrumentation memory leak via WeakReference\n\nUse WeakRefMetricsSource to avoid strong references, ensuring proper cleanup and preventing memory leaks in S3AFileSystem instances. Added tests to verify lifecycle and metrics handling."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: use weak reference for S3AFileSystem metrics source\n\nIntroduce `WeakRefMetricsSource` to manage metrics registration and deregistration with a weak reference. This prevents memory leaks by allowing the JVM to garbage collect the instrumentation object if it is no longer strongly referenced. Added tests to validate the lifecycle and behavior of the weak reference metrics source."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: prevent S3AInstrumentation memory leaks via weak metrics references\n\nAddress memory leaks caused by strong references in metrics registry [HADOOP-18526]. Introduce WeakRefMetricsSource to avoid retention of S3AInstrumentation instances, and update registration/cleanup logic. Includes new tests to validate proper lifecycle management."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent memory leak of S3AInstrumentation instances via weak references\n\nIntroduce `WeakRefMetricsSource` to manage metrics sources with weak references, ensuring that `S3AInstrumentation` instances are properly deregistered and garbage collected when no longer needed. Modify `S3AFileSystem` and `S3AInstrumentation` to use this weak reference approach. Add new tests to verify the lifecycle and proper cleanup of the instrumentation."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: manage S3AInstrumentation metrics with weak references\n\nIntroduce `WeakRefMetricsSource` to manage metrics sources with weak references, preventing memory leaks [HADOOP-18526]. Modify `S3AFileSystem` and `S3AInstrumentation` to use this approach, ensuring proper deregistration and garbage collection. Add tests to verify instrumentation lifecycle and cleanup."
             }
         ]
     },
@@ -158,16 +180,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: replace hardcoded sizes with Sizes constants\n\nReplace hardcoded size values with constants from the Sizes utility class to improve code readability and maintainability. Update tests to use the new constants."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Update vector read parameters to use Sizes constants\n\nUpdated the `PositionedReadable` interface and `AbfsInputStream` class to use the `Sizes` constants for vector read parameters. The default minimum seek size and maximum read size for vector reads are now set to `S_16K` and `S_1M`, respectively. Additionally, the `Constants` class in the `hadoop-aws` module has been updated to use `S_128K` and `S_2M` for the default vector read parameters. Corresponding test cases have been updated to reflect these changes."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "perf: Update vector IO thresholds to optimal sizes\n\nReplace hardcoded numerical values with constants from Sizes for min/max vector read thresholds. Added Sizes.java to centralize binary size constants. Adjusted default thresholds for S3A and ABFS to 128KB/2MB respectively."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: use Sizes constants for min and max vector read values\n\nConsolidate magic numbers into the Sizes class and update `PositionedReadable`, `Constants`, and `AbfsInputStream` to use these constants. This ensures consistency and readability in configuration values."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "perf: optimize vector IO with updated size parameters\n\nUpdate minimum seek and maximum read sizes for vectorized IO operations [HADOOP-19229]. Adjusted values improve read efficiency by reducing unnecessary range gaps, particularly for cloud storage filesystems."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "perf: Update vector IO read thresholds for improved performance\n\nUpdate the minimum and maximum vector read thresholds for cloud storage filesystems to improve performance. For local filesystems, the minSeekForVectorReads is set to 16K and maxReadSizeForVectorReads to 1M. For S3A and ABFS, the minSeekForVectorReads is set to 128K and maxReadSizeForVectorReads to 2M. This change ensures that the merge of adjacent vector IO read ranges is more efficient, reducing wasteful reads with large gaps between them. Updated test cases to reflect the new constants and configurations. HADOOP-19229"
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "perf: standardize vector read sizes across cloud storage\n\nStandardize minimum seek and maximum read sizes for vector reads in cloud storage to 128K and 2M, respectively [HADOOP-19229]. This ensures consistent and efficient read operations across different cloud storage providers. Includes updates to S3A, Azure, and Hadoop core configurations, along with test cases to validate the new values."
             }
         ]
     },
@@ -180,16 +206,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: enhance security by setting proper permissions on temporary directories\n\nImprove security by setting rwx------ permissions on temporary directories used for unjarring [HADOOP-12345]. Replaces insecure File.createTempFile() approach with Files.createTempDirectory() and explicit PosixFilePermissions."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "chore: Update temp directory creation to use POSIX permissions\n\nUpdate the `RunJar` class to use `Files.createTempDirectory` with POSIX permissions to ensure the temporary directory is created with restricted access (`rwx------`). This change removes the redundant delete operation and handles potential `SecurityException` during directory creation."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Set proper permissions for temporary directory to address CVE-2024-23454\n\nThis change modifies the creation of the temporary directory to use POSIX permissions \"rwx------\", ensuring only the owner can access the directory. It also handles SecurityException in case permissions cannot be set. References: HADOOP-19031"
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: update temp directory creation with specific permissions and exception handling\n\nUpdate the temporary directory creation process in `RunJar` to use specific POSIX permissions and handle `SecurityException` to improve security and maintainability."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: set proper permissions for temporary directories to prevent information disclosure [HADOOP-19031]\n\nSet POSIX permissions to rwx------ for temporary directories used by RunJar to prevent local information disclosure. This addresses a security vulnerability where sensitive data could be accessed by unauthorized users."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Set correct permissions for temporary directory in RunJar\n\nSet the correct POSIX file permissions for the temporary directory to prevent local information disclosure (HADOOP-19031, CVE-2024-23454). Replaced `File.createTempFile` with `Files.createTempDirectory` and added a permissions check to ensure the directory is created with restricted access (`rwx------`)."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: set secure permissions for temporary directory in RunJar\n\nSet POSIX file permissions to `rwx------` for the temporary directory created by RunJar to prevent local information disclosure [HADOOP-19031]."
             }
         ]
     },
@@ -202,16 +232,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: add validation for buffer size in BlockCompressorStream\n\nAdd check to ensure buffer size exceeds compression overhead, throwing IllegalArgumentException if not, to prevent negative MAX_INPUT_SIZE."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Add validation for buffer size and compression overhead in BlockCompressorStream\n\nAdd a check in the constructor to ensure that the buffer size is greater than or equal to the compression overhead. If the condition is not met, an IllegalArgumentException is thrown to prevent an invalid state."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Prevent negative MAX_INPUT_SIZE in BlockCompressorStream\n\nAdded validation to ensure bufferSize exceeds compression overhead, throwing IllegalArgumentException if not. Fixes HADOOP-19339."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: validate buffer size in BlockCompressorStream constructor\n\nEnsure buffer size is not less than compression overhead to prevent negative input size and potential errors.",
+                "cleaned_commit_message": "fix: validate buffer size in BlockCompressorStream constructor\n\nEnsure buffer size is not less than compression overhead to prevent negative input size and potential errors."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: add buffer size check in BlockCompressorStream\n\nPrevent creating streams with invalid buffer sizes by throwing IllegalArgumentException when bufferSize is insufficient [HADOOP-19339]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent negative MAX_INPUT_SIZE in BlockCompressorStream\n\nCheck if the buffer size is less than the compression overhead and throw an IllegalArgumentException if it is, to prevent an OutOfBounds exception. Fixes HADOOP-19339."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: prevent negative MAX_INPUT_SIZE in BlockCompressorStream\n\nAdd check to ensure buffer size is not less than compression overhead, throwing an IllegalArgumentException if it is [HADOOP-19339]. This prevents OutOfBounds exceptions caused by invalid buffer sizes."
             }
         ]
     },
@@ -226,16 +261,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: remove schema version check for hint delivery\n\nAllow dispatching hints during schema mismatches to improve upgrade/mixed-version cluster resilience [CASSANDRA-20188]."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add configuration option for S3 connection TTL\n\nAdd a new configuration option `fs.s3a.connection.ttl` to set the expiration time of S3 HTTP connections in the connection pool, with a default value of 5 minutes. Updated `S3AUtils.initConnectionSettings` to propagate this setting to the AWS SDK, and added test cases to verify its propagation and validation."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add S3A connection TTL configuration option\n\nAdds configuration for `fs.s3a.connection.ttl` to control the HTTP connection pool's connection TTL. Implements HADOOP-18845."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add connection TTL configuration for S3A\n\nAdd a new configuration option `fs.s3a.connection.ttl` to set the expiration time of S3 HTTP connections in the connection pool. The default value is 5 minutes. Includes tests to validate the propagation of this setting to the AWS SDK configuration."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add connection ttl configuration for s3a client\n\nAdd configuration option to set http connection ttl in S3A client [HADOOP-18845]. Includes tests verifying configuration propagation and validation."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add configuration option for S3A connection TTL\n\nAdd a configuration option `fs.s3a.connection.ttl` to set the maximum time an idle connection may be retained in the HTTP connection pool. This change includes the corresponding default value and test cases to ensure proper propagation of the setting."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add fs.s3a.connection.ttl configuration option\n\nAdd configuration option to set the TTL for idle S3 HTTP connections in the connection pool [HADOOP-18845]. Includes tests verifying the propagation of the setting to the AWS client configuration."
             }
         ]
     },
@@ -249,16 +288,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: handle local file destinations in MoveTask and SemanticAnalyzer\n\nModify MoveTask to skip directory creation for local files and adjust SemanticAnalyzer to correctly handle local file paths for statistics collection. This fixes issues where local file destinations were not properly managed during moves and stats collection."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Handle local file paths in MoveTask and SemanticAnalyzer\n\nEnsure that local file paths are correctly handled in MoveTask and SemanticAnalyzer by checking if the destination is a local file and using the appropriate temporary directory for stats collection."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: HIVE-28473 - Correctly handle intermediate directories for LOCAL INSERT OVERWRITE\n\nModified MoveTask and SemanticAnalyzer to ensure intermediate directories are created correctly when inserting into a local directory, preventing attempts to create HDFS directories with incorrect paths. This addresses the permission issues encountered during local directory INSERT OVERWRITE operations."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: handle local file paths in MoveTask and SemanticAnalyzer\n\nEnsure that local file paths are correctly handled by checking and setting the `isLocal` flag in `SemanticAnalyzer`. This flag is used in `MoveTask` to determine the appropriate file system operations for local paths.",
+                "cleaned_commit_message": "fix: handle local file paths in MoveTask and SemanticAnalyzer\n\nEnsure that local file paths are correctly handled by checking and setting the `isLocal` flag in `SemanticAnalyzer`. This flag is used in `MoveTask` to determine the appropriate file system operations for local paths."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: correct staging directory path for INSERT OVERWRITE LOCAL DIRECTORY [HIVE-28473]\n\nFix incorrect HDFS path construction when inserting into a local directory. Now uses correct temporary paths for local destinations, preventing permission issues during intermediate file creation."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Correctly handle local directory paths in INSERT OVERWRITE LOCAL DIRECTORY\n\nEnsure that the intermediate HDFS directory is created in the correct location when using `INSERT OVERWRITE LOCAL DIRECTORY`. This fixes the issue where the staging directory was incorrectly created at the local directory path, causing permission errors. Additionally, the `MoveTask` now checks if the target is a DFS directory before creating the parent directory, ensuring consistent behavior. Fixes HIVE-28473."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: correct staging directory for local file inserts\n\nEnsure correct HDFS staging directory is used for local file inserts by distinguishing between local and DFS destinations [HIVE-28473]. This prevents permission errors due to incorrect paths."
             }
         ]
     },
@@ -271,17 +315,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: enable default compactor workers and initiators\n\nEnable compactor initiator and cleaner threads by default to improve cluster resilience during schema mismatches. This change simplifies cluster setup and reduces the likelihood of data inconsistencies during upgrades.\n\nfeat: add -skip-empty-file option to getmerge\n\nAdd flag to skip appending newline delimiters for empty files when using -nl. This prevents unnecessary newlines for zero-byte files.\n\nfix: truncate exception messages to prevent resource exhaustion\n\nLimit exception messages to 1024 characters with \"...\" suffix to reduce memory usage and thread contention during repeated retries.\n\nfix: remove schema version check for partition management\n\nSkip live check for partition management tasks to allow operation during schema mismatches, improving cluster resilience during upgrades.",
-                "cleaned_commit_message": "ix: remove schema version check for partition management\n\nSkip live check for partition management tasks to allow operation during schema mismatches, improving cluster resilience during upgrades."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Update default values and election method for housekeeping and compactor threads\n\nUpdated the default values for `METASTORE_HOUSEKEEPING_THREADS_ON`, `COMPACTOR_INITIATOR_ON`, and `COMPACTOR_CLEANER_ON` to `true`. Additionally, changed the default value of `METASTORE_HOUSEKEEPING_LEADER_ELECTION` from `host` to `lock` to use the Hive lock for leader election. These changes ensure that housekeeping and compactor tasks are enabled by default and that leader election is more robust."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Enable dynamic leader election for HMS (HIVE-28662)\n\nSet default values for metastore.compactor.initiator.on, metastore.compactor.cleaner.on, and metastore.housekeeping.threads.on to true to enable efficient resource management via dynamic leader election."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: enable housekeeping and compactor threads by default\n\nEnable housekeeping and compactor threads by default in the metastore to improve background task management and transactional table maintenance. This change removes the need to manually configure these settings for better out-of-the-box performance and reliability."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: enable default settings for compactor and housekeeping tasks\n\nEnable metastore.compactor.initiator.on, metastore.compactor.cleaner.on, and metastore.housekeeping.threads.on by default [HIVE-28662]. This improves resource utilization and simplifies deployment by automatically triggering necessary compaction and housekeeping tasks."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Enable dynamic leader election for HMS in Hive Metastore\n\nSet the default value of `metastore.compactor.initiator.on` and `metastore.compactor.cleaner.on` to `true` and update the `metastore.housekeeping.leader.election` default value to `lock` to leverage the dynamic leader election introduced in HIVE-26509. This simplifies the configuration and improves resource utilization in environments with multiple HMS instances."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: enable dynamic leader election for HMS tasks\n\nSet default values for `METASTORE_HOUSEKEEPING_THREADS_ON`, `COMPACTOR_INITIATOR_ON`, and `COMPACTOR_CLEANER_ON` to `true` to enable dynamic leader election for HMS tasks [HIVE-28662]. This simplifies configuration and improves scalability by allowing a shared properties file across all HMS instances."
             }
         ]
     },
@@ -294,16 +341,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: use StatsUtils.safeAdd to prevent integer overflow in statistics calculations\n\nReplace direct addition with StatsUtils.safeAdd in statistics calculations to handle potential integer overflows. This includes changes to numRows, dataSize, and numNulls calculations to prevent overflow in statistical aggregations."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Use safe addition for statistics to prevent overflow\n\nReplaced direct addition with `StatsUtils.safeAdd` to prevent potential overflow issues in `dataSize`, `numRows`, and `numNulls` when adding statistics. This ensures that the values are safely updated without risking integer overflow."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Fix overflow issue in Statistics data aggregation\n\nReplace direct addition with StatsUtils.safeAdd to prevent integer overflow in dataSize and numRows calculations. This addresses the issue where large data sizes could cause negative values due to long overflow. Also, update numNulls in column stats to use safeAdd for consistent overflow protection.\n\nHIVE-28637"
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: use safe addition to prevent overflow in statistics\n\nUpdate `Statistics` class to use `StatsUtils.safeAdd` for adding `dataSize`, `numRows`, and `numNulls` to prevent integer overflow. This ensures that the statistics calculations remain accurate and robust."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: prevent negative data size due to overflow in statistics\n\nUse StatsUtils.safeAdd to prevent integer overflow when adding data size and row counts [HIVE-28637]. This ensures proper handling of large values and prevents negative statistics."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent data size overflow in Statistics\n\nUse `StatsUtils.safeAdd` to prevent overflow when adding data size and number of rows in `Statistics`. This addresses the issue where data size could become negative due to overflow, as reported in HIVE-28637."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: prevent data size overflow in Statistics\n\nUse `StatsUtils.safeAdd` to prevent data size from becoming negative due to overflow [HIVE-28637]. This ensures accurate statistics even with large data sizes."
             }
         ]
     },
@@ -320,16 +371,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: refactor and enhance LDAP authentication flow\n\nRefactor authentication filter configuration to use global filters, simplify LDAPAuthService constructor, and improve login handling. Includes modular filter registration and clearer login success/failure feedback."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add global filters and improve LDAP authentication in HttpServer\n\nThis commit introduces global filters in the `HttpServer.Builder` and applies them to all servlet contexts except the static context. It also enhances the LDAP authentication process in `HiveServer2` by adding a global `LDAPAuthenticationFilter` and improving the login handling in `LoginServlet`. Additionally, it fixes the log level for authentication errors in `LdapAuthService` and updates the `LDAPAuthenticationFilter` to handle login requests more robustly."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Address security vulnerabilities in LDAPAuthenticationFilter\n\nThis commit enhances security by modifying how login requests are validated in the `LDAPAuthenticationFilter`. The changes prevent path traversal attacks and forged URIs by properly checking the request method and URI. Additionally, the `LdapAuthService` has been refactored for better dependency management, and the login servlet now correctly handles authentication failures. These changes resolve the security issues identified in HIVE-28594."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add global filters support to HttpServer\n\nAdds support for global filters in `HttpServer` and updates `LDAPAuthenticationFilter` to handle login requests more robustly. Includes necessary changes in `HiveServer2` to initialize and apply the global filters."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: enhance LDAP authentication security and fix URI forgery issue\n\nUpdate LDAPAuthenticationFilter to correctly identify login requests [HIVE-28594]. Add isLoginRequest method and modify filter logic to prevent URI forgery attacks. Improve login flow handling and remove deprecated code."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Address security issues in HS2 WebUI LDAP authentication (HIVE-28594)\n\nImprove LDAP authentication security by refining the way login requests are identified in `LDAPAuthenticationFilter`. The filter now uses `HttpServletRequest.getMethod` and `HttpServletRequest.getServletPath` to correctly identify login requests and prevent URI suffix forgery. Additionally, update the `LdapAuthService` constructor to handle null provider initialization and adjust logging levels for better clarity."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: enhance LDAP authentication security in HS2 WebUI\n\nImprove LDAP authentication by using `ServletPath` and `HttpMethod` to prevent URI suffix forgery attacks [HIVE-28594]. Includes changes to the `LDAPAuthenticationFilter` and `LoginServlet` to ensure secure authentication and proper error handling."
             }
         ]
     },
@@ -342,16 +397,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "perf: enable Sorted dynamic partition optimization with CBO [HIVE-20188]\n\nEnable Sorted dynamic partition optimization only when Hive Cost-Based Optimization (CBO) is enabled. This improves query performance by leveraging CBO for better optimization decisions when available."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "perf: Add CBO check for sorted dynamic partition optimization\n\nThis change adds a check for the CBO (Cost-Based Optimizer) being enabled before running the sorted dynamic partition optimization in the `TezCompiler`. This ensures that the optimization is only applied when both dynamic partitioning is enabled in non-strict mode and CBO is enabled."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Skip sorted dynamic partition optimization when CBO is disabled\n\nThis prevents a NullPointerException when inserting into bucketed partitioned tables, as referenced in HIVE-28633."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "perf: optimize sorted dynamic partitioning with CBO enabled\n\nEnable sorted dynamic partition optimization only when cost-based optimization (CBO) is enabled, reducing unnecessary optimization steps and improving performance."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: gate dynamic partition optimization behind CBO\n\nPrevent optimization from running when CBO is disabled to avoid NullPointerException [HIVE-28633]. This ensures that the optimization only executes when CBO is enabled, preventing issues during bucketed partition insertions."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Add CBO check for sorted dynamic partition optimization\n\nPrevent the sorted dynamic partition optimization from running when CBO is disabled, addressing the NPE in `TezCompiler` for bucketed partition tables. Fixes HIVE-28633."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: enable CBO check for sorted dynamic partition optimization\n\nEnsure sorted dynamic partition optimization is only applied when CBO is enabled, preventing NPE during insert into bucketed partitioned tables [HIVE-28633]."
             }
         ]
     },
@@ -366,17 +425,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "test: add recovery test cases for zero free pages and missing recovery file\n\nAdd tests verifying proper recovery behavior when encountering zero free pages and missing recovery files. Refactor test setup to reduce code duplication via helper method."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Prevent file size adjustment and handle corrupt files during page file loading\n\nThis commit removes the file size preallocation and adjustment logic from `PageFile` and `RecoverableRandomAccessFile` to prevent unintended file modifications. Additionally, it throws an `IllegalStateException` if the main page file length is less than the required header size, indicating a corrupt file. Test cases have been updated to reflect these changes and to simulate scenarios with unclean shutdowns and missing recovery files."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "Okay, I need to write a concise commit message based on the provided Git diff and additional context. Let me start by understanding the changes and the issue they're addressing.\n\nLooking at the Git diff, I see changes in three files: PageFile.java, RecoverableRandomAccessFile.java, and PageFileTest.java. \n\nIn PageFile.java, there are a few modifications. The first change is in the constructor where instead of setting the file length when it's less than the header size, it now throws an IllegalStateException. That makes sense because if the file is corrupt, we shouldn't try to fix it silently but instead let the system know.\n\nNext, in the recover method, there are some commented-out lines related to shrinking the recovery buffer. It looks like the code that tried to adjust the recovery file's length has been removed. That probably aligns with the issue where setLength() was causing exceptions.\n\nIn the load method, there's a part where if the recovery file's length is zero, it writes an empty header. Previously, it also set the file length to a minimum size, but that line has been removed. So, the file isn't preallocated anymore, which might be part of the fix.\n\nMoving to RecoverableRandomAccessFile.java, the setLength method has been removed. This method used to throw an exception, and now it's gone. That means any calls to setLength elsewhere should be handled differently or removed.\n\nLooking at the tests in PageFileTest.java, there are new test cases added. One tests recovery after an unclean shutdown with zero free pages, and another tests recovery when the recovery file is missing. These tests ensure that the changes don't break existing functionality and handle edge cases properly.\n\nNow, considering the additional context provided. The ticket ID is AMQ-9547, and the issue is that PageFile was calling setLength() on the recovery file, which always throws an exception. The priority is major, so this is a significant bug.\n\nThe problem arises because setLength() in RecoverableRandomAccessFile throws an exception, causing issues during recovery. The fix involves removing the setLength() calls and handling cases where the file might be corrupt or missing.\n\nSo, the commit message should reflect that we're fixing a bug where setLength() was causing exceptions. The subject should mention removing the method and handling corrupt files. The body should explain that we now throw exceptions when the file is corrupt and add tests to cover recovery scenarios.\n\nI need to structure the commit message with the type as 'fix', a subject that captures the main change, and a body that briefly explains the changes and includes the test additions.\n\nPutting it all together, the commit message should clearly state the problem, the solution, and the added tests for verification.\nfix: Remove setLength() calls and handle corrupt recovery files\n\nRemove setLength() calls from PageFile and handle cases where recovery file length is invalid. Add tests to verify recovery behavior when encountering corrupt or missing recovery files.\n\nThis addresses AMQ-9547 by ensuring proper error handling and recovery without relying on setLength().",
-                "cleaned_commit_message": "fix: Remove setLength() calls and handle corrupt recovery files\n\nRemove setLength() calls from PageFile and handle cases where recovery file length is invalid. Add tests to verify recovery behavior when encountering corrupt or missing recovery files.\n\nThis addresses AMQ-9547 by ensuring proper error handling and recovery without relying on setLength()."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "test: add tests for recovery after unclean shutdown and missing recovery file\n\nEnhance test coverage for recovery scenarios, including unclean shutdown with zero free pages and missing recovery file."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: remove recovery file setLength calls and handle corrupt files\n\nStop calling setLength on recovery file which always throws exceptions and add validation for corrupt files [AMQ-9547]. Remove unnecessary recovery buffer resizing logic and improve recovery error handling."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Remove setLength calls in PageFile and handle unexpected file lengths\n\nAMQ-9547: Removed calls to `setLength` in `PageFile` which always throw an exception in `RecoverableRandomAccessFile`. Updated the code to handle unexpected file lengths by throwing an `IllegalStateException` when the file length is less than the header size, ensuring the store can detect and recover from corrupt files. Added test cases to validate the recovery process after unclean shutdowns and missing recovery files."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: remove setLength calls in PageFile to prevent exceptions\n\nRemove calls to `setLength` in `PageFile` to avoid exceptions and ensure proper recovery [AMQ-9547]. Includes test cases to validate recovery behavior."
             }
         ]
     },
@@ -390,16 +452,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: support SSLSocket reflection for property setting\n\nEnable reflection on SSLSocket to prevent illegal access issues in JDK 11+ when setting properties on SSL connections."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Handle SSLSocket instances in setProperty method\n\nAdd support for `javax.net.ssl.SSLSocket` instances in the `setProperty` method to overcome illegal access issues with internal implementation classes. This change ensures that both `SSLServerSocket` and `SSLSocket` types are correctly handled."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Fix client SSL socket configuration for SSLSocket and SSLServerSocket\n\nAdded handling for SSLSocket in IntrospectionSupport to resolve reflection access issues when setting socket parameters. Fixes AMQ-9473."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: handle SSLSocket in IntrospectionSupport\n\nAdd support for handling `javax.net.ssl.SSLSocket` instances in `setProperty` method to overcome illegal access issues with internal implementation classes. This ensures compatibility with both `SSLServerSocket` and `SSLSocket` types."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: resolve SSL socket configuration issues for client connections\n\nHandle SSLSocket and SSLSocketImpl to prevent illegal access exceptions when setting socket parameters [AMQ-9473]. This addresses client-side socket configuration failures for parameters like enabledProtocols."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle SSLSocket in IntrospectionSupport\n\nAMQ-9473: Client SSL Socket configuration fails while setting parameters. This commit ensures that `SSLSocket` instances are correctly handled to overcome illegal access issues, similar to the existing handling for `SSLServerSocket`. This resolves the issue where setting socket parameters like `enabledProtocols` on client connections results in `InaccessibleObjectException`."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle SSLSocket configuration in IntrospectionSupport\n\nEnsure SSLSocket properties can be set by using the public javax.net.ssl.SSLSocket class to avoid illegal access issues [AMQ-9473]. This change aligns with the existing fix for SSLServerSocket and includes the same handling in the activemq-jms-pool module."
             }
         ]
     },
@@ -412,16 +478,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: add null checks in commitRemove\n\nAdd null checks to prevent NullPointerException when ack or message ID is null."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Add null checks before removing message in `commitRemove` method\n\nEnsure `TransactionContext`, `MessageAck`, `LastMessageId`, and `EntryLocator` are not null before attempting to remove a message, preventing potential `NullPointerException`."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Prevent NullPointerException in commitRemove to fix connection leaks\n\nThis change addresses issues AMQ-7424 and AMQ-7480 by adding null checks in commitRemove to handle cases where parameters may be null, preventing NullPointerExceptions and ensuring proper connection handling during recovery."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: add null checks before message removal in JDBCPersistenceAdapter\n\nAdd null checks to ensure `TransactionContext`, `MessageAck`, and `MessageId` are not null before attempting to remove a message. This prevents potential `NullPointerException` and ensures robust handling of message removal operations."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: handle null transaction context in commitRemove\n\nAdd null checks before committing remove operations to prevent NullPointerExceptions during transaction rollbacks [AMQ-7424, AMQ-7480]. This ensures proper cleanup and connection pool management under failure conditions."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent NPE in commitRemove under high database load\n\nPrevent NPE in `commitRemove` by adding null checks for `context`, `ack`, and `ack.getLastMessageId().getEntryLocator()`. This addresses the connection leak and ensures the system recovers correctly after abnormal database loads. Related to tickets AMQ-7424 and AMQ-7480."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle null checks in commitRemove to prevent NPE and connection leak\n\nPrevent NPE and connection leak during XA transaction rollback by adding null checks in `commitRemove` [AMQ-7424]. This ensures the system can recover correctly after high database load abnormalities."
             }
         ]
     },
@@ -434,16 +504,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: add null checks to prevent NPE in XAException handling\n\nAdd null checks around XAException handling in toXAException method to prevent potential NullPointerExceptions when handling transaction exceptions."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Ensure XAException is properly initialized when original exception is null\n\nThis commit adds null checks to ensure that the `XAException` is only initialized with the original exception's error code and cause if the original exception is not null. This prevents potential `NullPointerException` and ensures the `XAException` is correctly formed."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Fix NPEs causing connection leaks in XA transactions (AMQ-7424, AMQ-7480)\n\nThe changes handle NullPointerExceptions during XA transaction rollbacks, preventing connection leaks and ensuring proper recovery under heavy loads."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: add null checks for XAException in toXAException method\n\nAdd null checks for `original` and `xae` to prevent potential `NullPointerException` when handling exceptions. This ensures the method is more robust and avoids crashes due to null references."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: prevent NPE during transaction rollback [AMQ-7424, AMQ-7480]\n\nAdd null checks to handle exception causes and prevent connection leaks during XA rollback scenarios. This ensures proper resource management and recovery after transaction timeouts."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle NPE in XA transaction rollback to prevent connection leak\n\nPrevent NPE in `TransactionContext` during XA transaction rollback, ensuring the connection is not leaked and the system can recover after high database load. Addresses AMQ-7424."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle NullPointerException in TransactionContext\n\nPrevent NullPointerException from causing connection leaks and ensure proper recovery after high database load [AMQ-7424]. This change ensures that the transaction context correctly handles XAException instances and maintains connection pool integrity."
             }
         ]
     },
@@ -457,16 +531,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add support for ConnectionInfo and RemoveInfo messages\n\nAdd handling for ConnectionInfo and RemoveInfo in JMSMappingOutboundTransformer, including corresponding test cases to validate the conversion."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add support for transforming ConnectionInfo and RemoveInfo messages\n\nThis commit adds the ability to transform `ConnectionInfo` and `RemoveInfo` messages in the `JMSMappingOutboundTransformer` class. The transformation includes setting the `ActiveMqDataStructureType` in the application properties and converting the message body to a map of relevant fields. Test cases for both `ConnectionInfo` and `RemoveInfo` transformations have been added to `JMSMappingOutboundTransformerTest` to ensure the changes work as expected."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: support transformation of advisory messages to AMQP format\n\nAdds transformation for ConnectionInfo and RemoveInfo messages, populating their bodies with relevant details. This ensures advisory messages, such as ActiveMQ.Advisory.Connection, contain useful information in their bodies instead of being empty. Fixes AMQ-7068."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: support AMQP transformation for ConnectionInfo and RemoveInfo messages\n\nAdd support for transforming `ConnectionInfo` and `RemoveInfo` messages in the `JMSMappingOutboundTransformer` to AMQP format. Includes test cases to validate the transformation of these message types."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: serialize advisory messages to include connection and remove info [AMQ-7068]\n\nAdd serialization for ConnectionInfo and RemoveInfo data structures to include relevant details in application properties and message body for AMQP advisory messages. Includes tests to validate transformation behavior."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Add body content for advisory messages in AMQP transformer\n\nAdvisory messages for `ActiveMQ.Advisory.Connection` and `ActiveMQ.Advisory.Consumer` now include the relevant `ConnectionInfo` and `RemoveInfo` data structures in the AMQP message body, ensuring that the necessary information is available for clients. This addresses the issue where advisory messages were previously empty, as described in AMQ-7068. Test cases have been added to validate the transformation of these data structures."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: add body content for advisory messages in AMQP\n\nPopulate advisory message bodies with relevant information for AMQP subscriptions [AMQ-7068]. Includes tests for ConnectionInfo and RemoveInfo data structures."
             }
         ]
     },
@@ -479,16 +557,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add audit logging configuration\n\nAdd support for audit logging configuration options to ensure proper validation and sanitization of settings. Includes necessary checks to handle user-defined audit logging parameters correctly."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add audit logging options sanitation and validation\n\nAdd sanitation and validation for audit logging options in the `applySimpleConfig` method. This ensures that the audit logging configuration is properly validated before being applied."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Add sanitization for audit_logging_options on startup\n\nAdd sanitization for audit_logging_options during configuration loading to ensure consistent behavior with nodetool enableauditlog. This fixes trimming issues in included_categories. (CASSANDRA-20208)"
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": feat: add audit logging options validation and sanitation\n\nAdd validation and sanitation for audit logging options during configuration initialization. This ensures that audit logging settings are correctly configured and sanitized before use.",
+                "cleaned_commit_message": "feat: add audit logging options validation and sanitation\n\nAdd validation and sanitation for audit logging options during configuration initialization. This ensures that audit logging settings are correctly configured and sanitized before use."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: sanitize audit_logging_options on startup\n\nSanitize and validate audit Logging Options during configuration parsing [CASSANDRA-20208]. Ensures consistent behavior by trimming whitespace from configuration values."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Sanitize audit_logging_options during startup configuration loading\n\nEnsure that audit logging options are sanitized and validated when loaded from the configuration file on startup, addressing CASSANDRA-20208. This change aligns the behavior with the existing sanitization logic used during runtime configuration updates."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: sanitize audit_logging_options on startup\n\nEnsure audit logging options are sanitized and validated when loaded from the configuration file on startup [CASSANDRA-20208]. This addresses inconsistent behavior and potential issues due to untrimmed spaces in category names."
             }
         ]
     },
@@ -502,17 +585,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "The changes involve refactoring the `StoppingTransformation` class and its usage within `ReadCommand`. The additions of `attachTo` methods and changing field visibility enhance encapsulation and prevent bugs.\n\n**Commit Message:**\n\n```\nrefactor: improve encapsulation in StoppingTransformation\n\nModify StoppingTransformation to properly handle different iterator types and prevent attaching multiple different iterators by adding attachTo methods and making rows/partitions protected.\n```\n\nThis message succinctly captures the refactor's intent and the key changes made.",
-                "cleaned_commit_message": "refactor: improve encapsulation in StoppingTransformation\n\nModify StoppingTransformation to properly handle different iterator types and prevent attaching multiple different iterators by adding attachTo methods and making rows/partitions protected.\n```\n\nThis message succinctly captures the refactor's intent and the key changes made."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add attachTo methods in StoppingTransformation to prevent attaching multiple different iterators\n\nThis commit adds `attachTo` methods for `BasePartitions` and `BaseRows` in the `StoppingTransformation` class to ensure that only one instance of each type can be attached. This prevents potential bugs where multiple different iterators might be attached, which could lead to unexpected behavior. The changes include updating the `ReadCommand` class to use these new methods."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Prevent assertion errors when multiple transformations are applied\n\nCASSANDRA-20135: Fixed assertion errors caused by attaching multiple transformations by modifying access modifiers and adding precondition checks."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: add attachment methods to StoppingTransformation\n\nAdd `attachTo` methods for `BasePartitions` and `BaseRows` to `StoppingTransformation` and change the visibility of `rows` and `partitions` to protected. This improves the internal structure and modularity of the code, making it more maintainable."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: fix assertion errors in StoppingTransformation\n\nCorrectly handle attachment of transformations to prevent duplicate calls and assertion errors [CASSANDRA-20135]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent assertion errors in StoppingTransformation on multiple calls\n\nFixes CASSANDRA-20135 by ensuring that `StoppingTransformation` does not throw an assertion error when `attachTo` is called multiple times. This issue arises because the transformation is being added to the stack multiple times, leading to duplicate instances. The fix changes the `attachTo` methods to use `protected` visibility, allowing subclasses to override and handle the attachment more gracefully. Additionally, it adds checks in `ReadCommand` to prevent the transformation from being added to the stack more than once."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle null values in ByteType comparison to prevent IndexOutOfBoundsException\n\nEnsure that `ByteType.compareCustom` safely handles null values (empty ByteBuffers) to prevent `IndexOutOfBoundsException` when querying partitions with deleted columns [CASSANDRA-20108]."
             }
         ]
     },
@@ -527,16 +613,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add filtering options to listsnapshots command\n\nAdded filtering by keyspace, table, and snapshot name to improve snapshot management [CASSANDRA-XXXX]. Includes tests for new filtering capabilities."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add keyspace, table, and snapshot name filtering options to ListSnapshots\n\nThis commit adds new options to the `ListSnapshots` command to filter snapshots by keyspace, table, and snapshot name. The `SnapshotManagerMBean` interface has been updated to include these options, and the `ListSnapshots` class now handles them appropriately. Additionally, a new test case `testListingOfSnapshotsByKeyspaceAndTable` has been added to ensure the functionality works as expected."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add filtering options to nodetool listsnapshots\n\nAdded optional flags `-k/--keyspace`, `-t/--table`, and `-n/--snapshot` to filter snapshots by keyspace, table, or snapshot name. These options enhance the ability to manage and navigate through numerous snapshots. CASSANDRA-20151"
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": feat: add keyspace, table, and snapshot filtering options to listsnapshots\n\nAdd `-k`, `-t`, and `-n` options to `listsnapshots` to filter snapshots by keyspace, table, and snapshot name, respectively. Includes tests to validate the new filtering behavior.",
+                "cleaned_commit_message": "feat: add keyspace, table, and snapshot filtering options to listsnapshots\n\nAdd `-k`, `-t`, and `-n` options to `listsnapshots` to filter snapshots by keyspace, table, and snapshot name, respectively. Includes tests to validate the new filtering behavior."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add filtering options to nodetool listsnapshots\n\nAdd support for filtering snapshots by keyspace, table, and snapshot name using new options [-k, -t, -n] in nodetool listsnapshots [CASSANDRA-20151]. Includes test cases verifying the filtering functionality."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add filtering options for keyspace, table, and snapshot name in nodetool listsnapshots\n\nThis commit introduces new options to the `nodetool listsnapshots` command to filter snapshots by keyspace, table, and snapshot name. The `SnapshotManagerMBean` interface and `ListSnapshots` class have been updated to support these options. Additionally, test cases have been added to `SnapshotsTest` to ensure the functionality works as expected."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add keyspace, table, and snapshot name filtering to nodetool listsnapshots\n\nAdd options to filter snapshots by keyspace, table, and snapshot name [CASSANDRA-20151]. Includes tests validating the new filtering options."
             }
         ]
     },
@@ -553,16 +644,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add raw true size tracking for snapshots\n\nAdd support for tracking and reporting raw true size of snapshots in bytes [CASSANDRA-XXXX]. This includes updating the tabular data to include raw sizes and adding a new method to retrieve specific snapshot sizes."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add raw true size to snapshot details and implement per-snapshot true size calculation\n\nThis commit adds the raw true size to the `SnapshotDetailsTabularData` and implements a new method in `SnapshotManager` to calculate the true size of a specific snapshot in a given keyspace and table. The `ListSnapshots` command is updated to display the total true disk size correctly, and test cases are added to verify the functionality."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "perf: Optimize nodetool listsnapshots to reduce JMX calls\n\nInclude raw true snapshot sizes in SnapshotDetailsTabularData and sum on client side, eliminating redundant JMX calls and improving efficiency. This change addresses CASSANDRA-20149."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": feat: add raw true size to snapshot details and manager\n\nAdd a new column for raw true size in snapshot details and a new method in SnapshotManager to get the true size of a specific snapshot. Includes test cases to validate the changes.",
+                "cleaned_commit_message": "feat: add raw true size to snapshot details and manager\n\nAdd a new column for raw true size in snapshot details and a new method in SnapshotManager to get the true size of a specific snapshot. Includes test cases to validate the changes."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "perf: optimize snapshot listing by reducing JMX calls\n\nModify nodetool listsnapshots to include true snapshot sizes in single JMX call [CASSANDRA-20149]. Adds raw true size column and totals, eliminating redundant JMX queries."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "perf: Optimize `nodetool listsnapshots` to reduce JMX calls and improve efficiency\n\nThis commit optimizes the `nodetool listsnapshots` command by reducing the number of JMX calls. The true size of snapshots is now returned as part of the snapshot details, which avoids the need for a separate JMX call to compute the total true disk size. Additionally, a new method `getTrueSnapshotsSize` is introduced to the `SnapshotManager` interface, allowing users to get the true size of a specific snapshot in a keyspace and table. This change also ensures that the total true disk size is accurately calculated and displayed, even if snapshots are removed between calls. Test cases have been updated to reflect these changes."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "perf: optimize nodetool listsnapshots JMX calls\n\nReduce JMX calls by returning snapshot sizes with details, improving performance and reducing the risk of inconsistent size calculations [CASSANDRA-20149]. Includes test updates to validate the new behavior."
             }
         ]
     },
@@ -577,16 +673,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: handle tombstones correctly in row filtering\n\nUpdate RowFilter and related classes to properly account for tombstones and live status when evaluating row expressions. Includes new tests for filtering on deleted static columns."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Add current time to row filtering logic and test cases\n\nThis commit updates the `RowFilter` class and its `Expression` subclasses to include the current time in seconds (`nowInSec`) as a parameter for the `isSatisfiedBy` method. This change ensures that the filtering logic correctly handles tombstones and live cells, particularly for static columns and deleted values. Additionally, new test cases have been added to `SelectTest` to verify the behavior of filtering on deleted static column values.\n\n- Updated `RowFilter` and `Expression` methods to include `nowInSec`.\n- Added test cases in `SelectTest` to verify filtering on deleted static column values.\n- Updated `OperationTest` to reflect the new method signature."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Handle deleted static columns in row filtering to prevent IndexOutOfBoundsException\n\nAdded `nowInSec` parameter to row filter evaluation methods and updated tombstone checks to prevent accessing deleted static columns, resolving IndexOutOfBoundsException during filtering. Added test case to verify correct handling of deleted static columns in queries."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: update row filtering to handle deleted cells and static columns\n\nUpdate `RowFilter` and related classes to include `nowInSec` parameter in `isSatisfiedBy` methods, ensuring deleted cells and static columns are correctly handled. Includes tests for filtering on deleted static column values.",
+                "cleaned_commit_message": "fix: update row filtering to handle deleted cells and static columns\n\nUpdate `RowFilter` and related classes to include `nowInSec` parameter in `isSatisfiedBy` methods, ensuring deleted cells and static columns are correctly handled. Includes tests for filtering on deleted static column values."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: handle deleted columns in row filtering to prevent index errors [CASSANDRA-20108]\n\nUpdate RowFilter to properly handle deleted columns by checking for tombstones and null values. Includes test cases to validate filtering on deleted static columns."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle null and tombstoned values in RowFilter\n\nIn `RowFilter`, update `isSatisfiedBy` and `getValue` methods to handle null and tombstoned values correctly, preventing `IndexOutOfBoundsException` when filtering on deleted columns. Added test cases to verify the behavior with deleted static columns. CASSANDRA-20108"
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle tombstones and expired cells in row filtering\n\nEnsure row filtering correctly handles tombstones and expired cells to prevent `IndexOutOfBoundsException` [CASSANDRA-20108]. Includes test cases for filtering on deleted static column values."
             }
         ]
     },
@@ -599,16 +700,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "chore: improve directory handling in file copy utility\n\nUpdate file copy logic to ensure target directories exist before copying and fix typo in comment. This improves reliability of file operations during source export."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "chore: Ensure target directories are created before copying files\n\nEnsure that the target directories are created before copying files, and fix a typo in the comment from \"flattern\" to \"flatten\". This change ensures that the file copying process is more robust and avoids potential issues with missing directories."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: resolve export issue when local-kamelet-dir is current directory (CAMEL-21442)\n\nEnsure target directory is created before copying files and fix typo in comment."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: ensure target directory is created before copying source files\n\nEnsure the target directory is created before copying source files, and correct the spelling of \"flatten\" in the `safeCopy` method. This prevents potential `FileNotFoundException` and improves the robustness of the file copy process."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: resolve local-kamelet-dir export issue by creating target directory\n\nEnsure target directory exists before copying files and simplify file copy logic [CAMEL-21442]. Additionally, fix typo in comment."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure target directory is created during export\n\nEnsure the target directory is created before copying files, addressing the issue where `camel-jbang export` fails when `local-kamelet-dir` is set to the current directory. This resolves CAMEL-21442 and improves robustness in directory handling."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: ensure target directory exists during export\n\nCreate target directory if it does not exist to prevent `NoSuchFileException` when exporting with `--local-kamelet-dir` set to the current directory [CAMEL-21442]. Also, correct the typo in the comment from \"flattern\" to \"flatten\"."
             }
         ]
     },
@@ -622,16 +727,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: relocate createKubernetesClientForShutdownHook and clean up imports\n\nMove `createKubernetesClientForShutdownHook` method from `KubernetesHelper` to `KubernetesRun` for better encapsulation. Clean up unused imports in `KubernetesHelper`."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Move `createKubernetesClientForShutdownHook` to `KubernetesRun`\n\nMoved the `createKubernetesClientForShutdownHook` method from `KubernetesHelper` to `KubernetesRun` to better encapsulate the shutdown hook logic and reduce the responsibilities of the `KubernetesHelper` class. This change aligns with the JIRA issue CAMEL-21621, ensuring that the Kubernetes client is properly configured for the shutdown hook."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Move Kubernetes client creation method to address shutdown hook issue\n\nMove `createKubernetesClientForShutdownHook` from `KubernetesHelper` to `KubernetesRun` to fix the `camel-jbang` shutdown hook issue (CAMEL-21621). This addresses the `Client is closed` exception during shutdown."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: move createKubernetesClientForShutdownHook to KubernetesRun\n\nMove the `createKubernetesClientForShutdownHook` method from `KubernetesHelper` to `KubernetesRun` to ensure it is only used in the context of a shutdown hook, addressing the issue with `KubernetesClientVertx` in shutdown hooks.",
+                "cleaned_commit_message": "fix: move createKubernetesClientForShutdownHook to KubernetesRun\n\nMove the `createKubernetesClientForShutdownHook` method from `KubernetesHelper` to `KubernetesRun` to ensure it is only used in the context of a shutdown hook, addressing the issue with `KubernetesClientVertx` in shutdown hooks."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: move shutdown hook Kubernetes client creation to fix resource cleanup\n\nMove Kubernetes client creation for shutdown hooks to KubernetesRun to resolve manifest file cleanup and client closure issues during shutdown [CAMEL-21625, CAMEL-21621]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle Kubernetes manifest file resolution and client creation for shutdown hook\n\nAddressed CAMEL-21625 by improving the resolution of Kubernetes manifest files and CAMEL-21621 by moving the creation of the Kubernetes client for the shutdown hook to the `KubernetesRun` class. This ensures the client is properly initialized and avoids issues with the client being closed during the shutdown process."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: improve Kubernetes client shutdown hook and manifest handling\n\nRefactor Kubernetes client creation for shutdown hook to prevent `Client is closed` exceptions [CAMEL-21621]. Simplify manifest file resolution logic to avoid `FileNotFoundException` [CAMEL-21625]."
             }
         ]
     },
@@ -644,16 +754,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: add concurrency control for change tracking in SimpleLRUCache\n\nAdd ReadWriteLock to prevent race conditions during change tracking operations. Includes lock handling for addChange and compressChanges methods to ensure thread safety in concurrent environments."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Add read/write locking to prevent concurrent modifications during cache changes\n\nAdded a `ReadWriteLock` to `SimpleLRUCache` to ensure thread safety during the addition and swapping of changes in the `lastChanges` queue. This prevents concurrent modifications and ensures that the `compressChanges` method operates correctly."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Add locks to prevent deadlock in SimpleLRUCache\n\nAdded ReadWriteLock to synchronize access to the changes queue during put and compressChanges operations, resolving concurrency issues causing threads to hang."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: introduce ReadWriteLock for thread-safe cache operations\n\nAdd a `ReadWriteLock` to `SimpleLRUCache` to ensure thread safety during the swap of the queue of changes. This prevents concurrent modifications and enhances the internal structure without altering the cache's functionality."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: add concurrency control to SimpleLRUCache\n\nAdd ReadWriteLock to prevent concurrent modifications during cache operations [CAMEL-21614]. This ensures thread safety during changes and improves stability for concurrent access."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Add read/write locks to prevent thread contention in SimpleLRUCache\n\nCAMEL-21614: Added `ReadWriteLock` to `SimpleLRUCache` to prevent threads from getting stuck in the RUNNABLE state during cache operations, particularly when adding and swapping entries. This reduces the likelihood of the issue occurring with bean expressions inside simple expressions."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: add read/write locks to prevent changes during queue swap in SimpleLRUCache\n\nAdd read/write locks to `SimpleLRUCache` to prevent concurrent modifications during the swap of the queue of changes. This addresses the issue of threads getting stuck in the RUNNABLE state [CAMEL-21614]."
             }
         ]
     },
@@ -667,16 +781,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: properly handle Kubernetes client in shutdown hooks\n\nAdd dedicated Kubernetes client creation for shutdown hooks using Vertx configuration and ensure proper cleanup via try-with-resources [CAMEL-21621]. This prevents resource leaks and ensures safe client disposal during application shutdown."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Use specialized Kubernetes client for shutdown hook in KubernetesRun\n\nThis commit addresses the issue where the `KubernetesClientVertx` cannot be used in the shutdown hook due to a known bug (CAMEL-21621). A new method `createKubernetesClientForShutdownHook` is added to `KubernetesHelper` to create a specialized client configured to avoid DNS resolution and use daemon threads. The `installShutdownHook` method in `KubernetesRun` now uses this specialized client to ensure proper cleanup during shutdown."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: create k8s client for shutdown hook to prevent client closure and improve cleanup\n\nAdded `createKubernetesClientForShutdownHook` in `KubernetesHelper` to properly handle client creation and closure during shutdown. Also, ensured proper resource management using try-with-resources in `KubernetesRun`'s shutdown hook. Fixes CAMEL-21621 and CAMEL-21625 by preventing client closure issues and improving Kubernetes manifest cleanup during application termination."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: create specialized Kubernetes client for shutdown hook\n\nCreate a specialized Kubernetes client for the shutdown hook to avoid issues with DNS resolution and resource management. This addresses the problem described in CAMEL-21621.",
+                "cleaned_commit_message": "fix: create specialized Kubernetes client for shutdown hook\n\nCreate a specialized Kubernetes client for the shutdown hook to avoid issues with DNS resolution and resource management. This addresses the problem described in CAMEL-21621."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: fix kubernetes shutdown hook and manifest cleanup issues\n\nResolve Kubernetes client closure and manifest file errors during shutdown [CAMEL-21621, CAMEL-21625]. Implements proper client management and handles missing manifest files in shutdown hooks."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle Kubernetes client closure in shutdown hook\n\nResolves CAMEL-21621 by creating a new Kubernetes client specifically for the shutdown hook to prevent the \"Client is closed\" exception. Additionally, ensures proper cleanup of the export directory."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle k8s client and manifest cleanup in shutdown hook\n\nEnsure the Kubernetes client is properly initialized and the manifest files are correctly resolved during the shutdown hook process [CAMEL-21621, CAMEL-21625]. This fixes issues with client closure and missing manifest files."
             }
         ]
     },
@@ -691,16 +810,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: improve vault configuration handling\n\nEnhance error reporting in vault property resolution and reorganize configuration steps for clarity and maintainability. Includes splitting configuration methods and renaming refresh handling."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Improve Vault configuration and error handling\n\nThis commit refactors the `HashicorpVaultPropertiesFunction` to provide a more detailed error message when an issue occurs while retrieving a secret from Hashicorp Vault. Additionally, it introduces a new method `doConfigureVaultFromMainConfiguration` in `BaseMainSupport` to pre-load and configure Vault settings, ensuring they are available eagerly during property placeholder resolutions. This change enhances the robustness and clarity of Vault configuration in Camel."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: initialize vault configuration earlier and improve error handling\n\nInitialize vault configuration earlier to ensure properties are available during bean instantiation. Improve error messages when retrieving secrets from vault. This addresses CAMEL-21553."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: reorganize vault configuration and initialization in `BaseMainSupport`\n\nReorganize vault configuration and initialization to ensure it is pre-loaded during property placeholder resolutions. This change also updates the `configureVault` method to `configureVaultRefresh` to better reflect its purpose."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: improve error handling and Vault configuration loading\n\nEnhance error messages by including exception details [CAMEL-21553]. Refactor Vault configuration loading to ensure proper initialization during application startup."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Improve error message and vault configuration order in `HashicorpVaultPropertiesFunction` and `BaseMainSupport`\n\nImproved error message for secret retrieval failures in `HashicorpVaultPropertiesFunction` and adjusted the vault configuration order in `BaseMainSupport` to ensure properties are pre-loaded before route initialization. This resolves issues with vault property resolution during bean instantiation. Resolves CAMEL-21553."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: enhance vault properties configuration to support bean instantiation\n\nMove vault properties configuration to an earlier stage in the initialization process to ensure they are available during bean instantiation [CAMEL-21553]. Includes changes to `BaseMainSupport` and `DefaultConfigurationConfigurer` to preload vault properties and refresh vault configuration."
             }
         ]
     },
@@ -715,16 +838,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: introduce multiline message helper\n\nIntroduce utility class for formatting multiline messages with borders and box characters. Update BuilderCommon to use this helper for consistent message formatting. Add unit tests for the new utility."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Introduce MultilineMessageHelper for consistent multiline console warnings\n\nIntroduces a new helper class `MultilineMessageHelper` to format multiline warning messages consistently in the console. The class is utilized in `BuilderCommon` to format warnings about non-thread-safe plugins during parallel builds. Additionally, test cases for `MultilineMessageHelper` are added to ensure its correctness."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "refactor: Add multiline message helper for consistent boxed log formatting (MNG-7486)\n\nAdded `MultilineMessageHelper` class to format multiline log messages with consistent box formatting, along with corresponding test cases. Updated `BuilderCommon` to utilize this helper for displaying warnings about non-thread-safe plugins."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add multiline message helper for console output\n\nIntroduce `MultilineMessageHelper` to format multiline messages with box characters and a maximum line length, enhancing readability and consistency of console warnings. Includes tests for validating the helper's behavior."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "refactor: add multiline message helper for boxed log messages [MNG-7486]\n\nSimplify message formatting for console output by introducing a reusable helper class. Includes test cases for message formatting scenarios."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "refactor: Introduce MultilineMessageHelper for boxed log messages\n\nIntroduce `MultilineMessageHelper` to format multiline log messages in a boxed layout, addressing MNG-7486. This helper is used in `BuilderCommon` to improve the readability and consistency of warnings about non-threadsafe plugins. Additionally, test cases are added to ensure the helper functions correctly."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "refactor: introduce MultilineMessageHelper for boxed log messages\n\nCreate a helper class to format and log multiline messages with a boxed layout [MNG-7486]. This simplifies the logging of warnings and errors in Maven components, such as `BuilderCommon`. Includes test cases to validate the formatting."
             }
         ]
     },
@@ -738,16 +865,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: improve deprecated CLI option handling\n\nCentralize deprecated option detection and logging, and add error handling for unsupported options."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "chore: Improve handling of deprecated and unsupported options\n\nUpdate the CLIManager and MavenCli classes to better handle deprecated and unsupported options. The `CLIManager` now uses a `Set` to track used deprecated options, and the `MavenCli` class has been modified to print detailed warnings and errors for deprecated options, including removal timelines and alternative options. The `llr` option is marked as unsupported and will cause the build to fail if used. Additionally, the `logging` method in `MavenCli` now throws an `ExitException` if any deprecated options with UNSUPPORTED descriptions are encountered."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "refactor: Fix deprecated option notices and improve documentation\n\n- Added tracking for deprecated options usage\n- Updated deprecated option messages with proper attributes\n- Modified help output to clearly indicate deprecated options\n- Ticket ID: MNG-8237"
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: improve deprecated option handling in CLIManager and MavenCli\n\nIntroduce a `Set<Option>` to track used deprecated options and enhance logging to provide detailed warnings and errors for deprecated options. This includes handling the `--debug` option, `--global-settings`, and `--global-toolchains` options, with appropriate messages and future removal plans."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "chore: improve deprecated option handling\n\nUpdate deprecated option handling to prevent duplicate warnings and improve error messages [MNG-8237]. Adds tracking for deprecated option usage and improves deprecation notice formatting in help output."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Improve deprecation handling and warnings for CLI options\n\nClean up deprecation notices for CLI options to ensure they are only displayed once and provide more detailed information. Update the help output to include deprecation status and recommendations for alternative options. Addresses MNG-8237."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: improve deprecation handling and warnings for CLI options\n\nCentralize deprecation handling in CLIManager and enhance warnings for deprecated options [MNG-8237]. Also, fix multiple deprecation notices for the same option and update help documentation to reflect deprecated status."
             }
         ]
     },
@@ -760,16 +891,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: improve dependency version inference in model builder\n\nExtracted dependency version inference logic into a separate method and optimized the handling of dependencies for better readability and maintainability."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Improve dependency version inference in `transformFileToRaw`\n\nRefactor the `transformFileToRaw` method to improve readability by extracting the version inference logic into a helper method `inferDependencyVersion`. Additionally, handle empty dependencies list early to avoid unnecessary processing."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: MNG-8331: Versioned dependencies may disappear in modelVersion 4.1.0\n\nRefactored dependency version inference logic to properly handle mixed versioned and version-less dependencies, ensuring all dependencies are correctly included in the model."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: optimize dependency version inference in transformFileToRaw\n\nOptimize the `transformFileToRaw` method to avoid unnecessary operations when there are no dependencies. Also, extract the version inference logic into a separate method for better readability and maintainability."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: retain versioned dependencies when mixing with inferred versions [MNG-8331]\n\nRestructure dependency processing to ensure versioned dependencies are not lost when mixed with inferred version-less dependencies. This fixes an issue where versioned dependencies could disappear during model processing [MNG-8331]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure versioned dependencies are not lost in modelVersion 4.1.0\n\nInfer and set missing dependency versions to prevent versioned dependencies from disappearing when mixed with version-less dependencies. Addresses MNG-8331."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: preserve versioned dependencies in mixed model\n\nEnsure versioned dependencies are retained when mixed with version-less dependencies in modelVersion 4.1.0 [MNG-8331]. Refactors dependency inference to prevent unintended removal of explicitly versioned dependencies."
             }
         ]
     },
@@ -782,17 +917,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: extract version segment parsing into helper method\n\nExtract repeated code into `asLong` method with error handling, improving maintainability."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Improve version comparison by handling NumberFormatException\n\nRefactor the `compareModelVersions` method to use a helper method `asLong` that safely converts version segments to `Long`, handling potential `NumberFormatException` by defaulting to `0L`. This ensures robust version comparison and prevents unexpected errors."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "```\nfix: MNG-8349 - Handle NumberFormatException in model version comparison\n\nAdded helper method asLong to safely parse version segments and handle invalid numbers.\n```\n\nThe commit message succinctly captures the fix for the NumberFormatException issue, referencing the relevant ticket and summarizing the changes made to handle invalid version segments.",
-                "cleaned_commit_message": "fix: MNG-8349 - Handle NumberFormatException in model version comparison\n\nAdded helper method asLong to safely parse version segments and handle invalid numbers."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: improve version comparison logic in DefaultModelValidator\n\nExtracted a helper method `asLong` to handle segment conversion and exception handling, making the `compareModelVersions` method more readable and robust."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: handle NumberFormatException in model version parsing [MNG-8349]\n\nAdd error handling for invalid model version strings to prevent NumberFormatException during Maven model validation."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle empty segments in model version comparison\n\nAvoid NumberFormatException when comparing model versions with empty segments. Addresses MNG-8349."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle NumberFormatException for invalid modelVersion\n\nPrevent NumberFormatException during model building by adding a safeguard in the version comparison logic [MNG-8349]. This ensures that invalid modelVersion values are handled gracefully, preventing the build from failing unexpectedly."
             }
         ]
     },
@@ -806,17 +944,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add proxy support for session-scoped beans\n\nAdd proxy support to handle session-scoped dependencies within singleton contexts. Includes tests verifying proxy behavior and injection correctness."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "test: Add proxy creation for session scoped beans\n\nIntroduce proxy creation logic in `SessionScope` to handle session scoped beans that are not directly instantiated. This ensures that methods on session scoped beans can be invoked lazily and safely outside of the session scope. Additionally, add test cases to validate the behavior of the new proxy mechanism."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add proxy support for session-scoped components (MNG-7662)\n\nAdded proxy creation for session-scoped beans requiring injection into singleton beans, using Typed annotations. Includes tests verifying proxy behavior and injection compatibility."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add proxy support for session-scoped beans\n\nAdd proxy creation for session-scoped beans to handle out-of-scope lookups and ensure proper behavior when the session scope is not active. Includes a comprehensive test case to validate the proxy mechanism."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: enable session scoped proxies for injection into singletons [MNG-7662]\n\nAdd proxy support for session scoped components to be injected into singletons, with tests verifying the behavior.\n\n---\n\n{type}: {subject}\n\n{body}\n\n---\n\nfeat: enable session scoped proxies for injection into singletons [MNG-7662]\n\nAdd proxy support for session scoped components to be injected into singletons, with tests verifying the behavior.",
-                "cleaned_commit_message": "feat: enable session scoped proxies for injection into singletons [MNG-7662]\n\nAdd proxy support for session scoped components to be injected into singletons, with tests verifying the behavior."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Proxy session scoped components for singleton bean injection\n\nWhen injecting session scoped components into singleton beans, the `SessionScope` now creates proxies to defer the actual bean creation until the session scope is available. This change requires the `Typed` annotation (either `org.eclipse.sisu.Typed` or `javax.enterprise.inject.Typed`) on the session scoped bean to ensure that only interfaces are proxied. Added test cases to validate the behavior. Fixes MNG-7662."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: proxy session scoped components for singleton injection\n\nEnable injection of session scoped components into singleton beans by creating proxies [MNG-7662]. Proxies are created for beans annotated with `@Typed` and ensure that the session scope is available when the bean is accessed. Includes comprehensive test coverage."
             }
         ]
     },
@@ -829,16 +970,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: improve BratDocumentStream with constants and sorting\n\nIntroduce constants for file suffixes and sort files before processing. Replace hardcoded strings with constants to improve code maintainability and consistency."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Introduce constants for file suffixes and sort files in BratDocumentStream\n\nIntroduce constants `SUFFIX_ANN` and `SUFFIX_TXT` for file suffixes to improve code readability and maintainability. Additionally, sort files before processing to ensure consistent order."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: OPENNLP-1702 - BratDocumentStream now processes files deterministically\n\nSorted files alphabetically and used constants for suffixes to ensure consistent processing order."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: improve file handling and sorting in BratDocumentStream\n\nIntroduce constants for file suffixes and sort files to ensure consistent processing order. This improves readability and reliability when reading brat corpus files."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: make BratDocumentStream process files deterministically\n\nAdded sorting of files to ensure consistent processing order [OPENNLP-1702]. This change addresses non-determinism caused by File.listFiles() returning files in an arbitrary order."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure deterministic file processing in BratDocumentStream\n\nSort the result of `listFiles(..)` alphabetically in ascending order to ensure deterministic processing of files in the brat corpus directory. This addresses the non-determinism issue identified in OPENNLP-1702."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: ensure BratDocumentStream processes files deterministically\n\nSort files alphabetically to ensure consistent processing order [OPENNLP-1702]."
             }
         ]
     },
@@ -853,16 +998,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: introduce thread-safe ChunkerME implementation\n\nAdd ThreadSafeChunkerME to provide thread-safe access to ChunkerME using ThreadLocal. Refactor variable names in related thread-safe classes for consistency. Implement AutoCloseable to manage thread-local resources properly."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add thread-safe chunker and improve thread-local handling in lemmatizer and name finder\n\nThis commit introduces a new `ThreadSafeChunkerME` class which provides a thread-safe wrapper for `ChunkerME`. Additionally, it improves the thread-local handling in `ThreadSafeLemmatizerME` and `ThreadSafeNameFinderME` by using more descriptive variable names and ensuring the `close` method is properly implemented in `ThreadSafeNameFinderME`."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add thread-safe ChunkerME implementation\n\nAdded ThreadSafeChunkerME to provide thread-safe ChunkerME functionality. Refactored local variable names in getNameFinder() and getLemmatizer() for clarity. Implements AutoCloseable to allow explicit removal of thread-local resources. Addresses OPENNLP-1667 and OPENNLP-1620."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: standardize thread-local variable naming in thread-safe model classes\n\nStandardize the naming of thread-local variables in `ThreadSafeChunkerME`, `ThreadSafeLemmatizerME`, and `ThreadSafeNameFinderME` to improve code consistency and readability."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add thread-safe ChunkerME implementation\n\nIntroduce ThreadSafeChunkerME to provide thread-safe access to ChunkerME functionality [OPENNLP-1667]. Implements AutoCloseable to enable ThreadLocal cleanup [OPENNLP-1620]. Similar to existing thread-safe implementations for lemmatizer and name finder."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add thread-safe version of ChunkerME\n\nIntroduce `ThreadSafeChunkerME` to provide a thread-safe implementation of `ChunkerME`. This class uses `ThreadLocal` to ensure thread safety and includes a `close` method to remove the thread-local instance, addressing OPENNLP-1667 and OPENNLP-1620."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: introduce thread-safe ChunkerME with ThreadLocal cleanup\n\nAdd `ThreadSafeChunkerME` for thread-safe chunking operations, using `ThreadLocal` for thread isolation [OPENNLP-1667]. Implements `AutoCloseable` to allow users to clear the `ThreadLocal` resource when no longer needed [OPENNLP-1620]."
             }
         ]
     },
@@ -878,17 +1027,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add model existence check with SHA512 validation\n\nAdded `existsModel` method to check for existing models and validate their integrity via SHA512 checksum. Includes tests for verifying existence checks and handling invalid inputs."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add `existsModel` method to check if a model is already downloaded\n\nThis commit adds a new `existsModel` method to the `DownloadUtil` class, which checks if a model of the specified type and language has already been downloaded. The method validates the model's checksum to ensure its integrity. Additionally, the commit updates the test cases to include tests for the new method, ensuring that it correctly identifies both existing and non-existing models. The `AbstractDownloadUtilTest` class has been removed as it is no longer needed, and the test cases in `DownloadUtilDownloadTwiceTest` and `DownloadUtilTest` have been updated to use the new `existsModel` method."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "Okay, I need to write a concise commit message based on the provided Git diff and additional context. Let me start by understanding the changes made in the code.\n\nLooking at the Git diff, I see that the `DownloadUtil.java` file has been modified. There are several new methods added, like `existsModel`, which checks if a model exists locally. Also, the `getDownloadHome` method was introduced to handle the download directory. The `downloadModel` method now uses this new method and includes validation checks.\n\nIn the test files, `AbstractDownloadUtilTest.java` was deleted, and `DownloadUtilDownloadTwiceTest.java` was updated. The tests now check if models are downloaded correctly and if existing models are skipped. The `DownloadUtilTest.java` file added new tests for `existsModel` and handling invalid inputs.\n\nThe additional context explains that the issue was about custom models being wiped during builds. The goal was to prevent accidental deletion, reduce repeated downloads, and validate models properly.\n\nSo, the commit type is a fix. The subject should mention the bug fix related to model management. The body needs to summarize the changes, including the new `existsModel` method, the refactored download logic, and the updated tests. Also, it should reference the ticket ID and issue summary.\n\nI should structure the commit message with the type, subject, and body. The body should be a single paragraph, wrapping the sentences concisely. I'll include the ticket ID and mention the relevant changes without extra comments.\n\nPutting it all together, the commit message should clearly state the fix and the improvements made, referencing the ticket for context.\nfix: Implement model existence check and prevent accidental deletion of custom models\n\nAdded `existsModel` method to verify local model presence and validity. Refactored download logic to utilize `getDownloadHome` for consistent directory handling. Updated tests to validate model existence checks and prevent redundant downloads. Removed `AbstractDownloadUtilTest` as its functionality was incorporated into other test classes. This addresses OPENNLP-1661 by ensuring custom models are preserved and only valid, missing models are downloaded.",
-                "cleaned_commit_message": "fix: Implement model existence check and prevent accidental deletion of custom models\n\nAdded `existsModel` method to verify local model presence and validity. Refactored download logic to utilize `getDownloadHome` for consistent directory handling. Updated tests to validate model existence checks and prevent redundant downloads. Removed `AbstractDownloadUtilTest` as its functionality was incorporated into other test classes. This addresses OPENNLP-1661 by ensuring custom models are preserved and only valid, missing models are downloaded."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add existsModel method to check if a model is already downloaded\n\nIntroduce `existsModel` method to verify if a model of the specified type and language has already been downloaded. Includes tests to validate the new method's behavior for both valid and invalid inputs."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: prevent custom model deletion and validate existing models\n\nUpdate download utility to check for existing models, validate checksums, and avoid deleting custom models [OPENNLP-1661]. Modify tests to verify model existence and handle invalid inputs without affecting user data."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure custom models are not wiped and validate existing models\n\nThis commit addresses the issue of custom models being wiped from the `user.home/.opennlp` directory during test execution by removing the cleanup logic from `AbstractDownloadUtilTest`. It also introduces a new method `existsModel` to check if a model of a specified type and language has already been downloaded and is valid. This method ensures that existing models are not re-downloaded if they are valid, reducing the download volume and load on ASF infrastructure. Additionally, the commit updates test cases to use the new `existsModel` method and to validate existing models."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: prevent accidental model removal and optimize downloads\n\nEnsure no custom models are accidentally removed from `user.home/.opennlp` and optimize download behavior to avoid re-downloading valid models [OPENNLP-1661]. Includes test cases to validate the new `existsModel` method and ensure it correctly handles invalid inputs."
             }
         ]
     },
@@ -904,16 +1056,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: allow explicit Dictionary in constructors\n\nModify constructors to accept Dictionary objects explicitly, decoupling from model's default [OPENNLP-1234]."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add constructor overloads to accept abbreviation dictionary\n\nAdded constructor overloads to `SentenceDetectorME`, `ThreadSafeSentenceDetectorME`, and `TokenizerME` to allow specifying an abbreviation dictionary. This ensures that the dictionary can be explicitly provided, improving flexibility and potentially enhancing performance in multi-threaded environments."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add constructors to inject custom abbreviation dictionaries\n\nAdded constructors to SentenceDetectorME, TokenizerME, and their thread-safe counterparts to allow injecting custom abbreviation dictionaries. Users can now provide a Dictionary that fits their model's language."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: add constructor for abbreviation dictionary in sentence and token detection\n\nAdd constructors to `SentenceDetectorME`, `ThreadSafeSentenceDetectorME`, `TokenizerME`, and `ThreadSafeTokenizerME` to accept an external abbreviation dictionary. This allows for more flexible configuration and usage of the models."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add constructors for custom abbreviation dictionary injection\n\nAdd constructors to inject custom abbreviation dictionaries in TokenizerME and SentenceDetectorME [OPENNLP-1655]. This provides flexibility for domain-specific abbreviation handling."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add constructors in SentenceDetectorME and TokenizerME to inject custom abbreviation dictionary\n\nThis change adds new constructors to `SentenceDetectorME`, `ThreadSafeSentenceDetectorME`, `TokenizerME`, and `ThreadSafeTokenizerME` to allow injecting a custom abbreviation dictionary. This addresses OPENNLP-1655, providing more flexibility for users to specify domain-specific abbreviations."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add constructors to inject custom abbreviation dictionary\n\nAdd constructors to `SentenceDetectorME`, `ThreadSafeSentenceDetectorME`, `TokenizerME`, and `ThreadSafeTokenizerME` to support custom abbreviation dictionaries [OPENNLP-1655]. This allows users to inject domain-specific or language-specific abbreviation dictionaries."
             }
         ]
     },
@@ -929,16 +1085,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add support for custom postag format\n\nIntroduce CUSTOM postag format and NoOp mapper to disable automatic tag conversion [OPENNLP-1234]. Includes tests validating behavior with custom tags."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "\nfeat: Add CUSTOM tag format and NoOp mapper for POSTaggerME\n\nThis commit adds a new `CUSTOM` tag format to the `POSTagFormat` enum and introduces a `NoOp` class in `POSTagFormatMapper` to handle custom tag formats without conversion. The `POSTaggerME` constructor now uses the `NoOp` mapper when the `CUSTOM` format is specified. Additionally, a new test case `testPOSTaggerMappingNoOp` is added to verify the behavior of the `CUSTOM` format."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add custom POS tag format support\n\nAdded `CUSTOM` format with `NoOp` mapper to disable POS tag conversion, addressing OPENNLP-1600."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add CUSTOM tag format to POSTaggerME\n\nIntroduce a new `CUSTOM` tag format and a no-op `POSTagFormatMapper` to allow custom part-of-speech tags without conversion. Includes a test case to validate the behavior."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add support for custom POS tag format\n\nAdd option to disable POS tag mapping by using CUSTOM format [OPENNLP-1600]. Includes test validating no-op mapping behavior for custom tags."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add CUSTOM POS tag format and NoOp mapper\n\nAdds support for a custom POS tag format and a NoOp mapper to disable POS tag mapping. This allows training and using models with arbitrary POS tagsets. Resolves OPENNLP-1600."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add custom POS tag format and disable mapper\n\nAdd `CUSTOM` tag format to `POSTagFormat` and a no-op mapper to disable automatic POS tag mapping. This allows using custom tagsets without interference from the default mapper [OPENNLP-1600]. Includes test cases for custom tag format."
             }
         ]
     },
@@ -952,17 +1112,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add client hostname verification configuration option\n\nAdd configuration option to control client hostname verification behavior during SSL handshake [ZOOKEEPER-3021]. This allows more granular control over hostname verification between server and client connections."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add client hostname verification configuration\n\nAdd a new configuration property `sslClientHostnameVerification` to enable or disable client hostname verification. This property is used in `X509Util` to determine if client hostname verification should be enabled, and the corresponding property is added to `ZKConfig` to ensure it is properly configured."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add client hostname verification configuration option\n\nAdd new configuration option to enable/disable client hostname verification independently of server verification, allowing admins to control the verification behavior for connecting quorum peers."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add configurable client hostname verification\n\nIntroduce a new configuration option for client hostname verification, allowing users to control this behavior via a system property. This provides more flexibility and control over the verification process."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "Okay, I need to write a concise commit message based on the provided Git diff and additional context. The user has given four different diffs and contexts, but they specifically mentioned that they only need the fourth commit message. So, I'll focus on Git diff 4 and additional context 4.\n\nLooking at Git diff 4, it's in the zookeeper-server project, specifically in X509Util.java and ZKConfig.java. The changes involve adding a new property related to client hostname verification. In X509Util.java, a new private field sslClientHostnameVerificationEnabledProperty is added, along with a getter method. In ZKConfig.java, this new property is being put into the properties map.\n\nThe additional context 4 is about a ticket (ZOOKEEPER-4790) where the issue is that TLS Quorum hostname verification is causing problems in certain scenarios, like Kubernetes. The problem arises because the reverse DNS lookup might return multiple names, leading to inconsistent verification. The user suggests that the server should verify against the list of configured servers instead of relying on DNS.\n\nThe commit type is 'feat', which indicates a new feature. The goal here is to add an option to disable client hostname verification while keeping server verification enabled. This would allow more flexibility in configurations where DNS might not be reliable or consistent.\n\nSo, the commit message should reflect the addition of this new feature. The subject should be something like \"add option to disable client hostname verification\". The body should mention that this allows server verification to remain enabled and reference the ticket.\n\nPutting it all together, the commit message would be:\n\nfeat: add option to disable client hostname verification\n\nAdd configuration to disable client hostname verification while keeping server verification enabled [ZOOKEEPER-4790].\nfeat: add option to disable client hostname verification\n\nAdd configuration to disable client hostname verification while keeping server verification enabled [ZOOKEEPER-4790].",
-                "cleaned_commit_message": "feat: add option to disable client hostname verification\n\nAdd configuration to disable client hostname verification while keeping server verification enabled [ZOOKEEPER-4790]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add client hostname verification configuration\n\nAdd support for enabling or disabling client hostname verification in TLS connections. This addresses issues in Kubernetes and Strimzi where hostname verification can cause connectivity problems due to multiple DNS names resolving to the same IP address."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add client hostname verification configuration\n\nAdd configuration option to enable/disable client hostname verification during TLS quorum connections [ZOOKEEPER-4790]. This allows more flexible and secure configuration in environments where DNS resolution may be inconsistent, such as Kubernetes."
             }
         ]
     },
@@ -977,16 +1140,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: enhance SASL quorum authentication with DIGEST-MD5 support and improved authorization checks. Add tests for host-based authentication scenarios."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add support for non-DIGEST-MD5 authentication in quorum server\n\nThis commit adds support for non-DIGEST-MD5 authentication in the `SaslQuorumServerCallbackHandler` by checking the login module used in the JAAS configuration. If the login module is not `DigestLoginModule`, the handler will skip populating the credentials map and set `isDigestAuthn` to false. The authorization logic is updated to handle non-DIGEST-MD5 authentication by verifying the connecting host is present in the authorized hosts list. Additionally, test cases are updated to include a test for a learner principal without a host and to verify that connections from unauthorized hosts are rejected."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Explicitly handle DIGEST-MD5 vs GSSAPI in quorum SASL auth\n\nUpdate `SaslQuorumServerCallbackHandler` to use the login module name to distinguish between DIGEST-MD5 and GSSAPI, adjust credential handling, and relax auth ID checks for DIGEST-MD5. Modify tests to handle host-based and hostless principals, ensuring proper authentication failures for GSSAPI."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: support hostless principals for quorum learners\n\nAdd support for hostless principals in the SASL quorum authorization process. Includes test cases to validate the behavior for both host-based and hostless principals."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: explicitly handle DIGEST-MD5 and GSSAPI in quorum auth [ZOOKEEPER-4753]\n\nModify SASL callback handler to distinguish between DIGEST-MD5 and GSSAPI mechanisms. Store credentials only for DIGEST-MD5 and adjust authorization checks accordingly. Update tests to validate behavior for both mechanisms."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Explicit handling of DIGEST-MD5 vs GSSAPI in quorum auth\n\nThis commit introduces explicit handling of the DIGEST-MD5 and GSSAPI mechanisms in the SASL quorum authorizer. The `SaslQuorumServerCallbackHandler` now checks the login module name to determine the authentication mechanism, and adjusts the credential map and authorization checks accordingly. Additionally, test cases have been updated to ensure that \"weirdly-shaped\" credentials only cause authentication failures in the GSSAPI case. This addresses the issue where some SASL/DIGEST-MD5 configurations caused the quorum test suite to fail with obscure errors. (ZOOKEEPER-4753)"
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: improve quorum authentication for DIGEST-MD5 and GSSAPI\n\nExplicitly handle DIGEST-MD5 and GSSAPI mechanisms in quorum authorization [ZOOKEEPER-4753]. This prevents failures due to mismatched authentication and authorization IDs and ensures proper handling of credentials. Includes test cases to validate behavior."
             }
         ]
     },
@@ -999,16 +1166,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: optimize snapshot and restore operations with finer-grained locking\n\nReplace method-level synchronization with an exclusive lock for snapshot and restore operations to improve concurrency and reduce contention."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add exclusive lock for snapshot and restore operations\n\nAdd an exclusive lock `snapshotAndRestoreLock` to ensure that snapshot and restore operations are mutually exclusive, preventing concurrency issues. This change affects both the `takeSnapshot` and `restoreFromSnapshot` methods."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Remove lock contention between snapshotting and sync operations\n\nModify `takeSnapshot` and `restoreFromSnapshot` methods to use `snapshotAndRestoreLock` instead of `synchronized` keyword, addressing ZOOKEEPER-4858. This change reduces contention with the `sync()` operation."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "perf: synchronize snapshot and restore operations\n\nAdd a dedicated lock to synchronize snapshot and restore operations, ensuring that they do not interfere with each other. This prevents race conditions and improves the stability of the ZooKeeper server during these critical operations."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: remove synchronized for snapshot and restore operations\n\nRemove synchronized keyword from takeSnapshot and restoreFromSnapshot methods to reduce lock contention. Introduce a dedicated lock object for snapshot and restore operations to prevent interference with sync operations [ZOOKEEPER-4858]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "refactor: Remove synchronized keyword from takeSnapshot and restoreFromSnapshot methods\n\nRemoved the synchronized keyword from the `takeSnapshot` and `restoreFromSnapshot` methods in `ZooKeeperServer` to reduce lock contention with the `sync` operation. Introduced a new exclusive lock `snapshotAndRestoreLock` to ensure thread safety during snapshot and restore operations as part of ZOOKEEPER-4858."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "refactor: introduce exclusive lock for snapshot and restore operations\n\nIntroduce a dedicated `snapshotAndRestoreLock` to reduce lock contention between snapshotting and sync operations in `ZooKeeperServer` [ZOOKEEPER-4858]. This change ensures that these operations do not block each other, improving performance and stability."
             }
         ]
     },
@@ -1022,16 +1193,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "test: Add test for KeeperException create method\n\nAdd test cases to verify KeeperException.create() behavior for valid and invalid codes, ensuring proper exception handling and error messages."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Improve error handling in KeeperException and add test cases\n\nImprove error handling in `KeeperException.create` to provide more informative error messages and update `Code.get` to throw an `IllegalArgumentException` if the code is not found. Additionally, add test cases to validate these changes."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Address NPE in KeeperException.create by adding null checks and improving error messages\n\nThis change adds null checks in KeeperException.create and Code.get methods to prevent NullPointerExceptions when invalid or unrecognized exception codes are encountered. It also enhances error messages to include the problematic code for easier debugging.\n\nAdds test case ZOOKEEPER-4377 to verify the fix."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "test: add test for KeeperException code lookup\n\nAdd test case to validate KeeperException code lookup behavior, ensuring it throws `IllegalArgumentException` for unknown codes and correctly returns specialized exceptions for known codes."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: handle unknown KeeperException codes to prevent NullPointerExceptions\n\nImprove error handling by throwing IllegalArgumentException with detailed messages for unknown KeeperException codes [ZOOKEEPER-4377]. Adds tests to validate exception behavior for invalid codes."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle null and invalid exception codes in KeeperException\n\nZOOKEEPER-4377: Prevent NullPointerException when low version client requests the high version server. Updated `KeeperException.create` to throw an `IllegalArgumentException` with a detailed message for invalid exception codes. Added a test case to ensure the method behaves correctly for both valid and invalid codes."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle unknown exception codes in KeeperException.create\n\nPrevent NullPointerException in `KeeperException.create` when a low-version client requests a high-version server by throwing an `IllegalArgumentException` for unknown codes [ZOOKEEPER-4377]. Added test cases to validate the behavior."
             }
         ]
     },
@@ -1044,16 +1219,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: fix socket binding issue in quorum connection manager\n\nEnsure server sockets bind to the correct address by reconstructing the InetSocketAddress before binding [ZOOKEEPER-XXXX]. This addresses issues where sockets may fail to bind properly under certain network configurations."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Ensure address is correctly set before binding server socket\n\nIn the `createNewServerSocket` method, the `address` is now explicitly created as an `InetSocketAddress` using `address.getHostString()` and `address.getPort()` before binding the server socket. This ensures that the address is correctly set and avoids potential issues with the original `address` object."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: Retry DNS lookup on unresolved address\n\nEnsure DNS resolution is retried each time the server socket is created, addressing ZOOKEEPER-3991 and preventing infinite exceptions when addresses become resolveable after initial failure."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: handle IPv6 addresses correctly in QuorumCnxManager\n\nEnsure that IPv6 addresses are correctly handled by constructing a new `InetSocketAddress` using the host string and port before binding the server socket. This prevents issues with IPv6 addresses and improves compatibility."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: retry DNS lookup for listener port binding\n\nEnsure DNS lookups are retried when creating server sockets for listener port binding [ZOOKEEPER-3991]. This prevents infinite unresolved address errors when DNS becomes available after initial failure."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: QuorumCnxManager Listener retries DNS resolution on bind failure\n\nIn a container environment with unstable DNS, the listener now retries DNS resolution if the address remains unresolved, preventing infinite loops of `SocketException: Unresolved address`. This addresses ZOOKEEPER-3991."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: retry DNS resolution on port bind failure\n\nEnsure DNS resolution is retried if the address is unresolved during server socket binding [ZOOKEEPER-3991]. This addresses the issue of infinite loops in container environments with unstable DNS."
             }
         ]
     },
@@ -1067,16 +1246,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "test: add test for right outer join with empty left input\n\nAdd test case verifying hash join behavior when left side is empty in a right outer join. The test ensures that the join operation handles empty input correctly and returns the expected result structure."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "test: Add test case for empty left side on right join\n\nAdded a new test case `emptyLeftSideOnRightJoin` to verify the behavior of right outer join when the left side input is empty. This test ensures that the right outer join produces the correct number of batches and handles the empty left side gracefully."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "test: Add test for right join with empty left table\n\nAdds a test case (DRILL-8513) to verify right outer join behavior when the left input is empty, ensuring correct results are returned."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "test: add test case for empty left side on right outer join\n\nAdd a new test case to validate the behavior of right outer join when the left side is empty, ensuring it returns the correct number of rows."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "test: add test for right outer join with empty left table\n\nAdd test case [DRILL-8513] to verify correct handling of right outer joins when the left input is empty."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "test: Add test for right hash join with empty left table\n\nAdd a test case to verify the fix for DRILL-8513, ensuring that a right hash join with an empty left table returns the correct results."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "test: add test case for right hash join with empty left table\n\nAdd test to validate right hash join behavior when the left table is empty [DRILL-8513]."
             }
         ]
     },
@@ -1089,16 +1272,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "fix: conditionally release messages to prevent resource leaks\n\nModify RpcEncoder to only release messages when encoding fails, preventing resource leaks and potential memory issues."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Ensure RpcEncoder releases message buffers only on encoding failure\n\nThis commit adds a boolean flag `encodeSucess` to track the success of the encoding process. The message buffers are now released only if the encoding fails, preventing premature resource release and potential issues with Netty's reference counting."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "fix: DRILL-8489 - Fix sender memory leak when RPC encode exception occurs\n\nAdd encode success tracking to ensure message release on failure."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: ensure RpcEncoder releases message buffers on encode failure\n\nIntroduce a success flag to track the outcome of the encoding process and release message buffers only when encoding fails. This prevents resource leaks and ensures proper cleanup."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "fix: prevent memory leak by releasing message on encode failure\n\nEnsure message is released only when encoding fails to avoid memory leaks during RPC exceptions [DRILL-8489]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle memory leak in RpcEncoder on encoding failure\n\nEnsure that the `OutboundRpcMessage` is released when encoding fails to prevent memory leaks. This addresses the issue where a message is not released if an exception occurs during encoding, leading to memory leaks in the sender."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": ": fix: handle RpcEncoder exceptions to prevent memory leaks\n\nEnsure `RpcEncoder` releases message buffers on encode failure to prevent memory leaks [DRILL-8489].",
+                "cleaned_commit_message": "fix: handle RpcEncoder exceptions to prevent memory leaks\n\nEnsure `RpcEncoder` releases message buffers on encode failure to prevent memory leaks [DRILL-8489]."
             }
         ]
     },
@@ -1115,16 +1303,21 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add hostname verification control for Splunk SSL connections\n\nAdd configuration option to enable or disable hostname verification during SSL connection setup, improving compatibility with self-signed certificates. Includes updates to tests and configuration handling."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add hostname validation option for Splunk connections\n\nThis commit introduces a new configuration option `validateHostname` in the `SplunkPluginConfig` class to control whether the hostname of the Splunk server is validated during SSL connections. The `SplunkConnection` class has been updated to disable hostname verification if `validateHostname` is set to `false`. This is particularly useful when working with self-signed certificates in Splunk. The `SplunkConnectionTest` and `SplunkTestSuite` classes have been updated to include this new configuration option in test cases."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add configuration option to skip host validation for Splunk\n\nAdd `validateHostname` configuration option and handle it in Splunk connection setup. This allows skipping hostname verification for SSL connections, particularly useful with self-signed certificates. DRILL-8503"
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": feat: add validateHostname option to Splunk connection\n\nAdd `validateHostname` option to control hostname verification during SSL connections to Splunk. This is useful for environments with self-signed certificates. Includes test cases to validate the new option.",
+                "cleaned_commit_message": "feat: add validateHostname option to Splunk connection\n\nAdd `validateHostname` option to control hostname verification during SSL connections to Splunk. This is useful for environments with self-signed certificates. Includes test cases to validate the new option."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add validateHostname option for Splunk SSL connections\n\nAdd configuration option to disable hostname verification for SSL connections to Splunk [DRILL-8503]. Includes updates to connection handling and test cases."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add option to skip host validation for Splunk\n\nThis change introduces a new configuration option `validateHostname` in the `SplunkPluginConfig` class to control whether the hostname of the Splunk server is validated during SSL connections. The `SplunkConnection` class has been updated to disable hostname verification if `validateHostname` is set to `false`. Additionally, the `SplunkConnectionTest` and `SplunkTestSuite` classes have been updated to include this new configuration option in their test cases."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add option to skip host validation for Splunk SSL connections\n\nAdd `validateHostname` configuration option to control hostname verification during SSL connections to Splunk [DRILL-8503]. Includes test cases to validate behavior."
             }
         ]
     },
@@ -1137,17 +1330,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "refactor: extract hostname determination into getHostName()\n\nExtract host name determination logic into a new method getHostName() to support custom host names via DRILL_HOST_NAME environment variable. Improve code modularity and readability."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add custom host name resolution in ServiceEngine\n\nIntroduce a new method `getHostName` to handle custom host name resolution using the `DRILL_HOST_NAME` environment variable. This change allows for more flexible host name configuration, especially useful in environments where the default host name resolution may not be suitable. The `start` method now uses `getHostName` to determine the address for the `DrillbitEndpoint`."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Allow configurable host name for DrillbitEndpoint\n\nAdded support for custom host names via environment variable DRILL_HOST_NAME, falling back to existing behavior when not set."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: introduce `getHostName` method for custom host name resolution\n\nExtract host name resolution logic into a dedicated method to support custom host names set via the `DRILL_HOST_NAME` environment variable. This change improves readability and maintainability."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "Okay, I need to write a commit message for the fourth Git diff provided. Let me look at the details.\n\nThe Git diff is from ServiceEngine.java. The changes include adding a method getHostName() which checks for an environment variable DRILL_HOST_NAME. If it's set, it uses that; otherwise, it falls back to the existing logic of using IP or hostname based on the 'useIP' flag.\n\nThe additional context is Ticket ID DRILL-4935. The issue is about allowing Drillbits to advertise a configurable host address to Zookeeper. The user wants to set a custom hostname, especially useful in Docker environments.\n\nSo, the commit type is 'feat' since it's adding a new feature. The subject should be concise, something like \"allow configuring advertised host address\".\n\nThe body needs to explain that this adds support for the DRILL_HOST_NAME environment variable, which allows custom hostnames to be advertised. It should reference the ticket ID.\n\nPutting it all together, the commit message should clearly state the feature addition and its purpose, including the ticket for context.\nfeat: allow configuring advertised host address\n\nAdd support for DRILL_HOST_NAME environment variable to specify custom host address advertised to Zookeeper [DRILL-4935].",
-                "cleaned_commit_message": "feat: allow configuring advertised host address\n\nAdd support for DRILL_HOST_NAME environment variable to specify custom host address advertised to Zookeeper [DRILL-4935]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Allow drillbits to advertise a configurable host address to Zookeeper\n\nAdd support for the `DRILL_HOST_NAME` environment variable to allow drillbits to advertise a custom hostname to Zookeeper. This is particularly useful in distributed Docker environments. If `DRILL_HOST_NAME` is set, it will be used; otherwise, the current behavior of using the local host address or canonical hostname is retained."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: allow Drillbits to advertise a configurable host address to Zookeeper\n\nAdd `DRILL_HOST_NAME` environment variable to set a custom host name for Drillbits when advertising to Zookeeper [DRILL-4935]. This improves flexibility in distributed environments, such as Docker."
             }
         ]
     },
@@ -1161,16 +1357,20 @@
         ],
         "generation_results": [
             {
-                "generator_id": "OpenRouter Low-Level Context Generator",
-                "commit_message": "feat: add support for aggregate functions with filter clauses\n\nImplement conditional aggregation using IF expressions for filtered results in COUNT functions. Added test case to validate filter behavior across multiple regions."
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add support for aggregate calls with filters\n\nEnhance the `toDrill` method in `AggPrelBase` to handle aggregate calls with filters, wrapping the expression in an `IfExpression` that evaluates the filter condition. Additionally, add a test case `testAggregateWithFilterCall` to validate the functionality using the `nation` table from the TPC-H dataset."
             },
             {
-                "generator_id": "OpenRouter Zero-Shot High-Level Context Generator",
-                "commit_message": "feat: Add support for filtered aggregate calls\n\nDRILL-8381: Added handling of filter conditions in aggregate calls and included a test case for filtered aggregation."
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: support aggregate function with filter clause\n\nAdd support for aggregate functions with filter clauses, allowing conditional aggregation in SQL queries. Includes test cases to validate the functionality."
             },
             {
-                "generator_id": "OpenRouter Few-Shot High-Level Context Generator",
-                "commit_message": "feat: add support for filtered aggregate calls\n\nAdds handling of FILTER clauses in aggregate functions and includes tests verifying correct results [DRILL-8381]."
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add support for filtered aggregate calls\n\nImplement support for filtered aggregate calls in `AggPrelBase` to correctly handle conditions specified in the `FILTER` clause. Added a test case to validate the functionality using a sample query from the TPC-H nation table. Fixes DRILL-8381."
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add support for filtered aggregate calls\n\nImplement support for filtered aggregate calls, ensuring correct results for queries with filters on aggregate functions [DRILL-8381]. Includes a test case validating the behavior for a sample query."
             }
         ]
     }

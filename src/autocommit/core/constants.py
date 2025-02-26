@@ -304,7 +304,7 @@ Summary:"""
 
 HIGH_LEVEL_CONTEXT_FILTER_PROMPT_TEMPLATE = """Evaluate the performance of a document retriever. Given the Git diff and retrieved context, return YES if the context is relevant with the changes in the Git diff. Otherwise, return NO.
 
-Avoid adding any additional comments or annotations to the classification.
+Avoid adding any additional comments or annotations to the classification. Return only YES or NO. Any additional words will break the system.
 
 > Git diff: 
 >>>
