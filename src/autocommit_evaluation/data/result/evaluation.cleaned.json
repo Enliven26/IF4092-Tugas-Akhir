@@ -1,0 +1,1577 @@
+[
+    {
+        "evaluation_id": "TC001",
+        "commit_url": "https://github.com/apache/kafka/commit/d3b4c1bdf41de2d9144e0c2adf41ad08a3fee2e6",
+        "jira_url": "https://issues.apache.org/jira//browse/KAFKA-18401",
+        "included_file_paths": [
+            "clients/src/main/java/org/apache/kafka/clients/producer/internals/TransactionManager.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Ensure transactionStarted is set for V2 transactions\n\nEnsure the `transactionStarted` flag is set when adding offsets or partitions to a transaction in the V2 transaction protocol. This prevents the `EndTxn` request from being sent prematurely when no send or `sendOffsetsToTransaction` operations have been triggered.",
+                "commit_subject_length": 57
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: ensure transactionStarted flag is set for transaction V2\n\nSet `transactionStarted` flag in `sendOffsetsToTransaction` and `maybeAddPartition` methods when using transaction V2 protocol. This prevents the `EndTxn` request from being skipped incorrectly when no partitions or offsets were added, ensuring proper transaction completion.",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure EndTxnRequest is not sent for empty transactions in TV_2\n\nIn TransactionManager, set `transactionStarted` to `true` when adding offsets or partitions in TV_2 to prevent sending an EndTxnRequest for empty transactions. This aligns TV_2 behavior with TV_0 and TV_1, addressing KAFKA-18401.",
+                "commit_subject_length": 68
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle commit transaction without records in transaction version 2\n\nEnsure `transactionStarted` is set when offsets or records are added to a transaction in version 2, preventing `EndTxnRequest` from being sent if no operations were performed [KAFKA-18401]. Includes test cases to validate the behavior.",
+                "commit_subject_length": 71
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC002",
+        "commit_url": "https://github.com/apache/kafka/commit/badfbacdd09a9ee8821847f4b28d98625f354ed7",
+        "jira_url": "https://issues.apache.org/jira//browse/KAFKA-14020",
+        "included_file_paths": [
+            "clients/src/main/java/org/apache/kafka/clients/producer/KafkaProducer.java",
+            "clients/src/main/java/org/apache/kafka/clients/producer/internals/RecordAccumulator.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "perf: Optimize buffer allocation and partition handling in KafkaProducer\n\nOptimize the buffer allocation process by updating the current time after allocation to avoid potential race conditions. Additionally, improve partition handling in `AppendCallbacks` by extracting record information early and using it to avoid keeping unnecessary references to the `ProducerRecord` throughout the batch lifetime. This change also ensures that interceptors are notified even if the record is null.",
+                "commit_subject_length": 72
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "perf: optimize buffer allocation and time updates in record appending\n\nAvoid redundant time updates and reduce the overhead of buffer allocation during record appending by updating the current time only when necessary. This improves performance and reduces the likelihood of blocking due to buffer exhaustion.",
+                "commit_subject_length": 69
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "perf: Optimize KafkaProducer to prevent performance regression\n\nThis commit addresses the 10% performance regression introduced in KAFKA-14020. The changes involve optimizing the `KafkaProducer` and `RecordAccumulator` classes to reduce unnecessary object references and minimize the overhead of buffer allocation and time updates. Specifically, the `AppendCallbacks` class now extracts and caches record information to avoid retaining references to the `ProducerRecord` for the entire batch lifetime. Additionally, the `RecordAccumulator` updates the current time only when necessary to avoid expensive time retrieval operations under lock. These optimizations ensure that the producer performance is restored to the expected level.",
+                "commit_subject_length": 62
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "perf: optimize KafkaProducer record appending\n\nAvoid holding lock while getting current time in `RecordAccumulator.appendNewBatch` to prevent performance regression [KAFKA-14020]. This change ensures that the `nowMs` value is updated after buffer allocation, reducing the overhead of acquiring the current time under a lock.",
+                "commit_subject_length": 45
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC003",
+        "commit_url": "https://github.com/apache/kafka/commit/50c15b94c94fbe8f964703c057963b38100b0bd6",
+        "jira_url": "https://issues.apache.org/jira//browse/KAFKA-17561",
+        "included_file_paths": [
+            "streams/src/main/java/org/apache/kafka/streams/KafkaStreams.java",
+            "streams/src/main/java/org/apache/kafka/streams/internals/metrics/ClientMetrics.java",
+            "streams/src/main/java/org/apache/kafka/streams/processor/internals/StreamThread.java",
+            "streams/src/main/java/org/apache/kafka/streams/processor/internals/metrics/ThreadMetrics.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add client and thread state telemetry metrics\n\nAdd metrics to track the client and thread state telemetry, including the metrics recording level and the current state of the Kafka Streams client and threads. This change introduces new methods to calculate and register these metrics in the `KafkaStreams`, `ClientMetrics`, and `ThreadMetrics` classes.",
+                "commit_subject_length": 51
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add metrics for stream thread state and recording level\n\nAdd metrics to track the current state and recording level of Kafka Streams threads. The state metric provides the ordinal value of the thread state, while the recording level metric reflects the configured logging level for metrics.",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add client and thread state metrics and recording level metric\n\nAdd metrics for the client state, thread state, and recording level to Kafka Streams as per KAFKA-17561. These metrics provide better visibility into the operational state and configuration of the Kafka Streams client and its threads.",
+                "commit_subject_length": 68
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add operator metrics for Kafka Streams\n\nAdd `client-state`, `thread-state`, and `recording-level` metrics to Kafka Streams [KAFKA-17561]. These metrics provide insights into the current state of the Kafka Streams client and its threads, as well as the recording level of the metrics.",
+                "commit_subject_length": 44
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC004",
+        "commit_url": "https://github.com/apache/kafka/commit/00b22b001fb35e611d85abbfd4511b32058e0048",
+        "jira_url": "https://issues.apache.org/jira//browse/KAFKA-18211",
+        "included_file_paths": [
+            "connect/runtime/src/main/java/org/apache/kafka/connect/runtime/isolation/ReflectionScanner.java",
+            "connect/runtime/src/test/java/org/apache/kafka/connect/runtime/isolation/PluginScannerTest.java",
+            "connect/runtime/src/test/java/org/apache/kafka/connect/runtime/isolation/TestPlugins.java",
+            "connect/runtime/src/test/resources/test-plugins/classpath-converter/org/apache/kafka/connect/converters/ByteArrayConverter.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "test: Ensure classpath plugins are loaded in isolation\n\nThis commit adds a new test to verify that classpath plugins are correctly loaded in isolation. The `ReflectionScanner` class has been updated to use a custom class loader order that ensures the child-first delegation model is adhered to. Additionally, a new test case `testClasspathPluginIsAlsoLoadedInIsolation` has been added to `PluginScannerTest` to validate that a classpath plugin is loaded using the isolated `PluginClassLoader`. The `TestPlugins` enum has also been updated to include a new classpath converter plugin.",
+                "commit_subject_length": 54
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: ensure classpath plugins are loaded in isolation\n\nModify the `ReflectionScanner` to compute and provide the classloader chain starting from the isolated `PluginClassLoader` to ensure it adheres to the child-first delegation model. Added a test case to validate that a classpath plugin is loaded in isolation.",
+                "commit_subject_length": 53
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure ClassGraph correctly finds isolated connect plugins\n\nClassGraph was not correctly identifying plugins in isolated paths if they were already present in the classpath. This commit adds a method to compute and provide the classloader chain, ensuring that the isolated `PluginClassLoader` is used first. Additionally, a new test case `testClasspathPluginIsAlsoLoadedInIsolation` is added to verify that plugins from the classpath are correctly loaded in isolation. This addresses the issue described in KAFKA-18211.",
+                "commit_subject_length": 63
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: ensure isolated plugins are correctly loaded\n\nModify ClassGraph scanning to correctly handle isolated plugins by explicitly setting the class loader order [KAFKA-18211]. Includes tests to validate classpath plugin isolation.",
+                "commit_subject_length": 49
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC005",
+        "commit_url": "https://github.com/apache/kafka/commit/c8f1ee9cd994c08056df67d22c30a5893e0901a2",
+        "jira_url": "https://issues.apache.org/jira//browse/KAFKA-9192",
+        "included_file_paths": [
+            "connect/json/src/main/java/org/apache/kafka/connect/json/JsonConverter.java",
+            "connect/json/src/test/java/org/apache/kafka/connect/json/JsonConverterTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Handle null JSON values in `convertToConnect` method\n\nEnsure that `convertToConnect` correctly handles null JSON values by checking if `jsonValue` is null or `isNull()`. Added a test case to validate the behavior for structs with optional fields.",
+                "commit_subject_length": 57
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "test: add test case for struct with optional field in JsonConverter\n\nAdd test to validate handling of optional fields in struct when converting JSON to Connect data. This ensures that null or missing optional fields are correctly processed.",
+                "commit_subject_length": 67
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle null jsonValue in JsonConverter to avoid NPE\n\nCheck for null `jsonValue` before checking if it is a JSON null to avoid NullPointerException when an optional field is not present in the payload. Added a test case to validate the fix. (KAFKA-9192)",
+                "commit_subject_length": 56
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle null or missing optional fields in JsonConverter\n\nHandle cases where optional fields are null or missing in the JSON payload to prevent NullPointerException [KAFKA-9192]. Includes a test case for struct with optional fields.",
+                "commit_subject_length": 60
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC006",
+        "commit_url": "https://github.com/apache/hadoop/commit/aaf92fe1839b8bc732582445e9bbf019c17f3ef0",
+        "jira_url": "https://issues.apache.org/jira//browse/HADOOP-18526",
+        "included_file_paths": [
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/impl/WeakRefMetricsSource.java",
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/S3AFileSystem.java",
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/S3AInstrumentation.java",
+            "hadoop-tools/hadoop-aws/src/test/java/org/apache/hadoop/fs/s3a/ITestS3AClosedFS.java",
+            "hadoop-tools/hadoop-aws/src/test/java/org/apache/hadoop/fs/s3a/TestInstrumentationLifecycle.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add weak reference metrics source and update S3AFileSystem and S3AInstrumentation\n\nThis commit introduces a weak reference metrics source `WeakRefMetricsSource` to avoid holding onto large objects if they are not fully closed or cleaned up. The `S3AFileSystem` initialization now logs a full trace for deep diagnostics of object creation, and the `close` method logs IO statistics, including any file deletions during superclass close. Additionally, `S3AInstrumentation` now registers itself as a metrics source via a weak reference, ensuring that the metrics system is properly unregistered and shutdown when the instrumentation is closed. Test cases have been added to verify the lifecycle of the instrumentation and the behavior of double close operations.\n\n- Added `WeakRefMetricsSource` to handle weak references for metrics.\n- Updated `S3AFileSystem` to log a full trace during initialization and log IO statistics during close.\n- Updated `S3AInstrumentation` to use weak references for metrics registration and unregistration.\n- Added test cases to verify instrumentation lifecycle and double close behavior.",
+                "commit_subject_length": 91
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: use weak reference for S3AFileSystem metrics source\n\nIntroduce `WeakRefMetricsSource` to manage metrics registration and deregistration with a weak reference. This prevents memory leaks by allowing the JVM to garbage collect the instrumentation object if it is no longer strongly referenced. Added tests to validate the lifecycle and behavior of the weak reference metrics source.",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent memory leak of S3AInstrumentation instances via weak references\n\nIntroduce `WeakRefMetricsSource` to manage metrics sources with weak references, ensuring that `S3AInstrumentation` instances are properly deregistered and garbage collected when no longer needed. Modify `S3AFileSystem` and `S3AInstrumentation` to use this weak reference approach. Add new tests to verify the lifecycle and proper cleanup of the instrumentation.",
+                "commit_subject_length": 76
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: manage S3AInstrumentation metrics with weak references\n\nIntroduce `WeakRefMetricsSource` to manage metrics sources with weak references, preventing memory leaks [HADOOP-18526]. Modify `S3AFileSystem` and `S3AInstrumentation` to use this approach, ensuring proper deregistration and garbage collection. Add tests to verify instrumentation lifecycle and cleanup.",
+                "commit_subject_length": 59
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC007",
+        "commit_url": "https://github.com/apache/hadoop/commit/c3e322860f79cbb1ec9a59b4819da0a48155e551",
+        "jira_url": "https://issues.apache.org/jira//browse/HADOOP-19229",
+        "included_file_paths": [
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/PositionedReadable.java",
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/io/Sizes.java",
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/Constants.java",
+            "hadoop-tools/hadoop-aws/src/test/java/org/apache/hadoop/fs/contract/s3a/ITestS3AContractVectoredRead.java",
+            "hadoop-tools/hadoop-azure/src/main/java/org/apache/hadoop/fs/azurebfs/services/AbfsInputStream.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Update vector read parameters to use Sizes constants\n\nUpdated the `PositionedReadable` interface and `AbfsInputStream` class to use the `Sizes` constants for vector read parameters. The default minimum seek size and maximum read size for vector reads are now set to `S_16K` and `S_1M`, respectively. Additionally, the `Constants` class in the `hadoop-aws` module has been updated to use `S_128K` and `S_2M` for the default vector read parameters. Corresponding test cases have been updated to reflect these changes.",
+                "commit_subject_length": 62
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: use Sizes constants for min and max vector read values\n\nConsolidate magic numbers into the Sizes class and update `PositionedReadable`, `Constants`, and `AbfsInputStream` to use these constants. This ensures consistency and readability in configuration values.",
+                "commit_subject_length": 64
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "perf: Update vector IO read thresholds for improved performance\n\nUpdate the minimum and maximum vector read thresholds for cloud storage filesystems to improve performance. For local filesystems, the minSeekForVectorReads is set to 16K and maxReadSizeForVectorReads to 1M. For S3A and ABFS, the minSeekForVectorReads is set to 128K and maxReadSizeForVectorReads to 2M. This change ensures that the merge of adjacent vector IO read ranges is more efficient, reducing wasteful reads with large gaps between them. Updated test cases to reflect the new constants and configurations. HADOOP-19229",
+                "commit_subject_length": 63
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "perf: standardize vector read sizes across cloud storage\n\nStandardize minimum seek and maximum read sizes for vector reads in cloud storage to 128K and 2M, respectively [HADOOP-19229]. This ensures consistent and efficient read operations across different cloud storage providers. Includes updates to S3A, Azure, and Hadoop core configurations, along with test cases to validate the new values.",
+                "commit_subject_length": 56
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC008",
+        "commit_url": "https://github.com/apache/hadoop/commit/9634bd31e6594312b68d9e07b736d18d29f7648c",
+        "jira_url": "https://issues.apache.org/jira//browse/HADOOP-19031",
+        "included_file_paths": [
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/RunJar.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "chore: Update temp directory creation to use POSIX permissions\n\nUpdate the `RunJar` class to use `Files.createTempDirectory` with POSIX permissions to ensure the temporary directory is created with restricted access (`rwx------`). This change removes the redundant delete operation and handles potential `SecurityException` during directory creation.",
+                "commit_subject_length": 62
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: update temp directory creation with specific permissions and exception handling\n\nUpdate the temporary directory creation process in `RunJar` to use specific POSIX permissions and handle `SecurityException` to improve security and maintainability.",
+                "commit_subject_length": 89
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Set correct permissions for temporary directory in RunJar\n\nSet the correct POSIX file permissions for the temporary directory to prevent local information disclosure (HADOOP-19031, CVE-2024-23454). Replaced `File.createTempFile` with `Files.createTempDirectory` and added a permissions check to ensure the directory is created with restricted access (`rwx------`).",
+                "commit_subject_length": 62
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: set secure permissions for temporary directory in RunJar\n\nSet POSIX file permissions to `rwx------` for the temporary directory created by RunJar to prevent local information disclosure [HADOOP-19031].",
+                "commit_subject_length": 61
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC009",
+        "commit_url": "https://github.com/apache/hadoop/commit/58896f0e13524c81853828d4d94b5f7298bafed5",
+        "jira_url": "https://issues.apache.org/jira//browse/HADOOP-19339",
+        "included_file_paths": [
+            "hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/io/compress/BlockCompressorStream.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Add validation for buffer size and compression overhead in BlockCompressorStream\n\nAdd a check in the constructor to ensure that the buffer size is greater than or equal to the compression overhead. If the condition is not met, an IllegalArgumentException is thrown to prevent an invalid state.",
+                "commit_subject_length": 85
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: validate buffer size in BlockCompressorStream constructor\n\nEnsure buffer size is not less than compression overhead to prevent negative input size and potential errors.",
+                "cleaned_commit_message": "fix: validate buffer size in BlockCompressorStream constructor\n\nEnsure buffer size is not less than compression overhead to prevent negative input size and potential errors.",
+                "commit_subject_length": 62
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent negative MAX_INPUT_SIZE in BlockCompressorStream\n\nCheck if the buffer size is less than the compression overhead and throw an IllegalArgumentException if it is, to prevent an OutOfBounds exception. Fixes HADOOP-19339.",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: prevent negative MAX_INPUT_SIZE in BlockCompressorStream\n\nAdd check to ensure buffer size is not less than compression overhead, throwing an IllegalArgumentException if it is [HADOOP-19339]. This prevents OutOfBounds exceptions caused by invalid buffer sizes.",
+                "commit_subject_length": 61
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC010",
+        "commit_url": "https://github.com/apache/hadoop/commit/28d190b90416e9c4be402e7ef3d3c361a4f4a5a0",
+        "jira_url": "https://issues.apache.org/jira//browse/HADOOP-18845",
+        "included_file_paths": [
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/S3AUtils.java",
+            "hadoop-tools/hadoop-aws/src/test/java/org/apache/hadoop/fs/s3a/ITestS3AConfiguration.java",
+            "hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/Constants.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add configuration option for S3 connection TTL\n\nAdd a new configuration option `fs.s3a.connection.ttl` to set the expiration time of S3 HTTP connections in the connection pool, with a default value of 5 minutes. Updated `S3AUtils.initConnectionSettings` to propagate this setting to the AWS SDK, and added test cases to verify its propagation and validation.",
+                "commit_subject_length": 52
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add connection TTL configuration for S3A\n\nAdd a new configuration option `fs.s3a.connection.ttl` to set the expiration time of S3 HTTP connections in the connection pool. The default value is 5 minutes. Includes tests to validate the propagation of this setting to the AWS SDK configuration.",
+                "commit_subject_length": 46
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add configuration option for S3A connection TTL\n\nAdd a configuration option `fs.s3a.connection.ttl` to set the maximum time an idle connection may be retained in the HTTP connection pool. This change includes the corresponding default value and test cases to ensure proper propagation of the setting.",
+                "commit_subject_length": 53
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add fs.s3a.connection.ttl configuration option\n\nAdd configuration option to set the TTL for idle S3 HTTP connections in the connection pool [HADOOP-18845]. Includes tests verifying the propagation of the setting to the AWS client configuration.",
+                "commit_subject_length": 52
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC011",
+        "commit_url": "https://github.com/apache/hive/commit/20d26ad269af3c281f845df76d3b8d260cabc904",
+        "jira_url": "https://issues.apache.org/jira//browse/HIVE-28473",
+        "included_file_paths": [
+            "ql/src/java/org/apache/hadoop/hive/ql/exec/MoveTask.java",
+            "ql/src/java/org/apache/hadoop/hive/ql/parse/SemanticAnalyzer.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Handle local file paths in MoveTask and SemanticAnalyzer\n\nEnsure that local file paths are correctly handled in MoveTask and SemanticAnalyzer by checking if the destination is a local file and using the appropriate temporary directory for stats collection.",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: handle local file paths in MoveTask and SemanticAnalyzer\n\nEnsure that local file paths are correctly handled by checking and setting the `isLocal` flag in `SemanticAnalyzer`. This flag is used in `MoveTask` to determine the appropriate file system operations for local paths.",
+                "cleaned_commit_message": "fix: handle local file paths in MoveTask and SemanticAnalyzer\n\nEnsure that local file paths are correctly handled by checking and setting the `isLocal` flag in `SemanticAnalyzer`. This flag is used in `MoveTask` to determine the appropriate file system operations for local paths.",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Correctly handle local directory paths in INSERT OVERWRITE LOCAL DIRECTORY\n\nEnsure that the intermediate HDFS directory is created in the correct location when using `INSERT OVERWRITE LOCAL DIRECTORY`. This fixes the issue where the staging directory was incorrectly created at the local directory path, causing permission errors. Additionally, the `MoveTask` now checks if the target is a DFS directory before creating the parent directory, ensuring consistent behavior. Fixes HIVE-28473.",
+                "commit_subject_length": 79
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: correct staging directory for local file inserts\n\nEnsure correct HDFS staging directory is used for local file inserts by distinguishing between local and DFS destinations [HIVE-28473]. This prevents permission errors due to incorrect paths.",
+                "commit_subject_length": 53
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC012",
+        "commit_url": "https://github.com/apache/hive/commit/4898d7bfaa1437d39d25070e0ab63c5e0e0de9d7",
+        "jira_url": "https://issues.apache.org/jira//browse/HIVE-28662",
+        "included_file_paths": [
+            "standalone-metastore/metastore-common/src/main/java/org/apache/hadoop/hive/metastore/conf/MetastoreConf.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Update default values and election method for housekeeping and compactor threads\n\nUpdated the default values for `METASTORE_HOUSEKEEPING_THREADS_ON`, `COMPACTOR_INITIATOR_ON`, and `COMPACTOR_CLEANER_ON` to `true`. Additionally, changed the default value of `METASTORE_HOUSEKEEPING_LEADER_ELECTION` from `host` to `lock` to use the Hive lock for leader election. These changes ensure that housekeeping and compactor tasks are enabled by default and that leader election is more robust.",
+                "commit_subject_length": 90
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: enable housekeeping and compactor threads by default\n\nEnable housekeeping and compactor threads by default in the metastore to improve background task management and transactional table maintenance. This change removes the need to manually configure these settings for better out-of-the-box performance and reliability.",
+                "commit_subject_length": 58
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Enable dynamic leader election for HMS in Hive Metastore\n\nSet the default value of `metastore.compactor.initiator.on` and `metastore.compactor.cleaner.on` to `true` and update the `metastore.housekeeping.leader.election` default value to `lock` to leverage the dynamic leader election introduced in HIVE-26509. This simplifies the configuration and improves resource utilization in environments with multiple HMS instances.",
+                "commit_subject_length": 62
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: enable dynamic leader election for HMS tasks\n\nSet default values for `METASTORE_HOUSEKEEPING_THREADS_ON`, `COMPACTOR_INITIATOR_ON`, and `COMPACTOR_CLEANER_ON` to `true` to enable dynamic leader election for HMS tasks [HIVE-28662]. This simplifies configuration and improves scalability by allowing a shared properties file across all HMS instances.",
+                "commit_subject_length": 50
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC013",
+        "commit_url": "https://github.com/apache/hive/commit/421887705f821213f48ae9c6beab62fa09e8a2e2",
+        "jira_url": "https://issues.apache.org/jira//browse/HIVE-28637",
+        "included_file_paths": [
+            "ql/src/java/org/apache/hadoop/hive/ql/plan/Statistics.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Use safe addition for statistics to prevent overflow\n\nReplaced direct addition with `StatsUtils.safeAdd` to prevent potential overflow issues in `dataSize`, `numRows`, and `numNulls` when adding statistics. This ensures that the values are safely updated without risking integer overflow.",
+                "commit_subject_length": 57
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: use safe addition to prevent overflow in statistics\n\nUpdate `Statistics` class to use `StatsUtils.safeAdd` for adding `dataSize`, `numRows`, and `numNulls` to prevent integer overflow. This ensures that the statistics calculations remain accurate and robust.",
+                "commit_subject_length": 56
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent data size overflow in Statistics\n\nUse `StatsUtils.safeAdd` to prevent overflow when adding data size and number of rows in `Statistics`. This addresses the issue where data size could become negative due to overflow, as reported in HIVE-28637.",
+                "commit_subject_length": 45
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: prevent data size overflow in Statistics\n\nUse `StatsUtils.safeAdd` to prevent data size from becoming negative due to overflow [HIVE-28637]. This ensures accurate statistics even with large data sizes.",
+                "commit_subject_length": 45
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC014",
+        "commit_url": "https://github.com/apache/hive/commit/6bd45cc6a1cdfc2272d24251c330497223123d63",
+        "jira_url": "https://issues.apache.org/jira//browse/HIVE-28594",
+        "included_file_paths": [
+            "service/src/java/org/apache/hive/service/servlet/LoginServlet.java",
+            "service/src/java/org/apache/hive/service/servlet/LDAPAuthenticationFilter.java",
+            "service/src/java/org/apache/hive/service/server/HiveServer2.java",
+            "service/src/java/org/apache/hive/service/auth/ldap/LdapAuthService.java",
+            "common/src/java/org/apache/hive/http/HttpServer.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add global filters and improve LDAP authentication in HttpServer\n\nThis commit introduces global filters in the `HttpServer.Builder` and applies them to all servlet contexts except the static context. It also enhances the LDAP authentication process in `HiveServer2` by adding a global `LDAPAuthenticationFilter` and improving the login handling in `LoginServlet`. Additionally, it fixes the log level for authentication errors in `LdapAuthService` and updates the `LDAPAuthenticationFilter` to handle login requests more robustly.",
+                "commit_subject_length": 70
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add global filters support to HttpServer\n\nAdds support for global filters in `HttpServer` and updates `LDAPAuthenticationFilter` to handle login requests more robustly. Includes necessary changes in `HiveServer2` to initialize and apply the global filters.",
+                "commit_subject_length": 46
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Address security issues in HS2 WebUI LDAP authentication (HIVE-28594)\n\nImprove LDAP authentication security by refining the way login requests are identified in `LDAPAuthenticationFilter`. The filter now uses `HttpServletRequest.getMethod` and `HttpServletRequest.getServletPath` to correctly identify login requests and prevent URI suffix forgery. Additionally, update the `LdapAuthService` constructor to handle null provider initialization and adjust logging levels for better clarity.",
+                "commit_subject_length": 74
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: enhance LDAP authentication security in HS2 WebUI\n\nImprove LDAP authentication by using `ServletPath` and `HttpMethod` to prevent URI suffix forgery attacks [HIVE-28594]. Includes changes to the `LDAPAuthenticationFilter` and `LoginServlet` to ensure secure authentication and proper error handling.",
+                "commit_subject_length": 54
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC015",
+        "commit_url": "https://github.com/apache/hive/commit/2ff3ed6d83a1633d17bbf5b3c852b34b51548ef8",
+        "jira_url": "https://issues.apache.org/jira//browse/HIVE-28633",
+        "included_file_paths": [
+            "ql/src/java/org/apache/hadoop/hive/ql/parse/TezCompiler.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "perf: Add CBO check for sorted dynamic partition optimization\n\nThis change adds a check for the CBO (Cost-Based Optimizer) being enabled before running the sorted dynamic partition optimization in the `TezCompiler`. This ensures that the optimization is only applied when both dynamic partitioning is enabled in non-strict mode and CBO is enabled.",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "perf: optimize sorted dynamic partitioning with CBO enabled\n\nEnable sorted dynamic partition optimization only when cost-based optimization (CBO) is enabled, reducing unnecessary optimization steps and improving performance.",
+                "commit_subject_length": 59
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Add CBO check for sorted dynamic partition optimization\n\nPrevent the sorted dynamic partition optimization from running when CBO is disabled, addressing the NPE in `TezCompiler` for bucketed partition tables. Fixes HIVE-28633.",
+                "commit_subject_length": 60
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: enable CBO check for sorted dynamic partition optimization\n\nEnsure sorted dynamic partition optimization is only applied when CBO is enabled, preventing NPE during insert into bucketed partitioned tables [HIVE-28633].",
+                "commit_subject_length": 63
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC016",
+        "commit_url": "https://github.com/apache/activemq/commit/5f79b651c225babe62d8742d20e993073faaf1d0",
+        "jira_url": "https://issues.apache.org/jira//browse/AMQ-9547",
+        "included_file_paths": [
+            "activemq-kahadb-store/src/main/java/org/apache/activemq/store/kahadb/disk/page/PageFile.java",
+            "activemq-kahadb-store/src/main/java/org/apache/activemq/util/RecoverableRandomAccessFile.java",
+            "activemq-kahadb-store/src/test/java/org/apache/activemq/store/kahadb/disk/page/PageFileTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Prevent file size adjustment and handle corrupt files during page file loading\n\nThis commit removes the file size preallocation and adjustment logic from `PageFile` and `RecoverableRandomAccessFile` to prevent unintended file modifications. Additionally, it throws an `IllegalStateException` if the main page file length is less than the required header size, indicating a corrupt file. Test cases have been updated to reflect these changes and to simulate scenarios with unclean shutdowns and missing recovery files.",
+                "commit_subject_length": 83
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "test: add tests for recovery after unclean shutdown and missing recovery file\n\nEnhance test coverage for recovery scenarios, including unclean shutdown with zero free pages and missing recovery file.",
+                "commit_subject_length": 77
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Remove setLength calls in PageFile and handle unexpected file lengths\n\nAMQ-9547: Removed calls to `setLength` in `PageFile` which always throw an exception in `RecoverableRandomAccessFile`. Updated the code to handle unexpected file lengths by throwing an `IllegalStateException` when the file length is less than the header size, ensuring the store can detect and recover from corrupt files. Added test cases to validate the recovery process after unclean shutdowns and missing recovery files.",
+                "commit_subject_length": 74
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: remove setLength calls in PageFile to prevent exceptions\n\nRemove calls to `setLength` in `PageFile` to avoid exceptions and ensure proper recovery [AMQ-9547]. Includes test cases to validate recovery behavior.",
+                "commit_subject_length": 61
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC017",
+        "commit_url": "https://github.com/apache/activemq/commit/550cb9b2be32e5a6454e7bee5e31632498626a9c",
+        "jira_url": "https://issues.apache.org/jira//browse/AMQ-9473",
+        "included_file_paths": [
+            "activemq-client/src/main/java/org/apache/activemq/util/IntrospectionSupport.java",
+            "activemq-jms-pool/src/main/java/org/apache/activemq/jms/pool/IntrospectionSupport.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Handle SSLSocket instances in setProperty method\n\nAdd support for `javax.net.ssl.SSLSocket` instances in the `setProperty` method to overcome illegal access issues with internal implementation classes. This change ensures that both `SSLServerSocket` and `SSLSocket` types are correctly handled.",
+                "commit_subject_length": 53
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: handle SSLSocket in IntrospectionSupport\n\nAdd support for handling `javax.net.ssl.SSLSocket` instances in `setProperty` method to overcome illegal access issues with internal implementation classes. This ensures compatibility with both `SSLServerSocket` and `SSLSocket` types.",
+                "commit_subject_length": 45
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle SSLSocket in IntrospectionSupport\n\nAMQ-9473: Client SSL Socket configuration fails while setting parameters. This commit ensures that `SSLSocket` instances are correctly handled to overcome illegal access issues, similar to the existing handling for `SSLServerSocket`. This resolves the issue where setting socket parameters like `enabledProtocols` on client connections results in `InaccessibleObjectException`.",
+                "commit_subject_length": 45
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle SSLSocket configuration in IntrospectionSupport\n\nEnsure SSLSocket properties can be set by using the public javax.net.ssl.SSLSocket class to avoid illegal access issues [AMQ-9473]. This change aligns with the existing fix for SSLServerSocket and includes the same handling in the activemq-jms-pool module.",
+                "commit_subject_length": 59
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC018",
+        "commit_url": "https://github.com/apache/activemq/commit/d8ae8734a9f6da41e206d33322048aedf5491e8e",
+        "jira_url": "https://issues.apache.org/jira//browse/AMQ-7424",
+        "included_file_paths": [
+            "activemq-jdbc-store/src/main/java/org/apache/activemq/store/jdbc/JDBCPersistenceAdapter.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Add null checks before removing message in `commitRemove` method\n\nEnsure `TransactionContext`, `MessageAck`, `LastMessageId`, and `EntryLocator` are not null before attempting to remove a message, preventing potential `NullPointerException`.",
+                "commit_subject_length": 69
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: add null checks before message removal in JDBCPersistenceAdapter\n\nAdd null checks to ensure `TransactionContext`, `MessageAck`, and `MessageId` are not null before attempting to remove a message. This prevents potential `NullPointerException` and ensures robust handling of message removal operations.",
+                "commit_subject_length": 69
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent NPE in commitRemove under high database load\n\nPrevent NPE in `commitRemove` by adding null checks for `context`, `ack`, and `ack.getLastMessageId().getEntryLocator()`. This addresses the connection leak and ensures the system recovers correctly after abnormal database loads. Related to tickets AMQ-7424 and AMQ-7480.",
+                "commit_subject_length": 57
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle null checks in commitRemove to prevent NPE and connection leak\n\nPrevent NPE and connection leak during XA transaction rollback by adding null checks in `commitRemove` [AMQ-7424]. This ensures the system can recover correctly after high database load abnormalities.",
+                "commit_subject_length": 74
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC019",
+        "commit_url": "https://github.com/apache/activemq/commit/ecbeb6d2eb8675832acec243a4e50fea735763e0",
+        "jira_url": "https://issues.apache.org/jira//browse/AMQ-7480",
+        "included_file_paths": [
+            "activemq-client/src/main/java/org/apache/activemq/TransactionContext.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Ensure XAException is properly initialized when original exception is null\n\nThis commit adds null checks to ensure that the `XAException` is only initialized with the original exception's error code and cause if the original exception is not null. This prevents potential `NullPointerException` and ensures the `XAException` is correctly formed.",
+                "commit_subject_length": 79
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: add null checks for XAException in toXAException method\n\nAdd null checks for `original` and `xae` to prevent potential `NullPointerException` when handling exceptions. This ensures the method is more robust and avoids crashes due to null references.",
+                "commit_subject_length": 60
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle NPE in XA transaction rollback to prevent connection leak\n\nPrevent NPE in `TransactionContext` during XA transaction rollback, ensuring the connection is not leaked and the system can recover after high database load. Addresses AMQ-7424.",
+                "commit_subject_length": 69
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle NullPointerException in TransactionContext\n\nPrevent NullPointerException from causing connection leaks and ensure proper recovery after high database load [AMQ-7424]. This change ensures that the transaction context correctly handles XAException instances and maintains connection pool integrity.",
+                "commit_subject_length": 54
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC020",
+        "commit_url": "https://github.com/apache/activemq/commit/6f338aa2817c221c16b6a97b7d3377daeaf42726",
+        "jira_url": "https://issues.apache.org/jira//browse/AMQ-7068",
+        "included_file_paths": [
+            "activemq-amqp/src/main/java/org/apache/activemq/transport/amqp/message/JMSMappingOutboundTransformer.java",
+            "activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/message/JMSMappingOutboundTransformerTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add support for transforming ConnectionInfo and RemoveInfo messages\n\nThis commit adds the ability to transform `ConnectionInfo` and `RemoveInfo` messages in the `JMSMappingOutboundTransformer` class. The transformation includes setting the `ActiveMqDataStructureType` in the application properties and converting the message body to a map of relevant fields. Test cases for both `ConnectionInfo` and `RemoveInfo` transformations have been added to `JMSMappingOutboundTransformerTest` to ensure the changes work as expected.",
+                "commit_subject_length": 73
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: support AMQP transformation for ConnectionInfo and RemoveInfo messages\n\nAdd support for transforming `ConnectionInfo` and `RemoveInfo` messages in the `JMSMappingOutboundTransformer` to AMQP format. Includes test cases to validate the transformation of these message types.",
+                "commit_subject_length": 76
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Add body content for advisory messages in AMQP transformer\n\nAdvisory messages for `ActiveMQ.Advisory.Connection` and `ActiveMQ.Advisory.Consumer` now include the relevant `ConnectionInfo` and `RemoveInfo` data structures in the AMQP message body, ensuring that the necessary information is available for clients. This addresses the issue where advisory messages were previously empty, as described in AMQ-7068. Test cases have been added to validate the transformation of these data structures.",
+                "commit_subject_length": 63
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: add body content for advisory messages in AMQP\n\nPopulate advisory message bodies with relevant information for AMQP subscriptions [AMQ-7068]. Includes tests for ConnectionInfo and RemoveInfo data structures.",
+                "commit_subject_length": 51
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC021",
+        "commit_url": "https://github.com/apache/cassandra/commit/f66183a711dd440b3619a960ba4e5444c1c900ff",
+        "jira_url": "https://issues.apache.org/jira//browse/CASSANDRA-20208",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/config/DatabaseDescriptor.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add audit logging options sanitation and validation\n\nAdd sanitation and validation for audit logging options in the `applySimpleConfig` method. This ensures that the audit logging configuration is properly validated before being applied.",
+                "commit_subject_length": 57
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": feat: add audit logging options validation and sanitation\n\nAdd validation and sanitation for audit logging options during configuration initialization. This ensures that audit logging settings are correctly configured and sanitized before use.",
+                "cleaned_commit_message": "feat: add audit logging options validation and sanitation\n\nAdd validation and sanitation for audit logging options during configuration initialization. This ensures that audit logging settings are correctly configured and sanitized before use.",
+                "commit_subject_length": 57
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Sanitize audit_logging_options during startup configuration loading\n\nEnsure that audit logging options are sanitized and validated when loaded from the configuration file on startup, addressing CASSANDRA-20208. This change aligns the behavior with the existing sanitization logic used during runtime configuration updates.",
+                "commit_subject_length": 72
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: sanitize audit_logging_options on startup\n\nEnsure audit logging options are sanitized and validated when loaded from the configuration file on startup [CASSANDRA-20208]. This addresses inconsistent behavior and potential issues due to untrimmed spaces in category names.",
+                "commit_subject_length": 46
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC022",
+        "commit_url": "https://github.com/apache/cassandra/commit/4bc61e5209d474c50639a4858e273653fbb4e399",
+        "jira_url": "https://issues.apache.org/jira//browse/CASSANDRA-20135",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/db/ReadCommand.java",
+            "src/java/org/apache/cassandra/db/transform/StoppingTransformation.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add attachTo methods in StoppingTransformation to prevent attaching multiple different iterators\n\nThis commit adds `attachTo` methods for `BasePartitions` and `BaseRows` in the `StoppingTransformation` class to ensure that only one instance of each type can be attached. This prevents potential bugs where multiple different iterators might be attached, which could lead to unexpected behavior. The changes include updating the `ReadCommand` class to use these new methods.",
+                "commit_subject_length": 106
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: add attachment methods to StoppingTransformation\n\nAdd `attachTo` methods for `BasePartitions` and `BaseRows` to `StoppingTransformation` and change the visibility of `rows` and `partitions` to protected. This improves the internal structure and modularity of the code, making it more maintainable.",
+                "commit_subject_length": 58
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Prevent assertion errors in StoppingTransformation on multiple calls\n\nFixes CASSANDRA-20135 by ensuring that `StoppingTransformation` does not throw an assertion error when `attachTo` is called multiple times. This issue arises because the transformation is being added to the stack multiple times, leading to duplicate instances. The fix changes the `attachTo` methods to use `protected` visibility, allowing subclasses to override and handle the attachment more gracefully. Additionally, it adds checks in `ReadCommand` to prevent the transformation from being added to the stack more than once.",
+                "commit_subject_length": 73
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle null values in ByteType comparison to prevent IndexOutOfBoundsException\n\nEnsure that `ByteType.compareCustom` safely handles null values (empty ByteBuffers) to prevent `IndexOutOfBoundsException` when querying partitions with deleted columns [CASSANDRA-20108].",
+                "commit_subject_length": 83
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC023",
+        "commit_url": "https://github.com/apache/cassandra/commit/407dbacb0a0fcd5eca28abe781be635476325a65",
+        "jira_url": "https://issues.apache.org/jira//browse/CASSANDRA-20151",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/service/snapshot/SnapshotManagerMBean.java",
+            "src/java/org/apache/cassandra/tools/nodetool/ListSnapshots.java",
+            "test/distributed/org/apache/cassandra/distributed/test/SnapshotsTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add keyspace, table, and snapshot name filtering options to ListSnapshots\n\nThis commit adds new options to the `ListSnapshots` command to filter snapshots by keyspace, table, and snapshot name. The `SnapshotManagerMBean` interface has been updated to include these options, and the `ListSnapshots` class now handles them appropriately. Additionally, a new test case `testListingOfSnapshotsByKeyspaceAndTable` has been added to ensure the functionality works as expected.",
+                "commit_subject_length": 79
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": feat: add keyspace, table, and snapshot filtering options to listsnapshots\n\nAdd `-k`, `-t`, and `-n` options to `listsnapshots` to filter snapshots by keyspace, table, and snapshot name, respectively. Includes tests to validate the new filtering behavior.",
+                "cleaned_commit_message": "feat: add keyspace, table, and snapshot filtering options to listsnapshots\n\nAdd `-k`, `-t`, and `-n` options to `listsnapshots` to filter snapshots by keyspace, table, and snapshot name, respectively. Includes tests to validate the new filtering behavior.",
+                "commit_subject_length": 74
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add filtering options for keyspace, table, and snapshot name in nodetool listsnapshots\n\nThis commit introduces new options to the `nodetool listsnapshots` command to filter snapshots by keyspace, table, and snapshot name. The `SnapshotManagerMBean` interface and `ListSnapshots` class have been updated to support these options. Additionally, test cases have been added to `SnapshotsTest` to ensure the functionality works as expected.",
+                "commit_subject_length": 92
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add keyspace, table, and snapshot name filtering to nodetool listsnapshots\n\nAdd options to filter snapshots by keyspace, table, and snapshot name [CASSANDRA-20151]. Includes tests validating the new filtering options.",
+                "commit_subject_length": 80
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC024",
+        "commit_url": "https://github.com/apache/cassandra/commit/b15a1f04b61e11bc3b9719c06bffb9fa672a25cd",
+        "jira_url": "https://issues.apache.org/jira//browse/CASSANDRA-20149",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/service/snapshot/SnapshotDetailsTabularData.java",
+            "src/java/org/apache/cassandra/service/snapshot/SnapshotManager.java",
+            "src/java/org/apache/cassandra/service/snapshot/SnapshotManagerMBean.java",
+            "src/java/org/apache/cassandra/tools/nodetool/ListSnapshots.java",
+            "test/unit/org/apache/cassandra/db/ColumnFamilyStoreTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add raw true size to snapshot details and implement per-snapshot true size calculation\n\nThis commit adds the raw true size to the `SnapshotDetailsTabularData` and implements a new method in `SnapshotManager` to calculate the true size of a specific snapshot in a given keyspace and table. The `ListSnapshots` command is updated to display the total true disk size correctly, and test cases are added to verify the functionality.",
+                "commit_subject_length": 92
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": feat: add raw true size to snapshot details and manager\n\nAdd a new column for raw true size in snapshot details and a new method in SnapshotManager to get the true size of a specific snapshot. Includes test cases to validate the changes.",
+                "cleaned_commit_message": "feat: add raw true size to snapshot details and manager\n\nAdd a new column for raw true size in snapshot details and a new method in SnapshotManager to get the true size of a specific snapshot. Includes test cases to validate the changes.",
+                "commit_subject_length": 55
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "perf: Optimize `nodetool listsnapshots` to reduce JMX calls and improve efficiency\n\nThis commit optimizes the `nodetool listsnapshots` command by reducing the number of JMX calls. The true size of snapshots is now returned as part of the snapshot details, which avoids the need for a separate JMX call to compute the total true disk size. Additionally, a new method `getTrueSnapshotsSize` is introduced to the `SnapshotManager` interface, allowing users to get the true size of a specific snapshot in a keyspace and table. This change also ensures that the total true disk size is accurately calculated and displayed, even if snapshots are removed between calls. Test cases have been updated to reflect these changes.",
+                "commit_subject_length": 82
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "perf: optimize nodetool listsnapshots JMX calls\n\nReduce JMX calls by returning snapshot sizes with details, improving performance and reducing the risk of inconsistent size calculations [CASSANDRA-20149]. Includes test updates to validate the new behavior.",
+                "commit_subject_length": 47
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC025",
+        "commit_url": "https://github.com/apache/cassandra/commit/4fc8bb29fcda935728d8863a4499fa0e9d924b82",
+        "jira_url": "https://issues.apache.org/jira//browse/CASSANDRA-20108",
+        "included_file_paths": [
+            "src/java/org/apache/cassandra/db/filter/RowFilter.java",
+            "test/unit/org/apache/cassandra/cql3/validation/operations/SelectTest.java",
+            "test/unit/org/apache/cassandra/index/sasi/plan/OperationTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Add current time to row filtering logic and test cases\n\nThis commit updates the `RowFilter` class and its `Expression` subclasses to include the current time in seconds (`nowInSec`) as a parameter for the `isSatisfiedBy` method. This change ensures that the filtering logic correctly handles tombstones and live cells, particularly for static columns and deleted values. Additionally, new test cases have been added to `SelectTest` to verify the behavior of filtering on deleted static column values.\n\n- Updated `RowFilter` and `Expression` methods to include `nowInSec`.\n- Added test cases in `SelectTest` to verify filtering on deleted static column values.\n- Updated `OperationTest` to reflect the new method signature.",
+                "commit_subject_length": 59
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: update row filtering to handle deleted cells and static columns\n\nUpdate `RowFilter` and related classes to include `nowInSec` parameter in `isSatisfiedBy` methods, ensuring deleted cells and static columns are correctly handled. Includes tests for filtering on deleted static column values.",
+                "cleaned_commit_message": "fix: update row filtering to handle deleted cells and static columns\n\nUpdate `RowFilter` and related classes to include `nowInSec` parameter in `isSatisfiedBy` methods, ensuring deleted cells and static columns are correctly handled. Includes tests for filtering on deleted static column values.",
+                "commit_subject_length": 68
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle null and tombstoned values in RowFilter\n\nIn `RowFilter`, update `isSatisfiedBy` and `getValue` methods to handle null and tombstoned values correctly, preventing `IndexOutOfBoundsException` when filtering on deleted columns. Added test cases to verify the behavior with deleted static columns. CASSANDRA-20108",
+                "commit_subject_length": 51
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle tombstones and expired cells in row filtering\n\nEnsure row filtering correctly handles tombstones and expired cells to prevent `IndexOutOfBoundsException` [CASSANDRA-20108]. Includes test cases for filtering on deleted static column values.",
+                "commit_subject_length": 57
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC026",
+        "commit_url": "https://github.com/apache/camel/commit/293ad682e312ebd9fdac49c90d242595c43d3916",
+        "jira_url": "https://issues.apache.org/jira//browse/CAMEL-21442",
+        "included_file_paths": [
+            "dsl/camel-jbang/camel-jbang-core/src/main/java/org/apache/camel/dsl/jbang/core/commands/ExportBaseCommand.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "chore: Ensure target directories are created before copying files\n\nEnsure that the target directories are created before copying files, and fix a typo in the comment from \"flattern\" to \"flatten\". This change ensures that the file copying process is more robust and avoids potential issues with missing directories.",
+                "commit_subject_length": 65
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: ensure target directory is created before copying source files\n\nEnsure the target directory is created before copying source files, and correct the spelling of \"flatten\" in the `safeCopy` method. This prevents potential `FileNotFoundException` and improves the robustness of the file copy process.",
+                "commit_subject_length": 67
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure target directory is created during export\n\nEnsure the target directory is created before copying files, addressing the issue where `camel-jbang export` fails when `local-kamelet-dir` is set to the current directory. This resolves CAMEL-21442 and improves robustness in directory handling.",
+                "commit_subject_length": 53
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: ensure target directory exists during export\n\nCreate target directory if it does not exist to prevent `NoSuchFileException` when exporting with `--local-kamelet-dir` set to the current directory [CAMEL-21442]. Also, correct the typo in the comment from \"flattern\" to \"flatten\".",
+                "commit_subject_length": 49
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC027",
+        "commit_url": "https://github.com/apache/camel/commit/2f8a0881ed6e65cecf9bf7ae2e3968f2751d8bd1",
+        "jira_url": "https://issues.apache.org/jira//browse/CAMEL-21625",
+        "included_file_paths": [
+            "dsl/camel-jbang/camel-jbang-plugin-kubernetes/src/main/java/org/apache/camel/dsl/jbang/core/commands/kubernetes/KubernetesHelper.java",
+            "dsl/camel-jbang/camel-jbang-plugin-kubernetes/src/main/java/org/apache/camel/dsl/jbang/core/commands/kubernetes/KubernetesRun.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Move `createKubernetesClientForShutdownHook` to `KubernetesRun`\n\nMoved the `createKubernetesClientForShutdownHook` method from `KubernetesHelper` to `KubernetesRun` to better encapsulate the shutdown hook logic and reduce the responsibilities of the `KubernetesHelper` class. This change aligns with the JIRA issue CAMEL-21621, ensuring that the Kubernetes client is properly configured for the shutdown hook.",
+                "commit_subject_length": 73
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: move createKubernetesClientForShutdownHook to KubernetesRun\n\nMove the `createKubernetesClientForShutdownHook` method from `KubernetesHelper` to `KubernetesRun` to ensure it is only used in the context of a shutdown hook, addressing the issue with `KubernetesClientVertx` in shutdown hooks.",
+                "cleaned_commit_message": "fix: move createKubernetesClientForShutdownHook to KubernetesRun\n\nMove the `createKubernetesClientForShutdownHook` method from `KubernetesHelper` to `KubernetesRun` to ensure it is only used in the context of a shutdown hook, addressing the issue with `KubernetesClientVertx` in shutdown hooks.",
+                "commit_subject_length": 64
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle Kubernetes manifest file resolution and client creation for shutdown hook\n\nAddressed CAMEL-21625 by improving the resolution of Kubernetes manifest files and CAMEL-21621 by moving the creation of the Kubernetes client for the shutdown hook to the `KubernetesRun` class. This ensures the client is properly initialized and avoids issues with the client being closed during the shutdown process.",
+                "commit_subject_length": 85
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: improve Kubernetes client shutdown hook and manifest handling\n\nRefactor Kubernetes client creation for shutdown hook to prevent `Client is closed` exceptions [CAMEL-21621]. Simplify manifest file resolution logic to avoid `FileNotFoundException` [CAMEL-21625].",
+                "commit_subject_length": 66
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC028",
+        "commit_url": "https://github.com/apache/camel/commit/32895ccfeae995497a275754dafcad38947447b7",
+        "jira_url": "https://issues.apache.org/jira//browse/CAMEL-21614",
+        "included_file_paths": [
+            "core/camel-support/src/main/java/org/apache/camel/support/cache/SimpleLRUCache.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Add read/write locking to prevent concurrent modifications during cache changes\n\nAdded a `ReadWriteLock` to `SimpleLRUCache` to ensure thread safety during the addition and swapping of changes in the `lastChanges` queue. This prevents concurrent modifications and ensures that the `compressChanges` method operates correctly.",
+                "commit_subject_length": 84
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: introduce ReadWriteLock for thread-safe cache operations\n\nAdd a `ReadWriteLock` to `SimpleLRUCache` to ensure thread safety during the swap of the queue of changes. This prevents concurrent modifications and enhances the internal structure without altering the cache's functionality.",
+                "commit_subject_length": 66
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Add read/write locks to prevent thread contention in SimpleLRUCache\n\nCAMEL-21614: Added `ReadWriteLock` to `SimpleLRUCache` to prevent threads from getting stuck in the RUNNABLE state during cache operations, particularly when adding and swapping entries. This reduces the likelihood of the issue occurring with bean expressions inside simple expressions.",
+                "commit_subject_length": 72
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: add read/write locks to prevent changes during queue swap in SimpleLRUCache\n\nAdd read/write locks to `SimpleLRUCache` to prevent concurrent modifications during the swap of the queue of changes. This addresses the issue of threads getting stuck in the RUNNABLE state [CAMEL-21614].",
+                "commit_subject_length": 80
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC029",
+        "commit_url": "https://github.com/apache/camel/commit/b3797fc19a260c9ec8cc292fd3b2a6f254b5030a",
+        "jira_url": "https://issues.apache.org/jira//browse/CAMEL-21621",
+        "included_file_paths": [
+            "dsl/camel-jbang/camel-jbang-plugin-kubernetes/src/main/java/org/apache/camel/dsl/jbang/core/commands/kubernetes/KubernetesHelper.java",
+            "dsl/camel-jbang/camel-jbang-plugin-kubernetes/src/main/java/org/apache/camel/dsl/jbang/core/commands/kubernetes/KubernetesRun.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Use specialized Kubernetes client for shutdown hook in KubernetesRun\n\nThis commit addresses the issue where the `KubernetesClientVertx` cannot be used in the shutdown hook due to a known bug (CAMEL-21621). A new method `createKubernetesClientForShutdownHook` is added to `KubernetesHelper` to create a specialized client configured to avoid DNS resolution and use daemon threads. The `installShutdownHook` method in `KubernetesRun` now uses this specialized client to ensure proper cleanup during shutdown.",
+                "commit_subject_length": 73
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": fix: create specialized Kubernetes client for shutdown hook\n\nCreate a specialized Kubernetes client for the shutdown hook to avoid issues with DNS resolution and resource management. This addresses the problem described in CAMEL-21621.",
+                "cleaned_commit_message": "fix: create specialized Kubernetes client for shutdown hook\n\nCreate a specialized Kubernetes client for the shutdown hook to avoid issues with DNS resolution and resource management. This addresses the problem described in CAMEL-21621.",
+                "commit_subject_length": 59
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle Kubernetes client closure in shutdown hook\n\nResolves CAMEL-21621 by creating a new Kubernetes client specifically for the shutdown hook to prevent the \"Client is closed\" exception. Additionally, ensures proper cleanup of the export directory.",
+                "commit_subject_length": 54
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle k8s client and manifest cleanup in shutdown hook\n\nEnsure the Kubernetes client is properly initialized and the manifest files are correctly resolved during the shutdown hook process [CAMEL-21621, CAMEL-21625]. This fixes issues with client closure and missing manifest files.",
+                "commit_subject_length": 60
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC030",
+        "commit_url": "https://github.com/apache/camel/commit/529d1ccca1f0b0e7bf6e7092bbe53d41c342c6a3",
+        "jira_url": "https://issues.apache.org/jira//browse/CAMEL-21553",
+        "included_file_paths": [
+            "components/camel-hashicorp-vault/src/main/java/org/apache/camel/component/hashicorp/vault/HashicorpVaultPropertiesFunction.java",
+            "core/camel-main/src/main/java/org/apache/camel/main/BaseMainSupport.java",
+            "core/camel-main/src/main/java/org/apache/camel/main/DefaultConfigurationConfigurer.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Improve Vault configuration and error handling\n\nThis commit refactors the `HashicorpVaultPropertiesFunction` to provide a more detailed error message when an issue occurs while retrieving a secret from Hashicorp Vault. Additionally, it introduces a new method `doConfigureVaultFromMainConfiguration` in `BaseMainSupport` to pre-load and configure Vault settings, ensuring they are available eagerly during property placeholder resolutions. This change enhances the robustness and clarity of Vault configuration in Camel.",
+                "commit_subject_length": 56
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: reorganize vault configuration and initialization in `BaseMainSupport`\n\nReorganize vault configuration and initialization to ensure it is pre-loaded during property placeholder resolutions. This change also updates the `configureVault` method to `configureVaultRefresh` to better reflect its purpose.",
+                "commit_subject_length": 80
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Improve error message and vault configuration order in `HashicorpVaultPropertiesFunction` and `BaseMainSupport`\n\nImproved error message for secret retrieval failures in `HashicorpVaultPropertiesFunction` and adjusted the vault configuration order in `BaseMainSupport` to ensure properties are pre-loaded before route initialization. This resolves issues with vault property resolution during bean instantiation. Resolves CAMEL-21553.",
+                "commit_subject_length": 116
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: enhance vault properties configuration to support bean instantiation\n\nMove vault properties configuration to an earlier stage in the initialization process to ensure they are available during bean instantiation [CAMEL-21553]. Includes changes to `BaseMainSupport` and `DefaultConfigurationConfigurer` to preload vault properties and refresh vault configuration.",
+                "commit_subject_length": 73
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC031",
+        "commit_url": "https://github.com/apache/maven/commit/6767f2500f1d005924ccff27f04350c253858a84",
+        "jira_url": "https://issues.apache.org/jira//browse/MNG-7486",
+        "included_file_paths": [
+            "maven-core/src/main/java/org/apache/maven/internal/MultilineMessageHelper.java",
+            "maven-core/src/main/java/org/apache/maven/lifecycle/internal/builder/BuilderCommon.java",
+            "maven-core/src/test/java/org/apache/maven/internal/MultilineMessageHelperTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Introduce MultilineMessageHelper for consistent multiline console warnings\n\nIntroduces a new helper class `MultilineMessageHelper` to format multiline warning messages consistently in the console. The class is utilized in `BuilderCommon` to format warnings about non-thread-safe plugins during parallel builds. Additionally, test cases for `MultilineMessageHelper` are added to ensure its correctness.",
+                "commit_subject_length": 80
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add multiline message helper for console output\n\nIntroduce `MultilineMessageHelper` to format multiline messages with box characters and a maximum line length, enhancing readability and consistency of console warnings. Includes tests for validating the helper's behavior.",
+                "commit_subject_length": 53
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "refactor: Introduce MultilineMessageHelper for boxed log messages\n\nIntroduce `MultilineMessageHelper` to format multiline log messages in a boxed layout, addressing MNG-7486. This helper is used in `BuilderCommon` to improve the readability and consistency of warnings about non-threadsafe plugins. Additionally, test cases are added to ensure the helper functions correctly.",
+                "commit_subject_length": 65
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "refactor: introduce MultilineMessageHelper for boxed log messages\n\nCreate a helper class to format and log multiline messages with a boxed layout [MNG-7486]. This simplifies the logging of warnings and errors in Maven components, such as `BuilderCommon`. Includes test cases to validate the formatting.",
+                "commit_subject_length": 65
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC032",
+        "commit_url": "https://github.com/apache/maven/commit/36de1c6e512435dffe0f27e1c117bd725cfba293",
+        "jira_url": "https://issues.apache.org/jira//browse/MNG-8237",
+        "included_file_paths": [
+            "maven-embedder/src/main/java/org/apache/maven/cli/CLIManager.java",
+            "maven-embedder/src/main/java/org/apache/maven/cli/MavenCli.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "chore: Improve handling of deprecated and unsupported options\n\nUpdate the CLIManager and MavenCli classes to better handle deprecated and unsupported options. The `CLIManager` now uses a `Set` to track used deprecated options, and the `MavenCli` class has been modified to print detailed warnings and errors for deprecated options, including removal timelines and alternative options. The `llr` option is marked as unsupported and will cause the build to fail if used. Additionally, the `logging` method in `MavenCli` now throws an `ExitException` if any deprecated options with UNSUPPORTED descriptions are encountered.",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: improve deprecated option handling in CLIManager and MavenCli\n\nIntroduce a `Set<Option>` to track used deprecated options and enhance logging to provide detailed warnings and errors for deprecated options. This includes handling the `--debug` option, `--global-settings`, and `--global-toolchains` options, with appropriate messages and future removal plans.",
+                "commit_subject_length": 71
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Improve deprecation handling and warnings for CLI options\n\nClean up deprecation notices for CLI options to ensure they are only displayed once and provide more detailed information. Update the help output to include deprecation status and recommendations for alternative options. Addresses MNG-8237.",
+                "commit_subject_length": 62
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: improve deprecation handling and warnings for CLI options\n\nCentralize deprecation handling in CLIManager and enhance warnings for deprecated options [MNG-8237]. Also, fix multiple deprecation notices for the same option and update help documentation to reflect deprecated status.",
+                "commit_subject_length": 62
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC033",
+        "commit_url": "https://github.com/apache/maven/commit/84ed8bea95c7ad45270a2a8e940f8ce3914b751d",
+        "jira_url": "https://issues.apache.org/jira//browse/MNG-8331",
+        "included_file_paths": [
+            "maven-api-impl/src/main/java/org/apache/maven/internal/impl/model/DefaultModelBuilder.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Improve dependency version inference in `transformFileToRaw`\n\nRefactor the `transformFileToRaw` method to improve readability by extracting the version inference logic into a helper method `inferDependencyVersion`. Additionally, handle empty dependencies list early to avoid unnecessary processing.",
+                "commit_subject_length": 70
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: optimize dependency version inference in transformFileToRaw\n\nOptimize the `transformFileToRaw` method to avoid unnecessary operations when there are no dependencies. Also, extract the version inference logic into a separate method for better readability and maintainability.",
+                "commit_subject_length": 69
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure versioned dependencies are not lost in modelVersion 4.1.0\n\nInfer and set missing dependency versions to prevent versioned dependencies from disappearing when mixed with version-less dependencies. Addresses MNG-8331.",
+                "commit_subject_length": 69
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: preserve versioned dependencies in mixed model\n\nEnsure versioned dependencies are retained when mixed with version-less dependencies in modelVersion 4.1.0 [MNG-8331]. Refactors dependency inference to prevent unintended removal of explicitly versioned dependencies.",
+                "commit_subject_length": 51
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC034",
+        "commit_url": "https://github.com/apache/maven/commit/9f2ef3434390da0f558224acccfdbdc9194c65e9",
+        "jira_url": "https://issues.apache.org/jira//browse/MNG-8349",
+        "included_file_paths": [
+            "maven-api-impl/src/main/java/org/apache/maven/internal/impl/model/DefaultModelValidator.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Improve version comparison by handling NumberFormatException\n\nRefactor the `compareModelVersions` method to use a helper method `asLong` that safely converts version segments to `Long`, handling potential `NumberFormatException` by defaulting to `0L`. This ensures robust version comparison and prevents unexpected errors.",
+                "commit_subject_length": 70
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: improve version comparison logic in DefaultModelValidator\n\nExtracted a helper method `asLong` to handle segment conversion and exception handling, making the `compareModelVersions` method more readable and robust.",
+                "commit_subject_length": 67
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle empty segments in model version comparison\n\nAvoid NumberFormatException when comparing model versions with empty segments. Addresses MNG-8349.",
+                "commit_subject_length": 54
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle NumberFormatException for invalid modelVersion\n\nPrevent NumberFormatException during model building by adding a safeguard in the version comparison logic [MNG-8349]. This ensures that invalid modelVersion values are handled gracefully, preventing the build from failing unexpectedly.",
+                "commit_subject_length": 58
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC035",
+        "commit_url": "https://github.com/apache/maven/commit/4bd12915c9399e02d4826e5150c1a9c735d12765",
+        "jira_url": "https://issues.apache.org/jira//browse/MNG-7662",
+        "included_file_paths": [
+            "maven-core/src/main/java/org/apache/maven/session/scope/internal/SessionScope.java",
+            "maven-core/src/test/java/org/apache/maven/session/scope/SessionScopeProxyTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "test: Add proxy creation for session scoped beans\n\nIntroduce proxy creation logic in `SessionScope` to handle session scoped beans that are not directly instantiated. This ensures that methods on session scoped beans can be invoked lazily and safely outside of the session scope. Additionally, add test cases to validate the behavior of the new proxy mechanism.",
+                "commit_subject_length": 49
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add proxy support for session-scoped beans\n\nAdd proxy creation for session-scoped beans to handle out-of-scope lookups and ensure proper behavior when the session scope is not active. Includes a comprehensive test case to validate the proxy mechanism.",
+                "commit_subject_length": 48
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Proxy session scoped components for singleton bean injection\n\nWhen injecting session scoped components into singleton beans, the `SessionScope` now creates proxies to defer the actual bean creation until the session scope is available. This change requires the `Typed` annotation (either `org.eclipse.sisu.Typed` or `javax.enterprise.inject.Typed`) on the session scoped bean to ensure that only interfaces are proxied. Added test cases to validate the behavior. Fixes MNG-7662.",
+                "commit_subject_length": 66
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: proxy session scoped components for singleton injection\n\nEnable injection of session scoped components into singleton beans by creating proxies [MNG-7662]. Proxies are created for beans annotated with `@Typed` and ensure that the session scope is available when the bean is accessed. Includes comprehensive test coverage.",
+                "commit_subject_length": 61
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC036",
+        "commit_url": "https://github.com/apache/opennlp/commit/c9440e68e098654a9f4315c816d0f0dd0cbef7b5",
+        "jira_url": "https://issues.apache.org/jira//browse/OPENNLP-1702",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/formats/brat/BratDocumentStream.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Introduce constants for file suffixes and sort files in BratDocumentStream\n\nIntroduce constants `SUFFIX_ANN` and `SUFFIX_TXT` for file suffixes to improve code readability and maintainability. Additionally, sort files before processing to ensure consistent order.",
+                "commit_subject_length": 84
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: improve file handling and sorting in BratDocumentStream\n\nIntroduce constants for file suffixes and sort files to ensure consistent processing order. This improves readability and reliability when reading brat corpus files.",
+                "commit_subject_length": 65
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure deterministic file processing in BratDocumentStream\n\nSort the result of `listFiles(..)` alphabetically in ascending order to ensure deterministic processing of files in the brat corpus directory. This addresses the non-determinism issue identified in OPENNLP-1702.",
+                "commit_subject_length": 63
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: ensure BratDocumentStream processes files deterministically\n\nSort files alphabetically to ensure consistent processing order [OPENNLP-1702].",
+                "commit_subject_length": 64
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC037",
+        "commit_url": "https://github.com/apache/opennlp/commit/5310565f6f402a93a41222050ab6f88f9f13d013",
+        "jira_url": "https://issues.apache.org/jira//browse/OPENNLP-1667",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/chunker/ThreadSafeChunkerME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/lemmatizer/ThreadSafeLemmatizerME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/namefind/ThreadSafeNameFinderME.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add thread-safe chunker and improve thread-local handling in lemmatizer and name finder\n\nThis commit introduces a new `ThreadSafeChunkerME` class which provides a thread-safe wrapper for `ChunkerME`. Additionally, it improves the thread-local handling in `ThreadSafeLemmatizerME` and `ThreadSafeNameFinderME` by using more descriptive variable names and ensuring the `close` method is properly implemented in `ThreadSafeNameFinderME`.",
+                "commit_subject_length": 93
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: standardize thread-local variable naming in thread-safe model classes\n\nStandardize the naming of thread-local variables in `ThreadSafeChunkerME`, `ThreadSafeLemmatizerME`, and `ThreadSafeNameFinderME` to improve code consistency and readability.",
+                "commit_subject_length": 79
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add thread-safe version of ChunkerME\n\nIntroduce `ThreadSafeChunkerME` to provide a thread-safe implementation of `ChunkerME`. This class uses `ThreadLocal` to ensure thread safety and includes a `close` method to remove the thread-local instance, addressing OPENNLP-1667 and OPENNLP-1620.",
+                "commit_subject_length": 42
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: introduce thread-safe ChunkerME with ThreadLocal cleanup\n\nAdd `ThreadSafeChunkerME` for thread-safe chunking operations, using `ThreadLocal` for thread isolation [OPENNLP-1667]. Implements `AutoCloseable` to allow users to clear the `ThreadLocal` resource when no longer needed [OPENNLP-1620].",
+                "commit_subject_length": 62
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC038",
+        "commit_url": "https://github.com/apache/opennlp/commit/e91ceb17e36120b66dafdf15d2e11fc6a59c92c6",
+        "jira_url": "https://issues.apache.org/jira//browse/OPENNLP-1661",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/util/DownloadUtil.java",
+            "opennlp-tools/src/test/java/opennlp/tools/util/AbstractDownloadUtilTest.java",
+            "opennlp-tools/src/test/java/opennlp/tools/util/DownloadUtilDownloadTwiceTest.java",
+            "opennlp-tools/src/test/java/opennlp/tools/util/DownloadUtilTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add `existsModel` method to check if a model is already downloaded\n\nThis commit adds a new `existsModel` method to the `DownloadUtil` class, which checks if a model of the specified type and language has already been downloaded. The method validates the model's checksum to ensure its integrity. Additionally, the commit updates the test cases to include tests for the new method, ensuring that it correctly identifies both existing and non-existing models. The `AbstractDownloadUtilTest` class has been removed as it is no longer needed, and the test cases in `DownloadUtilDownloadTwiceTest` and `DownloadUtilTest` have been updated to use the new `existsModel` method.",
+                "commit_subject_length": 72
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add existsModel method to check if a model is already downloaded\n\nIntroduce `existsModel` method to verify if a model of the specified type and language has already been downloaded. Includes tests to validate the new method's behavior for both valid and invalid inputs.",
+                "commit_subject_length": 70
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Ensure custom models are not wiped and validate existing models\n\nThis commit addresses the issue of custom models being wiped from the `user.home/.opennlp` directory during test execution by removing the cleanup logic from `AbstractDownloadUtilTest`. It also introduces a new method `existsModel` to check if a model of a specified type and language has already been downloaded and is valid. This method ensures that existing models are not re-downloaded if they are valid, reducing the download volume and load on ASF infrastructure. Additionally, the commit updates test cases to use the new `existsModel` method and to validate existing models.",
+                "commit_subject_length": 68
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: prevent accidental model removal and optimize downloads\n\nEnsure no custom models are accidentally removed from `user.home/.opennlp` and optimize download behavior to avoid re-downloading valid models [OPENNLP-1661]. Includes test cases to validate the new `existsModel` method and ensure it correctly handles invalid inputs.",
+                "commit_subject_length": 60
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC039",
+        "commit_url": "https://github.com/apache/opennlp/commit/374bee9324dfb69dcb2735f3ca4d7de57f10918f",
+        "jira_url": "https://issues.apache.org/jira//browse/OPENNLP-1655",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/sentdetect/SentenceDetectorME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/sentdetect/ThreadSafeSentenceDetectorME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/tokenize/ThreadSafeTokenizerME.java",
+            "opennlp-tools/src/main/java/opennlp/tools/tokenize/TokenizerME.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add constructor overloads to accept abbreviation dictionary\n\nAdded constructor overloads to `SentenceDetectorME`, `ThreadSafeSentenceDetectorME`, and `TokenizerME` to allow specifying an abbreviation dictionary. This ensures that the dictionary can be explicitly provided, improving flexibility and potentially enhancing performance in multi-threaded environments.",
+                "commit_subject_length": 69
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: add constructor for abbreviation dictionary in sentence and token detection\n\nAdd constructors to `SentenceDetectorME`, `ThreadSafeSentenceDetectorME`, `TokenizerME`, and `ThreadSafeTokenizerME` to accept an external abbreviation dictionary. This allows for more flexible configuration and usage of the models.",
+                "commit_subject_length": 85
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add constructors in SentenceDetectorME and TokenizerME to inject custom abbreviation dictionary\n\nThis change adds new constructors to `SentenceDetectorME`, `ThreadSafeSentenceDetectorME`, `TokenizerME`, and `ThreadSafeTokenizerME` to allow injecting a custom abbreviation dictionary. This addresses OPENNLP-1655, providing more flexibility for users to specify domain-specific abbreviations.",
+                "commit_subject_length": 101
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add constructors to inject custom abbreviation dictionary\n\nAdd constructors to `SentenceDetectorME`, `ThreadSafeSentenceDetectorME`, `TokenizerME`, and `ThreadSafeTokenizerME` to support custom abbreviation dictionaries [OPENNLP-1655]. This allows users to inject domain-specific or language-specific abbreviation dictionaries.",
+                "commit_subject_length": 63
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC040",
+        "commit_url": "https://github.com/apache/opennlp/commit/a1c46d185ab39a1e93bf77c6f211b4178bba5e4a",
+        "jira_url": "https://issues.apache.org/jira//browse/OPENNLP-1600",
+        "included_file_paths": [
+            "opennlp-tools/src/main/java/opennlp/tools/postag/POSTagFormat.java",
+            "opennlp-tools/src/main/java/opennlp/tools/postag/POSTagFormatMapper.java",
+            "opennlp-tools/src/main/java/opennlp/tools/postag/POSTaggerME.java",
+            "opennlp-tools/src/test/java/opennlp/tools/postag/POSTaggerMETest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "\nfeat: Add CUSTOM tag format and NoOp mapper for POSTaggerME\n\nThis commit adds a new `CUSTOM` tag format to the `POSTagFormat` enum and introduces a `NoOp` class in `POSTagFormatMapper` to handle custom tag formats without conversion. The `POSTaggerME` constructor now uses the `NoOp` mapper when the `CUSTOM` format is specified. Additionally, a new test case `testPOSTaggerMappingNoOp` is added to verify the behavior of the `CUSTOM` format.",
+                "commit_subject_length": 0
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add CUSTOM tag format to POSTaggerME\n\nIntroduce a new `CUSTOM` tag format and a no-op `POSTagFormatMapper` to allow custom part-of-speech tags without conversion. Includes a test case to validate the behavior.",
+                "commit_subject_length": 42
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add CUSTOM POS tag format and NoOp mapper\n\nAdds support for a custom POS tag format and a NoOp mapper to disable POS tag mapping. This allows training and using models with arbitrary POS tagsets. Resolves OPENNLP-1600.",
+                "commit_subject_length": 47
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add custom POS tag format and disable mapper\n\nAdd `CUSTOM` tag format to `POSTagFormat` and a no-op mapper to disable automatic POS tag mapping. This allows using custom tagsets without interference from the default mapper [OPENNLP-1600]. Includes test cases for custom tag format.",
+                "commit_subject_length": 50
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC041",
+        "commit_url": "https://github.com/apache/zookeeper/commit/91ab3f5274658a457f205065233db038ba7e622f",
+        "jira_url": "https://issues.apache.org/jira//browse/ZOOKEEPER-4790",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/common/X509Util.java",
+            "zookeeper-server/src/main/java/org/apache/zookeeper/common/ZKConfig.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add client hostname verification configuration\n\nAdd a new configuration property `sslClientHostnameVerification` to enable or disable client hostname verification. This property is used in `X509Util` to determine if client hostname verification should be enabled, and the corresponding property is added to `ZKConfig` to ensure it is properly configured.",
+                "commit_subject_length": 52
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: add configurable client hostname verification\n\nIntroduce a new configuration option for client hostname verification, allowing users to control this behavior via a system property. This provides more flexibility and control over the verification process.",
+                "commit_subject_length": 51
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add client hostname verification configuration\n\nAdd support for enabling or disabling client hostname verification in TLS connections. This addresses issues in Kubernetes and Strimzi where hostname verification can cause connectivity problems due to multiple DNS names resolving to the same IP address.",
+                "commit_subject_length": 52
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add client hostname verification configuration\n\nAdd configuration option to enable/disable client hostname verification during TLS quorum connections [ZOOKEEPER-4790]. This allows more flexible and secure configuration in environments where DNS resolution may be inconsistent, such as Kubernetes.",
+                "commit_subject_length": 52
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC042",
+        "commit_url": "https://github.com/apache/zookeeper/commit/e2070bed85d8b0c98a5a0045bf92421f473c412e",
+        "jira_url": "https://issues.apache.org/jira//browse/ZOOKEEPER-4753",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/server/quorum/auth/SaslQuorumServerCallbackHandler.java",
+            "zookeeper-server/src/test/java/org/apache/zookeeper/server/quorum/auth/QuorumKerberosAuthTest.java",
+            "zookeeper-server/src/test/java/org/apache/zookeeper/server/quorum/auth/QuorumKerberosHostBasedAuthTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add support for non-DIGEST-MD5 authentication in quorum server\n\nThis commit adds support for non-DIGEST-MD5 authentication in the `SaslQuorumServerCallbackHandler` by checking the login module used in the JAAS configuration. If the login module is not `DigestLoginModule`, the handler will skip populating the credentials map and set `isDigestAuthn` to false. The authorization logic is updated to handle non-DIGEST-MD5 authentication by verifying the connecting host is present in the authorized hosts list. Additionally, test cases are updated to include a test for a learner principal without a host and to verify that connections from unauthorized hosts are rejected.",
+                "commit_subject_length": 68
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: support hostless principals for quorum learners\n\nAdd support for hostless principals in the SASL quorum authorization process. Includes test cases to validate the behavior for both host-based and hostless principals.",
+                "commit_subject_length": 53
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Explicit handling of DIGEST-MD5 vs GSSAPI in quorum auth\n\nThis commit introduces explicit handling of the DIGEST-MD5 and GSSAPI mechanisms in the SASL quorum authorizer. The `SaslQuorumServerCallbackHandler` now checks the login module name to determine the authentication mechanism, and adjusts the credential map and authorization checks accordingly. Additionally, test cases have been updated to ensure that \"weirdly-shaped\" credentials only cause authentication failures in the GSSAPI case. This addresses the issue where some SASL/DIGEST-MD5 configurations caused the quorum test suite to fail with obscure errors. (ZOOKEEPER-4753)",
+                "commit_subject_length": 61
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: improve quorum authentication for DIGEST-MD5 and GSSAPI\n\nExplicitly handle DIGEST-MD5 and GSSAPI mechanisms in quorum authorization [ZOOKEEPER-4753]. This prevents failures due to mismatched authentication and authorization IDs and ensures proper handling of credentials. Includes test cases to validate behavior.",
+                "commit_subject_length": 60
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC043",
+        "commit_url": "https://github.com/apache/zookeeper/commit/c0e92411fbb38025d4cd257835cf5e4afeea4956",
+        "jira_url": "https://issues.apache.org/jira//browse/ZOOKEEPER-4858",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/server/ZooKeeperServer.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add exclusive lock for snapshot and restore operations\n\nAdd an exclusive lock `snapshotAndRestoreLock` to ensure that snapshot and restore operations are mutually exclusive, preventing concurrency issues. This change affects both the `takeSnapshot` and `restoreFromSnapshot` methods.",
+                "commit_subject_length": 64
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "perf: synchronize snapshot and restore operations\n\nAdd a dedicated lock to synchronize snapshot and restore operations, ensuring that they do not interfere with each other. This prevents race conditions and improves the stability of the ZooKeeper server during these critical operations.",
+                "commit_subject_length": 49
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "refactor: Remove synchronized keyword from takeSnapshot and restoreFromSnapshot methods\n\nRemoved the synchronized keyword from the `takeSnapshot` and `restoreFromSnapshot` methods in `ZooKeeperServer` to reduce lock contention with the `sync` operation. Introduced a new exclusive lock `snapshotAndRestoreLock` to ensure thread safety during snapshot and restore operations as part of ZOOKEEPER-4858.",
+                "commit_subject_length": 87
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "refactor: introduce exclusive lock for snapshot and restore operations\n\nIntroduce a dedicated `snapshotAndRestoreLock` to reduce lock contention between snapshotting and sync operations in `ZooKeeperServer` [ZOOKEEPER-4858]. This change ensures that these operations do not block each other, improving performance and stability.",
+                "commit_subject_length": 70
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC044",
+        "commit_url": "https://github.com/apache/zookeeper/commit/9f355f5a57f35d3760f8e669696622135c457938",
+        "jira_url": "https://issues.apache.org/jira//browse/ZOOKEEPER-4377",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/KeeperException.java",
+            "zookeeper-server/src/test/java/org/apache/zookeeper/ZooKeeperTest.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Improve error handling in KeeperException and add test cases\n\nImprove error handling in `KeeperException.create` to provide more informative error messages and update `Code.get` to throw an `IllegalArgumentException` if the code is not found. Additionally, add test cases to validate these changes.",
+                "commit_subject_length": 65
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "test: add test for KeeperException code lookup\n\nAdd test case to validate KeeperException code lookup behavior, ensuring it throws `IllegalArgumentException` for unknown codes and correctly returns specialized exceptions for known codes.",
+                "commit_subject_length": 46
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle null and invalid exception codes in KeeperException\n\nZOOKEEPER-4377: Prevent NullPointerException when low version client requests the high version server. Updated `KeeperException.create` to throw an `IllegalArgumentException` with a detailed message for invalid exception codes. Added a test case to ensure the method behaves correctly for both valid and invalid codes.",
+                "commit_subject_length": 63
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: handle unknown exception codes in KeeperException.create\n\nPrevent NullPointerException in `KeeperException.create` when a low-version client requests a high-version server by throwing an `IllegalArgumentException` for unknown codes [ZOOKEEPER-4377]. Added test cases to validate the behavior.",
+                "commit_subject_length": 61
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC045",
+        "commit_url": "https://github.com/apache/zookeeper/commit/58e0a7741533ec3598c619c526208f8a90f5756c",
+        "jira_url": "https://issues.apache.org/jira//browse/ZOOKEEPER-3991",
+        "included_file_paths": [
+            "zookeeper-server/src/main/java/org/apache/zookeeper/server/quorum/QuorumCnxManager.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Ensure address is correctly set before binding server socket\n\nIn the `createNewServerSocket` method, the `address` is now explicitly created as an `InetSocketAddress` using `address.getHostString()` and `address.getPort()` before binding the server socket. This ensures that the address is correctly set and avoids potential issues with the original `address` object.",
+                "commit_subject_length": 70
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: handle IPv6 addresses correctly in QuorumCnxManager\n\nEnsure that IPv6 addresses are correctly handled by constructing a new `InetSocketAddress` using the host string and port before binding the server socket. This prevents issues with IPv6 addresses and improves compatibility.",
+                "commit_subject_length": 56
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: QuorumCnxManager Listener retries DNS resolution on bind failure\n\nIn a container environment with unstable DNS, the listener now retries DNS resolution if the address remains unresolved, preventing infinite loops of `SocketException: Unresolved address`. This addresses ZOOKEEPER-3991.",
+                "commit_subject_length": 69
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "fix: retry DNS resolution on port bind failure\n\nEnsure DNS resolution is retried if the address is unresolved during server socket binding [ZOOKEEPER-3991]. This addresses the issue of infinite loops in container environments with unstable DNS.",
+                "commit_subject_length": 46
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC046",
+        "commit_url": "https://github.com/apache/drill/commit/ce7874479cee9ac0a60bb4ea24af090212df0ece",
+        "jira_url": "https://issues.apache.org/jira//browse/DRILL-8513",
+        "included_file_paths": [
+            "zexec/java-exec/src/main/java/org/apache/drill/exec/physical/impl/join/HashJoinProbeTemplate.java",
+            "exec/java-exec/src/test/java/org/apache/drill/exec/physical/impl/join/TestHashJoin.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "test: Add test case for empty left side on right join\n\nAdded a new test case `emptyLeftSideOnRightJoin` to verify the behavior of right outer join when the left side input is empty. This test ensures that the right outer join produces the correct number of batches and handles the empty left side gracefully.",
+                "commit_subject_length": 53
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "test: add test case for empty left side on right outer join\n\nAdd a new test case to validate the behavior of right outer join when the left side is empty, ensuring it returns the correct number of rows.",
+                "commit_subject_length": 59
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "test: Add test for right hash join with empty left table\n\nAdd a test case to verify the fix for DRILL-8513, ensuring that a right hash join with an empty left table returns the correct results.",
+                "commit_subject_length": 56
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "test: add test case for right hash join with empty left table\n\nAdd test to validate right hash join behavior when the left table is empty [DRILL-8513].",
+                "commit_subject_length": 61
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC047",
+        "commit_url": "https://github.com/apache/drill/commit/6d94399fef380d55d79bff390bfaf3a7e2f61805",
+        "jira_url": "https://issues.apache.org/jira//browse/DRILL-8489",
+        "included_file_paths": [
+            "exec/rpc/src/main/java/org/apache/drill/exec/rpc/RpcEncoder.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "fix: Ensure RpcEncoder releases message buffers only on encoding failure\n\nThis commit adds a boolean flag `encodeSucess` to track the success of the encoding process. The message buffers are now released only if the encoding fails, preventing premature resource release and potential issues with Netty's reference counting.",
+                "commit_subject_length": 72
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "fix: ensure RpcEncoder releases message buffers on encode failure\n\nIntroduce a success flag to track the outcome of the encoding process and release message buffers only when encoding fails. This prevents resource leaks and ensures proper cleanup.",
+                "commit_subject_length": 65
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "fix: Handle memory leak in RpcEncoder on encoding failure\n\nEnsure that the `OutboundRpcMessage` is released when encoding fails to prevent memory leaks. This addresses the issue where a message is not released if an exception occurs during encoding, leading to memory leaks in the sender.",
+                "commit_subject_length": 57
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": ": fix: handle RpcEncoder exceptions to prevent memory leaks\n\nEnsure `RpcEncoder` releases message buffers on encode failure to prevent memory leaks [DRILL-8489].",
+                "cleaned_commit_message": "fix: handle RpcEncoder exceptions to prevent memory leaks\n\nEnsure `RpcEncoder` releases message buffers on encode failure to prevent memory leaks [DRILL-8489].",
+                "commit_subject_length": 57
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC048",
+        "commit_url": "https://github.com/apache/drill/commit/ac98f349e86673555c2e2161cbd42c304840b5b9",
+        "jira_url": "https://issues.apache.org/jira//browse/DRILL-8503",
+        "included_file_paths": [
+            "contrib/storage-splunk/src/main/java/org/apache/drill/exec/store/splunk/SplunkConnection.java",
+            "contrib/storage-splunk/src/main/java/org/apache/drill/exec/store/splunk/SplunkPluginConfig.java",
+            "contrib/storage-splunk/src/main/java/org/apache/drill/exec/store/splunk/SplunkUtils.java",
+            "contrib/storage-splunk/src/test/java/org/apache/drill/exec/store/splunk/SplunkConnectionTest.java",
+            "contrib/storage-splunk/src/test/java/org/apache/drill/exec/store/splunk/SplunkTestSuite.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add hostname validation option for Splunk connections\n\nThis commit introduces a new configuration option `validateHostname` in the `SplunkPluginConfig` class to control whether the hostname of the Splunk server is validated during SSL connections. The `SplunkConnection` class has been updated to disable hostname verification if `validateHostname` is set to `false`. This is particularly useful when working with self-signed certificates in Splunk. The `SplunkConnectionTest` and `SplunkTestSuite` classes have been updated to include this new configuration option in test cases.",
+                "commit_subject_length": 59
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": ": feat: add validateHostname option to Splunk connection\n\nAdd `validateHostname` option to control hostname verification during SSL connections to Splunk. This is useful for environments with self-signed certificates. Includes test cases to validate the new option.",
+                "cleaned_commit_message": "feat: add validateHostname option to Splunk connection\n\nAdd `validateHostname` option to control hostname verification during SSL connections to Splunk. This is useful for environments with self-signed certificates. Includes test cases to validate the new option.",
+                "commit_subject_length": 54
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add option to skip host validation for Splunk\n\nThis change introduces a new configuration option `validateHostname` in the `SplunkPluginConfig` class to control whether the hostname of the Splunk server is validated during SSL connections. The `SplunkConnection` class has been updated to disable hostname verification if `validateHostname` is set to `false`. Additionally, the `SplunkConnectionTest` and `SplunkTestSuite` classes have been updated to include this new configuration option in their test cases.",
+                "commit_subject_length": 51
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add option to skip host validation for Splunk SSL connections\n\nAdd `validateHostname` configuration option to control hostname verification during SSL connections to Splunk [DRILL-8503]. Includes test cases to validate behavior.",
+                "commit_subject_length": 67
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC049",
+        "commit_url": "https://github.com/apache/drill/commit/1c23173549ee53481316c85a65028f6ff9fb1b93",
+        "jira_url": "https://issues.apache.org/jira//browse/DRILL-4935",
+        "included_file_paths": [
+            "exec/java-exec/src/main/java/org/apache/drill/exec/service/ServiceEngine.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "refactor: Add custom host name resolution in ServiceEngine\n\nIntroduce a new method `getHostName` to handle custom host name resolution using the `DRILL_HOST_NAME` environment variable. This change allows for more flexible host name configuration, especially useful in environments where the default host name resolution may not be suitable. The `start` method now uses `getHostName` to determine the address for the `DrillbitEndpoint`.",
+                "commit_subject_length": 58
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "refactor: introduce `getHostName` method for custom host name resolution\n\nExtract host name resolution logic into a dedicated method to support custom host names set via the `DRILL_HOST_NAME` environment variable. This change improves readability and maintainability.",
+                "commit_subject_length": 72
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Allow drillbits to advertise a configurable host address to Zookeeper\n\nAdd support for the `DRILL_HOST_NAME` environment variable to allow drillbits to advertise a custom hostname to Zookeeper. This is particularly useful in distributed Docker environments. If `DRILL_HOST_NAME` is set, it will be used; otherwise, the current behavior of using the local host address or canonical hostname is retained.",
+                "commit_subject_length": 75
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: allow Drillbits to advertise a configurable host address to Zookeeper\n\nAdd `DRILL_HOST_NAME` environment variable to set a custom host name for Drillbits when advertising to Zookeeper [DRILL-4935]. This improves flexibility in distributed environments, such as Docker.",
+                "commit_subject_length": 75
+            }
+        ]
+    },
+    {
+        "evaluation_id": "TC050",
+        "commit_url": "https://github.com/apache/drill/commit/e9afb95f161f1fec527a04458adf78add91567bc",
+        "jira_url": "https://issues.apache.org/jira//browse/DRILL-8381",
+        "included_file_paths": [
+            "exec/java-exec/src/main/java/org/apache/drill/exec/planner/physical/AggPrelBase.java",
+            "exec/java-exec/src/test/java/org/apache/drill/exec/fn/impl/TestAggregateFunctions.java"
+        ],
+        "generation_results": [
+            {
+                "generator_id": "Main Zero-Shot Low-Level Context Generator",
+                "commit_message": "feat: Add support for aggregate calls with filters\n\nEnhance the `toDrill` method in `AggPrelBase` to handle aggregate calls with filters, wrapping the expression in an `IfExpression` that evaluates the filter condition. Additionally, add a test case `testAggregateWithFilterCall` to validate the functionality using the `nation` table from the TPC-H dataset.",
+                "commit_subject_length": 50
+            },
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "commit_message": "feat: support aggregate function with filter clause\n\nAdd support for aggregate functions with filter clauses, allowing conditional aggregation in SQL queries. Includes test cases to validate the functionality.",
+                "commit_subject_length": 51
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "commit_message": "feat: Add support for filtered aggregate calls\n\nImplement support for filtered aggregate calls in `AggPrelBase` to correctly handle conditions specified in the `FILTER` clause. Added a test case to validate the functionality using a sample query from the TPC-H nation table. Fixes DRILL-8381.",
+                "commit_subject_length": 46
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "commit_message": "feat: add support for filtered aggregate calls\n\nImplement support for filtered aggregate calls, ensuring correct results for queries with filters on aggregate functions [DRILL-8381]. Includes a test case validating the behavior for a sample query.",
+                "commit_subject_length": 46
+            }
+        ]
+    }
+]
