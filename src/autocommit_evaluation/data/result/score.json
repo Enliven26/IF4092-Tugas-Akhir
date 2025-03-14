@@ -1,0 +1,154 @@
+[
+    {
+      "evaluation_id": "TC007",
+      "scores": [
+        {
+          "generator_id": "Main Few-Shot Low-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 1,
+              "conciseness_score": 1,
+              "correctness_score": 1
+            }
+          ]
+        },
+        {
+          "generator_id": "Main Zero-Shot High-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 1,
+              "conciseness_score": 1,
+              "correctness_score": 1
+            }
+          ]
+        },
+        {
+          "generator_id": "Main Few-Shot High-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 1,
+              "conciseness_score": 1,
+              "correctness_score": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "evaluation_id": "TC008",
+      "scores": [
+        {
+          "generator_id": "Main Few-Shot Low-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 1,
+              "conciseness_score": 1,
+              "correctness_score": 1
+            }
+          ]
+        },
+        {
+          "generator_id": "Main Zero-Shot High-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 1,
+              "conciseness_score": 1,
+              "correctness_score": 1
+            }
+          ]
+        },
+        {
+          "generator_id": "Main Few-Shot High-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 1,
+              "conciseness_score": 1,
+              "correctness_score": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "evaluation_id": "TC013",
+      "scores": [
+        {
+          "generator_id": "Main Few-Shot Low-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 3,
+              "conciseness_score": 4,
+              "correctness_score": 2
+            }
+          ]
+        },
+        {
+          "generator_id": "Main Zero-Shot High-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 2,
+              "conciseness_score": 3,
+              "correctness_score": 4
+            }
+          ]
+        },
+        {
+          "generator_id": "Main Few-Shot High-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 4,
+              "comprehensiveness_score": 3,
+              "conciseness_score": 2,
+              "correctness_score": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "evaluation_id": "TC014",
+      "scores": [
+        {
+          "generator_id": "Main Few-Shot Low-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 1,
+              "comprehensiveness_score": 2,
+              "conciseness_score": 3,
+              "correctness_score": 4
+            }
+          ]
+        },
+        {
+          "generator_id": "Main Zero-Shot High-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 4,
+              "comprehensiveness_score": 3,
+              "conciseness_score": 2,
+              "correctness_score": 1
+            }
+          ]
+        },
+        {
+          "generator_id": "Main Few-Shot High-Level Context Generator",
+          "scores": [
+            {
+              "rationality_score": 4,
+              "comprehensiveness_score": 2,
+              "conciseness_score": 1,
+              "correctness_score": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
