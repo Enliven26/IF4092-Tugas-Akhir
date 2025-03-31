@@ -1,154 +1,6006 @@
 [
-    {
-      "evaluation_id": "TC007",
-      "scores": [
-        {
-          "generator_id": "Main Few-Shot Low-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 1,
-              "conciseness_score": 1,
-              "correctness_score": 1
-            }
-          ]
-        },
-        {
-          "generator_id": "Main Zero-Shot High-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 1,
-              "conciseness_score": 1,
-              "correctness_score": 1
-            }
-          ]
-        },
-        {
-          "generator_id": "Main Few-Shot High-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 1,
-              "conciseness_score": 1,
-              "correctness_score": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "evaluation_id": "TC008",
-      "scores": [
-        {
-          "generator_id": "Main Few-Shot Low-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 1,
-              "conciseness_score": 1,
-              "correctness_score": 1
-            }
-          ]
-        },
-        {
-          "generator_id": "Main Zero-Shot High-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 1,
-              "conciseness_score": 1,
-              "correctness_score": 1
-            }
-          ]
-        },
-        {
-          "generator_id": "Main Few-Shot High-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 1,
-              "conciseness_score": 1,
-              "correctness_score": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "evaluation_id": "TC013",
-      "scores": [
-        {
-          "generator_id": "Main Few-Shot Low-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 3,
-              "conciseness_score": 4,
-              "correctness_score": 2
-            }
-          ]
-        },
-        {
-          "generator_id": "Main Zero-Shot High-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 2,
-              "conciseness_score": 3,
-              "correctness_score": 4
-            }
-          ]
-        },
-        {
-          "generator_id": "Main Few-Shot High-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 4,
-              "comprehensiveness_score": 3,
-              "conciseness_score": 2,
-              "correctness_score": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "evaluation_id": "TC014",
-      "scores": [
-        {
-          "generator_id": "Main Few-Shot Low-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 1,
-              "comprehensiveness_score": 2,
-              "conciseness_score": 3,
-              "correctness_score": 4
-            }
-          ]
-        },
-        {
-          "generator_id": "Main Zero-Shot High-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 4,
-              "comprehensiveness_score": 3,
-              "conciseness_score": 2,
-              "correctness_score": 1
-            }
-          ]
-        },
-        {
-          "generator_id": "Main Few-Shot High-Level Context Generator",
-          "scores": [
-            {
-              "rationality_score": 4,
-              "comprehensiveness_score": 2,
-              "conciseness_score": 1,
-              "correctness_score": 3
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  {
+    "evaluation_id": "TC001",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC002",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC003",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC004",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC005",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC006",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 1,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC007",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 1,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC008",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC009",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC010",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC011",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC012",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC013",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC014",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 1,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC015",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC016",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 1
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 1,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC017",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 1,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 1,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC018",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC019",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC020",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC021",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC022",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC023",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 1,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC024",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 1,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 1,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC025",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC026",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC027",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC028",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC029",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC030",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 1,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 1,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC031",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC032",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC033",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC034",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC035",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC036",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC037",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC038",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC039",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 1,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC040",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC041",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC042",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC043",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC044",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC045",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC046",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC047",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 1,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC048",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC049",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 1
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 2,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "evaluation_id": "TC050",
+    "scores": [
+      {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 1,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 2,
+            "correctness_score": 2
+          }
+        ]
+      },
+      {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "scores": [
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 3,
+            "comprehensiveness_score": 2,
+            "conciseness_score": 3,
+            "correctness_score": 2
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 4,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 3,
+            "conciseness_score": 3,
+            "correctness_score": 3
+          },
+          {
+            "rationality_score": 4,
+            "comprehensiveness_score": 4,
+            "conciseness_score": 4,
+            "correctness_score": 4
+          }
+        ]
+      }
+    ]
+  }
+]
