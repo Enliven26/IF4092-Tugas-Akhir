@@ -1,0 +1,23 @@
+[
+    {
+        "generator_id": "Main Few-Shot Low-Level Context Generator",
+        "rationality_score": 2.6258992805755397,
+        "comprehensiveness_score": 3.1906474820143886,
+        "conciseness_score": 3.514388489208633,
+        "correctness_score": 3.1223021582733814
+    },
+    {
+        "generator_id": "Main Zero-Shot High-Level Context Generator",
+        "rationality_score": 3.564748201438849,
+        "comprehensiveness_score": 3.6079136690647484,
+        "conciseness_score": 3.147482014388489,
+        "correctness_score": 3.5
+    },
+    {
+        "generator_id": "Main Few-Shot High-Level Context Generator",
+        "rationality_score": 3.6115107913669067,
+        "comprehensiveness_score": 3.341726618705036,
+        "conciseness_score": 3.6870503597122304,
+        "correctness_score": 3.5107913669064748
+    }
+]
