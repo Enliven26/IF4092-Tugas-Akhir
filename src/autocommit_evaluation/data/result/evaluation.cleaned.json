@@ -199,7 +199,7 @@
         ],
         "generation_results": [
             {
-                "generator_id": "",
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
                 "commit_message": "refactor: update temp directory creation with specific permissions and exception handling\n\nUpdate the temporary directory creation process in `RunJar` to use specific POSIX permissions and handle `SecurityException` to improve security and maintainability.",
                 "commit_subject_length": 89
             },
