@@ -1,23 +1,23 @@
 [
     {
         "generator_id": "Main Few-Shot Low-Level Context Generator",
-        "rationality_score": 2.606382978723404,
-        "comprehensiveness_score": 3.1595744680851063,
-        "conciseness_score": 3.5638297872340425,
-        "correctness_score": 2.9893617021276597
+        "rationality_score": 2.640449438202247,
+        "comprehensiveness_score": 3.157303370786517,
+        "conciseness_score": 3.595505617977528,
+        "correctness_score": 3.033707865168539
     },
     {
         "generator_id": "Main Zero-Shot High-Level Context Generator",
-        "rationality_score": 3.4468085106382977,
-        "comprehensiveness_score": 3.7127659574468086,
-        "conciseness_score": 3.234042553191489,
-        "correctness_score": 3.648936170212766
+        "rationality_score": 3.4719101123595504,
+        "comprehensiveness_score": 3.730337078651685,
+        "conciseness_score": 3.247191011235955,
+        "correctness_score": 3.651685393258427
     },
     {
         "generator_id": "Main Few-Shot High-Level Context Generator",
-        "rationality_score": 3.4680851063829787,
-        "comprehensiveness_score": 3.4361702127659575,
-        "conciseness_score": 3.7872340425531914,
-        "correctness_score": 3.606382978723404
+        "rationality_score": 3.5168539325842696,
+        "comprehensiveness_score": 3.4719101123595504,
+        "conciseness_score": 3.7865168539325844,
+        "correctness_score": 3.6179775280898876
     }
 ]
