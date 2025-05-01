@@ -1,0 +1,6 @@
+projectKey=IF4092-Tugas-Akhir
+serverUrl=http://localhost:9000
+serverVersion=25.4.0.105899
+dashboardUrl=http://localhost:9000/dashboard?id=IF4092-Tugas-Akhir
+ceTaskId=ff8ddbe4-32bd-43e8-8855-7b04e5accf2a
+ceTaskUrl=http://localhost:9000/api/ce/task?id=ff8ddbe4-32bd-43e8-8855-7b04e5accf2a
