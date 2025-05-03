@@ -22,7 +22,6 @@ class Jira(IJira):
             str(issue.fields.priority) if issue.fields.priority else "No priority set"
         )
 
-        # TODO: add release note too
         return (
             f"Ticket ID: {issue.key}\n"
             f"Issue Summary: {summary}\n"

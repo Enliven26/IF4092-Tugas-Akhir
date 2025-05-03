@@ -1,10 +1,12 @@
-class CommitMessageGenerationResultModel:
+from autocommit.core.models import BaseModel
+
+class CommitMessageGenerationResultModel(BaseModel):
     def __init__(self):
         self.generator_id: str = ""
         self.commit_message: str = ""
 
 
-class EvaluationResultModel:
+class EvaluationResultModel(BaseModel):
     def __init__(self):
         self.evaluation_id: str = ""
         self.commit_url: str = ""

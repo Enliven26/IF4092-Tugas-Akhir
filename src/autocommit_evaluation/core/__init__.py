@@ -30,7 +30,7 @@ from autocommit_evaluation.core.constants import (
 )
 from autocommit_evaluation.core.enums import EnvironmentKey
 from autocommit_evaluation.core.jira import Jira
-from autocommit_evaluation.core.models import ChatModelFactory
+from autocommit_evaluation.core.llm import ChatModelFactory
 
 jira = Jira()
 
