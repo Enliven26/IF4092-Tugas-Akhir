@@ -13,14 +13,16 @@ from autocommit_evaluation.result.models import (
 
 class BaseCleaner(ABC):
     @abstractmethod
-    def _get_invalid_indices(
+    def _process_invalid_scores(
         self,
         evaluation_id: str,
         generator_score: GeneratorScore,
     ) -> set[int]:
         pass
 
-    def clean(self, test_case_scores: list[TestCaseScore]) -> list[TestCaseScore]:
+    def clean(
+        self, test_case_scores: list[TestCaseScore], partial_cleaning: bool = False
+    ) -> list[TestCaseScore]:
         cleaned_test_case_scores: list[TestCaseScore] = []
         total_individual_responses = 0
         total_invalid_individual_responses = 0
@@ -32,29 +34,32 @@ class BaseCleaner(ABC):
 
             for generator_score in test_case_score.scores:
                 invalid_indices = invalid_indices.union(
-                    self._get_invalid_indices(
+                    self._process_invalid_scores(
                         test_case_score.evaluation_id, generator_score
                     )
                 )
 
-            valid_test_case_score = self.__get_valid_test_case_score(
-                test_case_score, invalid_indices
-            )
+            if not partial_cleaning:
+                valid_test_case_score = self.__get_valid_test_case_score(
+                    test_case_score, invalid_indices
+                )
 
-            cleaned_test_case_scores.append(valid_test_case_score)
+                cleaned_test_case_scores.append(valid_test_case_score)
+
             total_invalid_individual_responses += len(invalid_indices)
 
-        print(
-            f"Total removed individual responses: {total_invalid_individual_responses}"
-        )
-        print(
-            f"Percentage of removed individual responses: {total_invalid_individual_responses / total_individual_responses * 100:.2f}%"
-        )
-        print(
-            f"Total remaining individual responses: {total_individual_responses - total_invalid_individual_responses}"
-        )
+        if partial_cleaning:
+            print(
+                f"Total removed individual responses: {total_invalid_individual_responses}"
+            )
+            print(
+                f"Percentage of removed individual responses: {total_invalid_individual_responses / total_individual_responses * 100:.2f}%"
+            )
+            print(
+                f"Total remaining individual responses: {total_individual_responses - total_invalid_individual_responses}"
+            )
 
-        return cleaned_test_case_scores
+        return cleaned_test_case_scores if not partial_cleaning else test_case_scores
 
     def __get_valid_test_case_score(
         self, test_case_score: TestCaseScore, invalid_indices: set[int]
@@ -85,7 +90,7 @@ class RuleBasedCleaner(BaseCleaner):
 
         self.__result_data: list[Any] = result_data
 
-    def _get_invalid_indices(
+    def _process_invalid_scores(
         self,
         evaluation_id: str,
         generator_score: GeneratorScore,
@@ -93,7 +98,7 @@ class RuleBasedCleaner(BaseCleaner):
         invalid_indices = set()
 
         for idx, commit_message_score in enumerate(generator_score.scores):
-            is_valid = self.__is_valid_score(
+            is_valid = self.__process_invalid_score(
                 evaluation_id,
                 generator_score.generator_id,
                 commit_message_score,
@@ -110,11 +115,15 @@ class RuleBasedCleaner(BaseCleaner):
         jira_ticket_pattern = r"\b[A-Z]+-\d+\b"
 
         if (
-            commit_message_score.rationality_score == 3
-            and (re.search(jira_ticket_pattern, commit_message))
-        ) or (
-            commit_message_score.rationality_score == 4
-            and (not re.search(jira_ticket_pattern, commit_message))
+            commit_message_score.rationality_score is not None
+            and (
+                commit_message_score.rationality_score == 3
+                and (re.search(jira_ticket_pattern, commit_message))
+            )
+            or (
+                commit_message_score.rationality_score == 4
+                and (not re.search(jira_ticket_pattern, commit_message))
+            )
         ):
             return False
 
@@ -123,8 +132,9 @@ class RuleBasedCleaner(BaseCleaner):
     def __is_conciseness_score_valid(
         self, commit_message_score: CommitMessageScore, commit_subject_length: int
     ) -> bool:
-        if commit_message_score.conciseness_score != 1 and (
-            commit_subject_length > 100
+        if commit_message_score.conciseness_score is not None and (
+            commit_message_score.conciseness_score != 1
+            and (commit_subject_length > 100)
         ):
             return False
 
@@ -140,15 +150,18 @@ class RuleBasedCleaner(BaseCleaner):
         ground_truth_ticket_id = jira_url.split("/")[-1]
         ticket_ids = re.findall(r"\b[A-Z]+-\d+\b", commit_message)
 
-        if commit_message_score.correctness_score == 4 and (
-            len(ticket_ids) > 1
-            or (len(ticket_ids) == 1 and ticket_ids[0] != ground_truth_ticket_id)
+        if commit_message_score.correctness_score is not None and (
+            commit_message_score.correctness_score == 4
+            and (
+                len(ticket_ids) > 1
+                or (len(ticket_ids) == 1 and ticket_ids[0] != ground_truth_ticket_id)
+            )
         ):
             return False
 
         return True
 
-    def __is_valid_score(
+    def __process_invalid_score(
         self,
         evaluation_id: str,
         generator_id: str,
@@ -190,6 +203,18 @@ class RuleBasedCleaner(BaseCleaner):
             commit["jira_url"],
         )
 
+        if not is_rationality_valid:
+            commit_message_score.rationality_score = None
+
+        if not is_comprehensiveness_valid:
+            commit_message_score.comprehensiveness_score = None
+
+        if not is_conciseness_valid:
+            commit_message_score.conciseness_score = None
+
+        if not is_correctness_valid:
+            commit_message_score.correctness_score = None
+
         return (
             is_rationality_valid
             and is_comprehensiveness_valid
@@ -197,9 +222,11 @@ class RuleBasedCleaner(BaseCleaner):
             and is_correctness_valid
         )
 
-    def clean(self, test_case_scores):
+    def clean(
+        self, test_case_scores, partial_cleaning: bool = False
+    ) -> list[TestCaseScore]:
         print("Cleaning scores based on rules...")
-        result = super().clean(test_case_scores)
+        result = super().clean(test_case_scores, partial_cleaning)
         print("Cleaning completed.")
         return result
 
@@ -211,7 +238,7 @@ class OutlierCleaner(BaseCleaner):
         self.__k = k
         self.__scale = scale
 
-    def _get_invalid_indices(
+    def _process_invalid_scores(
         self,
         evaluation_id: str,
         generator_score: GeneratorScore,
@@ -219,26 +246,82 @@ class OutlierCleaner(BaseCleaner):
         invalid_indices = set()
 
         if len(generator_score.scores) >= 4:
-            samples_collection = [[] for _ in range(4)]
+            samples_collection: list[list[int]] = [[] for _ in range(4)]
+            samples_indices: list[list[int]] = [[] for _ in range(4)]
 
-            for commit_message_score in generator_score.scores:
-                samples_collection[0].append(commit_message_score.rationality_score)
-                samples_collection[1].append(
-                    commit_message_score.comprehensiveness_score
+            for idx, commit_message_score in enumerate(generator_score.scores):
+                self.__fill_samples(
+                    commit_message_score, samples_collection, samples_indices, idx
                 )
-                samples_collection[2].append(commit_message_score.conciseness_score)
-                samples_collection[3].append(commit_message_score.correctness_score)
 
             print(f"Generator ID: {generator_score.generator_id}")
             print(f"Evaluation ID: {evaluation_id}")
             print(f"Samples: {samples_collection}")
+            print(f"Samples Indices: {samples_indices}")
 
-            for samples in samples_collection:
-                new_outlier_indices = self.__get_outlier_indices(samples)
+            for sample_idx, samples in enumerate(samples_collection):
+                if len(samples) < 4:
+                    continue
+
+                new_outlier_sample_indices = self.__get_outlier_indices(samples)
+                new_outlier_indices = [
+                    samples_indices[sample_idx][idx]
+                    for idx in new_outlier_sample_indices
+                ]
+
                 print(f"Outlier indices: {new_outlier_indices}")
+
+                self.__remove_outlier_scores(
+                    generator_score, new_outlier_indices, sample_idx
+                )
+
                 invalid_indices = invalid_indices.union(new_outlier_indices)
 
         return invalid_indices
+
+    def __remove_outlier_scores(
+        self,
+        generator_score: GeneratorScore,
+        new_outlier_indices: list[int],
+        sample_idx: int,
+    ):
+        for idx in new_outlier_indices:
+            commit_message_score = generator_score.scores[idx]
+
+            if sample_idx == 0:
+                commit_message_score.rationality_score = None
+
+            elif sample_idx == 1:
+                commit_message_score.comprehensiveness_score = None
+
+            elif sample_idx == 2:
+                commit_message_score.conciseness_score = None
+
+            elif sample_idx == 3:
+                commit_message_score.correctness_score = None
+
+    def __fill_samples(
+        self,
+        commit_message_score: CommitMessageScore,
+        samples_collection: list[list[int]],
+        samples_indices: list[list[int]],
+        idx: int,
+    ):
+        if commit_message_score.rationality_score is not None:
+            samples_collection[0].append(commit_message_score.rationality_score)
+            samples_indices[0].append(idx)
+
+        if commit_message_score.comprehensiveness_score is not None:
+            samples_collection[1].append(commit_message_score.comprehensiveness_score)
+            samples_indices[1].append(idx)
+
+        if commit_message_score.conciseness_score is not None:
+            samples_collection[2].append(commit_message_score.conciseness_score)
+            samples_indices[2].append(idx)
+
+        if commit_message_score.correctness_score is not None:
+            samples_collection[3].append(commit_message_score.correctness_score)
+            samples_indices[3].append(idx)
 
     def __get_outlier_indices(self, samples: list[int]) -> set[int]:
         median = statistics.median(samples)
@@ -250,9 +333,11 @@ class OutlierCleaner(BaseCleaner):
 
         return {i for i, x in enumerate(samples) if x < lower_bound or x > upper_bound}
 
-    def clean(self, test_case_scores):
+    def clean(
+        self, test_case_scores, partial_cleaning: bool = False
+    ) -> list[TestCaseScore]:
         print("Cleaning outliers...")
-        result = super().clean(test_case_scores)
+        result = super().clean(test_case_scores, partial_cleaning)
         print("Outliers cleaned.")
         return result
 
@@ -264,11 +349,13 @@ class ResultSummarizer:
     def summarize(
         self,
         test_case_scores: list[TestCaseScore],
+        partial_cleaning: bool = False,
     ) -> list[ScoreSummary]:
         for cleaner in self.__cleaners:
-            test_case_scores = cleaner.clean(test_case_scores)
+            test_case_scores = cleaner.clean(test_case_scores, partial_cleaning)
 
         score_summaries: list[ScoreSummary] = []
+        score_count_map: dict[tuple[str, int], int] = {}
 
         for test_case_score in test_case_scores:
             for generator_score in test_case_score.scores:
@@ -286,38 +373,64 @@ class ResultSummarizer:
                     score_summary.generator_id = generator_score.generator_id
                     score_summaries.append(score_summary)
 
+                    for i in range(4):
+                        score_count_map[(generator_score.generator_id, i)] = 0
+
                 for commit_message_score in generator_score.scores:
-                    score_summary.rationality_score += (
-                        commit_message_score.rationality_score
-                    )
-                    score_summary.comprehensiveness_score += (
-                        commit_message_score.comprehensiveness_score
-                    )
-                    score_summary.conciseness_score += (
-                        commit_message_score.conciseness_score
-                    )
-                    score_summary.correctness_score += (
-                        commit_message_score.correctness_score
+                    self.__add_score(
+                        score_summary, commit_message_score, score_count_map
                     )
 
         for score_summary in score_summaries:
-            score_count = sum(
-                [
-                    sum(
-                        [
-                            len(generator_score.scores)
-                            for generator_score in test_case_score.scores
-                            if generator_score.generator_id
-                            == score_summary.generator_id
-                        ]
-                    )
-                    for test_case_score in test_case_scores
-                ]
-            )
-
-            score_summary.rationality_score /= score_count
-            score_summary.comprehensiveness_score /= score_count
-            score_summary.conciseness_score /= score_count
-            score_summary.correctness_score /= score_count
+            self.__calculate_average(score_summary, score_count_map)
 
         return score_summaries
+
+    def __add_score(
+        self,
+        score_summary: ScoreSummary,
+        commit_message_score: CommitMessageScore,
+        score_count_map: dict[tuple[str, int], int],
+    ) -> None:
+        if commit_message_score.rationality_score is not None:
+            score_summary.rationality_score += commit_message_score.rationality_score
+            score_count_map[(score_summary.generator_id, 0)] += 1
+
+        if commit_message_score.comprehensiveness_score is not None:
+            score_summary.comprehensiveness_score += (
+                commit_message_score.comprehensiveness_score
+            )
+            score_count_map[(score_summary.generator_id, 1)] += 1
+
+        if commit_message_score.conciseness_score is not None:
+            score_summary.conciseness_score += commit_message_score.conciseness_score
+            score_count_map[(score_summary.generator_id, 2)] += 1
+
+        if commit_message_score.correctness_score is not None:
+            score_summary.correctness_score += commit_message_score.correctness_score
+            score_count_map[(score_summary.generator_id, 3)] += 1
+
+    def __calculate_average(
+        self,
+        score_summary: ScoreSummary,
+        score_count_map: dict[tuple[str, int], int],
+    ) -> None:
+        if score_count_map[(score_summary.generator_id, 0)] > 0:
+            score_summary.rationality_score /= score_count_map[
+                (score_summary.generator_id, 0)
+            ]
+
+        if score_count_map[(score_summary.generator_id, 1)] > 0:
+            score_summary.comprehensiveness_score /= score_count_map[
+                (score_summary.generator_id, 1)
+            ]
+
+        if score_count_map[(score_summary.generator_id, 2)] > 0:
+            score_summary.conciseness_score /= score_count_map[
+                (score_summary.generator_id, 2)
+            ]
+
+        if score_count_map[(score_summary.generator_id, 3)] > 0:
+            score_summary.correctness_score /= score_count_map[
+                (score_summary.generator_id, 3)
+            ]
