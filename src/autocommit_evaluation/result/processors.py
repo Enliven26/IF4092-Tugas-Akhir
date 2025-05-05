@@ -48,16 +48,15 @@ class BaseCleaner(ABC):
 
             total_invalid_individual_responses += len(invalid_indices)
 
-        if partial_cleaning:
-            print(
-                f"Total removed individual responses: {total_invalid_individual_responses}"
-            )
-            print(
-                f"Percentage of removed individual responses: {total_invalid_individual_responses / total_individual_responses * 100:.2f}%"
-            )
-            print(
-                f"Total remaining individual responses: {total_individual_responses - total_invalid_individual_responses}"
-            )
+        print(
+            f"Total cleaned individual responses: {total_invalid_individual_responses}"
+        )
+        print(
+            f"Percentage of cleaned individual responses: {total_invalid_individual_responses / total_individual_responses * 100:.2f}%"
+        )
+        print(
+            f"Total remaining individual responses: {total_individual_responses - total_invalid_individual_responses}"
+        )
 
         return cleaned_test_case_scores if not partial_cleaning else test_case_scores
 
@@ -232,11 +231,12 @@ class RuleBasedCleaner(BaseCleaner):
 
 
 class OutlierCleaner(BaseCleaner):
-    def __init__(self, scale: float = 1.483, k: float = 3):
+    def __init__(self, scale: float = 1.483, k: float = 3, min_sample_size: int = 4):
         super().__init__()
 
         self.__k = k
         self.__scale = scale
+        self.__min_sample_size = min_sample_size
 
     def _process_invalid_scores(
         self,
@@ -245,7 +245,7 @@ class OutlierCleaner(BaseCleaner):
     ) -> set[int]:
         invalid_indices = set()
 
-        if len(generator_score.scores) >= 4:
+        if len(generator_score.scores) >= self.__min_sample_size:
             samples_collection: list[list[int]] = [[] for _ in range(4)]
             samples_indices: list[list[int]] = [[] for _ in range(4)]
 
@@ -254,13 +254,13 @@ class OutlierCleaner(BaseCleaner):
                     commit_message_score, samples_collection, samples_indices, idx
                 )
 
-            print(f"Generator ID: {generator_score.generator_id}")
             print(f"Evaluation ID: {evaluation_id}")
+            print(f"Generator ID: {generator_score.generator_id}")
             print(f"Samples: {samples_collection}")
             print(f"Samples Indices: {samples_indices}")
 
             for sample_idx, samples in enumerate(samples_collection):
-                if len(samples) < 4:
+                if len(samples) < self.__min_sample_size:
                     continue
 
                 new_outlier_sample_indices = self.__get_outlier_indices(samples)
@@ -420,17 +420,25 @@ class ResultSummarizer:
                 (score_summary.generator_id, 0)
             ]
 
+            print(f"Rationality score count: {score_count_map[(score_summary.generator_id, 0)]}")
+
         if score_count_map[(score_summary.generator_id, 1)] > 0:
             score_summary.comprehensiveness_score /= score_count_map[
                 (score_summary.generator_id, 1)
             ]
+
+            print(f"Comprehensiveness score count: {score_count_map[(score_summary.generator_id, 1)]}")
 
         if score_count_map[(score_summary.generator_id, 2)] > 0:
             score_summary.conciseness_score /= score_count_map[
                 (score_summary.generator_id, 2)
             ]
 
+            print(f"Conciseness score count: {score_count_map[(score_summary.generator_id, 2)]}")
+
         if score_count_map[(score_summary.generator_id, 3)] > 0:
             score_summary.correctness_score /= score_count_map[
                 (score_summary.generator_id, 3)
             ]
+
+            print(f"Correctness score count: {score_count_map[(score_summary.generator_id, 3)]}")
