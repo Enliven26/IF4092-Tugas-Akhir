@@ -1,78 +1,104 @@
 import json
 import os
 from enum import Enum
-from typing import Any
+from typing import get_type_hints, get_args, get_origin, List, Any, Union
 from urllib.parse import urlparse
 
 from autocommit.core.enums import DiffVersion
 
 
-class BaseModel:
+class BaseModel(object):
     @classmethod
     def _from_json_object(cls, name: str, data: Any) -> Any:
         if isinstance(data, dict):
-            return type(
-                name, (object,), {k: BaseModel._from_json_object(k, v) for k, v in data.items()}
-            )()
+            obj = cls()
+            type_hints = get_type_hints(cls)
+
+            for key, value in data.items():
+                if key not in type_hints:
+                    continue
+
+                expected_type = type_hints[key]
+                origin = get_origin(expected_type)
+
+                if origin is Union and type(None) in get_args(expected_type):
+                    non_none_args = [arg for arg in get_args(expected_type) if arg is not type(None)]
+                    expected_type = non_none_args[0] if non_none_args else Any
+                    origin = get_origin(expected_type)
+
+                if isinstance(value, dict) and isinstance(expected_type, type) and issubclass(expected_type, BaseModel):
+                    setattr(obj, key, expected_type._from_json_object(key, value))
+
+                elif origin in (list, List):
+                    item_type = get_args(expected_type)[0] if get_args(expected_type) else Any
+                    if issubclass(item_type, BaseModel):
+                        setattr(obj, key, [item_type._from_json_object(key, item) for item in value])
+                    else:
+                        setattr(obj, key, value)
+
+                elif isinstance(value, expected_type):
+                    setattr(obj, key, value)
+
+                else:
+                    raise ValueError(
+                        f"Invalid data type for '{key}' in '{name}': {type(value)}. Expected {expected_type}."
+                    )
+
+            return obj
+
         elif isinstance(data, list):
-            return [BaseModel._from_json_object(name, item) for item in data]
+            return [cls._from_json_object(name, item) for item in data if isinstance(item, dict)]
+
         else:
-            return data
+            raise ValueError(
+                f"Invalid data type for '{name}': {type(data)}. Expected dict or list."
+            )
 
 
 class FileDiffModel(BaseModel):
-    def __init__(self):
-        self.file_path: str = ""
-        self.version: DiffVersion = DiffVersion.NEW
-        self.line_ranges: list[range] = []
-
+    file_path: str = ""
+    version: DiffVersion = DiffVersion.NEW
+    line_ranges: list[range] = []
 
 class CommitMessageGenerationPromptInputModel(BaseModel):
-    def __init__(self):
-        self.diff: str = ""
-        self.source_code: str = ""
-        self.context_file_path = ""
-        self.vector_store_path = ""
-        self.id: str = ""
+    diff: str = ""
+    source_code: str = ""
+    context_file_path = ""
+    vector_store_path = ""
+    id: str = ""
 
 
 class DataGenerationPromptInputModel(BaseModel):
-    def __init__(self):
-        self.github_url: str = ""
-        self.source_code: str = ""
+    github_url: str = ""
+    source_code: str = ""
 
 
 class JiraContextDocumentRetrieverInputModel(BaseModel):
-    def __init__(self):
-        self.query: str = ""
-        self.diff: str = ""
+    query: str = ""
+    diff: str = ""
 
 
 class GetHighLevelContextInputModel(BaseModel):
-    def __init__(self):
-        self.source_code: str = ""
-        self.diff: str = ""
-        self.context_file_path = ""
-        self.vector_store_path = ""
+    source_code: str = ""
+    diff: str = ""
+    context_file_path = ""
+    vector_store_path = ""
 
 
 class HighLevelContextDiffClassificationInputModel(BaseModel):
-    def __init__(self):
-        self.diff: str = ""
-        self.context: str = ""
+    diff: str = ""
+    context: str = ""
 
 
 class CommitDataModel(BaseModel):
     CONTEXT_FILE_NAME = "contexts.txt"
     VECTOR_STORE_FOLDER_NAME = "vector_store"
 
-    def __init__(self):
-        self.id: str = ""
-        self.commit_hash: str = ""
-        self.included_file_paths: list[str] = []
-        self.repository_path: str = ""
-        self.repository_url: str = ""
-        self.jira_url: str = ""
+    commit_hash: str = ""
+    included_file_paths: list[str] = []
+    repository_path: str = ""
+    repository_url: str = ""
+    jira_url: str = ""
 
     def get_context_relative_path(self) -> str:
         parsed_url = urlparse(self.repository_url)
