@@ -29,7 +29,7 @@ class BaseCleaner(ABC):
 
         for test_case_score in test_case_scores:
             invalid_indices = set()
-
+            test_case_score = test_case_score.copy()
             total_individual_responses += len(test_case_score.scores[0].scores)
 
             for generator_score in test_case_score.scores:
@@ -40,11 +40,9 @@ class BaseCleaner(ABC):
                 )
 
             if not partial_cleaning:
-                valid_test_case_score = self.__get_valid_test_case_score(
-                    test_case_score, invalid_indices
-                )
+                test_case_score = test_case_score.copy(invalid_indices)
 
-                cleaned_test_case_scores.append(valid_test_case_score)
+            cleaned_test_case_scores.append(test_case_score)
 
             total_invalid_individual_responses += len(invalid_indices)
 
@@ -58,29 +56,7 @@ class BaseCleaner(ABC):
             f"Total remaining individual responses: {total_individual_responses - total_invalid_individual_responses}"
         )
 
-        return cleaned_test_case_scores if not partial_cleaning else test_case_scores
-
-    def __get_valid_test_case_score(
-        self, test_case_score: TestCaseScore, invalid_indices: set[int]
-    ) -> TestCaseScore:
-        valid_test_case_score = TestCaseScore()
-        valid_test_case_score.evaluation_id = test_case_score.evaluation_id
-        valid_test_case_score.scores = []
-
-        for generator_score in test_case_score.scores:
-            valid_generator_score = GeneratorScore()
-            valid_generator_score.generator_id = generator_score.generator_id
-            valid_generator_score.scores = []
-
-            for idx, commit_message_score in enumerate(generator_score.scores):
-                if idx in invalid_indices:
-                    continue
-
-                valid_generator_score.scores.append(commit_message_score)
-
-            valid_test_case_score.scores.append(valid_generator_score)
-
-        return valid_test_case_score
+        return cleaned_test_case_scores
 
 
 class RuleBasedCleaner(BaseCleaner):
@@ -224,9 +200,11 @@ class RuleBasedCleaner(BaseCleaner):
     def clean(
         self, test_case_scores, partial_cleaning: bool = False
     ) -> list[TestCaseScore]:
+        print()
         print("Cleaning scores based on rules...")
         result = super().clean(test_case_scores, partial_cleaning)
         print("Cleaning completed.")
+        print()
         return result
 
 
@@ -254,11 +232,6 @@ class OutlierCleaner(BaseCleaner):
                     commit_message_score, samples_collection, samples_indices, idx
                 )
 
-            print(f"Evaluation ID: {evaluation_id}")
-            print(f"Generator ID: {generator_score.generator_id}")
-            print(f"Samples: {samples_collection}")
-            print(f"Samples Indices: {samples_indices}")
-
             for sample_idx, samples in enumerate(samples_collection):
                 if len(samples) < self.__min_sample_size:
                     continue
@@ -268,8 +241,6 @@ class OutlierCleaner(BaseCleaner):
                     samples_indices[sample_idx][idx]
                     for idx in new_outlier_sample_indices
                 ]
-
-                print(f"Outlier indices: {new_outlier_indices}")
 
                 self.__remove_outlier_scores(
                     generator_score, new_outlier_indices, sample_idx
@@ -326,6 +297,7 @@ class OutlierCleaner(BaseCleaner):
     def __get_outlier_indices(self, samples: list[int]) -> set[int]:
         median = statistics.median(samples)
         mad = statistics.median([abs(x - median) for x in samples])
+
         made = self.__scale * mad
 
         lower_bound = median - self.__k * made
@@ -336,22 +308,24 @@ class OutlierCleaner(BaseCleaner):
     def clean(
         self, test_case_scores, partial_cleaning: bool = False
     ) -> list[TestCaseScore]:
+        print()
         print("Cleaning outliers...")
         result = super().clean(test_case_scores, partial_cleaning)
         print("Outliers cleaned.")
+        print()
         return result
 
 
 class ResultSummarizer:
     def __init__(self, cleaners: list[BaseCleaner]):
-        self.__cleaners = cleaners
+        self.cleaners = cleaners
 
     def summarize(
         self,
         test_case_scores: list[TestCaseScore],
         partial_cleaning: bool = False,
     ) -> list[ScoreSummary]:
-        for cleaner in self.__cleaners:
+        for cleaner in self.cleaners:
             test_case_scores = cleaner.clean(test_case_scores, partial_cleaning)
 
         score_summaries: list[ScoreSummary] = []
@@ -420,25 +394,33 @@ class ResultSummarizer:
                 (score_summary.generator_id, 0)
             ]
 
-            print(f"Rationality score count: {score_count_map[(score_summary.generator_id, 0)]}")
+            print(
+                f"Rationality score count: {score_count_map[(score_summary.generator_id, 0)]}"
+            )
 
         if score_count_map[(score_summary.generator_id, 1)] > 0:
             score_summary.comprehensiveness_score /= score_count_map[
                 (score_summary.generator_id, 1)
             ]
 
-            print(f"Comprehensiveness score count: {score_count_map[(score_summary.generator_id, 1)]}")
+            print(
+                f"Comprehensiveness score count: {score_count_map[(score_summary.generator_id, 1)]}"
+            )
 
         if score_count_map[(score_summary.generator_id, 2)] > 0:
             score_summary.conciseness_score /= score_count_map[
                 (score_summary.generator_id, 2)
             ]
 
-            print(f"Conciseness score count: {score_count_map[(score_summary.generator_id, 2)]}")
+            print(
+                f"Conciseness score count: {score_count_map[(score_summary.generator_id, 2)]}"
+            )
 
         if score_count_map[(score_summary.generator_id, 3)] > 0:
             score_summary.correctness_score /= score_count_map[
                 (score_summary.generator_id, 3)
             ]
 
-            print(f"Correctness score count: {score_count_map[(score_summary.generator_id, 3)]}")
+            print(
+                f"Correctness score count: {score_count_map[(score_summary.generator_id, 3)]}"
+            )

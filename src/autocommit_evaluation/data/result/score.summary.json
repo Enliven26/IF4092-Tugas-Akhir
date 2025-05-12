@@ -1,23 +1,106 @@
 [
     {
-        "generator_id": "Main Few-Shot Low-Level Context Generator",
-        "rationality_score": 2.640449438202247,
-        "comprehensiveness_score": 3.157303370786517,
-        "conciseness_score": 3.595505617977528,
-        "correctness_score": 3.033707865168539
+        "summary_name": "Full Cleaning",
+        "summary": [
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "rationality_score": 2.6666666666666665,
+                "comprehensiveness_score": 3.185185185185185,
+                "conciseness_score": 3.567901234567901,
+                "correctness_score": 3.049382716049383
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "rationality_score": 3.4444444444444446,
+                "comprehensiveness_score": 3.7037037037037037,
+                "conciseness_score": 3.2962962962962963,
+                "correctness_score": 3.6296296296296298
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "rationality_score": 3.493827160493827,
+                "comprehensiveness_score": 3.4814814814814814,
+                "conciseness_score": 3.7901234567901234,
+                "correctness_score": 3.617283950617284
+            }
+        ]
     },
     {
-        "generator_id": "Main Zero-Shot High-Level Context Generator",
-        "rationality_score": 3.4719101123595504,
-        "comprehensiveness_score": 3.730337078651685,
-        "conciseness_score": 3.247191011235955,
-        "correctness_score": 3.651685393258427
+        "summary_name": "Partial Cleaning",
+        "summary": [
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "rationality_score": 2.6871508379888267,
+                "comprehensiveness_score": 3.2163461538461537,
+                "conciseness_score": 3.647887323943662,
+                "correctness_score": 3.142857142857143
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "rationality_score": 3.7142857142857144,
+                "comprehensiveness_score": 3.81651376146789,
+                "conciseness_score": 3.2657004830917873,
+                "correctness_score": 3.738095238095238
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "rationality_score": 3.8066298342541436,
+                "comprehensiveness_score": 3.4537037037037037,
+                "conciseness_score": 3.8603603603603602,
+                "correctness_score": 3.748768472906404
+            }
+        ]
     },
     {
-        "generator_id": "Main Few-Shot High-Level Context Generator",
-        "rationality_score": 3.5168539325842696,
-        "comprehensiveness_score": 3.4719101123595504,
-        "conciseness_score": 3.7865168539325844,
-        "correctness_score": 3.6179775280898876
+        "summary_name": "Partial Cleaning With Less Strict Outlier Detection",
+        "summary": [
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "rationality_score": 2.6871508379888267,
+                "comprehensiveness_score": 3.2163461538461537,
+                "conciseness_score": 3.647887323943662,
+                "correctness_score": 3.142857142857143
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "rationality_score": 3.7142857142857144,
+                "comprehensiveness_score": 3.81651376146789,
+                "conciseness_score": 3.2657004830917873,
+                "correctness_score": 3.738095238095238
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "rationality_score": 3.8066298342541436,
+                "comprehensiveness_score": 3.4537037037037037,
+                "conciseness_score": 3.8603603603603602,
+                "correctness_score": 3.748768472906404
+            }
+        ]
+    },
+    {
+        "summary_name": "Partial Cleaning Without Outlier Detection",
+        "summary": [
+            {
+                "generator_id": "Main Few-Shot Low-Level Context Generator",
+                "rationality_score": 2.520361990950226,
+                "comprehensiveness_score": 3.1906474820143886,
+                "conciseness_score": 3.514388489208633,
+                "correctness_score": 3.1223021582733814
+            },
+            {
+                "generator_id": "Main Zero-Shot High-Level Context Generator",
+                "rationality_score": 3.5142857142857142,
+                "comprehensiveness_score": 3.6079136690647484,
+                "conciseness_score": 3.2029520295202953,
+                "correctness_score": 3.530534351145038
+            },
+            {
+                "generator_id": "Main Few-Shot High-Level Context Generator",
+                "rationality_score": 3.4881516587677726,
+                "comprehensiveness_score": 3.341726618705036,
+                "conciseness_score": 3.6870503597122304,
+                "correctness_score": 3.5278810408921935
+            }
+        ]
     }
 ]

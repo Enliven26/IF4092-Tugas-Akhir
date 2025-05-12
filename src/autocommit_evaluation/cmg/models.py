@@ -1,15 +1,13 @@
 from autocommit.core.models import BaseModel
 
 class CommitMessageGenerationResultModel(BaseModel):
-    def __init__(self):
-        self.generator_id: str = ""
-        self.commit_message: str = ""
+    generator_id: str = ""
+    commit_message: str = ""
 
 
 class EvaluationResultModel(BaseModel):
-    def __init__(self):
-        self.evaluation_id: str = ""
-        self.commit_url: str = ""
-        self.jira_url: str = ""
-        self.included_file_paths: list[str] = []
-        self.generation_results: list[CommitMessageGenerationResultModel] = []
+    evaluation_id: str = ""
+    commit_url: str = ""
+    jira_url: str = ""
+    included_file_paths: list[str] = []
+    generation_results: list[CommitMessageGenerationResultModel] = []
