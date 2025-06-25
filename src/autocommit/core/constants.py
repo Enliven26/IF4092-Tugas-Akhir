@@ -140,7 +140,7 @@ $source_code_1
 
 Commit Type 1: $commit_type_1
 
-commit message 1: $commit_message_1
+Commit message 1: $commit_message_1
 
 Git diff 2:
 $diff_2
@@ -235,7 +235,7 @@ $context_1
 
 Commit Type 1: $commit_type_1
 
-commit message 1: $commit_message_1
+Commit message 1: $commit_message_1
 
 Git diff 2:
 $diff_2
